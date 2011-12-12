@@ -1,0 +1,17 @@
+www/sites/default/settings.php
+www/sites/default/private
+www/sites/default/files/css
+www/sites/default/files/js
+
+www/files/
+www/README.txt
+www/CHANGELOG.txt
+www/COPYRIGHT.txt
+www/INSTALL*.txt
+www/LICENSE.txt
+www/MAINTAINERS.txt
+www/UPGRADE.txt
+
+www/sites/all/README.txt
+www/sites/all/modules/README.txt
+www/sites/all/themes/README.txt
