@@ -1,0 +1,4 @@
+name = Weeve Registration
+description = Provide registration process
+package = Weeve
+core = 6.x
