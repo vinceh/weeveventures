@@ -1,0 +1,22 @@
+; $Id: weeve.info,v 1.5 2011/12/12 15:27:32 zwee Exp $
+name = Weeve
+description = Weeve theme.
+version = VERSION
+core = 6.x
+engine = phptemplate
+
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/layout.css
+stylesheets[all][] = css/weeve.css
+
+regions[header] = Header
+regions[before_content] = Before Content
+regions[content] = Content
+regions[after_content] = After Content
+regions[left] = Left
+regions[right] = Right
+regions[footer] = Footer
+
+version = "6.1"
+project = "weeve"
+datestamp = "1292447788"

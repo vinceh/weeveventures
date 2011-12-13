@@ -1,0 +1,101 @@
+<?php
+function weeve_project_menu() {
+  $items = array();
+
+  $items['project/terms'] = array(
+    'title' => 'Create project',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('weeve_project_terms_form'),
+    'access arguments' => array('create project_request content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function weeve_project_theme() {
+  return array(
+    'weeve_project_terms_form' => array(
+      'arguments' => array('form' => null),
+      'template' => 'tpl/terms_form'
+    )
+  );
+}
+
+function theme_weeve_project_terms_form($form) {
+  return theme('weeve_project_terms_form', $form);
+}
+
+function weeve_project_terms_form() {
+  $form = array();
+  $form['accept'] = array(
+    '#type' => 'checkbox',
+    '#title' => t("I have read and understand Weeve's guidelines and conditions"),
+    '#required' => true
+  );
+
+  $form['submit'] = array('#type' => 'submit', '#value' => t('Save'));
+
+  return $form;
+}
+
+function weeve_project_terms_form_validate($form, &$form_state) {
+  if ($form_state['values']['accept'] == 0) {
+    form_set_error('accept', t("Please accept our terms before proceeding"));
+  }
+}
+
+function _weeve_project_is_allowed_create_proposal() {
+  global $user;
+
+  if (!isset($_SESSION['project_terms_accepted']) || !$_SESSION['project_terms_accepted']) {
+    return false;
+  }
+
+  $query = "SELECT node.nid AS nid
+   FROM node node
+   INNER JOIN content_type_project_request node_data_field_proposal_status ON node.vid = node_data_field_proposal_status.vid
+   LEFT JOIN content_type_project_request node_data_field_proposal_project ON node.vid = node_data_field_proposal_project.vid
+   WHERE (node.type in ('project_request')) AND (node_data_field_proposal_status.field_proposal_status_value IN ('new', 'review', 'approve'))
+   AND (node_data_field_proposal_project.field_proposal_project_nid IS NULL)
+   AND node.uid = %d";
+
+  $result = db_query($query, array($user->uid));
+  $node = db_fetch_object($result);
+
+  if ($node) {
+    //Query checks if there is active proposal without project attached to it
+    return false;
+  }
+  
+  return true;
+}
+
+function _weeve_project_is_allowed_create_project() {
+  global $user;
+
+  $query = "
+   SELECT node.nid AS nid
+   FROM node node
+   INNER JOIN content_type_project_request node_data_field_proposal_status ON node.vid = node_data_field_proposal_status.vid
+   LEFT JOIN content_type_project_request node_data_field_proposal_project ON node.vid = node_data_field_proposal_project.vid
+   WHERE (node.type in ('project_request')) AND (node_data_field_proposal_status.field_proposal_status_value = 'approve')
+   AND (node_data_field_proposal_project.field_proposal_project_nid IS NULL)
+   AND node.uid = %d";
+
+  $result = db_query($query, array($user->uid));
+  $node = db_fetch_object($result);
+
+  if ($node) {
+    //Query checks if there is accepted proposal without project attached to it
+    return false;
+  }
+
+  return true;
+}
+
+function _weeve_project_is_user_npo() {
+  global $user;
+var_dump($user);exit;
+  return in_array('npo', $user->roles);
+}

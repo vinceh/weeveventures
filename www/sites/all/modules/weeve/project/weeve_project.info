@@ -1,0 +1,4 @@
+name = Weeve Project
+description = Provide project process
+package = Weeve
+core = 6.x
