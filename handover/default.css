@@ -4,8 +4,7 @@
 }
 
 body{
-	font-family: fonty;
-	/*font-family: 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;*/
+	font-family: 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;
 	color: #555;
 	margin: 0px;
 
@@ -442,7 +441,7 @@ a {
 	display: inline-block;
 	margin-top: 10px;
 	margin-right: 40px;
-	font-size: 23px;
+	font-size: 22px;
 	text-align: center;
 }
 
