@@ -1,0 +1,115 @@
+/* signup user choose */
+
+.signup-role-wrap {
+	display: inline-block;
+	margin-left: 125px;
+}
+.signup-role {
+	background-color: #00a0ce;
+	padding: 10px 20px;
+	font-size: 30px;
+	font-weight: 300;
+	border-radius: 5px;
+}
+
+.signup-role a {
+	color: white;
+}
+
+.signup-role a:visited {
+	color: white;
+}
+
+.signup-role:hover {
+	cursor: pointer;
+	background-color: #0285AB;
+}
+
+.signup-role-hint {
+	margin-top: 5px;
+	font-size: 14px;
+	color: #555;
+	text-align: center;
+}
+
+#weeve-registration-user-form .signup-form, #weeve-registration-npo-form .signup-form {
+  overflow: hidden;
+	margin: 30px 230px 30px 30px;
+}
+
+.signup-header {
+	margin-top: 30px;
+	padding-bottom: 30px;
+	border-bottom: 1px solid #ddd;
+}
+
+/*Forms*/
+
+.agreement {
+	margin: 20px 0px;
+	background-color: #eee;
+	width: 350px;
+	height: 100px;
+	overflow-y: scroll;
+	font-size: 12px;
+	padding: 10px;
+	border-radius: 5px;
+  float: right;
+  clear: both;
+}
+/*Submit*/
+input.form-submit.signup-submit {
+	background-color: #00a0ce;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	font-size: 16px;
+  height: auto;
+  width: auto;
+  float: right;
+  clear: both;
+}
+
+input.form-submit.signup-submit:hover {
+	background-color: #0285AB;
+	cursor: pointer;
+}
+
+#weeve-registration-user-form input.form-text {
+	outline-style: none;
+	padding: 3px 6px;
+	width: 350px;
+	font-size: 18px;
+	height: 30px;
+	border-radius: 5px;
+	border: 1px solid #A0A0A0;
+
+	color: #444;
+}
+
+.signup-form .description {
+	font-size: 12px;
+	padding: 2px 0px 12px 6px;
+	color: #505050 ;
+}
+
+.signup-form .label {
+  float: left;
+}
+
+.signup-form .label label {
+  font-size: 16px;
+  font-weight: normal;
+  padding: 6px 10px;
+  text-align: right;
+  width: 250px;
+}
+
+.signup-form .field {
+  float: left;
+}
+.signup-form .form-item {
+  overflow: hidden;
+  float: right;
+}

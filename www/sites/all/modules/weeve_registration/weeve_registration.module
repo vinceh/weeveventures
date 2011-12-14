@@ -10,21 +10,21 @@ function weeve_registration_menu() {
   $items = array();
 
   $items['signup'] = array(
-    'title' => 'Join Weeve',
+    'title' => '',
     'access callback' => 'weeve_registration_access',
     'page callback' => 'weeve_registration_page',
     'type' => MENU_NORMAL_ITEM,
   );
 
   $items['signup/user'] = array(
-    'title' => 'Join the community',
+    'title' => '',
     'access callback' => 'weeve_registration_access',
     'page callback' => 'weeve_registration_user_page',
     'type' => MENU_CALLBACK,
   );
 
   $items['signup/npo'] = array(
-    'title' => 'Build the Community',
+    'title' => '',
     'access callback' => 'weeve_registration_access',
     'page callback' => 'weeve_registration_npo_page',
     'type' => MENU_CALLBACK,
@@ -56,6 +56,12 @@ function weeve_registration_theme() {
   return array(
     'wevee_register_page' => array(
       'template' => 'tpl/register_page'
+    ),
+    'wevee_textfield_inline' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'wevee_form_element_inline' => array(
+      'arguments' => array('element' => NULL, 'value' => NULL),
     ),
   );
 }
@@ -90,53 +96,89 @@ function weeve_registration_access() {
 }
 
 function weeve_registration_page() {
+  drupal_add_css(drupal_get_path('module', 'weeve_registration') .'/css/signup.css');
   return theme('wevee_register_page');
 }
 
 function weeve_registration_user_page() {
+  drupal_add_css(drupal_get_path('module', 'weeve_registration') .'/css/signup.css');
   $form = drupal_get_form('weeve_registration_user_form');
   return $form;
 }
 
 function weeve_registration_npo_page() {
+  drupal_add_css(drupal_get_path('module', 'weeve_registration') .'/css/signup.css');
   return drupal_get_form('weeve_registration_npo_form');
 }
 
 function weeve_registration_user_form() {
   $form = array();
 
+  $form['header'] = array(
+    '#prefix' => '<div class="signup-header">',
+    '#suffix' => '</div>'
+  );
+
+  $form['header']['title'] = array(
+    '#prefix' => '<div class="signup-title">',
+    '#suffix' => '</div>',
+    '#value' => t('Join the community'),
+  );
+
+  $form['header']['sub-title'] = array(
+    '#prefix' => '<div class="signup-subtitle">',
+    '#suffix' => '</div>',
+    '#value' => t('Bring out your inner philantropist.'),
+  );
+
+  $form['form-wrapper'] = array(
+    '#value' => '<div class="signup-form ">',
+  );
+
   $form['fullname'] = array(
     '#type' => 'textfield',
     '#title' => t('Full name'),
-    '#descriprion' => t('Your first and last name'),
+    '#description' => t('Your first and last name'),
     '#required' => true,
+    '#theme' => 'wevee_textfield_inline',
   );
 
   $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
-    '#descriprion' => t('Don\'t worry, you can hide this.'),
+    '#description' => t('Don\'t worry, you can hide this.'),
     '#required' => true,
+    '#theme' => 'wevee_textfield_inline',
   );
 
   $form['password'] = array(
     '#type' => 'password',
     '#title' => t('Password'),
-    '#descriprion' => t('At least 7 characters with 1 number'),
+    '#description' => t('At least 7 characters with 1 number'),
     '#required' => true,
+    '#theme' => 'wevee_textfield_inline',
   );
 
-  $form['terms'] = array(
-    '#type' => 'textarea',
-    '#title' => '',
-    '#default_value' => variable_get('', 'Terms will here'),
-    '#disabled' => true,
+  $form['agreement'] = array(
+    '#prefix' => '<div class="agreement">',
+    '#value' => variable_get('', 'Terms will here'),
+    '#suffix' => '</div>'
   );
 
   $form['create'] = array(
     '#type' => 'submit',
     '#value' => t('Create account'),
+    '#attributes' => array('class' => 'signup-submit'),
   );
+
+  $form['form-wrapper-2'] = array(
+    '#value' => '</div>',
+  );
+
+  $form['footer'] = array(
+    '#value' => '<div class="footer"></div>',
+  );
+
   $form['#redirect'] = '';
   return $form;
 }
@@ -236,57 +278,93 @@ function weeve_registration_notify($op, $account) {
 function weeve_registration_npo_form() {
   $form = array();
 
+  $form['header'] = array(
+    '#prefix' => '<div class="signup-header">',
+    '#suffix' => '</div>'
+  );
+
+  $form['header']['title'] = array(
+    '#prefix' => '<div class="signup-title">',
+    '#suffix' => '</div>',
+    '#value' => t('Build the Community'),
+  );
+
+  $form['header']['sub-title'] = array(
+    '#prefix' => '<div class="signup-subtitle">',
+    '#suffix' => '</div>',
+    '#value' => t('Claim your account as a non-profit organization. We will verify your existence and contact you personally to get you started.'),
+  );
+
+  $form['form-wrapper'] = array(
+    '#value' => '<div class="signup-form ">',
+  );
+
   $form['organization'] = array(
     '#type' => 'textfield',
     '#title' => t('Organization Name'),
-    '#descriprion' => t('Full name as registered'),
+    '#description' => t('Full name as registered'),
     '#required' => true,
+    '#theme' => 'wevee_textfield_inline',
   );
 
   $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
-    '#descriprion' => t('Don\'t worry, you can hide this.'),
+    '#description' => t('Don\'t worry, you can hide this.'),
     '#required' => true,
+    '#theme' => 'wevee_textfield_inline',
   );
 
   $form['businesscode'] = array(
     '#type' => 'textfield',
     '#title' => t('Business Code'),
-    '#descriprion' => t('So we can verify your existence'),
+    '#description' => t('So we can verify your existence'),
     '#required' => true,
+    '#theme' => 'wevee_textfield_inline',
   );
 
   $form['businessnumber'] = array(
     '#type' => 'textfield',
     '#title' => t('Business Number'),
-    '#descriprion' => t('We will call you!'),
+    '#description' => t('We will call you!'),
     '#required' => true,
+    '#theme' => 'wevee_textfield_inline',
   );
 
   $form['website'] = array(
     '#type' => 'textfield',
     '#title' => t('Business Website'),
-    '#descriprion' => t('Where do people find you on the web?'),
+    '#description' => t('Where do people find you on the web?'),
+    '#theme' => 'wevee_textfield_inline',
   );
 
   $form['representative_name'] = array(
     '#type' => 'textfield',
     '#title' => t('Representative Name'),
-    '#descriprion' => t('First and last name'),
+    '#description' => t('First and last name'),
+    '#theme' => 'wevee_textfield_inline',
   );
 
-  $form['terms'] = array(
-    '#type' => 'textarea',
-    '#title' => '',
-    '#default_value' => variable_get('', 'Terms will here'),
-    '#disabled' => true,
+  $form['agreement'] = array(
+    '#prefix' => '<div class="agreement">',
+    '#value' => variable_get('', 'Terms will here'),
+    '#suffix' => '</div>'
   );
 
   $form['create'] = array(
     '#type' => 'submit',
     '#value' => t('Create account'),
+    '#attributes' => array('class' => 'signup-submit'),
   );
+
+  $form['form-wrapper-2'] = array(
+    '#value' => '</div>',
+  );
+
+  $form['footer'] = array(
+    '#value' => '<div class="footer"></div>',
+  );
+
   $form['#redirect'] = '';
   return $form;
 }
@@ -368,4 +446,69 @@ function weeve_registration_admin_form() {
 
 
   return system_settings_form($form);
+}
+
+function theme_wevee_textfield_inline($element) {
+  $size = empty($element['#size']) ? '' : ' size="' . $element['#size'] . '"';
+  $maxlength = empty($element['#maxlength']) ? '' : ' maxlength="' . $element['#maxlength'] . '"';
+  $class = array('form-text');
+  $extra = '';
+  $output = '';
+
+  if ($element['#autocomplete_path'] && menu_valid_path(array('link_path' => $element['#autocomplete_path']))) {
+    drupal_add_js('misc/autocomplete.js');
+    $class[] = 'form-autocomplete';
+    $extra = '<input class="autocomplete" type="hidden" id="' . $element['#id'] . '-autocomplete" value="' . check_url(url($element['#autocomplete_path'], array('absolute' => TRUE))) . '" disabled="disabled" />';
+  }
+  _form_set_class($element, $class);
+
+/*  if (isset($element['#field_prefix'])) {
+    $output .= '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ';
+  }*/
+
+  $output .= '<input type="text"' . $maxlength . ' name="' . $element['#name'] . '" id="' . $element['#id'] . '"' . $size . ' value="' . check_plain($element['#value']) . '"' . drupal_attributes($element['#attributes']) . ' />';
+
+  if (isset($element['#field_suffix'])) {
+    $output .= ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>';
+  }
+
+  return theme('wevee_form_element_inline', $element, $output) . $extra;
+}
+
+function theme_wevee_form_element_inline($element, $value) {
+  // This is also used in the installer, pre-database setup.
+  $t = get_t();
+
+  $output = '<div class="form-item"';
+  if (!empty($element['#id'])) {
+    $output .= ' id="' . $element['#id'] . '-wrapper"';
+  }
+  $output .= ">\n";
+  $required = !empty($element['#required']) ? '<span class="form-required" title="' . $t('This field is required.') . '">*</span>' : '';
+
+  if (!empty($element['#title'])) {
+    $title = $element['#title'];
+    $output .= "<div class='label'>";
+    if (!empty($element['#id'])) {
+      $output .= ' <label for="' . $element['#id'] . '">' . $t('!title: !required', array('!title' => filter_xss_admin($title), '!required' => $required)) . "</label>\n";
+    }
+    else {
+      $output .= ' <label>' . $t('!title: !required', array('!title' => filter_xss_admin($title), '!required' => $required)) . "</label>\n";
+    }
+    $output .= "</div>";
+  }
+
+  $output .= "<div class='field'>";
+
+  $output .= " $value\n";
+
+  if (!empty($element['#description'])) {
+    $output .= ' <div class="description">' . $element['#description'] . "</div>\n";
+  }
+
+  $output .= "</div>";
+
+  $output .= "</div>\n";
+
+  return $output;
 }
