@@ -4,10 +4,10 @@
 }
 
 body{
-	font-family: fonty;
-	/*font-family: 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;*/
+	font-family: 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;
 	color: #555;
 	margin: 0px;
+  font-size: 12px;
 
 }
 
@@ -62,8 +62,62 @@ body{
 	font-size: 14px;
 }
 
-.weeve-medium-button {
-		
+.view-featured-projects.front-page {
+  clear: both;
+  margin: 20px 30px 0px;
+}
+
+.view-featured-projects.front-page .views-row {
+  width: 215px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #999999;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 0 4px #AAAAAA;
+  display: inline-block;
+  float: left;
+}
+
+.view-featured-projects.front-page .views-row:hover {
+	border-color: #444444;
+	box-shadow: 0px 0px 10px #777777;
+}
+
+.view-featured-projects.front-page .views-field-title {
+  text-transform: capitalize;
+  margin-top: 10px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.view-featured-projects.front-page .views-field-body {
+  margin-bottom: 10px;
+}
+
+.view-featured-projects.front-page .views-field-title a {
+  color: #00A0CE;
+}
+
+.view-featured-projects.front-page .views-field-field-project-percent-pledge-value,
+.view-featured-projects.front-page .views-field-field-project-amount-pledge-amount,
+.view-featured-projects.front-page .views-field-phpcode {
+  float: left;
+  width: 33%;
+}
+
+.view-featured-projects.front-page .views-field-field-project-percent-pledge-value .field-content,
+.view-featured-projects.front-page .views-field-field-project-amount-pledge-amount .field-content,
+.view-featured-projects.front-page .views-field-phpcode .field-content {
+  font-weight: bold;
+}
+
+.view-featured-projects.front-page .views-field-field-project-percent-pledge-value .field-content div,
+.view-featured-projects.front-page .views-field-field-project-amount-pledge-amount .field-content div,
+.view-featured-projects.front-page .views-field-phpcode .field-content div {
+  font-weight: normal;
+}
+
+.weeve-medium-button {		
 	color: white;
 	padding: 10px 20px;
 	border-radius: 5px;
