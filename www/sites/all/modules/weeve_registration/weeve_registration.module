@@ -95,7 +95,6 @@ function weeve_registration_page() {
 
 function weeve_registration_user_page() {
   $form = drupal_get_form('weeve_registration_user_form');
-  // return drupal_render($form);
   return $form;
 }
 
@@ -123,7 +122,7 @@ function weeve_registration_user_form() {
   $form['password'] = array(
     '#type' => 'password',
     '#title' => t('Password'),
-    '#descriprion' => t('Between 6-8 characters'),
+    '#descriprion' => t('At least 7 characters with 1 number'),
     '#required' => true,
   );
 
@@ -208,8 +207,7 @@ function weeve_registration_validate_email_callback($uid, $timestamp, $hashed_pa
   $user = user_load($uid);
   if ($hashed_pass == user_pass_rehash($user->pass, $timestamp, $user->login)) {
     weeve_registration_user_activate($user);
-    drupal_set_message(t('Thanks! Your email checked. You can login.'),'status');
-    // TODO: login automaticaly
+    drupal_set_message(t('Thanks! Your email checked. You are now logged in.'),'status');
     drupal_goto();
   } else {
     drupal_set_message(t('Invalid url'),'error');
@@ -245,6 +243,13 @@ function weeve_registration_npo_form() {
     '#required' => true,
   );
 
+  $form['email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email'),
+    '#descriprion' => t('Don\'t worry, you can hide this.'),
+    '#required' => true,
+  );
+
   $form['businesscode'] = array(
     '#type' => 'textfield',
     '#title' => t('Business Code'),
@@ -263,7 +268,6 @@ function weeve_registration_npo_form() {
     '#type' => 'textfield',
     '#title' => t('Business Website'),
     '#descriprion' => t('Where do people find you on the web?'),
-    '#required' => true,
   );
 
   $form['representative_name'] = array(
@@ -288,7 +292,9 @@ function weeve_registration_npo_form() {
 }
 
 function weeve_registration_npo_form_validate(&$form, &$form_state) {
-  // TODO: Implement validation
+  if ($form_state['values']['website'] && !valid_url($form_state['values']['website'])) {
+    form_set_error('website', t('Invalid URL'));
+  }
 }
 
 function weeve_registration_npo_form_submit(&$form, &$form_state) {
@@ -299,15 +305,14 @@ function weeve_registration_npo_form_submit(&$form, &$form_state) {
   $info['representative_name'] = $form_state['values']['representative_name'];
   $info['type'] = 'npo';
 
-  $email = time() .'@example.com';
   $password = user_password(6);
 
   $user = array(
     'name' => $info['organization'],
     'pass' => $password,
-    'mail' => $email,
+    'mail' => $form_state['values']['email'],
     'status' => 0,
-    'init' => $email,
+    'init' => $form_state['values']['email'],
     'roles' => array(DRUPAL_AUTHENTICATED_RID => 'authenticated user', NPO_RID => 'npo'),
   );
 
