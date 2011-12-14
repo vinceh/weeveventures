@@ -1,0 +1,82 @@
+<?php
+
+/*
+ * Implementation hook_menu
+ */
+function weeve_account_menu() {
+  $items = array();
+
+  $items['account/change/password'] = array(
+    'title' => 'Change Password',
+    'access callback' => 'weeve_account_access',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('weeve_account_change_password_form'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+
+function weeve_account_access() {
+  global $user;
+
+  if ($user->uid == 0) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+function weeve_account_change_password_form() {
+  $form = array();
+
+  $form['old_pwd'] = array(
+    '#type' => 'password',
+    '#title' => t('Current password'),
+    '#description' => t('For security reasons'),
+  );
+
+  $form['new_pwd'] = array(
+    '#type' => 'password',
+    '#title' => t('New passsword'),
+    '#description' => t('At least 7 characters with 1 number'),
+  );
+
+  $form['confirm_pwd'] = array(
+    '#type' => 'password',
+    '#title' => t('Confirm new password'),
+    '#description' => t('Verification'),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Change'),
+  );
+
+  return $form;
+}
+
+function weeve_account_change_password_form_validate(&$form, &$form_state) {
+  global $user;
+
+  $old = $form_state['values']['old_pwd'];
+  $new = $form_state['values']['new_pwd'];
+  $confirm = $form_state['values']['confirm_pwd'];
+
+  if ($user->pass != md5($old)) {
+    form_set_error('old_pwd', t('Incorrect curent password'));
+  }
+
+  if ($new != $confirm) {
+    form_set_error('confirm_pwd', t('Do not match. Please check again.'));
+  }
+
+}
+
+function weeve_account_change_password_form_submit(&$form, &$form_state) {
+  global $user;
+  $new = $form_state['values']['new_pwd'];
+  $user = user_save($user, array('pass' => $new));
+  drupal_set_message(t('Password has been changed'));
+}
