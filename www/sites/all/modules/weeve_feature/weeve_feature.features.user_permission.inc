@@ -498,12 +498,6 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
-  // Exported permission: edit field_project_days_left
-  $permissions['edit field_project_days_left'] = array(
-    'name' => 'edit field_project_days_left',
-    'roles' => array(),
-  );
-
   // Exported permission: edit field_project_end
   $permissions['edit field_project_end'] = array(
     'name' => 'edit field_project_end',
@@ -812,12 +806,6 @@ function weeve_feature_user_default_permissions() {
       '1' => 'anonymous user',
       '2' => 'authenticated user',
     ),
-  );
-
-  // Exported permission: view field_project_days_left
-  $permissions['view field_project_days_left'] = array(
-    'name' => 'view field_project_days_left',
-    'roles' => array(),
   );
 
   // Exported permission: view field_project_end

@@ -609,8 +609,10 @@ return $user->uid == $argument;';
   $handler->display->display_options['fields']['phpcode']['empty_zero'] = 0;
   $handler->display->display_options['fields']['phpcode']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['phpcode']['value'] = '<?php
-$dateTime = DateTime::createFromFormat(\'Y-m-d\\TH:i:s\', $data->node_data_field_project_image_field_project_end_value);
-return round(($dateTime->getTimestamp() - time()) / 86400);
+$dateTime = date_parse_from_format(\'Y-m-d\\TH:i:s\', $data->node_data_field_project_image_field_project_end_value);
+$timestamp = mktime((int)$dateTime[\'hour\'], (int)$dateTime[\'minute\'], (int)$dateTime[\'second\'], (int)$dateTime[\'month\'], (int)$dateTime[\'day\'], (int)$dateTime[\'year\']);
+
+return round(($timestamp - time()) / 86400);
 ?>';
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter: Node: Type */

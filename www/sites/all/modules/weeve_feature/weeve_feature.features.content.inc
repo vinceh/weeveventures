@@ -825,55 +825,6 @@ corp|Corporate',
     ),
   );
 
-  // Exported field: field_project_days_left
-  $fields['project-field_project_days_left'] = array(
-    'field_name' => 'field_project_days_left',
-    'type_name' => 'project',
-    'display_settings' => array(
-      'label' => array(
-        'format' => 'above',
-        'exclude' => 0,
-      ),
-      'teaser' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'full' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      '4' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'token' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-    ),
-    'widget_active' => '1',
-    'type' => 'computed',
-    'required' => '0',
-    'multiple' => '0',
-    'module' => 'computed_field',
-    'active' => '1',
-    'code' => '',
-    'display_format' => '',
-    'store' => '',
-    'data_type' => '',
-    'data_length' => '',
-    'data_not_NULL' => '',
-    'data_default' => '',
-    'data_sortable' => '',
-    'widget' => array(
-      'label' => 'Days left',
-      'weight' => '40',
-      'description' => '',
-      'type' => 'computed',
-      'module' => 'computed_field',
-    ),
-  );
-
   // Exported field: field_project_end
   $fields['project-field_project_end'] = array(
     'field_name' => 'field_project_end',
@@ -1028,10 +979,12 @@ corp|Corporate',
     'module' => 'computed_field',
     'active' => '1',
     'code' => 'if ($node->field_project_amount_need[0][\'value\'] > 0) {
-  $node_field[0][\'value\'] = intval(($node->field_project_amount_pledge[0][\'value\'] / $node->field_project_amount_need[0][\'value\']) * 100%);
+  $node_field[0][\'value\'] = round(($node->field_project_amount_pledge[0][\'value\'] / $node->field_project_amount_need[0][\'value\']) * 100);
 } else {
   $node_field[0][\'value\'] = 0;
-}',
+}
+
+  $node_field[0][\'value\'] = $node->field_project_amount_pledge[0][\'value\'];',
     'display_format' => '$display = $node_field_item[\'value\'];',
     'store' => 1,
     'data_type' => 'int',
@@ -1567,7 +1520,6 @@ decline|Declined
   t('Business Code');
   t('Business Number');
   t('Business Website');
-  t('Days left');
   t('End date');
   t('Full Name');
   t('Organization Name');
