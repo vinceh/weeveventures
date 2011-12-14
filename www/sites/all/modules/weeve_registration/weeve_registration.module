@@ -138,7 +138,7 @@ function weeve_registration_user_form() {
     '#type' => 'submit',
     '#value' => t('Create account'),
   );
-
+  $form['#redirect'] = '';
   return $form;
 }
 
@@ -283,7 +283,7 @@ function weeve_registration_npo_form() {
     '#type' => 'submit',
     '#value' => t('Create account'),
   );
-
+  $form['#redirect'] = '';
   return $form;
 }
 
@@ -308,14 +308,16 @@ function weeve_registration_npo_form_submit(&$form, &$form_state) {
     'mail' => $email,
     'status' => 0,
     'init' => $email,
-    'roles' => array(DRUPAL_AUTHENTICATED_RID => 'authenticated user', USER_RID => 'user'),
+    'roles' => array(DRUPAL_AUTHENTICATED_RID => 'authenticated user', NPO_RID => 'npo'),
   );
 
   $account = user_save(null, $user);
   $profile = weeve_registration_create_profile($account, $info);
 
+  // Add plain text password into user account to generate mail tokens.
+  $account->password = $password;
   weeve_registration_notify('weeve_npo_notify', $account);
-  drupal_set_message(t('NPO has been created.'));
+  drupal_set_message(t('NPO has been created. Check Your email.'));
 }
 
 function weeve_registration_admin_form() {
