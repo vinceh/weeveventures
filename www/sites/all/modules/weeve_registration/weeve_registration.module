@@ -161,7 +161,7 @@ function weeve_registration_user_form() {
 
   $form['agreement'] = array(
     '#prefix' => '<div class="agreement">',
-    '#value' => variable_get('', 'Terms will here'),
+    '#value' => variable_get('weeve_signup_terms', ''),
     '#suffix' => '</div>'
   );
 
@@ -347,7 +347,7 @@ function weeve_registration_npo_form() {
 
   $form['agreement'] = array(
     '#prefix' => '<div class="agreement">',
-    '#value' => variable_get('', 'Terms will here'),
+    '#value' => variable_get('weeve_signup_terms', ''),
     '#suffix' => '</div>'
   );
 
@@ -444,6 +444,12 @@ function weeve_registration_admin_form() {
     '#default_value' => variable_get('npo_body', ''),
   );
 
+
+  $form['weeve_signup_terms'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Terms'),
+    '#default_value' => variable_get('weeve_signup_terms', ''),
+  );
 
   return system_settings_form($form);
 }
