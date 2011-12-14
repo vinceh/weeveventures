@@ -4,8 +4,7 @@
 }
 
 body{
-	font-family: fonty;
-	/*font-family: 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;*/
+	font-family: 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;
 	color: #555;
 	margin: 0px;
 
@@ -70,6 +69,7 @@ body{
 	border: none;
 	font-size: 18px;
 }
+
 .weeve-small-button, .weeve-medium-button {
 background: #37abcc; /* Old browsers */
     background: -moz-linear-gradient(top, #37abcc 0%, #00a0ce 51%, #008db5 100%); /* FF3.6+ */
@@ -212,12 +212,19 @@ a {
 
 .signup-header {
 	margin-top: 30px;
-	padding-bottom: 30px;
-	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
 }
 
 .signup-form {
 	margin: 30px;
+}
+
+.emptyrow {
+	height: 20px;
+}
+
+.checkboxrow {
+	height: 40px;
 }
 
 .signup-form th {
@@ -442,8 +449,7 @@ a {
 	display: inline-block;
 	margin-top: 10px;
 	margin-right: 40px;
-	font-size: 23px;
-	text-align: center;
+	font-size: 22px;
 }
 
 .landingbutton {
@@ -808,6 +814,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 }
 
 /* project page */
+
 .project-page-head {
 	height: 110px;
 	padding-top: 50px;
@@ -963,6 +970,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 }
 
 /* profile pages */
+
+.checkbox {
+	margin-top: 5px;
+	width: 15px !important;
+	height: 15px !important;
+}
+
+.edit-sentence {
+	margin: 30px 30px;
+}
+
+.profile-edit-section {
+	margin-bottom: 40px;
+}
 
 .profile-wrapper {
 	margin-top: 70px;

@@ -41,7 +41,8 @@ function weeve_feature_content_default_fields() {
     'text_processing' => '0',
     'max_length' => '',
     'allowed_values' => 'user|User
-npo|NPO',
+npo|NPO
+corp|Corporate',
     'allowed_values_php' => '',
     'widget' => array(
       'default_value' => array(
