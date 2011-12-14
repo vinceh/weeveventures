@@ -1,5 +1,7 @@
 <?php
 
+define('USER_RID', 3);
+define('NPO_RID', 5);
 
 /*
  * Implementation hook_menu
@@ -28,6 +30,21 @@ function weeve_registration_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['signup/check/%/%/%'] = array(
+    'title' => 'Validate email',
+    'page callback' => 'weeve_registration_validate_email_callback',
+    'page arguments' => array( 2, 3, 4),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/settings/weeve_registration'] = array(
+    'title' => 'Weeve register',
+    'access arguments' => array('administer content'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('weeve_registration_admin_form'),
+  );
+
   return $items;
 }
 
@@ -41,6 +58,26 @@ function weeve_registration_theme() {
       'template' => 'tpl/register_page'
     ),
   );
+}
+
+/*
+ * Implementation hook_mail
+ */
+function weeve_registration_mail($key, &$message, $params) {
+  $language = $message['language'];
+  $variables = user_mail_tokens($params['account'], $language);
+  switch ($key) {
+    case 'weeve_user_notify':
+      $variables['!verify_url'] = weeve_registration_check_email_url($params['account']);
+      $message['subject'] = t(variable_get('user_subject', ''), $variables, $language->language);
+      $message['body'][] = t(variable_get('user_body', ''), $variables, $language->language);
+      break;
+
+    case 'weeve_npo_notify';
+      $message['subject'] = t(variable_get('npo_subject', ''), $variables, $language->language);
+      $message['body'][] = t(variable_get('npo_body', ''), $variables, $language->language);
+      break;
+  }
 }
 
 function weeve_registration_access() {
@@ -63,7 +100,7 @@ function weeve_registration_user_page() {
 }
 
 function weeve_registration_npo_page() {
-
+  return drupal_get_form('weeve_registration_npo_form');
 }
 
 function weeve_registration_user_form() {
@@ -73,18 +110,21 @@ function weeve_registration_user_form() {
     '#type' => 'textfield',
     '#title' => t('Full name'),
     '#descriprion' => t('Your first and last name'),
+    '#required' => true,
   );
 
   $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
     '#descriprion' => t('Don\'t worry, you can hide this.'),
+    '#required' => true,
   );
 
   $form['password'] = array(
     '#type' => 'password',
     '#title' => t('Password'),
     '#descriprion' => t('Between 6-8 characters'),
+    '#required' => true,
   );
 
   $form['terms'] = array(
@@ -98,22 +138,229 @@ function weeve_registration_user_form() {
     '#type' => 'submit',
     '#value' => t('Create account'),
   );
-
+  $form['#redirect'] = '';
   return $form;
 }
 
 function weeve_registration_user_form_validate(&$form, &$form_state) {
-
+  $email = $form_state['values']['email'];
+  if (!valid_email_address($email)) {
+    form_set_error('email', t('No valid email'));
+  }
+  // TODO: password validation
 }
 
 function weeve_registration_user_form_submit(&$form, &$form_state) {
+  $fullname = $form_state['values']['fullname'];
+  $email = $form_state['values']['email'];
+  $password = $form_state['values']['password'];
 
+  $user = array(
+    'name' => $fullname,
+    'pass' => $password,
+    'mail' => $email,
+    'status' => 0,
+    'init' => $email,
+    'roles' => array(DRUPAL_AUTHENTICATED_RID => 'authenticated user', USER_RID => 'user'),
+  );
+
+  $account = user_save(null, $user);
+  $profile = weeve_registration_create_profile($account, $info = array('type' => 'user'));
+
+  weeve_registration_notify('weeve_user_notify', $account);
+  drupal_set_message(t('User has been created. Please check your email.'));
 }
 
+function weeve_registration_create_profile($account, $info) {
+  $time = time();
+  $profile = new stdClass();
+  $profile->title = $account->name;
+  $profile->body = '';
+  $profile->type = 'profile';
+  $profile->created = $time;
+  $profile->changed = $time;
+  $profile->status = 1;
+  $profile->promote = 0;
+  $profile->sticky = 0;
+  $profile->format = 1; // Filtered HTML
+  if ($info['type'] == 'user') {
+    $profile->field_user_full_name[0]['value'] = $account->name;
+  }
+  $profile->field_npo_name[0]['value'] = $info['organization'];
+  $profile->field_npo_code[0]['value'] = $info['businesscode'];
+  $profile->field_npo_number[0]['value'] = $info['businessnumber'];
+  $profile->field_npo_website[0]['url'] = $info['website'];
+  $profile->field_npo_representative_name[0]['value'] = $info['representative_name'];
+  $profile->field_account_type[0]['value'] = $info['type'];
+
+  $profile->uid = $account->uid;
+  node_save($profile);
+
+  return $profile;
+}
+
+function weeve_registration_check_email_url($account) {
+  $timestamp = time();
+  return url("signup/check/$account->uid/$timestamp/". user_pass_rehash($account->pass, $timestamp, $account->login), array('absolute' => TRUE));
+}
+
+function weeve_registration_validate_email_callback($uid, $timestamp, $hashed_pass) {
+  $user = user_load($uid);
+  if ($hashed_pass == user_pass_rehash($user->pass, $timestamp, $user->login)) {
+    weeve_registration_user_activate($user);
+    drupal_set_message(t('Thanks! Your email checked. You can login.'),'status');
+    // TODO: login automaticaly
+    drupal_goto();
+  } else {
+    drupal_set_message(t('Invalid url'),'error');
+    drupal_goto();
+  }
+}
+
+function weeve_registration_user_activate($account) {
+  user_save($account, array('status' => 1));
+}
+
+function weeve_registration_notify($op, $account) {
+  switch($op) {
+    case 'weeve_user_notify':
+      $params['account'] = $account;
+      drupal_mail('weeve_registration', 'weeve_user_notify', $account->mail, user_preferred_language($account), $params);
+      break;
+
+    case 'weeve_npo_notify':
+      $params['account'] = $account;
+      drupal_mail('weeve_registration', 'weeve_npo_notify', $account->mail, user_preferred_language($account), $params);
+      break;
+  }
+}
 
 function weeve_registration_npo_form() {
   $form = array();
 
+  $form['organization'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Organization Name'),
+    '#descriprion' => t('Full name as registered'),
+    '#required' => true,
+  );
 
+  $form['businesscode'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Business Code'),
+    '#descriprion' => t('So we can verify your existence'),
+    '#required' => true,
+  );
+
+  $form['businessnumber'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Business Number'),
+    '#descriprion' => t('We will call you!'),
+    '#required' => true,
+  );
+
+  $form['website'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Business Website'),
+    '#descriprion' => t('Where do people find you on the web?'),
+    '#required' => true,
+  );
+
+  $form['representative_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Representative Name'),
+    '#descriprion' => t('First and last name'),
+  );
+
+  $form['terms'] = array(
+    '#type' => 'textarea',
+    '#title' => '',
+    '#default_value' => variable_get('', 'Terms will here'),
+    '#disabled' => true,
+  );
+
+  $form['create'] = array(
+    '#type' => 'submit',
+    '#value' => t('Create account'),
+  );
+  $form['#redirect'] = '';
   return $form;
+}
+
+function weeve_registration_npo_form_validate(&$form, &$form_state) {
+  // TODO: Implement validation
+}
+
+function weeve_registration_npo_form_submit(&$form, &$form_state) {
+  $info['organization'] = $form_state['values']['organization'];
+  $info['businesscode'] = $form_state['values']['businesscode'];
+  $info['businessnumber'] = $form_state['values']['businessnumber'];
+  $info['website'] = $form_state['values']['website'];
+  $info['representative_name'] = $form_state['values']['representative_name'];
+  $info['type'] = 'npo';
+
+  $email = time() .'@example.com';
+  $password = user_password(6);
+
+  $user = array(
+    'name' => $info['organization'],
+    'pass' => $password,
+    'mail' => $email,
+    'status' => 0,
+    'init' => $email,
+    'roles' => array(DRUPAL_AUTHENTICATED_RID => 'authenticated user', NPO_RID => 'npo'),
+  );
+
+  $account = user_save(null, $user);
+  $profile = weeve_registration_create_profile($account, $info);
+
+  // Add plain text password into user account to generate mail tokens.
+  $account->password = $password;
+  weeve_registration_notify('weeve_npo_notify', $account);
+  drupal_set_message(t('NPO has been created. Check Your email.'));
+}
+
+function weeve_registration_admin_form() {
+  $form = array();
+
+  $form['user_notify'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('User notify'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['user_notify']['user_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#default_value' => variable_get('user_subject', ''),
+  );
+
+  $form['user_notify']['user_body'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Subject'),
+    '#default_value' => variable_get('user_body', ''),
+  );
+
+  $form['npo_notify'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('NPO notify. Awaiting administrator approval'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['npo_notify']['npo_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#default_value' => variable_get('npo_subject', ''),
+  );
+
+  $form['npo_notify']['npo_body'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Subject'),
+    '#default_value' => variable_get('npo_body', ''),
+  );
+
+
+  return system_settings_form($form);
 }
