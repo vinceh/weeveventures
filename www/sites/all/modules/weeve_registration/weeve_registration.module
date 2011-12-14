@@ -1,6 +1,7 @@
 <?php
 
 define('USER_RID', 3);
+define('CORP_RID', 4);
 define('NPO_RID', 5);
 
 /*
@@ -27,6 +28,13 @@ function weeve_registration_menu() {
     'title' => '',
     'access callback' => 'weeve_registration_access',
     'page callback' => 'weeve_registration_npo_page',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['signup/corp'] = array(
+    'title' => '',
+    'access callback' => 'weeve_registration_access',
+    'page callback' => 'weeve_registration_copr_page',
     'type' => MENU_CALLBACK,
   );
 
@@ -83,6 +91,11 @@ function weeve_registration_mail($key, &$message, $params) {
       $message['subject'] = t(variable_get('npo_subject', ''), $variables, $language->language);
       $message['body'][] = t(variable_get('npo_body', ''), $variables, $language->language);
       break;
+
+    case 'weeve_corp_notify';
+      $message['subject'] = t(variable_get('npo_subject', ''), $variables, $language->language);
+      $message['body'][] = t(variable_get('npo_body', ''), $variables, $language->language);
+      break;
   }
 }
 
@@ -109,6 +122,11 @@ function weeve_registration_user_page() {
 function weeve_registration_npo_page() {
   drupal_add_css(drupal_get_path('module', 'weeve_registration') .'/css/signup.css');
   return drupal_get_form('weeve_registration_npo_form');
+}
+
+function weeve_registration_copr_page() {
+  drupal_add_css(drupal_get_path('module', 'weeve_registration') .'/css/signup.css');
+  return drupal_get_form('weeve_registration_corp_form');
 }
 
 function weeve_registration_user_form() {
@@ -268,6 +286,11 @@ function weeve_registration_notify($op, $account) {
       drupal_mail('weeve_registration', 'weeve_user_notify', $account->mail, user_preferred_language($account), $params);
       break;
 
+    case 'weeve_corp_notify':
+      $params['account'] = $account;
+      drupal_mail('weeve_registration', 'weeve_corp_notify', $account->mail, user_preferred_language($account), $params);
+      break;
+
     case 'weeve_npo_notify':
       $params['account'] = $account;
       drupal_mail('weeve_registration', 'weeve_npo_notify', $account->mail, user_preferred_language($account), $params);
@@ -401,6 +424,46 @@ function weeve_registration_npo_form_submit(&$form, &$form_state) {
   $account->password = $password;
   weeve_registration_notify('weeve_npo_notify', $account);
   drupal_set_message(t('NPO has been created. Check Your email.'));
+}
+
+
+function weeve_registration_corp_form() {
+  $form = weeve_registration_npo_form();
+  return $form;
+}
+
+function weeve_registration_corp_form_validate(&$form, &$form_state) {
+  if ($form_state['values']['website'] && !valid_url($form_state['values']['website'])) {
+    form_set_error('website', t('Invalid URL'));
+  }
+}
+
+function weeve_registration_corp_form_submit(&$form, &$form_state) {
+  $info['organization'] = $form_state['values']['organization'];
+  $info['businesscode'] = $form_state['values']['businesscode'];
+  $info['businessnumber'] = $form_state['values']['businessnumber'];
+  $info['website'] = $form_state['values']['website'];
+  $info['representative_name'] = $form_state['values']['representative_name'];
+  $info['type'] = 'corp';
+
+  $password = user_password(6);
+
+  $user = array(
+    'name' => $info['organization'],
+    'pass' => $password,
+    'mail' => $form_state['values']['email'],
+    'status' => 0,
+    'init' => $form_state['values']['email'],
+    'roles' => array(DRUPAL_AUTHENTICATED_RID => 'authenticated user', CORP_RID => 'corporate'),
+  );
+
+  $account = user_save(null, $user);
+  $profile = weeve_registration_create_profile($account, $info);
+
+  // Add plain text password into user account to generate mail tokens.
+  $account->password = $password;
+  weeve_registration_notify('weeve_corp_notify', $account);
+  drupal_set_message(t('Corporate account has been created. Check Your email.'));
 }
 
 function weeve_registration_admin_form() {

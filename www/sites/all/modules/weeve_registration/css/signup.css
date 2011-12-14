@@ -1,4 +1,6 @@
-#weeve-registration-user-form .signup-form, #weeve-registration-npo-form .signup-form {
+#weeve-registration-user-form .signup-form,
+#weeve-registration-npo-form .signup-form,
+#weeve-registration-corp-form .signup-form {
   overflow: hidden;
 	margin: 30px 230px 30px 30px;
 }
