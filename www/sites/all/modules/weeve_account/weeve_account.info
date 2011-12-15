@@ -1,0 +1,4 @@
+name = Weeve Account
+description = Provide account pages
+package = Weeve
+core = 6.x
