@@ -23,11 +23,11 @@
 
           <div class='landingnumber'><div>3</div></div>earn rewards
         </div>
-        <div class="clear-block">
+        <h2 class="front-slogan">
           Fund and follow your favourite projects.  Be the change in your community.
 
           <a href="/signup" class="weeve-medium-button"><?= t('Sign up') ?></a>
-        </div>
+        </h2>
 
         <div class="clear-block">
           <?php print $content ?>
