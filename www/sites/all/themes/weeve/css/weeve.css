@@ -62,6 +62,15 @@ body{
 	font-size: 14px;
 }
 
+.front-slogan {
+  font-size: 22px;
+  font-weight: normal;
+}
+
+.front-slogan a {
+  margin-left: 35px;
+}
+
 .view-featured-projects.front-page {
   clear: both;
   margin: 20px 30px 0px;
@@ -76,6 +85,12 @@ body{
   box-shadow: 0 0 4px #AAAAAA;
   display: inline-block;
   float: left;
+  min-height: 350px;
+  margin-left: 60px;
+}
+
+.view-featured-projects.front-page .views-row.views-row-first {
+  margin-left: 0px;
 }
 
 .view-featured-projects.front-page .views-row:hover {
@@ -88,10 +103,12 @@ body{
   margin-top: 10px;
   font-size: 14px;
   margin-bottom: 10px;
+  height: 32px;
 }
 
 .view-featured-projects.front-page .views-field-body {
   margin-bottom: 10px;
+  height: 120px;
 }
 
 .view-featured-projects.front-page .views-field-title a {
