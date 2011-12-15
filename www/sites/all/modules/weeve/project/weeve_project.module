@@ -218,7 +218,8 @@ if (!function_exists('date_parse_from_format')) {
       'H'=>'hour',
       'i'=>'minute',
       's'=>'second',
-      'y'=>'year',
+      'Y'=>'year',
+      'y' => 'year',
       'm'=>'month',
       'd'=>'day'
     );
