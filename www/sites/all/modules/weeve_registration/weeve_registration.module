@@ -68,6 +68,9 @@ function weeve_registration_theme() {
     'wevee_textfield_inline' => array(
       'arguments' => array('element' => NULL),
     ),
+    'wevee_password_inline' => array(
+      'arguments' => array('element' => NULL),
+    ),
     'wevee_form_element_inline' => array(
       'arguments' => array('element' => NULL, 'value' => NULL),
     ),
@@ -174,7 +177,7 @@ function weeve_registration_user_form() {
     '#title' => t('Password'),
     '#description' => t('At least 7 characters with 1 number'),
     '#required' => true,
-    '#theme' => 'wevee_textfield_inline',
+    '#theme' => 'wevee_password_inline',
   );
 
   $form['agreement'] = array(
@@ -580,4 +583,13 @@ function theme_wevee_form_element_inline($element, $value) {
   $output .= "</div>\n";
 
   return $output;
+}
+
+function theme_wevee_password_inline($element) {
+  $size = $element['#size'] ? ' size="' . $element['#size'] . '" ' : '';
+  $maxlength = $element['#maxlength'] ? ' maxlength="' . $element['#maxlength'] . '" ' : '';
+
+  _form_set_class($element, array('form-text'));
+  $output = '<input type="password" name="' . $element['#name'] . '" id="' . $element['#id'] . '" ' . $maxlength . $size . drupal_attributes($element['#attributes']) . ' />';
+  return theme('wevee_form_element_inline', $element, $output);
 }
