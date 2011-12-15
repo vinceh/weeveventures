@@ -6,6 +6,13 @@
 function weeve_account_menu() {
   $items = array();
 
+  $items['account'] = array(
+    'title' => '',
+    'access callback' => 'weeve_account_access',
+    'page callback' => 'weeve_account_page',
+    'type' => MENU_CALLBACK,
+  );
+
   $items['account/change'] = array(
     'title' => '',
     'access callback' => 'weeve_account_access',
@@ -32,6 +39,18 @@ function weeve_account_menu() {
   return $items;
 }
 
+function weeve_account_theme() {
+  return array(
+    'weeve_user_account_page' => array(
+      'arguments' => array('account' => NULL, 'profile' => NULL, 'settings' => NULL),
+      'template' => 'tpl/weeve_user_account_page'
+    ),
+    'weeve_npo_account_page' => array(
+      'arguments' => array('account' => NULL, 'profile' => NULL, 'settings' => NULL),
+      'template' => 'tpl/weeve_npo_account_page'
+    ),
+  );
+}
 
 function weeve_account_access() {
   global $user;
@@ -145,10 +164,18 @@ function weeve_account_change_general_form() {
     '#default_value' => $settings['donation_history'] ? $settings['donation_history'] : FALSE,
   );
 
+  $form['photo'] = array(
+    '#type' => 'file',
+    '#title' => t('Attach your photo'),
+  );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Change'),
+    '#description' => '',
   );
+
+  $form['#attributes'] = array('enctype' => "multipart/form-data");
 
   return $form;
 }
@@ -180,4 +207,48 @@ function weeve_account_change_general_form_submit(&$form, &$form_state) {
   $user = user_save($user, $edit);
 
   drupal_set_message(t('Account has been changed'));
+}
+
+function weeve_account_page($uid = null) {
+  if ($uid) {
+    $user = user_load($uid);
+  } else {
+    global $user;
+  }
+
+  $account_type = weeve_account_check_type($user);
+  $settings = variable_get('weeve_account_setting_'. $user->uid, array());
+
+  switch($account_type) {
+
+    case 'user':
+      $output = theme('weeve_user_account_page', $user, NULL, $settings);
+      break;
+
+    case 'npo':
+    case 'corp':
+      $view_result = views_get_view_result('featured_projects', 'npo_projects', $user->uid);
+      $money = 0;
+      foreach ($view_result as $value) {
+        $money += $value->node_data_field_project_amount_pledge_field_project_amount_p;
+      }
+      $user->count_projects = count($view_result);
+      $user->money = $money;
+      $output = theme('weeve_npo_account_page', $user, NULL, $settings);
+      break;
+  }
+  return $output;
+}
+
+function weeve_account_check_type($user) {
+  $roles = $user->roles;
+  if (isset($roles[USER_RID])) {
+    return 'user';
+  }
+  if (isset($roles[NPO_RID])) {
+    return 'npo';
+  }
+  if (iseet($roles[CORP_RID])) {
+    return 'corp';
+  }
 }
