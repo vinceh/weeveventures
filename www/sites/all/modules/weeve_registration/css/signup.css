@@ -52,9 +52,13 @@ input.form-submit.signup-submit:hover {
 	height: 30px;
 	border-radius: 5px;
 	border: 1px solid #A0A0A0;
-
 	color: #444;
 }
+
+#weeve-registration-user-form input.form-text.error {
+  border: 2px solid red;
+}
+
 
 .signup-form .description {
 	font-size: 12px;

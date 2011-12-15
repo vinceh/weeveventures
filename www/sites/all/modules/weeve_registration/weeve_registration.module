@@ -209,7 +209,17 @@ function weeve_registration_user_form_validate(&$form, &$form_state) {
   if (!valid_email_address($email)) {
     form_set_error('email', t('No valid email'));
   }
+  if (weeve_registration_exist_email($email)) {
+    form_set_error('email', t('Email already exist in database'));
+  }
   // TODO: password validation
+}
+
+function weeve_registration_exist_email($mail) {
+  if ($exist = db_result(db_query("SELECT COUNT(*) FROM {users} WHERE mail = '%s';", $mail))){
+    return TRUE;
+  }
+  return FALSE;
 }
 
 function weeve_registration_user_form_submit(&$form, &$form_state) {
