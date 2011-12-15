@@ -984,7 +984,7 @@ corp|Corporate',
   $node_field[0][\'value\'] = 0;
 }
 
-  $node_field[0][\'value\'] = $node->field_project_amount_pledge[0][\'value\'];',
+  $node_field[0][\'value\'] = (int)$node->field_project_amount_need[0][\'value\'];',
     'display_format' => '$display = $node_field_item[\'value\'];',
     'store' => 1,
     'data_type' => 'int',
