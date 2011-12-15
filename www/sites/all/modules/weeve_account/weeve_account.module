@@ -236,6 +236,10 @@ function weeve_account_page($uid = null) {
       $user->money = $money;
       $output = theme('weeve_npo_account_page', $user, NULL, $settings);
       break;
+
+    default:
+      $output = theme('weeve_user_account_page', $user, NULL, $settings);
+      break;
   }
   return $output;
 }
@@ -248,7 +252,7 @@ function weeve_account_check_type($user) {
   if (isset($roles[NPO_RID])) {
     return 'npo';
   }
-  if (iseet($roles[CORP_RID])) {
+  if (isset($roles[CORP_RID])) {
     return 'corp';
   }
 }
