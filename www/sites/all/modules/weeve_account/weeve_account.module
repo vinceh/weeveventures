@@ -36,6 +36,14 @@ function weeve_account_menu() {
     'weight' => 1,
   );
 
+  $items['account/%/donation-history'] = array(
+    'title' => '',
+    'access callback' => 'weeve_account_donation_history_access',
+    'access arguments' => array(1),
+    'page callback' => 'weeve_account_donation_history_page',
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -266,4 +274,16 @@ function weeve_account_check_type($user) {
   if (isset($roles[CORP_RID])) {
     return 'corp';
   }
+}
+function weeve_account_donation_history_access($uid) {
+  global $user;
+  $settings = variable_get('weeve_account_setting_'. $uid, array());
+  if ($settings['donation_history'] || $uid == $user->uid) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+function weeve_account_donation_history_page() {
+  return "Donation history";
 }

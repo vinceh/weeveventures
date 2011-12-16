@@ -24,7 +24,9 @@
 			<div class='profile-subname'><?php // print('subname here'); ?></div>
 		</div>
 		<div class='profile-links'>
-			<div class='profile-link'><?php print l(t('history'), '#'); ?></div>
+      <?php if ($settings['donation_history'] || $account->uid == $user->uid): ?>
+			  <div class='profile-link'><?php print l(t('history'), 'account/'. $user->uid .'/donation-history'); ?></div>
+      <?php endif; ?>
 			<div class='profile-link'><?php print l(t('following'), '#') ?></div>
 		</div>
 		<div class='profile-main-wrapper'>
