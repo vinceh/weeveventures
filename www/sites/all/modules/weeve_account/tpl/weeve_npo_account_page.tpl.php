@@ -19,7 +19,9 @@
 		</div>
 		<div class='profile-links'>
 			<div class='profile-link'><?php print l(t('about'), '#'); ?></div>
-			<div class='profile-link'><?php print l(t('history'), '#'); ?></div>
+      <?php if ($settings['donation_history'] || $account->uid == $user->uid): ?>
+			  <div class='profile-link'><?php print l(t('history'), 'account/'. $user->uid .'/donation-history'); ?></div>
+      <?php endif; ?>
 			<div class='profile-link'><?php print l(t('projects'), '#'); ?></div>
 		</div>
 		<div class='profile-main-wrapper'>
