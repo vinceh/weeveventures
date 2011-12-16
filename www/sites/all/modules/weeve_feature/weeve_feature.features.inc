@@ -5,6 +5,20 @@
  */
 function weeve_feature_imagecache_default_presets() {
   $items = array(
+    'scale_crop_200px' => array(
+      'presetname' => 'scale_crop_200px',
+      'actions' => array(
+        '0' => array(
+          'weight' => '0',
+          'module' => 'imagecache',
+          'action' => 'imagecache_scale_and_crop',
+          'data' => array(
+            'width' => '200px',
+            'height' => '200px',
+          ),
+        ),
+      ),
+    ),
     'scale_crop_215x150' => array(
       'presetname' => 'scale_crop_215x150',
       'actions' => array(
