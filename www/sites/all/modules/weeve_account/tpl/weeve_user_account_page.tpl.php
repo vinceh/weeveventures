@@ -1,6 +1,7 @@
 <div class='profile-wrapper'>
 	<div class='profile-left'>
-		<div class='profile-picture'><img src='<?php print '/'. drupal_get_path('module', 'weeve_account') .'/images/oprah.png'; ?>'/></div>
+		  <div class='profile-picture'><?php print theme('imagecache', 'scale_crop_200px', $account->photo, $account->name, $account->name); ?></div>
+
     <?php global $user; if($user->uid == $account->uid): ?>
 		  <div class='profile-edit-link'><?php print l(t('Edit Profile'), 'account/change'); ?></div>
     <?php endif; ?>
