@@ -16,6 +16,10 @@ body{
 	border-bottom: 1px solid #ddd;
 }
 
+.weevedisabled {
+	opacity: 0.5;
+}
+
 .weeveblue {
 	color: #00a0ce;
 }
@@ -1223,6 +1227,54 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 
 /* npo profile NEW */
 
+.npo-pending-wrapper table {
+	border-spacing: 0px;
+}
+
+.npo-pending-wrapper td {
+	border-bottom: 1px solid #ddd;
+}
+
+.npo-pending-wrapper tr:first-child td {
+	border-top: 1px solid #ddd;
+}
+
+.npo-pending-wrapper tr:hover {
+	background-color: #f6f6f6;
+}
+
+.desc-short-wrap {
+	margin: 30px;
+}
+
+.pending-desc-long .desc-short-content {
+	margin-top: 10px;
+}
+
+.pending-desc-long .desc-content-about {
+	margin-top: 10px;
+}
+
+.pending-desc-short {
+	width: 700px;
+}
+
+.pending-status-short {
+	width: 200px;
+	text-align: center;
+}
+
+.npo-pending-wrapper {
+
+	margin: 0px auto;
+	margin-top: 50px;
+	margin-bottom: 100px;
+}
+
+.pending-description {
+	padding:  0px 30px 50px 30px;
+}
+
 .npo-profile-title-links {
 	position: absolute;
 	bottom: 0px;
@@ -1320,7 +1372,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 }
 
 .comment-content-wrap {
-	width: 575px;
+	width: 550px;
 	display: inline-block;
 	vertical-align: top;
 }
