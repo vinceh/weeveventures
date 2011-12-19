@@ -125,7 +125,6 @@ function weeve_account_change_password_form_submit(&$form, &$form_state) {
 
 function weeve_account_change_general_form() {
   global $user;
-  $settings = variable_get('weeve_account_setting_'. $user->uid, array());
 
   $user_edit_form = user_edit_form($form_state, $user->uid, (array)$user, FALSE);
 
@@ -146,7 +145,7 @@ function weeve_account_change_general_form() {
   $form['show_email'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show my email on my profile'),
-    '#default_value' => $settings['show_email'] ? $settings['show_email'] : FALSE,
+    '#default_value' => variable_get('account_show_email_'. $user->uid, TRUE),
   );
 
   $form['location'] = array(
@@ -158,21 +157,21 @@ function weeve_account_change_general_form() {
   $form['show_location'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show my location on my profile'),
-    '#default_value' => $settings['show_location'] ? $settings['show_location'] : FALSE,
+    '#default_value' => variable_get('account_show_location_'. $user->uid, TRUE),
   );
 
   $form['donation_statistics'] = array(
     '#type' => 'checkbox',
     '#title' => t('Donation Statistics'),
     '#description' => t('Show my donation statistics on my profile'),
-    '#default_value' => $settings['donation_statistics'] ? $settings['donation_statistics'] : FALSE,
+    '#default_value' => variable_get('account_donation_statistics_'. $user->uid, TRUE),
   );
 
   $form['donation_history'] = array(
     '#type' => 'checkbox',
     '#title' => t('Donation History'),
     '#description' => t('Allow others to view my donation history'),
-    '#default_value' => $settings['donation_history'] ? $settings['donation_history'] : FALSE,
+    '#default_value' => variable_get('account_donation_history_'. $user->uid, TRUE),
   );
 
   $form['picture'] = $user_edit_form['picture'];
@@ -200,20 +199,27 @@ function weeve_account_change_general_form_submit(&$form, &$form_state) {
   $email = $form_state['values']['email'];
   $picture = $form_state['values']['picture'];
 
-  $settings['show_email'] = $form_state['values']['show_email'];
-  $settings['show_location'] = $form_state['values']['show_location'];
-  $settings['donation_statistics'] = $form_state['values']['donation_statistics'];
-  $settings['donation_history'] = $form_state['values']['donation_history'];
-
-  variable_set('weeve_account_setting_'. $user->uid, $settings);
-
-
+  variable_set('account_show_email_'. $user->uid, $form_state['values']['show_email']);
+  variable_set('account_show_location_'. $user->uid, $form_state['values']['show_location']);
+  variable_set('account_donation_statistics_'. $user->uid, $form_state['values']['donation_statistics']);
+  variable_set('account_donation_history_'. $user->uid, $form_state['values']['donation_history']);
 
   $edit = array(
     'name' => $name,
     'mail' => $email,
-    'picture' => $picture,
   );
+
+  if ($picture) {
+    $edit['picture'] = $picture;
+  }
+
+  if ($form_state['values']['picture_delete']) {
+    if ($user->picture && file_exists($user->picture)) {
+      file_delete($user->picture);
+    }
+    $edit['picture'] = '';
+  }
+
   _user_edit_submit($user->uid, $form_state['values']);
   $user = user_save($user, $edit);
 
@@ -228,7 +234,13 @@ function weeve_account_page($uid = null) {
   }
 
   $account_type = weeve_account_check_type($user);
-  $settings = variable_get('weeve_account_setting_'. $user->uid, array());
+  $settings = array(
+    'show_email' => variable_get('account_show_email_'. $user->uid, TRUE),
+    'show_location' => variable_get('account_show_location_'. $user->uid, TRUE),
+    'donation_statistics' => variable_get('account_donation_statistics_'. $user->uid, TRUE),
+    'donation_history' => variable_get('account_donation_history_'. $user->uid, TRUE),
+  );
+
   $profile = content_profile_load('profile', $user->uid);
 
   if ($user->picture) {
