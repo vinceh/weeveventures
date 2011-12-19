@@ -1,6 +1,22 @@
 <?php
 define('VOCABULARY_PROJECT_CATEGORIES_ID', 1);
 
+function _weeve_project_autoload($className) {
+  $path = explode('_', $className);
+  $file .= implode("/", $path) . '.php';
+	include $file;
+}
+
+function weeve_project_init() {
+  set_include_path(
+    dirname($_SERVER['SCRIPT_FILENAME']) . "/sites/all/libraries"
+		. PATH_SEPARATOR . get_include_path()
+  );
+
+  include_once 'Zend/Loader/Autoloader.php';
+  Zend_Loader_Autoloader::getInstance()->setDefaultAutoloader('_weeve_project_autoload');
+}
+
 function weeve_project_menu() {
   $items = array();
 
@@ -105,12 +121,44 @@ function weeve_project_theme() {
     'weeve_project_terms_form' => array(
       'arguments' => array('form' => null),
       'template' => 'tpl/terms_form'
+    ),
+    'weeve_project_menu' => array(
+      'arguments' => array('nid' => null, 'edit' => false),
+      'template' => 'tpl/project_menu'
     )
   );
 }
 
+function weeve_project_menu_html($nid, $edit = null) {
+  if ($edit == null) {
+    global $user;
+    $node = node_load(array('nid' => $nid));
+    $edit = node_access('update', $node);
+  }
+
+  return theme('weeve_project_menu', $nid, $edit);
+}
+
 function theme_weeve_project_terms_form($form) {
   return theme('weeve_project_terms_form', $form);
+}
+
+/**
+ * Implementation of hook_block().
+ */
+function weeve_project_block($op = 'list', $delta = 0) {
+  if ($op == 'list') {
+    $blocks[0]['info'] = t('Project information');
+    // Not worth caching.
+    $blocks[0]['cache'] = BLOCK_NO_CACHE;
+    return $blocks;
+  }
+  else if ($op == 'view') {
+    $block['subject'] = t('Syndicate');
+    $block['content'] = theme('feed_icon', url('rss.xml'), t('Syndicate'));
+
+    return $block;
+  }
 }
 
 function weeve_project_terms_form() {

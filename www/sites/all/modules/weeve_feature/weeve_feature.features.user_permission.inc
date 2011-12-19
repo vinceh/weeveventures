@@ -448,37 +448,49 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit field_account_type
   $permissions['edit field_account_type'] = array(
     'name' => 'edit field_account_type',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_npo_code
   $permissions['edit field_npo_code'] = array(
     'name' => 'edit field_npo_code',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_npo_name
   $permissions['edit field_npo_name'] = array(
     'name' => 'edit field_npo_name',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_npo_number
   $permissions['edit field_npo_number'] = array(
     'name' => 'edit field_npo_number',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_npo_representative_name
   $permissions['edit field_npo_representative_name'] = array(
     'name' => 'edit field_npo_representative_name',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_npo_website
   $permissions['edit field_npo_website'] = array(
     'name' => 'edit field_npo_website',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_project_amount_need
@@ -510,19 +522,26 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit field_project_image
   $permissions['edit field_project_image'] = array(
     'name' => 'edit field_project_image',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'npo',
+    ),
   );
 
   // Exported permission: edit field_project_percent_pledge
   $permissions['edit field_project_percent_pledge'] = array(
     'name' => 'edit field_project_percent_pledge',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_project_proposal
   $permissions['edit field_project_proposal'] = array(
     'name' => 'edit field_project_proposal',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_project_start
@@ -537,7 +556,26 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit field_project_status
   $permissions['edit field_project_status'] = array(
     'name' => 'edit field_project_status',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: edit field_project_updates
+  $permissions['edit field_project_updates'] = array(
+    'name' => 'edit field_project_updates',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: edit field_project_video
+  $permissions['edit field_project_video'] = array(
+    'name' => 'edit field_project_video',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'npo',
+    ),
   );
 
   // Exported permission: edit field_proposal_back
@@ -570,7 +608,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit field_proposal_project
   $permissions['edit field_proposal_project'] = array(
     'name' => 'edit field_proposal_project',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_proposal_project_funds
@@ -590,10 +630,21 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
+  // Exported permission: edit field_update_project
+  $permissions['edit field_update_project'] = array(
+    'name' => 'edit field_update_project',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'npo',
+    ),
+  );
+
   // Exported permission: edit field_user_full_name
   $permissions['edit field_user_full_name'] = array(
     'name' => 'edit field_user_full_name',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit own page content
@@ -755,37 +806,55 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: view field_account_type
   $permissions['view field_account_type'] = array(
     'name' => 'view field_account_type',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+    ),
   );
 
   // Exported permission: view field_npo_code
   $permissions['view field_npo_code'] = array(
     'name' => 'view field_npo_code',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+    ),
   );
 
   // Exported permission: view field_npo_name
   $permissions['view field_npo_name'] = array(
     'name' => 'view field_npo_name',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+    ),
   );
 
   // Exported permission: view field_npo_number
   $permissions['view field_npo_number'] = array(
     'name' => 'view field_npo_number',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+    ),
   );
 
   // Exported permission: view field_npo_representative_name
   $permissions['view field_npo_representative_name'] = array(
     'name' => 'view field_npo_representative_name',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+    ),
   );
 
   // Exported permission: view field_npo_website
   $permissions['view field_npo_website'] = array(
     'name' => 'view field_npo_website',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+    ),
   );
 
   // Exported permission: view field_project_amount_need
@@ -821,19 +890,28 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: view field_project_image
   $permissions['view field_project_image'] = array(
     'name' => 'view field_project_image',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+    ),
   );
 
   // Exported permission: view field_project_percent_pledge
   $permissions['view field_project_percent_pledge'] = array(
     'name' => 'view field_project_percent_pledge',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+    ),
   );
 
   // Exported permission: view field_project_proposal
   $permissions['view field_project_proposal'] = array(
     'name' => 'view field_project_proposal',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+    ),
   );
 
   // Exported permission: view field_project_start
@@ -849,6 +927,18 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: view field_project_status
   $permissions['view field_project_status'] = array(
     'name' => 'view field_project_status',
+    'roles' => array(),
+  );
+
+  // Exported permission: view field_project_updates
+  $permissions['view field_project_updates'] = array(
+    'name' => 'view field_project_updates',
+    'roles' => array(),
+  );
+
+  // Exported permission: view field_project_video
+  $permissions['view field_project_video'] = array(
+    'name' => 'view field_project_video',
     'roles' => array(),
   );
 
@@ -885,7 +975,10 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: view field_proposal_project
   $permissions['view field_proposal_project'] = array(
     'name' => 'view field_proposal_project',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+    ),
   );
 
   // Exported permission: view field_proposal_project_funds
@@ -907,10 +1000,23 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
+  // Exported permission: view field_update_project
+  $permissions['view field_update_project'] = array(
+    'name' => 'view field_update_project',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'npo',
+    ),
+  );
+
   // Exported permission: view field_user_full_name
   $permissions['view field_user_full_name'] = array(
     'name' => 'view field_user_full_name',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
+    ),
   );
 
   // Exported permission: view imagecache scale_crop_215x150
