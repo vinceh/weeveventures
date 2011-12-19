@@ -16,6 +16,10 @@ body{
 	border-bottom: 1px solid #ddd;
 }
 
+.weevedisabled {
+	opacity: 0.5;
+}
+
 .weeveblue {
 	color: #00a0ce;
 }
@@ -175,6 +179,45 @@ a {
 	margin-bottom: 20px;
 }
 
+.signup-choices-wrap {
+	margin: 50px 0px 70px 0px;
+}
+
+.signup-choice-wrap {
+	display: inline-block;
+	width: 250px;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	margin: 0px 22px;
+	box-shadow: 0px 0px 4px #aaaaaa;
+}
+
+.signup-choice-wrap:hover {
+	box-shadow: 0px 0px 10px #777777;
+	background-color: #f8f8f8;
+	cursor: pointer;
+}
+
+.choice-title {
+	text-align: center;
+	margin-top: 15px;
+	font-size: 25px;
+}
+
+.choice-img {
+	margin-top: 15px;
+	text-align: center;
+}
+
+.signup-choice-wrap img {
+	text-align: center;
+	height: 100px;
+}
+
+.choice-description {
+	margin: 15px 20px;
+	text-align: center;
+}
 
 /* signup user */
 
@@ -211,7 +254,8 @@ a {
 }
 
 .signup-header {
-	margin-top: 30px;
+	text-align: center;
+	margin-top: 50px;
 	padding-bottom: 10px;
 }
 
@@ -1223,6 +1267,54 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 
 /* npo profile NEW */
 
+.npo-pending-wrapper table {
+	border-spacing: 0px;
+}
+
+.npo-pending-wrapper td {
+	border-bottom: 1px solid #ddd;
+}
+
+.npo-pending-wrapper tr:first-child td {
+	border-top: 1px solid #ddd;
+}
+
+.npo-pending-wrapper tr:hover {
+	background-color: #f6f6f6;
+}
+
+.desc-short-wrap {
+	margin: 30px;
+}
+
+.pending-desc-long .desc-short-content {
+	margin-top: 10px;
+}
+
+.pending-desc-long .desc-content-about {
+	margin-top: 10px;
+}
+
+.pending-desc-short {
+	width: 700px;
+}
+
+.pending-status-short {
+	width: 200px;
+	text-align: center;
+}
+
+.npo-pending-wrapper {
+
+	margin: 0px auto;
+	margin-top: 50px;
+	margin-bottom: 100px;
+}
+
+.pending-description {
+	padding:  0px 30px 50px 30px;
+}
+
 .npo-profile-title-links {
 	position: absolute;
 	bottom: 0px;
@@ -1320,7 +1412,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 }
 
 .comment-content-wrap {
-	width: 575px;
+	width: 550px;
 	display: inline-block;
 	vertical-align: top;
 }
