@@ -35,6 +35,25 @@ function weeve_project_menu_alter($items) {
   $items['node/add/project-request']['access callback'] = 'weeve_project_proposal_valid';
 
   $items['node/add/project']['access callback'] = 'weeve_project_project_valid';
+
+  $items['node/%node']['page callback'] = 'weeve_node_page_view';
+}
+
+function weeve_node_page_view($node, $cid = NULL) {
+  drupal_set_title(check_plain($node->title));
+  return weeve_node_show($node, $cid);
+}
+
+function weeve_node_show($node, $cid, $message = FALSE) {
+  if ($message) {
+    drupal_set_title(t('Revision of %title from %date', array('%title' => $node->title, '%date' => format_date($node->revision_timestamp))));
+  }
+  $output = node_view($node, FALSE, TRUE);
+
+  // Update the history table, stating that this user viewed this node.
+  node_tag_new($node->nid);
+
+  return $output;
 }
 
 function weeve_project_project_valid() {
@@ -102,7 +121,7 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   global $user;
   if ($op == 'view' && $user->uid == $node->uid && $node->type == 'project_request') {
     if (_weeve_project_is_allowed_create_project ()) {
-      $node->project_link = true;
+      $node->project_link = true;      
     }
   }
 
@@ -113,6 +132,14 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     $proposal->field_proposal_project[0]['nid'] = $node->nid;
     $proposal->field_proposal_status[0]['value'] = 'running';
     node_save($proposal);
+  }
+
+  if ($op == 'view' && $node->type == 'project') {
+    $node->native_body = $node->body;
+  }
+
+  if ($op == 'view' && $node->type == 'project_update') {
+    $node->native_body = $node->body;
   }
 }
 
@@ -125,6 +152,10 @@ function weeve_project_theme() {
     'weeve_project_menu' => array(
       'arguments' => array('nid' => null, 'edit' => false),
       'template' => 'tpl/project_menu'
+    ),
+    'weeve_project_info_block' => array(
+      'arguments' => array('node' => null),
+      'template' => 'tpl/project_info_block'
     )
   );
 }
@@ -154,12 +185,19 @@ function weeve_project_block($op = 'list', $delta = 0) {
     return $blocks;
   }
   else if ($op == 'view') {
-    $block['subject'] = t('Syndicate');
-    $block['content'] = theme('feed_icon', url('rss.xml'), t('Syndicate'));
+    $block['subject'] = '';
+    $node = node_load(array('nid' => arg(1)));
+    $date_time = date_parse_from_format('Y-m-d\TH:i:s', $node->field_project_end[0]['value']);
+    $timestamp = mktime((int)$date_time['hour'], (int)$date_time['minute'], (int)$date_time['second'], (int)$date_time['month'], (int)$date_time['day'], (int)$date_time['year']);
+
+    $node->days_left = round(($timestamp - time()) / 86400);
+    $block['content'] = theme('weeve_project_info_block', $node);
 
     return $block;
   }
 }
+
+
 
 function weeve_project_terms_form() {
   if (_weeve_project_is_allowed_create_project()) {

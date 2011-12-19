@@ -11,19 +11,21 @@
 }
 
 #center .center-left {
-  width: 600px;
+  width: 580px;
   padding: 15px;
   float: left;
 }
 
 #center .center-right {
-  width: 254px;
+  width: 274px;
   padding: 8px;
   background-color: #F2F2F2;
   float: left;
 }
 
-div.page-node-project h2.title, div.project-updates-page .attachment .views-field-title {
+div.page-node-project h2.title,
+div.project-updates-page .attachment .views-field-title,
+div.project-comments-page .attachment .views-field-title {
   font-size: 40px;
   font-weight: normal;
   color: #555;
@@ -52,4 +54,26 @@ ul.project-node-menu a {
 ul.project-node-menu a:hover, ul.project-node-menu a.active {
   color: #0285AB;
   background-color: #ddd;
+}
+
+.node.project .project-body {
+  font-size: 16px;
+  color: #555; 
+}
+
+div.project-updates-page .views-field-title {
+  font-size: 25px;
+}
+
+div.project-updates-page .views-field-title a {
+  color: #333;
+}
+
+div.project-updates-page .view-display-id-attachment_1 {
+  margin-bottom: 20px;
+}
+
+div.project-updates-page div.views-field-created {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
 }

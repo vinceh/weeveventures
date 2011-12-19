@@ -24,7 +24,7 @@
     <div id="wrapper">
     <div id="container" class="clear-block page-node-project">
       <?php if ($left): ?>
-        <div id="sidebar-left" class="sidebar">          
+        <div id="sidebar-left" class="sidebar">
           <?php print $left ?>
         </div>
       <?php endif; ?>

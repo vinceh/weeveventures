@@ -41,14 +41,18 @@ function phptemplate_breadcrumb($breadcrumb) {
  */
 function phptemplate_preprocess_page(&$vars) {
   global $user;
-  $vars['tabs2'] = menu_secondary_local_tasks();
 
   if ($vars['node']->type != "") {
     $vars['template_files'][] = "page-node-" . $vars['node']->type;
   }
-
+  print_r($vars); exit;
   if ($vars['node']->type == 'project') {
     $vars['node_menu'] = weeve_project_menu_html($vars['node']->nid);
+  }
+
+  if ($vars['node']->type == 'project_update') {
+    $vars['node_menu'] = weeve_project_menu_html($vars['node']->field_update_project[0]['nid']);
+    $vars['title'] = $vars['node']->field_update_project[0]['safe']['title'];
   }
 }
 

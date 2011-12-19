@@ -9,7 +9,9 @@
 
 <body>
 	<div id="header-region" class="clear-block">
-    <div id="header"><?php print $header; ?></div>
+    <div id="header">
+  <div class="site-title"><?= l(t('Weeve'), trim(base_path(), '/')); ?></div>
+  <?php print $header; ?></div>
   </div>
 
     <div id="wrapper">
