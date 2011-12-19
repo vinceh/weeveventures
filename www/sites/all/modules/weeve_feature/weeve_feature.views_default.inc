@@ -723,6 +723,88 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['path'] = 'home';
+
+  /* Display: Projects by user */
+  $handler = $view->new_display('block', 'Projects by user', 'npo_projects');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Node: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['nid']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['nid']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['nid']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['nid']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['nid']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['nid']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['nid']['link_to_node'] = 0;
+  /* Field: Content: Amount pledged (field_project_amount_pledge) */
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['id'] = 'field_project_amount_pledge_amount';
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['table'] = 'node_data_field_project_amount_pledge';
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['field'] = 'field_project_amount_pledge_amount';
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['link_to_node'] = 0;
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['label_type'] = 'custom';
+  $handler->display->display_options['fields']['field_project_amount_pledge_amount']['format'] = 'unformatted';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Argument: Node: User posted or commented */
+  $handler->display->display_options['arguments']['uid_touch']['id'] = 'uid_touch';
+  $handler->display->display_options['arguments']['uid_touch']['table'] = 'node';
+  $handler->display->display_options['arguments']['uid_touch']['field'] = 'uid_touch';
+  $handler->display->display_options['arguments']['uid_touch']['default_action'] = 'empty';
+  $handler->display->display_options['arguments']['uid_touch']['style_plugin'] = 'default_summary';
+  $handler->display->display_options['arguments']['uid_touch']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['uid_touch']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['uid_touch']['validate_type'] = 'user';
+  $handler->display->display_options['arguments']['uid_touch']['validate_options']['restrict_roles'] = 0;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter: Node: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'project' => 'project',
+  );
+  /* Filter: Content: Status (field_project_status) - Allowed values */
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['id'] = 'field_project_status_value_many_to_one';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['table'] = 'node_data_field_project_status';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['field'] = 'field_project_status_value_many_to_one';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['value'] = array(
+    'accept' => 'accept',
+  );
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['reduce_duplicates'] = 0;
   $translatables['featured_projects'] = array(
     t('Defaults'),
     t('more'),
@@ -746,6 +828,8 @@ return round(($timestamp - time()) / 86400);
     t('$0'),
     t('[phpcode]
 <div class="days-left">days left</div>'),
+    t('Projects by user'),
+    t('All'),
   );
 
   $views[$view->name] = $view;
