@@ -86,6 +86,17 @@ function weeve_feature_node_info() {
       'min_word_count' => '0',
       'help' => '',
     ),
+    'webform' => array(
+      'name' => t('Webform'),
+      'module' => 'features',
+      'description' => t('Create a new form or questionnaire accessible to users. Submission results and statistics are recorded and accessible to privileged users.'),
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'has_body' => '1',
+      'body_label' => t('Body'),
+      'min_word_count' => '0',
+      'help' => '',
+    ),
   );
   return $items;
 }
