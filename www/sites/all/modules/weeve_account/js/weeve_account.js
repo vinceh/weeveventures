@@ -62,7 +62,7 @@
 
     $('body', context).bind('click', function (e) {
       if (e.target.tagName == "A" || e.target.tagName == "INPUT" || $(e.target).hasClass('login-button')) {
-        return false;
+
       } else {
         LoginForm.hideForm();
       }

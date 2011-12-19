@@ -65,7 +65,7 @@ function weeve_feature_node_info() {
       'help' => '',
     ),
     'project_request' => array(
-      'name' => t('Proposal'),
+      'name' => t('Project request'),
       'module' => 'features',
       'description' => '',
       'has_title' => '1',

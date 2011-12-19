@@ -65,7 +65,7 @@ function weeve_feature_menu_default_menu_links() {
     'menu_name' => 'menu-top-menu',
     'link_path' => 'user',
     'router_path' => 'user',
-    'link_title' => 'profile',
+    'link_title' => 'account',
     'options' => array(
       'attributes' => array(
         'title' => '',
@@ -80,10 +80,10 @@ function weeve_feature_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
+  t('account');
   t('create project');
   t('log out');
   t('organizations');
-  t('profile');
 
 
   return $menu_links;
