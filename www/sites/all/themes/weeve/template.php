@@ -40,20 +40,23 @@ function phptemplate_breadcrumb($breadcrumb) {
  * Override or insert PHPTemplate variables into the templates.
  */
 function phptemplate_preprocess_page(&$vars) {
+  global $user;
   $vars['tabs2'] = menu_secondary_local_tasks();
 
-  // Hook into color.module
-  if (module_exists('color')) {
-    _color_page_alter($vars);
+  if ($vars['node']->type != "") {
+    $vars['template_files'][] = "page-node-" . $vars['node']->type;
+  }
+
+  if ($vars['node']->type == 'project') {
+    $vars['node_menu'] = weeve_project_menu_html($vars['node']->nid);
   }
 }
 
-/**
- * Add a "Comments" heading above comments except on forum pages.
- */
-function garland_preprocess_comment_wrapper(&$vars) {
-  if ($vars['content'] && $vars['node']->type != 'forum') {
-    $vars['content'] = '<h2 class="comments">'. t('Comments') .'</h2>'.  $vars['content'];
+function phptemplate_preprocess_node(&$vars) {
+  global $user;
+
+  if ($user->uid == $vars['node']->uid) {
+    $vars['node']->is_author = true;
   }
 }
 

@@ -978,13 +978,12 @@ corp|Corporate',
     'multiple' => '0',
     'module' => 'computed_field',
     'active' => '1',
-    'code' => 'if ($node->field_project_amount_need[0][\'value\'] > 0) {
-  $node_field[0][\'value\'] = round(($node->field_project_amount_pledge[0][\'value\'] / $node->field_project_amount_need[0][\'value\']) * 100);
-} else {
-  $node_field[0][\'value\'] = 0;
-}
+    'code' => '$node_field[0][\'value\'] = 0;
 
-  $node_field[0][\'value\'] = (int)$node->field_project_amount_need[0][\'value\'];',
+if ($node->field_project_amount_need[0][\'amount\'] > 0) {
+  $ratio = ((int)$node->field_project_amount_pledge[0][\'amount\']) / ((int)$node->field_project_amount_need[0][\'amount\']);
+  $node_field[0][\'value\'] = round($ratio * 100);
+}',
     'display_format' => '$display = $node_field_item[\'value\'];',
     'store' => 1,
     'data_type' => 'int',
@@ -1175,6 +1174,136 @@ archive|Archived',
       'description' => '',
       'type' => 'optionwidgets_select',
       'module' => 'optionwidgets',
+    ),
+  );
+
+  // Exported field: field_project_updates
+  $fields['project-field_project_updates'] = array(
+    'field_name' => 'field_project_updates',
+    'type_name' => 'project',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'nodereference',
+    'required' => '0',
+    'multiple' => '1',
+    'module' => 'nodereference',
+    'active' => '1',
+    'referenceable_types' => array(
+      'project_update' => 'project_update',
+      'page' => 0,
+      'profile' => 0,
+      'project' => 0,
+      'project_request' => 0,
+    ),
+    'advanced_view' => '--',
+    'advanced_view_args' => '',
+    'widget' => array(
+      'autocomplete_match' => 'contains',
+      'size' => '60',
+      'default_value' => array(
+        '0' => array(
+          'nid' => NULL,
+          '_error_element' => 'default_value_widget][field_project_updates][0][nid][nid',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Updates',
+      'weight' => '41',
+      'description' => '',
+      'type' => 'nodereference_autocomplete',
+      'module' => 'nodereference',
+    ),
+  );
+
+  // Exported field: field_project_video
+  $fields['project-field_project_video'] = array(
+    'field_name' => 'field_project_video',
+    'type_name' => 'project',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'video_upload',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'video_upload',
+    'active' => '1',
+    'list_field' => '0',
+    'list_default' => 1,
+    'description_field' => '0',
+    'widget' => array(
+      'file_extensions' => 'mov avi mp4 mpa mpe mpg mpeg qt wmv',
+      'file_path' => 'youtube_videos/[uid]',
+      'progress_indicator' => 'bar',
+      'max_filesize_per_file' => '',
+      'max_filesize_per_node' => '',
+      'video_category' => 'Entertainment',
+      'auto_delete_rejected_videos' => 0,
+      'remove_deleted_videos' => 0,
+      'use_browser_upload_method' => FALSE,
+      'default_title' => '[title]',
+      'default_description' => '',
+      'default_keywords' => 'weeve',
+      'developer_tags' => '',
+      'display' => array(
+        'default_width' => '480',
+        'default_height' => '295',
+        'small_width' => '240',
+        'small_height' => '148',
+        'thumb_width' => '128',
+        'thumb_height' => '72',
+        'related_videos' => 0,
+        'autoplay' => 0,
+        'fullscreen' => 1,
+      ),
+      'default_title_sync' => '1',
+      'default_description_sync' => '2',
+      'default_keyword_sync' => '2',
+      'label' => 'Video',
+      'weight' => '40',
+      'description' => '',
+      'type' => 'video_upload_widget',
+      'module' => 'video_upload',
     ),
   );
 
@@ -1512,6 +1641,64 @@ decline|Declined
     ),
   );
 
+  // Exported field: field_update_project
+  $fields['project_update-field_update_project'] = array(
+    'field_name' => 'field_update_project',
+    'type_name' => 'project_update',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'nodereference',
+    'required' => '1',
+    'multiple' => '0',
+    'module' => 'nodereference',
+    'active' => '1',
+    'referenceable_types' => array(
+      'project' => 'project',
+      'page' => 0,
+      'profile' => 0,
+      'project_request' => 0,
+      'project_update' => 0,
+    ),
+    'advanced_view' => 'author_projects',
+    'advanced_view_args' => '',
+    'widget' => array(
+      'autocomplete_match' => 'contains',
+      'size' => 60,
+      'default_value' => array(
+        '0' => array(
+          'nid' => '',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Project',
+      'weight' => '31',
+      'description' => '',
+      'type' => 'nodereference_select',
+      'module' => 'nodereference',
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Account type');
@@ -1524,6 +1711,7 @@ decline|Declined
   t('Full Name');
   t('Organization Name');
   t('Percent pledged');
+  t('Project');
   t('Project Proposal');
   t('Project funds');
   t('Project image');
@@ -1534,6 +1722,8 @@ decline|Declined
   t('Representative Name');
   t('Start date');
   t('Status');
+  t('Updates');
+  t('Video');
 
   return $fields;
 }

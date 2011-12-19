@@ -8,10 +8,12 @@ engine = phptemplate
 stylesheets[all][] = css/style.css
 stylesheets[all][] = css/layout.css
 stylesheets[all][] = css/weeve.css
+stylesheets[all][] = css/node.css
 
 regions[header] = Header
 regions[before_content] = Before Content
 regions[content] = Content
+regions[content_right] = Content right
 regions[after_content] = After Content
 regions[left] = Left
 regions[right] = Right

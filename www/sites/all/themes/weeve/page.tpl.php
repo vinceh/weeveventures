@@ -15,20 +15,20 @@
 
 <!-- Layout -->
   <div id="header-region" class="clear-block">
-    <div id="header"><?php print $header; ?></div>
+    <div id="header">
+  <?php if ($search_box): ?><div class="block block-theme"><?php print $search_box ?></div><?php endif; ?>
+  <?php print $header; ?></div>
   </div>
 
     <div id="wrapper">
     <div id="container" class="clear-block">
       <?php if ($left): ?>
-        <div id="sidebar-left" class="sidebar">
-          <?php if ($search_box): ?><div class="block block-theme"><?php print $search_box ?></div><?php endif; ?>
+        <div id="sidebar-left" class="sidebar">          
           <?php print $left ?>
         </div>
       <?php endif; ?>
 
       <div id="center"><div id="squeeze"><div class="right-corner"><div class="left-corner">
-          <?php print $breadcrumb; ?>
           <?php if ($mission): print '<div id="mission">'. $mission .'</div>'; endif; ?>
           <?php if ($tabs): print '<div id="tabs-wrapper" class="clear-block">'; endif; ?>
           <?php if ($title): print '<h2'. ($tabs ? ' class="with-tabs"' : '') .'>'. $title .'</h2>'; endif; ?>

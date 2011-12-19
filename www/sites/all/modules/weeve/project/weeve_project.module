@@ -1,6 +1,22 @@
 <?php
 define('VOCABULARY_PROJECT_CATEGORIES_ID', 1);
 
+function _weeve_project_autoload($className) {
+  $path = explode('_', $className);
+  $file .= implode("/", $path) . '.php';
+	include $file;
+}
+
+function weeve_project_init() {
+  set_include_path(
+    dirname($_SERVER['SCRIPT_FILENAME']) . "/sites/all/libraries"
+		. PATH_SEPARATOR . get_include_path()
+  );
+
+  include_once 'Zend/Loader/Autoloader.php';
+  Zend_Loader_Autoloader::getInstance()->setDefaultAutoloader('_weeve_project_autoload');
+}
+
 function weeve_project_menu() {
   $items = array();
 
@@ -105,12 +121,44 @@ function weeve_project_theme() {
     'weeve_project_terms_form' => array(
       'arguments' => array('form' => null),
       'template' => 'tpl/terms_form'
+    ),
+    'weeve_project_menu' => array(
+      'arguments' => array('nid' => null, 'edit' => false),
+      'template' => 'tpl/project_menu'
     )
   );
 }
 
+function weeve_project_menu_html($nid, $edit = null) {
+  if ($edit == null) {
+    global $user;
+    $node = node_load(array('nid' => $nid));
+    $edit = node_access('update', $node);
+  }
+
+  return theme('weeve_project_menu', $nid, $edit);
+}
+
 function theme_weeve_project_terms_form($form) {
   return theme('weeve_project_terms_form', $form);
+}
+
+/**
+ * Implementation of hook_block().
+ */
+function weeve_project_block($op = 'list', $delta = 0) {
+  if ($op == 'list') {
+    $blocks[0]['info'] = t('Project information');
+    // Not worth caching.
+    $blocks[0]['cache'] = BLOCK_NO_CACHE;
+    return $blocks;
+  }
+  else if ($op == 'view') {
+    $block['subject'] = t('Syndicate');
+    $block['content'] = theme('feed_icon', url('rss.xml'), t('Syndicate'));
+
+    return $block;
+  }
 }
 
 function weeve_project_terms_form() {
@@ -214,19 +262,105 @@ function _weeve_is_admin() {
 
 if (!function_exists('date_parse_from_format')) {
   function date_parse_from_format($format, $date) {
-    $dMask = array(
-      'H'=>'hour',
-      'i'=>'minute',
-      's'=>'second',
-      'y'=>'year',
-      'm'=>'month',
-      'd'=>'day'
-    );
-    $format = preg_split('//', $format, -1, PREG_SPLIT_NO_EMPTY);
-    $date = preg_split('//', $date, -1, PREG_SPLIT_NO_EMPTY);
-    foreach ($date as $k => $v) {
-      if ($dMask[$format[$k]]) $dt[$dMask[$format[$k]]] .= $v;
+    $i = 0;
+    $pos = 0;
+    $output = array();
+    while ($i < strlen($format)) {
+      $pat = substr($format, $i, 1);
+      $i++;
+      switch ($pat) {
+        case 'd': //    Day of the month, 2 digits with leading zeros    01 to 31
+          $output['day'] = substr($date, $pos, 2);
+          $pos+=2;
+          break;
+        case 'D': // A textual representation of a day: three letters    Mon through Sun
+          //TODO
+          break;
+        case 'j': //    Day of the month without leading zeros    1 to 31
+          $output['day'] = substr($date, $pos, 2);
+          if (!is_numeric($output['day']) || ($output['day'] > 31)) {
+            $output['day'] = substr($date, $pos, 1);
+            $pos--;
+          }
+          $pos+=2;
+          break;
+        case 'm': //    Numeric representation of a month: with leading zeros    01 through 12
+          $output['month'] = (int) substr($date, $pos, 2);
+          $pos+=2;
+          break;
+        case 'n': //    Numeric representation of a month: without leading zeros    1 through 12
+          $output['month'] = substr($date, $pos, 2);
+          if (!is_numeric($output['month']) || ($output['month'] > 12)) {
+            $output['month'] = substr($date, $pos, 1);
+            $pos--;
+          }
+          $pos+=2;
+          break;
+        case 'Y': //    A full numeric representation of a year: 4 digits    Examples: 1999 or 2003
+          $output['year'] = (int) substr($date, $pos, 4);
+          $pos+=4;
+          break;
+        case 'y': //    A two digit representation of a year    Examples: 99 or 03
+          $output['year'] = (int) substr($date, $pos, 2);
+          $pos+=2;
+          break;
+        case 'g': //    12-hour format of an hour without leading zeros    1 through 12
+          $output['hour'] = substr($date, $pos, 2);
+          if (!is_numeric($output['day']) || ($output['hour'] > 12)) {
+            $output['hour'] = substr($date, $pos, 1);
+            $pos--;
+          }
+          $pos+=2;
+          break;
+        case 'G': //    24-hour format of an hour without leading zeros    0 through 23
+          $output['hour'] = substr($date, $pos, 2);
+          if (!is_numeric($output['day']) || ($output['hour'] > 23)) {
+            $output['hour'] = substr($date, $pos, 1);
+            $pos--;
+          }
+          $pos+=2;
+          break;
+        case 'h': //    12-hour format of an hour with leading zeros    01 through 12
+          $output['hour'] = (int) substr($date, $pos, 2);
+          $pos+=2;
+          break;
+        case 'H': //    24-hour format of an hour with leading zeros    00 through 23
+          $output['hour'] = (int) substr($date, $pos, 2);
+          $pos+=2;
+          break;
+        case 'i': //    Minutes with leading zeros    00 to 59
+          $output['minute'] = (int) substr($date, $pos, 2);
+          $pos+=2;
+          break;
+        case 's': //    Seconds: with leading zeros    00 through 59
+          $output['second'] = (int) substr($date, $pos, 2);
+          $pos+=2;
+          break;
+        case 'l': // (lowercase 'L')    A full textual representation of the day of the week    Sunday through Saturday
+        case 'N': //    ISO-8601 numeric representation of the day of the week (added in PHP 5.1.0)    1 (for Monday) through 7 (for Sunday)
+        case 'S': //    English ordinal suffix for the day of the month: 2 characters    st: nd: rd or th. Works well with j
+        case 'w': //    Numeric representation of the day of the week    0 (for Sunday) through 6 (for Saturday)
+        case 'z': //    The day of the year (starting from 0)    0 through 365
+        case 'W': //    ISO-8601 week number of year: weeks starting on Monday (added in PHP 4.1.0)    Example: 42 (the 42nd week in the year)
+        case 'F': //    A full textual representation of a month: such as January or March    January through December
+        case 'u': //    Microseconds (added in PHP 5.2.2)    Example: 654321
+        case 't': //    Number of days in the given month    28 through 31
+        case 'L': //    Whether it's a leap year    1 if it is a leap year: 0 otherwise.
+        case 'o': //    ISO-8601 year number. This has the same value as Y: except that if the ISO week number (W) belongs to the previous or next year: that year is used instead. (added in PHP 5.1.0)    Examples: 1999 or 2003
+        case 'e': //    Timezone identifier (added in PHP 5.1.0)    Examples: UTC: GMT: Atlantic/Azores
+        case 'I': // (capital i)    Whether or not the date is in daylight saving time    1 if Daylight Saving Time: 0 otherwise.
+        case 'O': //    Difference to Greenwich time (GMT) in hours    Example: +0200
+        case 'P': //    Difference to Greenwich time (GMT) with colon between hours and minutes (added in PHP 5.1.3)    Example: +02:00
+        case 'T': //    Timezone abbreviation    Examples: EST: MDT ...
+        case 'Z': //    Timezone offset in seconds. The offset for timezones west of UTC is always negative: and for those east of UTC is always positive.    -43200 through 50400
+        case 'a': //    Lowercase Ante meridiem and Post meridiem    am or pm
+        case 'A': //    Uppercase Ante meridiem and Post meridiem    AM or PM
+        case 'B': //    Swatch Internet time    000 through 999
+        case 'M': //    A short textual representation of a month: three letters    Jan through Dec
+        default:
+          $pos++;
+      }
     }
-    return $dt;
+    return $output;
   }
 }
