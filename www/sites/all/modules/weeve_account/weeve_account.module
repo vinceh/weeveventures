@@ -1,6 +1,15 @@
 <?php
 
 /*
+ * Implementation hook_init
+ */
+function weeve_account_init() {
+  $path = drupal_get_path('module', 'weeve_account');
+  drupal_add_js($path .'/js/weeve_account.js');
+}
+
+
+/*
  * Implementation hook_menu
  */
 function weeve_account_menu() {
@@ -43,6 +52,14 @@ function weeve_account_menu() {
     'page callback' => 'weeve_account_donation_history_page',
     'type' => MENU_CALLBACK,
   );
+
+  $items['ajax/login'] = array(
+    'title' => '',
+    'access callback' => 'user_is_anonymous',
+    'page callback' => 'weeve_account_ajax_login',
+    'type' => MENU_CALLBACK,
+  );
+
 
   return $items;
 }
@@ -298,4 +315,23 @@ function weeve_account_donation_history_access($uid) {
 
 function weeve_account_donation_history_page() {
   return "Donation history";
+}
+
+function weeve_account_ajax_login() {
+  if (isset($_POST['name']) && check_plain($_POST['name']) && isset($_POST['pwd']) && check_plain($_POST['pwd'])) {
+    $name = $_POST['name'];
+    $pass = $_POST['pwd'];
+    $params = array('mail' => $name, 'pass' => $pass);
+
+    $account = user_load(array('mail' => $params['mail'], 'pass' => trim($params['pass']), 'status' => 1));
+    if ($account) {
+      $params['name'] = $account->name;
+      $account = user_authenticate($params);
+      $response = array('status' => TRUE, 'data' => $account);
+    }
+    else {
+      $response = array('status' => FALSE, 'data' => NULL);
+    }
+    drupal_json($response);
+  }
 }
