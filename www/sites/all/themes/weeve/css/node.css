@@ -1,0 +1,55 @@
+/* 
+    Document   : node
+    Created on : 16.12.2011, 14:39:03
+    Author     : Rusk
+*/
+
+/** PROJECT **/
+
+#center .left-corner {
+  margin-top: 40px;
+}
+
+#center .center-left {
+  width: 600px;
+  padding: 15px;
+  float: left;
+}
+
+#center .center-right {
+  width: 254px;
+  padding: 8px;
+  background-color: #F2F2F2;
+  float: left;
+}
+
+div.page-node-project h2.title, div.project-updates-page .attachment .views-field-title {
+  font-size: 40px;
+  font-weight: normal;
+  color: #555;
+  margin: 0px
+}
+
+ul.project-node-menu {
+  height: 45px;
+  background-color: #F2F2F2;
+  margin: 0px;
+  padding-left: 0px;
+}
+
+ul.project-node-menu li {
+  list-style-type: none;
+  float: left;
+}
+
+ul.project-node-menu a {
+  color: #00A0CE;
+  font-size: 18px;
+  padding: 11px 20px;
+  display: block;
+}
+
+ul.project-node-menu a:hover, ul.project-node-menu a.active {
+  color: #0285AB;
+  background-color: #ddd;
+}
