@@ -5,7 +5,7 @@
 </div>
 
 <div class='signup-choices-wrap'>
-		<a href='/signup/user' class='signup-choice-wrap'>
+		<a href="<?php print url('signup/user') ?>" class='signup-choice-wrap'>
 			<div class='choice-title weevetext'>I'm a user!</div>
 			<div class='choice-img'>
 				<img src='<?php print drupal_get_path('theme', 'weeve') .'/img/usericon.png'?>'/>
@@ -14,7 +14,7 @@
 				Discover, fund, and earn your way through social empathy!
 			</div>
 		</a>
-		<a href='/signup/npo' class='signup-choice-wrap'>
+		<a href="<?php print url('signup/npo'); ?>" class='signup-choice-wrap'>
 			<div class='choice-title weevetext'>I'm a non-profit!</div>
 			<div class='choice-img'>
 				<img src='<?php print drupal_get_path('theme', 'weeve') .'/img/npoicon.png' ?>'/>
@@ -23,7 +23,7 @@
 				Claim your page and start creating projects!
 			</div>
 		</a>
-		<a href="/signup/corp" class='signup-choice-wrap'>
+		<a href="<?php print url('signup/corp'); ?>" class='signup-choice-wrap'>
 			<div class='choice-title weevetext'>I'm a company!</div>
 			<div class='choice-img'>
 				<img src='<?php print drupal_get_path('theme', 'weeve') .'/img/corpicon.png' ?>'/>
