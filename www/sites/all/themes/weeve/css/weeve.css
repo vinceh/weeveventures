@@ -11,10 +11,6 @@ body{
 
 }
 
-a, a:visited {
-  color: #00A0CE;
-}
-
 .horizontal-line {
 	margin-top: 15px;
 	height: 1px;
@@ -286,9 +282,9 @@ a {
 }
 
 .signup-header {
-	margin-top: 30px;
-	padding-bottom: 30px;
-	border-bottom: 1px solid #ddd;
+	text-align: center;
+	margin-top: 50px;
+	padding-bottom: 10px;
 }
 
 .signup-form {
@@ -355,7 +351,7 @@ a {
 
 .login-box-wrap {
 	width: 200px;
-	height: 127px;
+	/*height: 127px;*/
 	border-left: 1px solid #bbb;
 	border-right: 1px solid #bbb;
 	border-bottom: 1px solid #bbb;
@@ -365,6 +361,13 @@ a {
 	background-color: white;
 	box-shadow: 0px 0px 5px #aaaaaa;
 	padding: 10px;
+}
+
+.login-box-wrap .login-error {
+  font-weight: bold;
+  color: red;
+  padding-bottom: 5px;
+  display: none;
 }
 
 .forgot-pass-link {
@@ -1380,13 +1383,42 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 	color: #aaa;
 }
 
+.signup-choices-wrap {
+	margin: 50px 0px 70px 0px;
+}
 
+.signup-choice-wrap {
+	display: inline-block;
+	width: 250px;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	margin: 0px 22px;
+	box-shadow: 0px 0px 4px #aaaaaa;
+}
 
+.signup-choice-wrap:hover {
+	box-shadow: 0px 0px 10px #777777;
+	background-color: #f8f8f8;
+	cursor: pointer;
+}
 
+.choice-title {
+	text-align: center;
+	margin-top: 15px;
+	font-size: 25px;
+}
 
+.choice-img {
+	margin-top: 15px;
+	text-align: center;
+}
 
+.signup-choice-wrap img {
+	text-align: center;
+	height: 100px;
+}
 
-
-
-
-
+.choice-description {
+	margin: 15px 20px;
+	text-align: center;
+}

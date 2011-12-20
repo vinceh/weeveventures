@@ -49,6 +49,7 @@
   background-color: #0285AB;  
 }
 
+
 #header .site-title {
 
   font-size: 25px;
@@ -60,4 +61,142 @@
   color: #fff;
 }
 
+/* Title */
+h2 {
+  color: #444444;
+  font-size: 45px;
+  font-weight: normal;
+}
+/* Tabs */
+ul.tabs {
+  border: none;
+  background-color: #EEEEEE;
+  height: 35px;
+  padding: 0 0 0 18px;
+  margin: 0;
+}
 
+ul.tabs li {
+  font-size: 17px;
+  height: 27px;
+  padding: 8px 15px 0;
+  display: inline-block;
+}
+
+ul.tabs li.active {
+  background-color: #DDDDDD;
+}
+
+ul.tabs li:hover, ul.tabs li:hover a{
+  background-color: #DDDDDD;
+}
+
+ul.tabs li.active a {
+  border: 0;
+  background: none
+}
+
+ul.tabs li a {
+  color: #00A0CE;
+  border: 0;
+  background: none
+}
+
+
+/*Change password form*/
+
+input.form-text {
+  border: 1px solid #A0A0A0;
+  border-radius: 5px 5px 5px 5px;
+  color: #444444;
+  font-size: 18px;
+  height: 30px;
+  outline-style: none;
+  padding: 3px 6px;
+  width: 350px;
+}
+
+#weeve-account-change-password-form {
+  overflow: hidden;
+	margin: 30px 230px 30px 30px;
+}
+
+#weeve-account-change-password-form .form-submit {
+  background: -moz-linear-gradient(center top , #37ABCC 0%, #00A0CE 51%, #008DB5 100%) repeat scroll 0 0 transparent;
+  background-color: #00A0CE;
+  border: medium none;
+  border-radius: 5px 5px 5px 5px;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  clear: both;
+  float: right;
+}
+
+#weeve-account-change-password-form .form-submit:hover {
+  cursor: pointer;
+  background-color: #0285ab;
+}
+
+#weeve-account-change-password-form .label {
+  float: left;
+}
+
+#weeve-account-change-password-form .label label {
+  font-size: 16px;
+  font-weight: normal;
+  padding: 6px 10px;
+  text-align: right;
+  width: 250px;
+}
+
+#weeve-account-change-password-form .field {
+  float: left;
+}
+
+#weeve-account-change-password-form .form-item {
+  overflow: hidden;
+}
+
+/*General account edit form*/
+#weeve-account-change-general-form {
+  overflow: hidden;
+	margin: 30px 230px 30px 30px;
+}
+
+#weeve-account-change-general-form .label {
+  float: left;
+}
+
+#weeve-account-change-general-form .label label {
+  font-size: 16px;
+  font-weight: normal;
+  padding: 6px 10px;
+  text-align: right;
+  width: 250px;
+}
+
+#weeve-account-change-general-form .field {
+  float: left;
+}
+
+#weeve-account-change-general-form .form-item {
+  overflow: hidden;
+}
+
+#weeve-account-change-general-form .form-submit {
+  background: -moz-linear-gradient(center top , #37ABCC 0%, #00A0CE 51%, #008DB5 100%) repeat scroll 0 0 transparent;
+  background-color: #00A0CE;
+  border: medium none;
+  border-radius: 5px 5px 5px 5px;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  clear: both;
+  float: right;
+}
+
+#weeve-account-change-general-form .form-submit:hover {
+  cursor: pointer;
+  background-color: #0285ab;
+}

@@ -84,6 +84,7 @@ function weeve_feature_menu_default_menu_links() {
     'link_path' => 'projects',
     'router_path' => 'projects',
     'link_title' => 'projects',
+
     'options' => array(
       'attributes' => array(
         'title' => '',
@@ -98,6 +99,7 @@ function weeve_feature_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
+  t('account');
   t('create project');
   t('log out');
   t('organizations');
