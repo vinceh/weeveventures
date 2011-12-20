@@ -1,0 +1,17 @@
+/* 
+    Document   : views
+    Created on : 19.12.2011, 15:21:36
+    Author     : Rusk
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.view-author-proposals table.views-table {
+  width: 100%;
+}
+
+.view-author-proposals table.views-table td,
+.view-author-proposals table.views-table th {
+  padding: 5px;
+}
+
