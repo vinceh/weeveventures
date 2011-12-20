@@ -825,6 +825,60 @@ corp|Corporate',
     ),
   );
 
+  // Exported field: field_project_donors
+  $fields['project-field_project_donors'] = array(
+    'field_name' => 'field_project_donors',
+    'type_name' => 'project',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'number_integer',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'number',
+    'active' => '1',
+    'prefix' => '',
+    'suffix' => '',
+    'min' => '0',
+    'max' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'default_value' => array(
+        '0' => array(
+          'value' => '0',
+          '_error_element' => 'default_value_widget][field_project_donors][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Donors',
+      'weight' => '42',
+      'description' => '',
+      'type' => 'number',
+      'module' => 'number',
+    ),
+  );
+
   // Exported field: field_project_end
   $fields['project-field_project_end'] = array(
     'field_name' => 'field_project_end',
@@ -1707,6 +1761,7 @@ decline|Declined
   t('Business Code');
   t('Business Number');
   t('Business Website');
+  t('Donors');
   t('End date');
   t('Full Name');
   t('Organization Name');

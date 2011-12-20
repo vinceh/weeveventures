@@ -24,6 +24,24 @@ function weeve_feature_menu_default_menu_links() {
     'expanded' => '0',
     'weight' => '-48',
   );
+  // Exported menu link: menu-top-menu:account
+  $menu_links['menu-top-menu:account'] = array(
+    'menu_name' => 'menu-top-menu',
+    'link_path' => 'account',
+    'router_path' => 'account',
+    'link_title' => 'profile',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '-49',
+  );
   // Exported menu link: menu-top-menu:logout
   $menu_links['menu-top-menu:logout'] = array(
     'menu_name' => 'menu-top-menu',
@@ -60,12 +78,12 @@ function weeve_feature_menu_default_menu_links() {
     'expanded' => '0',
     'weight' => '-50',
   );
-  // Exported menu link: menu-top-menu:user
-  $menu_links['menu-top-menu:user'] = array(
+  // Exported menu link: menu-top-menu:projects
+  $menu_links['menu-top-menu:projects'] = array(
     'menu_name' => 'menu-top-menu',
-    'link_path' => 'user',
-    'router_path' => 'user',
-    'link_title' => 'profile',
+    'link_path' => 'projects',
+    'router_path' => 'projects',
+    'link_title' => 'projects',
     'options' => array(
       'attributes' => array(
         'title' => '',
@@ -76,7 +94,7 @@ function weeve_feature_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '-49',
+    'weight' => '-47',
   );
   // Translatables
   // Included for use with string extractors like potx.
@@ -84,6 +102,7 @@ function weeve_feature_menu_default_menu_links() {
   t('log out');
   t('organizations');
   t('profile');
+  t('projects');
 
 
   return $menu_links;

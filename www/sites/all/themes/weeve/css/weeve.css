@@ -11,6 +11,10 @@ body{
 
 }
 
+a, a:visited {
+  color: #00A0CE;
+}
+
 .horizontal-line {
 	margin-top: 15px;
 	height: 1px;

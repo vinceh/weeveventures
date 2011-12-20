@@ -78,11 +78,6 @@ function weeve_feature_user_default_permissions() {
     'name' => 'access devel information',
     'roles' => array(
       '0' => 'admin',
-      '1' => 'anonymous user',
-      '2' => 'authenticated user',
-      '3' => 'corporate',
-      '4' => 'npo',
-      '5' => 'user',
     ),
   );
 
@@ -515,6 +510,12 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
+  // Exported permission: edit field_project_donors
+  $permissions['edit field_project_donors'] = array(
+    'name' => 'edit field_project_donors',
+    'roles' => array(),
+  );
+
   // Exported permission: edit field_project_end
   $permissions['edit field_project_end'] = array(
     'name' => 'edit field_project_end',
@@ -669,9 +670,7 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit own project content
   $permissions['edit own project content'] = array(
     'name' => 'edit own project content',
-    'roles' => array(
-      '0' => 'npo',
-    ),
+    'roles' => array(),
   );
 
   // Exported permission: edit own project_request content
@@ -880,6 +879,12 @@ function weeve_feature_user_default_permissions() {
       '1' => 'anonymous user',
       '2' => 'authenticated user',
     ),
+  );
+
+  // Exported permission: view field_project_donors
+  $permissions['view field_project_donors'] = array(
+    'name' => 'view field_project_donors',
+    'roles' => array(),
   );
 
   // Exported permission: view field_project_end
