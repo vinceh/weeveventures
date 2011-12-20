@@ -23,7 +23,7 @@ function weeve_account_menu() {
   );
 
   $items['account/change'] = array(
-    'title' => '',
+    'title' => 'Account Settings',
     'access callback' => 'weeve_account_access',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('weeve_account_change_general_form'),
@@ -31,13 +31,13 @@ function weeve_account_menu() {
   );
 
   $items['account/change/general'] = array(
-    'title' => 'General',
+    'title' => 'general',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => 0,
   );
 
   $items['account/change/password'] = array(
-    'title' => 'Password',
+    'title' => 'password',
     'access callback' => 'weeve_account_access',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('weeve_account_change_password_form'),
@@ -94,23 +94,26 @@ function weeve_account_change_password_form() {
     '#type' => 'password',
     '#title' => t('Current password'),
     '#description' => t('For security reasons'),
+    '#theme' => 'wevee_password_inline',
   );
 
   $form['new_pwd'] = array(
     '#type' => 'password',
     '#title' => t('New passsword'),
     '#description' => t('At least 7 characters with 1 number'),
+    '#theme' => 'wevee_password_inline',
   );
 
   $form['confirm_pwd'] = array(
     '#type' => 'password',
     '#title' => t('Confirm new password'),
     '#description' => t('Verification'),
+    '#theme' => 'wevee_password_inline',
   );
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Change'),
+    '#value' => t('Update'),
   );
 
   return $form;
@@ -151,12 +154,14 @@ function weeve_account_change_general_form() {
     '#type' => 'textfield',
     '#title' => t('Name'),
     '#default_value' => $user->name,
+    '#theme' => 'wevee_textfield_inline',
   );
 
   $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
     '#default_value' => $user->mail,
+    '#theme' => 'wevee_textfield_inline',
   );
 
   $form['show_email'] = array(
@@ -169,6 +174,7 @@ function weeve_account_change_general_form() {
     '#type' => 'textfield',
     '#title' => t('Location'),
     '#default_value' => '',
+    '#theme' => 'wevee_textfield_inline',
   );
 
   $form['show_location'] = array(
@@ -194,7 +200,7 @@ function weeve_account_change_general_form() {
   $form['picture'] = $user_edit_form['picture'];
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Change'),
+    '#value' => t('Update'),
     '#description' => '',
     '#weight' => 10,
   );
