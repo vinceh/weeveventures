@@ -16,7 +16,7 @@ function weeve_project_init() {
   include_once 'Zend/Loader/Autoloader.php';
   Zend_Loader_Autoloader::getInstance()->setDefaultAutoloader('_weeve_project_autoload');
 
-  if (arg(0) == 'my-projects') {
+  if (arg(2) == 'projects') {
     //NPO project page (views)
     drupal_add_js(drupal_get_path('module', 'weeve_project') . '/js/projects.js');
   }

@@ -64,7 +64,8 @@ function weeve_account_menu() {
 
   $items['account/%/projects'] = array(
     'title' => '',
-    'access callback' => 'weeve_account_access',
+    'access callback' => 'weeve_account_owner_access',
+    'access arguments' => array(1),
     'page callback' => 'weeve_account_projects_page',
     'page arguments' => array(1),
     'type' => MENU_CALLBACK,
@@ -347,6 +348,14 @@ function weeve_account_donation_history_access($uid) {
   return FALSE;
 }
 
+function weeve_account_owner_access($uid) {
+  global $user;
+  if ($user->uid == $uid) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
 /*
  * NPO Donation history page
  */
@@ -422,7 +431,7 @@ function weeve_account_projects_page($uid) {
   }
   $user->count_projects = count($view_result);
   $user->money = $money;
-  $content = "Projects here";
+  $content = views_embed_view('npo_project_proposals', 'page_1', $user->uid);
   $output = theme('weeve_npo_account_page', $user, $profile, $settings, $content);
   return $output;
 }

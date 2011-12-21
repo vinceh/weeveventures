@@ -10,8 +10,8 @@
 				<div class='npo-profile-title-links'>
           <?php if($user->uid == $account->uid): ?>
             <?php print l(t('Edit profile'), 'account/change', array('attributes' => array('class' => 'title-link weeve-link'))); ?>
+            <?php print l(t('Create new Project'), '#', array('attributes' => array('class' => 'title-link weeve-medium-button'))); ?>
           <?php endif; ?>
-          <?php print l(t('Create new Project'), '#', array('attributes' => array('class' => 'title-link weeve-medium-button'))); ?>
 				</div>
 			</div>
 	</div>
@@ -19,7 +19,9 @@
 	<div class='profile-links'>
       <?php print l(t('about'), 'account/'. $account->uid, array('attributes' => array('class' => 'profile-link'))); ?>
       <?php print l(t('history'), 'account/'. $account->uid .'/history', array('attributes' => array('class' => 'profile-link'))); ?>
-      <?php print l(t('projects'), 'account/'. $account->uid .'/projects', array('attributes' => array('class' => 'profile-link'))); ?>
+      <?php if($user->uid == $account->uid): ?>
+        <?php print l(t('pending projects'), 'account/'. $account->uid .'/projects', array('attributes' => array('class' => 'profile-link'))); ?>
+      <?php endif; ?>
 	</div>
 
 	<div class='npo-profile-content-wrap'>
