@@ -62,7 +62,8 @@ function weeve_feature_node_info() {
       'has_body' => '1',
       'body_label' => t('Description'),
       'min_word_count' => '0',
-      'help' => '',
+      'help' => t('<div class="subtitle">Fill out the detailed project information and we will review it once more</div>
+We are happy to bring your project on board to Weeve! Please fill out the following information and we will approve it once more before your project goes live. Remember that this is the exact information that users will be able to see, so please make sure it\'s detailed and complete. Upload media to help convince users to donate and create the visibility that you need to drive the project through!'),
     ),
     'project_request' => array(
       'name' => t('Proposal'),
