@@ -132,6 +132,26 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
 
     $form['field_project_proposal']['#value'][0]['nid'] = $proposal_nid;
     $form['#submit'][] = 'weeve_project_project_add_submit';
+    
+    //Change fields
+    $form['title']['#title'] = t("What's your project title?");
+    $form['taxonomy'][VOCABULARY_PROJECT_CATEGORIES_ID]['#title'] = t('Project category');
+
+    $form['field_project_image']['#title'] = t("You need a project image that users can see when viewing your projects along with others. Make sure it's a clear image that generally describes what your project aims to do.");
+    $form['field_project_image'][0]['#title'] = t("You need a project image that users can see when viewing your projects along with others. Make sure it's a clear image that generally describes what your project aims to do.");
+    $form['field_project_video']['#title'] = t("Although video is optional, we strongly recommend creating a video that talks to users. 90% of projects with videos reach their goal whereas only 50% of projects without videos do.");
+    $form['field_project_video'][0]['#title'] = t("Although video is optional, we strongly recommend creating a video that talks to users. 90% of projects with videos reach their goal whereas only 50% of projects without videos do.");
+    $form['field_project_end']['#title'] = t("What is end date of your project to be funded?");
+    $form['field_project_end'][0]['#title'] = t("What is end date of your project to be funded?");
+
+    $form['field_project_amount_need']['#title'] = t("What is the exact amount of money you would like to raise?");
+    $form['field_project_amount_need'][0]['#title'] = t("What is the exact amount of money you would like to raise?");
+    $form['body_field']['body']['#title'] = t("State your project details; give a background to what the project is about, how it's relevant to society and how it helps forward the community. Tell people your goals, milestones, and tangible items (if they are tangible) that you will produce. Add images to help tell a story and convince donors to fund your project");
+    $form['buttons']['submit']['#value'] = t('Submit Project');
+    unset($form['body_field']['teaser_js']);
+    unset($form['body_field']['teaser_include']);
+    unset($form['body_field']['format']);
+    unset($form['buttons']['preview']);
   }
 
   if ($form_id == 'project_request_node_form' && arg(1) == 'add') {
