@@ -16,18 +16,13 @@
 <!-- Layout -->
   <div id="header-region" class="clear-block">
     <div id="header">
-      <div class="site-title"><?= l(t('Weeve'), trim(base_path(), '/')); ?></div>
+      <div class="site-title"><?= l(t('Weeve'), ''); ?></div>
   <?php if ($search_box): ?><div class="block block-theme"><?php print $search_box ?></div><?php endif; ?>
   <?php print $header; ?></div>
   </div>
 
     <div id="wrapper">
-    <div id="container" class="clear-block">
-      <?php if ($left): ?>
-        <div id="sidebar-left" class="sidebar">          
-          <?php print $left ?>
-        </div>
-      <?php endif; ?>
+    <div id="container" class="clear-block">      
 
       <div id="center"><div id="squeeze"><div class="right-corner"><div class="left-corner">
           <?php if ($mission): print '<div id="mission">'. $mission .'</div>'; endif; ?>
@@ -37,9 +32,15 @@
           <?php if ($tabs2): print '<ul class="tabs secondary">'. $tabs2 .'</ul>'; endif; ?>
           <?php if ($show_messages && $messages): print $messages; endif; ?>
           <?php print $help; ?>
-          <div class="clear-block">
+          <?php if ($left): ?>
+            <div id="sidebar-left" class="sidebar">
+              <?php print $left ?>
+            </div>
+          <?php endif; ?>
+          <div class="clear-block" id="main-content">
             <?php print $content ?>
           </div>
+          <div class="clear-block">&nbsp;</div>
           <?php print $feed_icons ?>
           <div id="footer"><?php print $footer_message . $footer ?></div>
       </div></div></div></div> <!-- /.left-corner, /.right-corner, /#squeeze, /#center -->

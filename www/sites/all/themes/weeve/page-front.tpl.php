@@ -10,7 +10,7 @@
 <body>
 	<div id="header-region" class="clear-block">
     <div id="header">
-  <div class="site-title"><?= l(t('Weeve'), trim(base_path(), '/')); ?></div>
+  <div class="site-title"><?= l(t('Weeve'), ''); ?></div>
   <?php print $header; ?></div>
   </div>
 
@@ -27,8 +27,9 @@
         </div>
         <h2 class="front-slogan">
           Fund and follow your favourite projects.  Be the change in your community.
-
-          <a href="/signup" class="weeve-medium-button"><?= t('Sign up') ?></a>
+          <?php if (!user_is_logged_in()): ?>
+          <?php print l(t('Sign up'), 'signup', array('attributes' => array('class' => 'weeve-medium-button'))) ?>
+          <?php endif; ?>
         </h2>
 
         <div class="clear-block">
