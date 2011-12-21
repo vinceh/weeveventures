@@ -4,7 +4,7 @@
     this.position;
     this.$wrapper;
     this.$body = $('body');
-    this.$loginLink = $("#block-menu-menu-top-menu a[href='/user/login']");
+    this.$loginLink = $("#block-menu-menu-top-menu a[href='" + Drupal.settings.basePath + "user/login']");
 
     // Init login form
     // TODO: Use Drupal.t();
@@ -54,7 +54,7 @@
 
     var LoginForm = new WeeveAccount();
 
-    $("#block-menu-menu-top-menu a[href='/user/login']", context).click(function(e){
+    $("#block-menu-menu-top-menu a[href='" + Drupal.settings.basePath + "user/login']", context).click(function(e){
       var $this = $(this);
       e.preventDefault();
       LoginForm.showForm();
