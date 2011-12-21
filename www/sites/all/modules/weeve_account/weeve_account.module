@@ -315,14 +315,12 @@ function weeve_account_load_user($uid) {
 }
 
 function weeve_account_page($uid = null) {
-  if ($uid) {
-    $user = user_load($uid);
-  } else {
+  if (!$uid) {
     global $user;
+    $uid = $user->uid;
   }
-
-  $account_type = weeve_account_check_type($user);
   $user_info = weeve_account_load_user($uid);
+  $account_type = weeve_account_check_type($user_info['user']);
 
   switch($account_type) {
 
