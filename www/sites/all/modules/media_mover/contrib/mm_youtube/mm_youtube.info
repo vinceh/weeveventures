@@ -1,0 +1,11 @@
+name = Media Mover Youtube upload
+description = Allows videos to be uploaded to Youtube.
+package = Media Mover
+dependencies[] = media_mover_api
+core = 6.x
+; Information added by drupal.org packaging script on 2011-02-25
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "mm_youtube"
+datestamp = "1298619662"
+

@@ -1,0 +1,234 @@
+<?php
+
+/**
+ * @file
+ * Media Mover Youtube upload.
+ *
+ * Adds a storage action to Media Mover which enables a site to upload videos to a Youtube account.
+ */
+
+define('MM_YOUTUBE_AUTH_URL', 'https://www.google.com/youtube/accounts/ClientLogin');
+define('MM_YOUTUBE_UPLOAD_URL', 'http://uploads.gdata.youtube.com/feeds/users/default/uploads');
+define('MM_YOUTUBE_APP_ID', 'MediaMover Youtube Uploader');
+
+/**
+ * Implementation of media_mover hook
+ * @param $op is the operator to return
+ * @param $action is which action is being called
+ * @param $verb is the verb being run
+ * @param $configuration is the specific configuration saved for the action for this configuration
+ * @param $file is the file in use
+ * @param $job is the full configuration data currently running
+ */
+function mm_youtube_media_mover($op = NULL, $action = NULL, $configuration = NULL, $file=array(), $job = NULL, $nid = NULL) {
+  switch ($op) {
+    case 'name':
+      return "Media Mover Youtube";
+      break;
+
+    case 'actions':
+      return array(
+        'storage' => array(
+          1 => t('Upload video to Youtube.'),
+        ),
+      );
+      break;
+
+    case 'storage':
+      return mm_youtube_upload_video($file, $configuration);
+      break;
+
+    case 'config':
+      switch ($action) {
+        case '1':
+          return mm_youtube_config($configuration);
+      }
+      break;
+  }
+}
+
+function mm_youtube_config($configuration) {
+  $form['mm_youtube_conf'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Upload to Youtube configuration'),
+    '#element_validate' => array('mm_youtube_validate_configuration', array('mm_youtube_conf'))
+  );
+
+  $form['mm_youtube_conf']['mm_youtube_username'] = array(
+    '#title' => t('Username'),
+    '#type' => 'textfield',
+    '#default_value' => $configuration['mm_youtube_username'] ? $configuration['mm_youtube_username'] : '',
+    '#description' => t('Your Youtube username.'),
+  );
+
+  $form['mm_youtube_conf']['mm_youtube_password'] = array(
+    '#title' => t('Password'),
+    '#type' => 'password',
+    '#default_value' => $configuration['mm_youtube_password'] ? $configuration['mm_youtube_password'] : '',
+    '#description' => t('Your Youtube password.'),
+  );
+
+  $form['mm_youtube_conf']['mm_youtube_key'] = array(
+    '#title' => t('Developer Key'),
+    '#type' => 'textfield',
+    '#default_value' => $configuration['mm_youtube_key'] ? $configuration['mm_youtube_key'] : '',
+    '#description' => t('Your Youtube developer key.'),
+  );
+
+  $form['mm_youtube_conf']['mm_youtube_category'] = array(
+    '#title' => t('Category'),
+    '#type' => 'textfield',
+    '#default_value' => $configuration['mm_youtube_category'] ? $configuration['mm_youtube_category'] : '',
+    '#description' => t('The category where videos will be added. This has to be a Youtube category.'),
+  );
+
+  $form['mm_youtube_conf']['mm_youtube_default_title'] = array(
+    '#title' => t('Default title'),
+    '#type' => 'textfield',
+    '#default_value' => $configuration['mm_youtube_default_title'] ? $configuration['mm_youtube_default_title'] : '',
+    '#description' => t('Videos which do not belong to a node will be given this title.'),
+  );
+
+  $form['mm_youtube_conf']['mm_youtube_default_description'] = array(
+    '#title' => t('Default description'),
+    '#type' => 'textfield',
+    '#default_value' => $configuration['mm_youtube_default_description'] ? $configuration['mm_youtube_default_description'] : 'Default description',
+    '#description' => t('Videos which do not belong to a node will be given this description.'),
+  );
+
+  $form['mm_youtube_conf']['mm_youtube_default_tags'] = array(
+    '#title' => t('Default tags'),
+    '#type' => 'textfield',
+    '#default_value' => $configuration['mm_youtube_default_tags'] ? $configuration['mm_youtube_default_tags'] : '',
+    '#description' => t('Videos which do not belong to a node or which do not have tags will be given these tags. Separate them by space.'),
+  );
+
+  $vocabs = taxonomy_get_vocabularies();
+  $options = array();
+  foreach ($vocabs as $vocab) {
+    $options[$vocab->vid] = $vocab->name;
+  }
+  
+  $form['mm_youtube_conf']['mm_youtube_vocabs'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Take tags from'),
+    '#description' => t('Tags will be taken from the selected vocabularies.'),
+    '#options' => $options,
+    '#default_value' => $configuration['mm_youtube_vocabs'] ? $configuration['mm_youtube_vocabs'] : array(),
+  );
+
+  return $form;
+}
+
+function mm_youtube_validate_configuration($element, &$form_state) {
+  if ($values = media_mover_api_extract_form_data($element, $form_state)) {
+    foreach (array('mm_youtube_username' => 'Username', 'mm_youtube_password' => 'Password', 'mm_youtube_key' => 'Developer key', 'mm_youtube_category' => 'Category', 'mm_youtube_default_title' => 'Default title', 'mm_youtube_default_description' => 'Default description', 'mm_youtube_default_tags' => 'Default tags') as $field => $field_name)
+    if (empty($values[$field])) {
+      form_error($element, t('!field field is required.', array('!field' => $field_name)));
+    }
+  }
+}
+
+function _mm_youtube_filter_tags($val) {
+  if ($val == 'si') {
+    return FALSE;
+  }
+  return TRUE;
+}
+
+function mm_youtube_upload_video($file, $configuration) {
+  _mm_youtube_set_include_path();
+
+  require_once 'Zend/Loader.php';
+  Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
+  Zend_Loader::loadClass('Zend_Gdata_YouTube');
+  Zend_Loader::loadClass('Zend_Gdata_App_Exception');
+  Zend_Loader::loadClass('Zend_Gdata_App_HttpException');
+
+  $title = $configuration['mm_youtube_default_title'];
+  $description = $configuration['mm_youtube_default_description'];
+  $tags = '';
+  $node = NULL;
+
+  if ($file['nid']) {
+    $node = node_load($file['nid']);
+    if ($node) {
+      $title = $node->title;
+      if (strip_tags($node->body)) {
+        $description = strip_tags($node->body);
+      }
+
+      $tags = array();
+      if ($node->taxonomy) {
+        foreach ($node->taxonomy as $term) {
+          if ($configuration['mm_youtube_vocabs'][$term->vid]) {
+            $ntags = explode(' ', $term->name);
+            $tags = array_merge($tags, $ntags);
+          }
+        }
+      }
+      $tags = array_filter($tags, '_mm_youtube_filter_tags');
+      $tags = implode(', ', $tags);
+    }
+    else {
+      watchdog('mm_youtube', 'File !file belongs to node !nid which does not exist anymore.', array('!file' => $filepath, '!nid' => $file['nid']), WATCHDOG_ERROR);
+    }
+  }
+  if ($tags == '') {
+    $tags = $configuration['mm_youtube_default_tags'];
+  }
+  
+  $username = $configuration['mm_youtube_username'];
+  $password = $configuration['mm_youtube_password'];
+  $devkey   = $configuration['mm_youtube_key'];
+  $category = $configuration['mm_youtube_category'];
+
+  $filepath = media_mover_api_config_current_file($file);
+  $fileinfo = pathinfo($filepath);
+  
+  try {
+    $httpclient = Zend_Gdata_ClientLogin::getHttpClient($username, $password, 'youtube', NULL, MM_YOUTUBE_APP_ID, NULL, NULL, MM_YOUTUBE_AUTH_URL);
+  }
+  catch (Exception $e) {
+    watchdog('mm_youtube', 'Cannot authenticate. Error: @error', array('@error' => strip_tags($e->getMessage())), WATCHDOG_ERROR);
+    return FALSE;
+  }
+
+  $youtube = new Zend_Gdata_YouTube($httpclient, MM_YOUTUBE_APP_ID, NULL, $devkey);
+  $upload = new Zend_Gdata_YouTube_VideoEntry();
+
+  $filesource = $youtube->newMediaFileSource($filepath);
+  $filesource->setContentType('video/avi');
+  $filesource->setSlug($filepath);
+
+  $upload->setMediaSource($filesource);
+  $upload->setVideoTitle($title);
+  $upload->setVideoDescription($description);
+  $upload->setVideoCategory($category);
+  $upload->setVideoTags($tags);
+
+  try {
+    $video = $youtube->insertEntry($upload, MM_YOUTUBE_UPLOAD_URL, 'Zend_Gdata_YouTube_VideoEntry');
+    $story_id = $video->getVideoId();
+    watchdog('mm_youtube', 'Uploaded file !file to Youtube. Story id: !story_id', array('!file' => $fileinfo['basename'], '!story_id' => $story_id), WATCHDOG_NOTICE, l($title, 'http://www.youtube.com/watch?v='. $story_id, array('absolute' => TRUE)));
+    return $story_id;
+  }
+  catch (Zend_Gdata_App_HttpException $httpException) {
+    watchdog('mm_youtube', 'Upload failed. Error: @error. Exception: @exception.', array('@error' => strip_tags($httpException->getMessage()), '@exception' => strip_tags($httpException->getRawResponseBody())), WATCHDOG_ERROR, $node ? l($node->title, 'node/' . $node->nid) : NULL);
+    return FALSE;
+  }
+  catch (Zend_Gdata_App_Exception $e) {
+    watchdog('mm_youtube', print_r($file, TRUE));
+    watchdog('mm_youtube', 'Upload failed. Error: @error.', array('@error' => strip_tags($e->getMessage())), WATCHDOG_ERROR, $node ? l($node->title, 'node/' . $node->nid) : NULL);
+    return FALSE;
+  }
+}
+
+function _mm_youtube_set_include_path() {
+  // Include path must be modified.
+  static $path;
+  if (!$path) {
+    $path = get_include_path();
+    set_include_path($path . PATH_SEPARATOR . drupal_get_path('module', 'mm_youtube'));
+  }
+}
