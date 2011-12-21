@@ -15,3 +15,100 @@
   padding: 5px;
 }
 
+#block-views-featured_projects-block_1 {
+  clear: both;
+  margin-top: 20px;
+}
+
+#block-views-featured_projects-block_1 h2,
+.view-featured-projects.front-page .view-header h4 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.view-featured-projects.front-page .view-header h2 {
+  font-size: 30px;
+  color: #4a4a4a;
+  margin: 5px 0px;
+}
+
+.view-featured-projects.front-page .view-header h3 {
+  font-size: 20px;
+  color: #777;
+  margin: 5px 0px;
+  font-weight: normal;
+}
+
+.view-featured-projects .view-project-percent-row {
+  height: 9px;
+  background-color: #ddd;
+  border-radius: 99px;
+  clear: both;
+  margin: 5px 0px 10px;
+}
+
+.view-featured-projects .view-project-percent-row .pledged {
+  background-color: #00A0CE;
+  border-radius: 99px;
+  height: 9px;
+}
+
+
+/* PENDING PROJECTS */
+.view-npo-project-proposals table {
+  width: 100%;
+}
+
+.view-npo-project-proposals table tr:hover {
+  background-color: #f6f6f6;
+}
+
+.view-npo-project-proposals table tr {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.view-npo-project-proposals table th {
+  border: none;
+}
+
+.view-npo-project-proposals table thead {
+  display: none;
+}
+
+.view-npo-project-proposals.proposals table tr.views-row-last {
+  border-bottom: none;
+}
+
+.view-npo-project-proposals.projects table tr.views-row-last {
+  border-bottom: 1px solid #ccc;
+}
+
+.view-npo-project-proposals table tr td {
+  padding: 10px;  
+}
+
+.view-npo-project-proposals table tr td .body {
+  display: none;
+}
+
+.view-npo-project-proposals.projects table tr td.views-field-field-project-status-value,
+.view-npo-project-proposals.proposals table tr td.views-field-field-proposal-status-value {
+  width: 170px;
+  text-align: center;
+}
+
+.view-npo-project-proposals table td.views-field-field-proposal-status-value .weeve-medium-button.weevedisabled,
+.view-npo-project-proposals table td.views-field-field-project-status-value .weeve-medium-button.weevedisabled {
+  cursor: default;
+}
+
+.view-npo-project-proposals .view-empty {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.view-npo-project-proposals .view-header {
+  color: #555;
+  font-size: 16px;
+}

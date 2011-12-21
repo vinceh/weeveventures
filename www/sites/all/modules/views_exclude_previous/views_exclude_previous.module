@@ -1,0 +1,108 @@
+<?php
+// $Id: views_exclude_previous.module,v 1.2 2008/09/15 17:11:16 anselmheaton Exp $
+
+/**
+ * Implementation of hook_help().
+ */
+function views_exclude_previous_help($section, $arg) {
+  switch ($section) {
+    case 'admin/modules#description':
+      return t('Views Exclude Previous provides a views filter which exlcudes nodes that have already been loaded/displayed on the current page.');
+  }
+}
+
+/**
+ * Implementation of theme_registry_alter. 
+ * 
+ * We use this to hook into view's
+ * themeing function, so we can register nodes that are prepared for displaying
+ * by the views module.
+ *
+ */
+function views_exclude_previous_theme_registry_alter(&$cache) {
+  foreach ($cache as $k => $v) {
+    if (preg_match('/^views_view_fields(.*)?$/', $k)) {      
+      $cache[$k]['preprocess functions'][] = 'views_exclude_previous_process_fields';
+    } else if (preg_match('/^views_view_table(__.*)?$/', $k)) {
+      $cache[$k]['preprocess functions'][] = 'views_exclude_previous_process_table';
+    }
+  }
+}
+
+function views_exclude_previous_views_pre_render(&$view) {
+    foreach($view->result as $row) {
+      views_exclude_previous_process_fields('viewed_row', $row->nid);
+    }
+}
+
+
+/**
+ * This called for every row that is themed by the views module
+ */
+function views_exclude_previous_process_fields($var) {
+  _views_exclude_previous('viewed_row', $var['row']->nid);
+}
+
+/**
+ * This called for tables themed by the views module
+ */
+function views_exclude_previous_process_table($var) {
+  foreach($var['view']->result as $row) {
+    _views_exclude_previous('viewed_table', $row->nid);
+  }
+}
+
+
+/**
+ * Implementation of hook_nodeapi
+ *
+ * We use this to track nodes that are loaded/prepared for viewing
+ */
+function views_exclude_previous_nodeapi(&$node, $op, $a3 = null, $a4 = null) {
+  if ($op == 'load') {
+    _views_exclude_previous('loaded', $node->nid);
+  } else if ($op == 'view') {
+    _views_exclude_previous('viewed_nodeapi', $node->nid);
+  }
+}
+
+/**
+ * Implementation of hook_views_api
+ */
+function views_exclude_previous_views_api() {
+  return array(
+    'api' => '2.0',
+    'path' => drupal_get_path('module', 'views_exclude_previous'),
+  );
+}
+
+/**
+ * Implementation of hook_views_query_substitutions
+ */
+function views_exclude_previous_views_query_substitutions($view) {
+  $result = array(
+    '***EXCLUDE_PREVIOUS_LOADED***' => implode(',', _views_exclude_previous('loaded')),
+    '***EXCLUDE_PREVIOUS_VIEWED_NODEAPI***' => implode(',', _views_exclude_previous('viewed_nodeapi')),
+    '***EXCLUDE_PREVIOUS_VIEWED_ROW***' => implode(',', _views_exclude_previous('viewed_row')),
+    '***EXCLUDE_PREVIOUS_VIEWED_TABLE***' => implode(',', _views_exclude_previous('viewed_table')),
+  );
+  
+  return $result;
+}
+
+/**
+ * This function stores/returns node ids for the current execution
+ */
+function _views_exclude_previous($cat, $nid = null) {
+  static $nids = array();  
+  
+  if (!isset($nids[$cat])) {
+    $nids[$cat] = array(0);
+  }
+  
+  if ($nid !== null) {
+    $nids[$cat][] = $nid;
+  }
+  
+  return $nids[$cat];
+}
