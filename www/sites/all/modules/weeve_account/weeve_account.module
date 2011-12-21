@@ -277,6 +277,43 @@ function weeve_account_change_general_form_submit(&$form, &$form_state) {
   drupal_set_message(t('Account has been changed'));
 }
 
+function weeve_account_load_user($uid) {
+  $result = array(
+    'user' => NULL,
+    'profile' => NULL,
+    'settings' => NULL,
+  );
+
+  $user = user_load($uid);
+  $account_type = weeve_account_check_type($user);
+  $settings = array(
+    'show_email' => variable_get('account_show_email_'. $user->uid, TRUE),
+    'show_location' => variable_get('account_show_location_'. $user->uid, TRUE),
+    'donation_history' => variable_get('account_donation_history_'. $user->uid, TRUE),
+  );
+  $profile = content_profile_load('profile', $user->uid);
+  if ($user->picture) {
+    $photo = $user->picture;
+  } else {
+    $photo = variable_get('user_picture_default', '');
+  }
+  $user->photo = $photo;
+  if ($account_type == 'npo' || $account_type == 'corp') {
+    $view_result = views_get_view_result('featured_projects', 'npo_projects', $user->uid);
+    $money = 0;
+    foreach ($view_result as $value) {
+      $money += $value->node_data_field_project_amount_pledge_field_project_amount_p;
+    }
+    $user->count_projects = count($view_result);
+    $user->money = $money;
+  }
+  $result['user'] = $user;
+  $result['profile'] = $profile;
+  $result['settings'] = $settings;
+
+  return $result;
+}
+
 function weeve_account_page($uid = null) {
   if ($uid) {
     $user = user_load($uid);
@@ -285,43 +322,23 @@ function weeve_account_page($uid = null) {
   }
 
   $account_type = weeve_account_check_type($user);
-  $settings = array(
-    'show_email' => variable_get('account_show_email_'. $user->uid, TRUE),
-    'show_location' => variable_get('account_show_location_'. $user->uid, TRUE),
-    'donation_history' => variable_get('account_donation_history_'. $user->uid, TRUE),
-  );
-
-  $profile = content_profile_load('profile', $user->uid);
-
-  if ($user->picture) {
-    $photo = $user->picture;
-  } else {
-    $photo = variable_get('user_picture_default', '');
-  }
-  $user->photo = $photo;
+  $user_info = weeve_account_load_user($uid);
 
   switch($account_type) {
 
     case 'user':
       $content = theme('weeve_user_account_history');
-      $output = theme('weeve_user_account_page', $user, $profile, $settings, $content);
+      $output = theme('weeve_user_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
       break;
 
     case 'npo':
     case 'corp':
-      $view_result = views_get_view_result('featured_projects', 'npo_projects', $user->uid);
-      $money = 0;
-      foreach ($view_result as $value) {
-        $money += $value->node_data_field_project_amount_pledge_field_project_amount_p;
-      }
-      $user->count_projects = count($view_result);
-      $user->money = $money;
-      $content = theme('weeve_npo_account_about', $user, $profile);
-      $output = theme('weeve_npo_account_page', $user, $profile, $settings, $content);
+      $content = theme('weeve_npo_account_about', $user_info['user'], $user_info['profile']);
+      $output = theme('weeve_npo_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
       break;
 
     default:
-      $output = theme('weeve_user_account_page', $user, $profile, $settings);
+      $output = theme('weeve_user_account_page', $user_info['user'], $user_info['profile'], $user_info['settings']);
       break;
   }
   return $output;
@@ -360,80 +377,30 @@ function weeve_account_owner_access($uid) {
  * NPO Donation history page
  */
 function weeve_account_history_page($uid) {
-  $user = user_load($uid);
-  $settings = array(
-    'show_email' => variable_get('account_show_email_'. $user->uid, TRUE),
-    'show_location' => variable_get('account_show_location_'. $user->uid, TRUE),
-    'donation_history' => variable_get('account_donation_history_'. $user->uid, TRUE),
-  );
-
-  $profile = content_profile_load('profile', $user->uid);
-
-  if ($user->picture) {
-    $photo = $user->picture;
-  } else {
-    $photo = variable_get('user_picture_default', '');
-  }
-  $user->photo = $photo;
-  $view_result = views_get_view_result('featured_projects', 'npo_projects', $user->uid);
-  $money = 0;
-  foreach ($view_result as $value) {
-    $money += $value->node_data_field_project_amount_pledge_field_project_amount_p;
-  }
-  $user->count_projects = count($view_result);
-  $user->money = $money;
-  $content = theme('weeve_npo_account_history', $user, $profile);
-  $output = theme('weeve_npo_account_page', $user, $profile, $settings, $content);
+  $user_info = weeve_account_load_user($uid);
+  $content = theme('weeve_npo_account_history', $user_info['user'], $user_info['profile']);
+  $output = theme('weeve_npo_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
   return $output;
 }
 
 function weeve_account_following_page($uid) {
-  $user = user_load($uid);
-  $settings = array(
-    'show_email' => variable_get('account_show_email_'. $user->uid, TRUE),
-    'show_location' => variable_get('account_show_location_'. $user->uid, TRUE),
-    'donation_history' => variable_get('account_donation_history_'. $user->uid, TRUE),
-  );
-
-  $profile = content_profile_load('profile', $user->uid);
-
-  if ($user->picture) {
-    $photo = $user->picture;
-  } else {
-    $photo = variable_get('user_picture_default', '');
-  }
-  $user->photo = $photo;
+  $user_info = weeve_account_load_user($uid);
   $content = theme('weeve_user_account_following');
-  $output = theme('weeve_user_account_page', $user, $profile, $settings, $content);
+  $output = theme('weeve_user_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
   return $output;
 }
 
 function weeve_account_projects_page($uid) {
-  $user = user_load($uid);
-  $settings = array(
-    'show_email' => variable_get('account_show_email_'. $user->uid, TRUE),
-    'show_location' => variable_get('account_show_location_'. $user->uid, TRUE),
-    'donation_history' => variable_get('account_donation_history_'. $user->uid, TRUE),
-  );
-
-  $profile = content_profile_load('profile', $user->uid);
-
-  if ($user->picture) {
-    $photo = $user->picture;
+  $user_info = weeve_account_load_user($uid);
+  $type = weeve_account_check_type($user_info['user']);
+  if ($type == 'npo' || $type == 'corp') {
+    $content = views_embed_view('npo_project_proposals', 'page_1', $user_info['user']->uid);
+    $output = theme('weeve_npo_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
+    return $output;
   } else {
-    $photo = variable_get('user_picture_default', '');
+    drupal_access_denied();
   }
-  $user->photo = $photo;
-  $view_result = views_get_view_result('featured_projects', 'npo_projects', $user->uid);
-  $money = 0;
-  foreach ($view_result as $value) {
-    $money += $value->node_data_field_project_amount_pledge_field_project_amount_p;
-  }
-  $user->count_projects = count($view_result);
-  $user->money = $money;
-  $content = views_embed_view('npo_project_proposals', 'page_1', $user->uid);
-  $output = theme('weeve_npo_account_page', $user, $profile, $settings, $content);
-  return $output;
+
 }
 
 

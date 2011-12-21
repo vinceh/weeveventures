@@ -15,5 +15,5 @@
 </div>
 
 <div class='project-area-content'>
-
+  <?php print views_embed_view('featured_projects', 'page_4', $account->uid); ?>
 </div>
