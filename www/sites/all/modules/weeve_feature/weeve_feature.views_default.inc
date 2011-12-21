@@ -1326,7 +1326,7 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['arguments']['uid']['validate_options']['restrict_roles'] = 0;
   $handler->display->display_options['arguments']['uid']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['uid']['not'] = 0;
-  $handler->display->display_options['path'] = 'account/%/projects';
+  $handler->display->display_options['path'] = 'account/%/projects-list';
   $translatables['featured_projects'] = array(
     t('Defaults'),
     t('more'),
