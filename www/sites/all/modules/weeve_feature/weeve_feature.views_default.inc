@@ -538,7 +538,7 @@ return $user->uid == $argument;';
   $handler->display->display_options['fields']['field_project_amount_pledge_amount']['link_to_node'] = 0;
   $handler->display->display_options['fields']['field_project_amount_pledge_amount']['label_type'] = 'none';
   $handler->display->display_options['fields']['field_project_amount_pledge_amount']['format'] = 'nozeros';
-  /* Field: Content: End date (field_project_end) */
+  /* Field: Content: What is end date of your project to be funded? (field_project_end) */
   $handler->display->display_options['fields']['field_project_end_value']['id'] = 'field_project_end_value';
   $handler->display->display_options['fields']['field_project_end_value']['table'] = 'node_data_field_project_end';
   $handler->display->display_options['fields']['field_project_end_value']['field'] = 'field_project_end_value';
@@ -829,7 +829,7 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['fields']['field_project_amount_pledge_amount']['link_to_node'] = 0;
   $handler->display->display_options['fields']['field_project_amount_pledge_amount']['label_type'] = 'none';
   $handler->display->display_options['fields']['field_project_amount_pledge_amount']['format'] = 'nozeros';
-  /* Field: Content: End date (field_project_end) */
+  /* Field: Content: What is end date of your project to be funded? (field_project_end) */
   $handler->display->display_options['fields']['field_project_end_value']['id'] = 'field_project_end_value';
   $handler->display->display_options['fields']['field_project_end_value']['table'] = 'node_data_field_project_end';
   $handler->display->display_options['fields']['field_project_end_value']['field'] = 'field_project_end_value';
@@ -1058,6 +1058,25 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['arguments']['term_node_tid_depth']['set_breadcrumb'] = 0;
   $handler->display->display_options['arguments']['term_node_tid_depth']['use_taxonomy_term_path'] = 0;
   $handler->display->display_options['path'] = 'projects/category/%';
+
+  /* Display: User projects */
+  $handler = $view->new_display('page', 'User projects', 'page_4');
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Argument: User: Uid */
+  $handler->display->display_options['arguments']['uid']['id'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['table'] = 'users';
+  $handler->display->display_options['arguments']['uid']['field'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['uid']['style_plugin'] = 'default_summary';
+  $handler->display->display_options['arguments']['uid']['wildcard'] = '';
+  $handler->display->display_options['arguments']['uid']['wildcard_substitution'] = '';
+  $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['uid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['uid']['validate_type'] = 'user';
+  $handler->display->display_options['arguments']['uid']['validate_options']['restrict_roles'] = 0;
+  $handler->display->display_options['arguments']['uid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['uid']['not'] = 0;
+  $handler->display->display_options['path'] = 'account/%/projects';
   $translatables['featured_projects'] = array(
     t('Defaults'),
     t('more'),
@@ -1092,6 +1111,7 @@ return round(($timestamp - time()) / 86400);
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>'),
     t('<h3>Sorry, no projects in this category</h3>'),
     t('All'),
+    t('User projects'),
   );
 
   $views[$view->name] = $view;

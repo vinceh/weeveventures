@@ -601,7 +601,7 @@ corp|Corporate',
       ),
       'default_value_php' => NULL,
       'label' => 'Amount needed',
-      'weight' => '34',
+      'weight' => '7',
       'description' => '',
       'type' => 'money_widget',
       'module' => 'money',
@@ -818,7 +818,7 @@ corp|Corporate',
       ),
       'default_value_php' => NULL,
       'label' => 'Amount pledged',
-      'weight' => '35',
+      'weight' => '8',
       'description' => '',
       'type' => 'money_widget',
       'module' => 'money',
@@ -872,7 +872,7 @@ corp|Corporate',
       ),
       'default_value_php' => NULL,
       'label' => 'Donors',
-      'weight' => '42',
+      'weight' => '15',
       'description' => '',
       'type' => 'number',
       'module' => 'number',
@@ -934,8 +934,8 @@ corp|Corporate',
       'text_parts' => array(),
       'year_range' => '-1:+1',
       'label_position' => 'above',
-      'label' => 'End date',
-      'weight' => '32',
+      'label' => 'What is end date of your project to be funded?',
+      'weight' => '10',
       'description' => '',
       'type' => 'date_popup',
       'module' => 'date',
@@ -993,7 +993,7 @@ corp|Corporate',
       'default_image' => NULL,
       'use_default_image' => 0,
       'label' => 'Project image',
-      'weight' => '38',
+      'weight' => '-3',
       'description' => '',
       'type' => 'imagefield_widget',
       'module' => 'imagefield',
@@ -1049,7 +1049,7 @@ if ($node->field_project_amount_need[0][\'amount\'] > 0) {
       'default_value' => NULL,
       'default_value_php' => NULL,
       'label' => 'Percent pledged',
-      'weight' => '39',
+      'weight' => '13',
       'description' => '',
       'type' => 'computed',
       'module' => 'computed_field',
@@ -1107,73 +1107,10 @@ if ($node->field_project_amount_need[0][\'amount\'] > 0) {
       ),
       'default_value_php' => NULL,
       'label' => 'Proposal',
-      'weight' => '36',
+      'weight' => '11',
       'description' => '',
       'type' => 'nodereference_autocomplete',
       'module' => 'nodereference',
-    ),
-  );
-
-  // Exported field: field_project_start
-  $fields['project-field_project_start'] = array(
-    'field_name' => 'field_project_start',
-    'type_name' => 'project',
-    'display_settings' => array(
-      'label' => array(
-        'format' => 'above',
-        'exclude' => 0,
-      ),
-      'teaser' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'full' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      '4' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'token' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-    ),
-    'widget_active' => '1',
-    'type' => 'date',
-    'required' => '1',
-    'multiple' => '0',
-    'module' => 'date',
-    'active' => '1',
-    'granularity' => array(
-      'year' => 'year',
-      'month' => 'month',
-      'day' => 'day',
-      'hour' => 'hour',
-    ),
-    'timezone_db' => 'UTC',
-    'tz_handling' => 'site',
-    'todate' => '',
-    'repeat' => 0,
-    'repeat_collapsed' => '',
-    'default_format' => 'medium',
-    'widget' => array(
-      'default_value' => 'now',
-      'default_value_code' => '',
-      'default_value2' => 'same',
-      'default_value_code2' => '',
-      'input_format' => 'j M Y',
-      'input_format_custom' => '',
-      'increment' => '1',
-      'text_parts' => array(),
-      'year_range' => '-1:+1',
-      'label_position' => 'above',
-      'label' => 'Start date',
-      'weight' => '31',
-      'description' => '',
-      'type' => 'date_popup',
-      'module' => 'date',
     ),
   );
 
@@ -1224,7 +1161,7 @@ archive|Archived',
       ),
       'default_value_php' => NULL,
       'label' => 'Status',
-      'weight' => '37',
+      'weight' => '12',
       'description' => '',
       'type' => 'optionwidgets_select',
       'module' => 'optionwidgets',
@@ -1283,7 +1220,7 @@ archive|Archived',
       ),
       'default_value_php' => NULL,
       'label' => 'Updates',
-      'weight' => '41',
+      'weight' => '14',
       'description' => '',
       'type' => 'nodereference_autocomplete',
       'module' => 'nodereference',
@@ -1354,7 +1291,7 @@ archive|Archived',
       'default_description_sync' => '2',
       'default_keyword_sync' => '2',
       'label' => 'Video',
-      'weight' => '40',
+      'weight' => '-2',
       'description' => '',
       'type' => 'video_upload_widget',
       'module' => 'video_upload',
@@ -1762,7 +1699,6 @@ decline|Declined
   t('Business Number');
   t('Business Website');
   t('Donors');
-  t('End date');
   t('Full Name');
   t('Organization Name');
   t('Percent pledged');
@@ -1775,10 +1711,10 @@ decline|Declined
   t('Proposal back');
   t('Proposal links');
   t('Representative Name');
-  t('Start date');
   t('Status');
   t('Updates');
   t('Video');
+  t('What is end date of your project to be funded?');
 
   return $fields;
 }

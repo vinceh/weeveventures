@@ -550,15 +550,6 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
-  // Exported permission: edit field_project_start
-  $permissions['edit field_project_start'] = array(
-    'name' => 'edit field_project_start',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'npo',
-    ),
-  );
-
   // Exported permission: edit field_project_status
   $permissions['edit field_project_status'] = array(
     'name' => 'edit field_project_status',
@@ -921,16 +912,6 @@ function weeve_feature_user_default_permissions() {
     'roles' => array(
       '0' => 'anonymous user',
       '1' => 'authenticated user',
-    ),
-  );
-
-  // Exported permission: view field_project_start
-  $permissions['view field_project_start'] = array(
-    'name' => 'view field_project_start',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'anonymous user',
-      '2' => 'authenticated user',
     ),
   );
 
