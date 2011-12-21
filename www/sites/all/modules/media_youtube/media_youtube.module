@@ -206,7 +206,7 @@ function media_youtube_emfield_providers($module, $provider = NULL) {
  * @param $file is the file in use
  * @param $job is the full configuration data currently running
  */
-function media_youtube_media_mover($op = NULL, $action = NULL, $configuration = NULL, &$file=array(), $job = NULL, $nid = NULL) {
+function media_youtube_media_mover($op = NULL, $action = NULL, $configuration = NULL, $file=array(), $job = NULL, $nid = NULL) {
   switch ($op) {
     case 'name':
       return t('Media: YouTube');

@@ -129,7 +129,7 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
         $form['taxonomy'][VOCABULARY_PROJECT_CATEGORIES_ID]['#attributes'] = array('disabled' => 'disabled');
       }
     }
-
+    
     $form['field_project_proposal']['#value'][0]['nid'] = $proposal_nid;
     $form['#submit'][] = 'weeve_project_project_add_submit';
     
@@ -164,6 +164,12 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
       drupal_goto('user/' . $user->uid . '/proposals');
       exit;
     }
+  }
+
+  if ($form_id == 'project_node_form' && arg(2) == 'edit') {
+    $youtube_id = $form['field_project_video'][0]['#default_value']['video_id'];
+    //print_r($form['field_project_video_embed']); exit;
+    $form['field_project_video_embed'][0]['embed']['#default_value'] = 'www.youtube.com/watch?v=' . $youtube_id;
   }
 }
 

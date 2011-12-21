@@ -412,6 +412,74 @@ Weeve team',
         ),
         '#version' => 6003,
       ),
+      'rules_run_cron_on_project_create' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_insert',
+        '#label' => 'Run cron on project create',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'project',
+          'weeve_feature' => 'weeve_feature',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Created content is Project',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'project' => 'project',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'code' => '<?php
+video_upload_cron();
+?>',
+              'vars' => array(),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+                'rules_input_evaluator_php' => array(
+                  'code' => array(),
+                ),
+              ),
+            ),
+            '#name' => 'rules_action_custom_php',
+            '#info' => array(
+              'label' => 'Execute custom PHP code',
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
     ),
   );
 }

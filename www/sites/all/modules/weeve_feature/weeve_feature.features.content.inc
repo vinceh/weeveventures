@@ -1266,10 +1266,10 @@ archive|Archived',
       'file_extensions' => 'mov avi mp4 mpa mpe mpg mpeg qt wmv',
       'file_path' => 'youtube_videos/[uid]',
       'progress_indicator' => 'bar',
-      'max_filesize_per_file' => '',
+      'max_filesize_per_file' => '100M',
       'max_filesize_per_node' => '',
       'video_category' => 'Entertainment',
-      'auto_delete_rejected_videos' => 0,
+      'auto_delete_rejected_videos' => 1,
       'remove_deleted_videos' => 0,
       'use_browser_upload_method' => FALSE,
       'default_title' => '[title]',
@@ -1277,7 +1277,7 @@ archive|Archived',
       'default_keywords' => 'weeve',
       'developer_tags' => '',
       'display' => array(
-        'default_width' => '480',
+        'default_width' => '580',
         'default_height' => '295',
         'small_width' => '240',
         'small_height' => '148',
@@ -1295,6 +1295,80 @@ archive|Archived',
       'description' => '',
       'type' => 'video_upload_widget',
       'module' => 'video_upload',
+    ),
+  );
+
+  // Exported field: field_project_video_embed
+  $fields['project-field_project_video_embed'] = array(
+    'field_name' => 'field_project_video_embed',
+    'type_name' => 'project',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'emvideo',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'emvideo',
+    'active' => '1',
+    'widget' => array(
+      'video_width' => '425',
+      'video_height' => '350',
+      'video_autoplay' => 0,
+      'preview_width' => '425',
+      'preview_height' => '350',
+      'preview_autoplay' => 0,
+      'thumbnail_width' => '120',
+      'thumbnail_height' => '90',
+      'thumbnail_default_path' => '',
+      'thumbnail_link_title' => 'See video',
+      'meta_fields' => array(
+        'title' => 0,
+        'description' => 0,
+      ),
+      'providers' => array(
+        'youtube' => 'youtube',
+      ),
+      'emthumb' => 0,
+      'emthumb_label' => 'Video URL custom thumbnail',
+      'emthumb_description' => 'If you upload a custom thumbnail, then this will be displayed when the Video URL thumbnail is called for, overriding any automatic thumbnails by custom providers.',
+      'emthumb_max_resolution' => '0',
+      'emimport_image_path' => '',
+      'emthumb_custom_alt' => 0,
+      'emthumb_custom_title' => 0,
+      'emthumb_store_local_thumbnail' => 1,
+      'emthumb_start_collapsed' => 0,
+      'default_value' => array(
+        '0' => array(
+          'embed' => '',
+          'value' => '',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Video URL',
+      'weight' => '16',
+      'description' => '',
+      'type' => 'emvideo_textfields',
+      'module' => 'emvideo',
     ),
   );
 
@@ -1714,6 +1788,7 @@ decline|Declined
   t('Status');
   t('Updates');
   t('Video');
+  t('Video URL');
   t('What is end date of your project to be funded?');
 
   return $fields;

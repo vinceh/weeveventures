@@ -88,6 +88,7 @@ body{
   float: left;
   min-height: 350px;
   margin-left: 60px;
+  margin-top: 20px;
 }
 
 .sidebar-left #main-content .view-featured-projects.front-page {
@@ -99,6 +100,7 @@ body{
   margin-left: 15px;
 }
 
+.view-featured-projects.front-page .views-row.first-row-line, 
 .sidebar-left #main-content .view-featured-projects.front-page .views-row-first, 
 .view-featured-projects.front-page .views-row.views-row-first {
   margin-left: 0px;

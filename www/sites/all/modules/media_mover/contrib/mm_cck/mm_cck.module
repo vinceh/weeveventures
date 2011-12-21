@@ -81,7 +81,7 @@ function phptemplate_filefield_file($file) {
  * @param int $nid
  *   special param for processing individual nodes
  */
-function mm_cck_media_mover($op, $action = null, $configuration = null, &$file = array(), $job = null, $nid = null) {
+function mm_cck_media_mover($op, $action = null, $configuration = null, $file = array(), $job = null, $nid = null) {
   if (module_exists('content')) {
     switch ($op) {
       case 'name':
