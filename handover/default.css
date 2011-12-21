@@ -133,6 +133,16 @@ a {
 }
 
 /* project singup */
+
+.project-file-input-wrap {
+	font-size: 15px;
+	margin: 15px 0px 15px 0px;
+}
+
+.project-file-input  {
+	width: 200px;
+}
+
 .signup-content {
 	margin: 20px 0px;
 }
@@ -160,7 +170,14 @@ a {
 	margin-bottom: 15px;
 }
 
+.project-signup-form-subtitle {
+	color: #666;
+	font-size: 14px;
+	margin-bottom: 15px;
+}
+
 .project-signup-textarea {
+	color: #444;
 	width: 880px;
 	height: 200px;
 	margin: 15px 0px;
@@ -182,6 +199,35 @@ a {
 	border-radius: 3px;
 	border: 1px solid #aaa;
 	margin-bottom: 20px;
+}
+
+.project-signup-text-medium {
+	color: #444;
+	width: 400px;
+	padding: 5px;
+	outline: none;
+	border-radius: 3px;
+	border: 1px solid #aaa;
+	font-size: 18px;
+}
+
+.project-signup-url {
+	margin-left: 35px;
+}
+
+.project-signup-text {
+	color: #444;
+	width: 200px;
+	padding: 5px;
+	outline: none;
+	border-radius: 3px;
+	border: 1px solid #aaa;
+	margin-bottom: 20px;
+	font-size: 30px;
+}
+
+.project-signup-text:focus, .project-signup-text-medium:focus {
+	border: 1px solid black;
 }
 
 .signup-choices-wrap {
