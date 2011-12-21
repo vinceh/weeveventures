@@ -53,6 +53,23 @@ function weeve_account_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['account/%/history'] = array(
+    'title' => '',
+    'access callback' => 'weeve_account_donation_history_access',
+    'access arguments' => array(1),
+    'page callback' => 'weeve_account_history_page',
+    'page arguments' => array(1),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['account/%/projects'] = array(
+    'title' => '',
+    'access callback' => 'weeve_account_access',
+    'page callback' => 'weeve_account_projects_page',
+    'page arguments' => array(1),
+    'type' => MENU_CALLBACK,
+  );
+
   $items['ajax/login'] = array(
     'title' => '',
     'access callback' => 'user_is_anonymous',
@@ -71,7 +88,7 @@ function weeve_account_theme() {
       'template' => 'tpl/weeve_user_account_page'
     ),
     'weeve_npo_account_page' => array(
-      'arguments' => array('account' => NULL, 'profile' => NULL, 'settings' => NULL),
+      'arguments' => array('account' => NULL, 'profile' => NULL, 'settings' => NULL, 'content' => NULL),
       'template' => 'tpl/weeve_npo_account_page'
     ),
     'weeve_user_account_history' => array(
@@ -79,6 +96,18 @@ function weeve_account_theme() {
     ),
     'weeve_user_account_following' => array(
       'template' => 'tpl/weeve_user_account_following_content'
+    ),
+    'weeve_npo_account_about' => array(
+      'arguments' => array('account' => NULL, 'profile' => NULL),
+      'template' => 'tpl/weeve_npo_account_about_content'
+    ),
+    'weeve_npo_account_history' => array(
+      'arguments' => array('account' => NULL, 'profile' => NULL),
+      'template' => 'tpl/weeve_npo_account_history_content'
+    ),
+    'weeve_npo_account_projects' => array(
+      'arguments' => array('account' => NULL, 'profile' => NULL),
+      'template' => 'tpl/weeve_npo_account_projects_content'
     ),
   );
 }
@@ -286,7 +315,8 @@ function weeve_account_page($uid = null) {
       }
       $user->count_projects = count($view_result);
       $user->money = $money;
-      $output = theme('weeve_npo_account_page', $user, $profile, $settings);
+      $content = theme('weeve_npo_account_about', $user, $profile);
+      $output = theme('weeve_npo_account_page', $user, $profile, $settings, $content);
       break;
 
     default:
@@ -308,13 +338,44 @@ function weeve_account_check_type($user) {
     return 'corp';
   }
 }
+
 function weeve_account_donation_history_access($uid) {
   global $user;
-  $settings = variable_get('weeve_account_setting_'. $uid, array());
-  if ($settings['donation_history'] || $uid == $user->uid) {
+  if (variable_get('account_donation_history_'. $user->uid, TRUE) || $uid == $user->uid) {
     return TRUE;
   }
   return FALSE;
+}
+
+/*
+ * NPO Donation history page
+ */
+function weeve_account_history_page($uid) {
+  $user = user_load($uid);
+  $settings = array(
+    'show_email' => variable_get('account_show_email_'. $user->uid, TRUE),
+    'show_location' => variable_get('account_show_location_'. $user->uid, TRUE),
+    'donation_history' => variable_get('account_donation_history_'. $user->uid, TRUE),
+  );
+
+  $profile = content_profile_load('profile', $user->uid);
+
+  if ($user->picture) {
+    $photo = $user->picture;
+  } else {
+    $photo = variable_get('user_picture_default', '');
+  }
+  $user->photo = $photo;
+  $view_result = views_get_view_result('featured_projects', 'npo_projects', $user->uid);
+  $money = 0;
+  foreach ($view_result as $value) {
+    $money += $value->node_data_field_project_amount_pledge_field_project_amount_p;
+  }
+  $user->count_projects = count($view_result);
+  $user->money = $money;
+  $content = theme('weeve_npo_account_history', $user, $profile);
+  $output = theme('weeve_npo_account_page', $user, $profile, $settings, $content);
+  return $output;
 }
 
 function weeve_account_following_page($uid) {
@@ -337,6 +398,35 @@ function weeve_account_following_page($uid) {
   $output = theme('weeve_user_account_page', $user, $profile, $settings, $content);
   return $output;
 }
+
+function weeve_account_projects_page($uid) {
+  $user = user_load($uid);
+  $settings = array(
+    'show_email' => variable_get('account_show_email_'. $user->uid, TRUE),
+    'show_location' => variable_get('account_show_location_'. $user->uid, TRUE),
+    'donation_history' => variable_get('account_donation_history_'. $user->uid, TRUE),
+  );
+
+  $profile = content_profile_load('profile', $user->uid);
+
+  if ($user->picture) {
+    $photo = $user->picture;
+  } else {
+    $photo = variable_get('user_picture_default', '');
+  }
+  $user->photo = $photo;
+  $view_result = views_get_view_result('featured_projects', 'npo_projects', $user->uid);
+  $money = 0;
+  foreach ($view_result as $value) {
+    $money += $value->node_data_field_project_amount_pledge_field_project_amount_p;
+  }
+  $user->count_projects = count($view_result);
+  $user->money = $money;
+  $content = "Projects here";
+  $output = theme('weeve_npo_account_page', $user, $profile, $settings, $content);
+  return $output;
+}
+
 
 function weeve_account_ajax_login() {
   if (isset($_POST['name']) && check_plain($_POST['name']) && isset($_POST['pwd']) && check_plain($_POST['pwd'])) {

@@ -25,9 +25,9 @@
 		</div>
 		<div class='profile-links'>
       <?php if ($settings['donation_history'] || $account->uid == $user->uid): ?>
-			  <div class='profile-link'><?php print l(t('history'), 'account'); ?></div>
+			  <div class='profile-link'><?php print l(t('history'), 'account/'. $account->uid); ?></div>
       <?php endif; ?>
-			<div class='profile-link'><?php print l(t('following'), 'account/'. $user->uid .'/following') ?></div>
+			<div class='profile-link'><?php print l(t('following'), 'account/'. $account->uid .'/following') ?></div>
 		</div>
 		<div class='profile-main-wrapper'>
       <?php print $content; ?>
