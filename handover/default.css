@@ -1,5 +1,5 @@
 @font-face {
-	font-family: fonty;
+	font-family: neue;
 	src: url('HelveticaNeueLTCom-Lt.ttf');
 }
 
@@ -7,7 +7,10 @@ body{
 	font-family: 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;
 	color: #555;
 	margin: 0px;
+}
 
+.small-empty-space {
+	height: 20px;
 }
 
 .horizontal-line {
@@ -26,10 +29,12 @@ body{
 
 .weevetitle {
 	color: #333;
+	font-family: neue;
 }
 
 .weevesubtitle {
 	color: #777;
+	font-family: neue;
 }
 
 .weevetext {
@@ -62,7 +67,7 @@ body{
 	padding: 5px 10px;
 	border-radius: 3px;
 	border: none;
-	font-size: 14px;
+	font-size: 12px;
 }
 
 .weeve-medium-button {
@@ -128,6 +133,16 @@ a {
 }
 
 /* project singup */
+
+.project-file-input-wrap {
+	font-size: 15px;
+	margin: 15px 0px 15px 0px;
+}
+
+.project-file-input  {
+	width: 200px;
+}
+
 .signup-content {
 	margin: 20px 0px;
 }
@@ -155,7 +170,14 @@ a {
 	margin-bottom: 15px;
 }
 
+.project-signup-form-subtitle {
+	color: #666;
+	font-size: 14px;
+	margin-bottom: 15px;
+}
+
 .project-signup-textarea {
+	color: #444;
 	width: 880px;
 	height: 200px;
 	margin: 15px 0px;
@@ -177,6 +199,35 @@ a {
 	border-radius: 3px;
 	border: 1px solid #aaa;
 	margin-bottom: 20px;
+}
+
+.project-signup-text-medium {
+	color: #444;
+	width: 400px;
+	padding: 5px;
+	outline: none;
+	border-radius: 3px;
+	border: 1px solid #aaa;
+	font-size: 18px;
+}
+
+.project-signup-url {
+	margin-left: 35px;
+}
+
+.project-signup-text {
+	color: #444;
+	width: 200px;
+	padding: 5px;
+	outline: none;
+	border-radius: 3px;
+	border: 1px solid #aaa;
+	margin-bottom: 20px;
+	font-size: 30px;
+}
+
+.project-signup-text:focus, .project-signup-text-medium:focus {
+	border: 1px solid black;
 }
 
 .signup-choices-wrap {
@@ -254,6 +305,12 @@ a {
 }
 
 .signup-header {
+	text-align: left;
+	margin-top: 50px;
+	padding-bottom: 10px;
+}
+
+.signup-header-choose {
 	text-align: center;
 	margin-top: 50px;
 	padding-bottom: 10px;
@@ -383,8 +440,7 @@ a {
 	color: white;
 	background-color: #00a0ce;
 	border-radius: 3px;
-	font-size: 14px;
-	margin-top: 10px;
+	margin-top: 13px;
 }
 
 .login-button:hover {
@@ -395,6 +451,7 @@ a {
 /* landing page */
 
 .header-box a, .landinglinks a {
+	font-family: neue;
 	color: white;
 	text-decoration: none;
 	font-weight: 100;
@@ -657,10 +714,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 }
 
 .project-caption-content {
-	margin-top: 40px;
+
+	height: 100px;
 }
 
 .project-caption-title {
+	margin-top: 20px;
 	font-size: 30px;
 	color: #4a4a4a;
 }
@@ -673,7 +732,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 .project-area-wrapper {
 	width: 100%;
 	display: inline-block;
-	margin-top: 35px;
+	margin-top: 25px;
 }
 
 .project-area-header {
@@ -1015,10 +1074,60 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 
 /* profile pages */
 
+.profile-project-stats-wrap {
+	height: 75px;
+}
+
+.profile-stats-wrap {
+	display: inline-block;
+	width: 312px;
+	text-align: center;
+	padding: 10px;
+	border-right: 1px dotted #bbb;
+
+	float: left;
+}
+
+.profile-stats-wrap:last-child {
+	border-right: none;
+}
+
+.profile-stats-wrap:hover {
+	background-color: #f2f2f2;
+}
+
+.file-input {
+	border: 0px !important;
+	font-size: 14px !important;
+}
+
+.picture-th {
+	vertical-align: text-top;
+}
+
 .checkbox {
+	display: inline-block;
 	margin-top: 5px;
 	width: 15px !important;
 	height: 15px !important;
+	position: relative;
+	top: 2px;
+}
+
+.profile-edit-picture  img{
+	height: 100px;
+}
+
+.profile-edit-picture {
+	float: left;
+	display: inline-block;
+	text-align: center;
+	margin-right: 10px;
+}
+
+.checkout-text {
+	display: inline-block;
+	
 }
 
 .edit-sentence {
@@ -1030,7 +1139,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 }
 
 .profile-wrapper {
-	margin-top: 70px;
+	margin-top: 50px;
 }
 
 .profile-left, .profile-right {
