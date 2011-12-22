@@ -1,0 +1,4 @@
+name = Weeve Google Places
+description = Provide autocomplete widget for select location
+package = Weeve
+core = 6.x

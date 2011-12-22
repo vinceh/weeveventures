@@ -1,0 +1,77 @@
+<?php
+
+include_once dirname(__FILE__) . '/weeve_google_places_widget.inc';
+
+/*
+ * Implementation hook_menu
+ */
+function weeve_google_places_menu() {
+  $items = array();
+
+  $items['autocomplete/places'] = array(
+    'title' => '',
+    'access arguments' => array('access content'),
+    'page callback' => 'weeve_google_places_autocomplete_callback',
+    'type' => MENU_CALLBACK,
+  );
+
+
+  return $items;
+}
+
+/*
+ * Implemetation hook_theme
+ */
+function weeve_google_places_theme() {
+  return array(
+    'weeve_google_places_autocomplete' => array(
+      'arguments' => array('element' => NULL),
+      'file' => 'weeve_google_places_widget.inc',
+    ),
+  );
+}
+
+function weeve_google_places_query($string) {
+  $result = array();
+  $key = 'AIzaSyBptCZB6gwTdM72Y6D3zG6ZIGD1hi63ODU'; //TODO: Change API key
+
+  $query = array(
+    'input' => $string,
+    'sensor' => 'true',
+    'key' => $key,
+    'types' => 'geocode',
+  );
+
+  $url = url('https://maps.googleapis.com/maps/api/place/autocomplete/json', array(
+    'query' => $query,
+    'external' => TRUE,
+  ));
+
+  $http_reply = drupal_http_request($url);
+  $result = json_decode($http_reply->data, true);
+
+  return $result;
+}
+
+function weeve_google_places_sort_array($result) {
+  $items = array();
+
+  // TODO: check other status codes
+  if (!empty($result['predictions']) && $result['status'] == "OK") {
+    foreach ($result['predictions'] as $location) {
+      foreach ($location['types'] as $type) {
+        if ($type == 'locality') {
+          $items[check_plain($location['description'])] = check_plain($location['description']);
+        }
+      }
+    }
+  }
+  return $items;
+}
+
+function weeve_google_places_autocomplete_callback($string) {
+  $gdata = weeve_google_places_query($string);
+  $items = weeve_google_places_sort_array($gdata);
+  drupal_json($items);
+  exit(0);
+}

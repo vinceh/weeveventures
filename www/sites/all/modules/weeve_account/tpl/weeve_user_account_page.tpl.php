@@ -9,12 +9,12 @@
 		<div class='profile-info-title'><?php // print t('Information');?></div>
 
     <?php if($settings['show_location']): ?>
-		  <div class='profile-info-content'><?php print t('Montecito, CA');?></div>
+		  <div class='profile-info-content'><?php print $profile->field_location[0]['value']; ?></div>
     <?php endif; ?>
 
-		<div class='profile-info-title'>Contact</div>
     <?php if($settings['show_email']): ?>
-		  <div class='profile-info-content'><?php print $account->mail; ?></div>
+      <div class='profile-info-title'>Contact</div>
+      <div class='profile-info-content'><?php print $account->mail; ?></div>
     <?php endif; ?>
 
 	</div>
