@@ -2872,12 +2872,7 @@ return round(($timestamp - time()) / 86400);;
 <div class="days-left">days left</div>'),
     t('Front page'),
     t('by'),
-    t('[phpcode]
-<div class="days-left">days left</div>'),
     t('Page projects featured'),
-    t('<h2>Explore Projects</h2>
-<h3>Fund and follow your favourite projects. Start your discovery!</h3>
-<h4>Featured</h3>'),
     t('New projects block'),
     t('<h4>New</h4>'),
     t('Category projects'),
