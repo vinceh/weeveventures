@@ -6,7 +6,7 @@
 			</div>
 			<div class='npo-profile-header-wrap'>
 				<div class='profile-name'><?php print $account->name; ?></div>
-				<div class='profile-subname'><?php print "About company"; ?></div>
+				<div class='profile-subname'><?php print $profile->field_npo_bio[0]['value']; ?></div>
 				<div class='npo-profile-title-links'>
           <?php if($user->uid == $account->uid): ?>
             <?php print l(t('Edit profile'), 'account/change', array('attributes' => array('class' => 'title-link weeve-link'))); ?>
