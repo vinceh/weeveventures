@@ -1296,6 +1296,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 
 /* npo profile NEW */
 
+.npo-profile-title-wrap {
+  margin-bottom: 15px;
+}
+
 .npo-profile-title-links {
 	position: absolute;
 	bottom: 0px;
