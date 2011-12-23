@@ -10,6 +10,7 @@ stylesheets[all][] = css/layout.css
 stylesheets[all][] = css/weeve.css
 stylesheets[all][] = css/node.css
 stylesheets[all][] = css/views.css
+stylesheets[all][] = css/forms.css
 
 regions[header] = Header
 regions[before_content] = Before Content

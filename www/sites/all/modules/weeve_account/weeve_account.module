@@ -119,6 +119,15 @@ function weeve_account_theme() {
       'arguments' => array('account' => NULL, 'profile' => NULL),
       'template' => 'tpl/weeve_npo_account_projects_content'
     ),
+    'wevee_account_textfield_inline' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'wevee_account_textarea' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'wevee_account_form_element_inline' => array(
+      'arguments' => array('element' => NULL, 'value' => NULL),
+    ),
   );
 }
 
@@ -207,13 +216,22 @@ function weeve_account_change_general_npo_form() {
   $profile = content_profile_load('profile', $user->uid);
 
   $form['picture'] = $user_edit_form['picture'];
+  $form['picture']['#title'] = t('Display Picture');
+  $form['picture']['#description'] = t('This is what users see when they view your profile');
+  $form['picture']['#weight'] = -10;
+  $form['picture']['picture_upload']['#size'] = 20;
+  $form['picture']['picture_upload']['#title'] = '';
+
+  unset($form['picture']['picture_upload']['#description']);
+  unset($form['picture']['picture_delete']['#description']);
 
   $form['location'] = array(
     '#type' => 'textfield',
     '#title' => t('Location'),
     '#default_value' => $profile->field_location[0]['value'],
     '#autocomplete_path' => 'autocomplete/places',
-    '#theme' => 'wevee_textfield_inline',
+    '#description' => t('Which city is your organization located in?'),
+    '#theme' => 'wevee_account_textfield_inline',
   );
 
   $form['website'] = array(
@@ -221,6 +239,7 @@ function weeve_account_change_general_npo_form() {
     '#title' => t('Website'),
     '#description' => t('Where can people find you on the internet?'),
     '#default_value' => $profile->field_npo_website[0]['url'],
+    '#theme' => 'wevee_account_textfield_inline',
   );
 
   $form['bio'] = array(
@@ -228,6 +247,8 @@ function weeve_account_change_general_npo_form() {
     '#title' => t('Bio'),
     '#description' => t('A short blurb about what your organization is about (300 words remaining)'),
     '#default_value' => $profile->field_npo_bio[0]['value'],
+    '#rows' => 11,
+    '#theme' => 'wevee_account_textarea',
   );
 
   $form['about'] = array(
@@ -235,13 +256,15 @@ function weeve_account_change_general_npo_form() {
     '#title' => t('About'),
     '#description' => t('Your organization\'s mission statements, some history, and any detailed information you would like users to be aware of'),
     '#default_value' => $profile->field_npo_about[0]['value'],
+    '#rows' => 20,
+    '#theme' => 'wevee_account_textarea',
   );
 
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
     '#description' => '',
-    '#weight' => 10,
+    '#weight' => 20,
   );
 
   $form['#uid'] = $user->uid;
@@ -287,7 +310,6 @@ function weeve_account_change_general_user_form() {
   global $user;
   $profile = content_profile_load('profile', $user->uid);
   $user_edit_form = user_edit_form($form_state, $user->uid, (array)$user, FALSE);
-  $type = weeve_account_check_type($user);
 
   $form = array();
 
@@ -333,6 +355,14 @@ function weeve_account_change_general_user_form() {
   );
 
   $form['picture'] = $user_edit_form['picture'];
+  $form['picture']['#title'] = t('Display Picture');
+  $form['picture']['#description'] = t('This is what users see when they view your profile');
+  $form['picture']['#weight'] = -10;
+  $form['picture']['picture_upload']['#size'] = 12;
+
+  unset($form['picture']['picture_upload']['#description']);
+  unset($form['picture']['picture_delete']['#description']);
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
@@ -541,4 +571,84 @@ function weeve_account_ajax_login() {
     }
     drupal_json($response);
   }
+}
+
+function theme_wevee_account_textfield_inline($element) {
+  $size = empty($element['#size']) ? '' : ' size="' . $element['#size'] . '"';
+  $maxlength = empty($element['#maxlength']) ? '' : ' maxlength="' . $element['#maxlength'] . '"';
+  $class = array('form-text');
+  $extra = '';
+  $output = '';
+
+  if ($element['#autocomplete_path'] && menu_valid_path(array('link_path' => $element['#autocomplete_path']))) {
+    drupal_add_js('misc/autocomplete.js');
+    $class[] = 'form-autocomplete';
+    $extra = '<input class="autocomplete" type="hidden" id="' . $element['#id'] . '-autocomplete" value="' . check_url(url($element['#autocomplete_path'], array('absolute' => TRUE))) . '" disabled="disabled" />';
+  }
+  _form_set_class($element, $class);
+
+/*  if (isset($element['#field_prefix'])) {
+    $output .= '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ';
+  }*/
+
+  $output .= '<input type="text"' . $maxlength . ' name="' . $element['#name'] . '" id="' . $element['#id'] . '"' . $size . ' value="' . check_plain($element['#value']) . '"' . drupal_attributes($element['#attributes']) . ' />';
+
+  if (isset($element['#field_suffix'])) {
+    $output .= ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>';
+  }
+
+  return theme('wevee_account_form_element_inline', $element, $output) . $extra;
+}
+
+function theme_wevee_account_form_element_inline($element, $value) {
+  // This is also used in the installer, pre-database setup.
+  $t = get_t();
+
+  $output = '<div class="form-item"';
+  if (!empty($element['#id'])) {
+    $output .= ' id="' . $element['#id'] . '-wrapper"';
+  }
+  $output .= ">\n";
+  $required = !empty($element['#required']) ? '<span class="form-required" title="' . $t('This field is required.') . '">*</span>' : '';
+
+  if (!empty($element['#title'])) {
+    $title = $element['#title'];
+    if (!empty($element['#id'])) {
+      $output .= ' <label for="' . $element['#id'] . '">' . $t('!title: !required', array('!title' => filter_xss_admin($title), '!required' => $required)) . "</label>\n";
+    }
+    else {
+      $output .= ' <label>' . $t('!title: !required', array('!title' => filter_xss_admin($title), '!required' => $required)) . "</label>\n";
+    }
+    if (!empty($element['#description'])) {
+      $output .= ' <div class="description">' . $element['#description'] . "</div>\n";
+    }
+  }
+
+  $output .= " $value\n";
+
+  $output .= "</div>\n";
+
+  return $output;
+}
+
+function theme_wevee_account_textarea($element) {
+  $class = array('form-textarea');
+
+    // Add teaser behavior (must come before resizable)
+    if (!empty($element['#teaser'])) {
+      drupal_add_js('misc/teaser.js');
+      // Note: arrays are merged in drupal_get_js().
+      drupal_add_js(array('teaserCheckbox' => array($element['#id'] => $element['#teaser_checkbox'])), 'setting');
+      drupal_add_js(array('teaser' => array($element['#id'] => $element['#teaser'])), 'setting');
+      $class[] = 'teaser';
+    }
+
+    // Add resizable behavior
+    if ($element['#resizable'] !== FALSE) {
+      drupal_add_js('misc/textarea.js');
+      $class[] = 'resizable';
+    }
+
+    _form_set_class($element, $class);
+    return theme('wevee_account_form_element_inline', $element, '<textarea cols="' . $element['#cols'] . '" rows="' . $element['#rows'] . '" name="' . $element['#name'] . '" id="' . $element['#id'] . '" ' . drupal_attributes($element['#attributes']) . '>' . check_plain($element['#value']) . '</textarea>');
 }
