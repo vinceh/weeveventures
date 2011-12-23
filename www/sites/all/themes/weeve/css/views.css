@@ -112,3 +112,25 @@
   color: #555;
   font-size: 16px;
 }
+
+.view-npo-project-proposals .views-field-nothing {
+  padding-top: 20px;
+  font-family: neue;
+  color: #777777;
+  letter-spacing: 0px;
+  font-size: 16px;
+}
+
+.view-npo-project-proposals .views-field-nothing .title {
+  color: #333333;
+  font-size: 16px;
+}
+
+.view-npo-project-proposals .views-field-nothing .title .created {
+  display: inline;
+}
+
+.view-npo-project-proposals .views-field-nothing .title .created:before {
+  content: " - "
+}
+

@@ -6,5 +6,6 @@ $(document).ready(function() {
     e.preventDefault();
     $(this).find('.body_small').toggle();
     $(this).find('.body').toggle();
+    
   });
 });

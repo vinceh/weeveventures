@@ -10,7 +10,9 @@
 				<div class='npo-profile-title-links'>
           <?php if($user->uid == $account->uid): ?>
             <?php print l(t('Edit profile'), 'account/change', array('attributes' => array('class' => 'title-link weeve-link'))); ?>
-            <?php print l(t('Create new Project'), 'node/add/project/'. $account->uid, array('attributes' => array('class' => 'title-link weeve-medium-button'))); ?>
+            <?php if (weeve_project_proposal_valid()): ?>
+            <?php print l(t('Create new proposal'), 'project/terms', array('attributes' => array('class' => 'title-link weeve-medium-button'))); ?>
+            <?php endif; ?>
           <?php endif; ?>
 				</div>
 			</div>
