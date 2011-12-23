@@ -50,7 +50,7 @@ $(window).load( function() {
 			
 			"<div class='forgot-pass-link'>forgot password?</div>" +
 			
-			"<div class='login-button'>Log in</div>"
+			"<div class='login-button weeve-small-button'>Log in</div>"
 		);
 
 		positionLogin();
