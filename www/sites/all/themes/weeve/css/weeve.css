@@ -1037,7 +1037,27 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 }
 
 /* profile pages */
+.profile-project-stats-wrap {
+	height: 75px;
+}
 
+.profile-stats-wrap {
+	display: inline-block;
+	width: 312px;
+	text-align: center;
+	padding: 10px;
+	border-right: 1px dotted #bbb;
+
+	float: left;
+}
+
+.profile-stats-wrap:last-child {
+	border-right: none;
+}
+
+.profile-stats-wrap:hover {
+	background-color: #f2f2f2;
+}
 .profile-wrapper {
 	margin-top: 70px;
 }
@@ -1275,6 +1295,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 }
 
 /* npo profile NEW */
+
+.npo-profile-title-wrap {
+  margin-bottom: 15px;
+}
 
 .npo-profile-title-links {
 	position: absolute;

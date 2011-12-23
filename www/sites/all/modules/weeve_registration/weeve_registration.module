@@ -264,6 +264,8 @@ function weeve_registration_create_profile($account, $info) {
   $profile->field_npo_website[0]['url'] = $info['website'];
   $profile->field_npo_representative_name[0]['value'] = $info['representative_name'];
   $profile->field_account_type[0]['value'] = $info['type'];
+  $profile->field_npo_bio[0]['value'] = '';
+  $profile->field_npo_about[0]['value'] = '';
 
   $profile->uid = $account->uid;
   node_save($profile);
