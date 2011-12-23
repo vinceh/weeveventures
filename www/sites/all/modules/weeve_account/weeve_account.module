@@ -410,10 +410,10 @@ function weeve_account_load_user($uid) {
   }
   $user->photo = $photo;
   if ($account_type == 'npo' || $account_type == 'corp') {
-    $view_result = views_get_view_result('featured_projects', 'npo_projects', $user->uid);
+    $view_result = views_get_view_result('featured_projects', 'page_4', $user->uid);
     $money = 0;
     foreach ($view_result as $value) {
-      $money += $value->node_data_field_project_amount_pledge_field_project_amount_p;
+      $money += $value->node_data_field_project_image_field_project_amount_pledge_am;
     }
     $user->count_projects = count($view_result);
     $user->money = $money;
