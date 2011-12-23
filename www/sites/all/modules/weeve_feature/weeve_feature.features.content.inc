@@ -59,6 +59,161 @@ corp|Corporate',
     ),
   );
 
+  // Exported field: field_location
+  $fields['profile-field_location'] = array(
+    'field_name' => 'field_location',
+    'type_name' => 'profile',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'default_value' => NULL,
+      'default_value_php' => NULL,
+      'label' => 'Location',
+      'weight' => '31',
+      'description' => '',
+      'type' => 'weeve_google_places_autocomplete',
+      'module' => 'weeve_google_places',
+    ),
+  );
+
+  // Exported field: field_npo_about
+  $fields['profile-field_npo_about'] = array(
+    'field_name' => 'field_npo_about',
+    'type_name' => 'profile',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'rows' => '5',
+      'size' => 60,
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_npo_about][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'About',
+      'weight' => '33',
+      'description' => '',
+      'type' => 'text_textarea',
+      'module' => 'text',
+    ),
+  );
+
+  // Exported field: field_npo_bio
+  $fields['profile-field_npo_bio'] = array(
+    'field_name' => 'field_npo_bio',
+    'type_name' => 'profile',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '300',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'rows' => '5',
+      'size' => 60,
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_npo_bio][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Bio',
+      'weight' => '32',
+      'description' => '',
+      'type' => 'text_textarea',
+      'module' => 'text',
+    ),
+  );
+
   // Exported field: field_npo_code
   $fields['profile-field_npo_code'] = array(
     'field_name' => 'field_npo_code',
@@ -1766,14 +1921,17 @@ decline|Declined
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('About');
   t('Account type');
   t('Amount needed');
   t('Amount pledged');
+  t('Bio');
   t('Business Code');
   t('Business Number');
   t('Business Website');
   t('Donors');
   t('Full Name');
+  t('Location');
   t('Organization Name');
   t('Percent pledged');
   t('Project');
