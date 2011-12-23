@@ -4,6 +4,14 @@
     Author     : Rusk
 */
 
+html.js input.form-autocomplete {
+  background-position: 100% 20px;
+}
+
+html.js input.throbbing {
+  background-position: 100% -18px;
+}
+
 #header-region {
   height: 50px;
 	background-color: #37abcc; /* Old browsers */
@@ -65,8 +73,8 @@
 }
 
 #block-views-project_categories-block_1 {
-  margin-top: 100px;
-  border-right: 1px solid #ccc;;
+  border-right: 1px solid #ccc;
+  padding-top: 15px;
 }
 
 #block-views-project_categories-block_1 h2 {
@@ -83,6 +91,40 @@
 }
 
 #block-views-project_categories-block_1 a:hover {
+  background-color: #ecebeb;
+}
+
+#block-menu-menu-featured-projects {
+  margin-top: 100px;
+  border-right: 1px solid #ccc;
+}
+
+#block-menu-menu-featured-projects h2 {
+  font-size: 16px;
+  margin: 0px;
+  font-weight: bold;
+}
+
+#block-menu-menu-featured-projects ul {
+  margin-top: 10px;
+  margin-left: 0px;
+  padding: 0px;
+}
+
+#block-menu-menu-featured-projects ul li {
+  list-style-type: none;
+  list-style-image: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+#block-menu-menu-featured-projects ul li a {
+  color: #4a4a4a;
+  padding: 5px;
+  display: block;
+}
+
+#block-menu-menu-featured-projects ul li a:hover {
   background-color: #ecebeb;
 }
 

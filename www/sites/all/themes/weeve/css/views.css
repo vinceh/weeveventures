@@ -55,6 +55,10 @@
 
 
 /* PENDING PROJECTS */
+.view-npo-project-proposals {
+  font-family: neue;
+}
+
 .view-npo-project-proposals table {
   width: 100%;
 }
@@ -85,7 +89,8 @@
 }
 
 .view-npo-project-proposals table tr td {
-  padding: 10px;  
+  padding: 20px;
+  padding-left: 30px;
 }
 
 .view-npo-project-proposals table tr td .body {
@@ -106,9 +111,41 @@
 .view-npo-project-proposals .view-empty {
   padding: 10px;
   font-size: 16px;
+  padding-left: 20px;
 }
 
-.view-npo-project-proposals .view-header {
-  color: #555;
+.view-npo-project-proposals .view-header,
+.view-npo-project-proposals .view-footer {
+  color: #777;
+  font-size: 16px;
+  padding: 20px;
+  padding-left: 30px;
+}
+
+.view-npo-project-proposals .view-header h3,
+.view-npo-project-proposals .view-footer h3 {
+  color: #333;
+  font-size: 23px;
+  font-weight: normal;
+}
+
+.view-npo-project-proposals .views-field-nothing {
+  padding-top: 20px;
+  color: #777777;
+  letter-spacing: 0px;
   font-size: 16px;
 }
+
+.view-npo-project-proposals .views-field-nothing .title {
+  color: #333333;
+  font-size: 16px;
+}
+
+.view-npo-project-proposals .views-field-nothing .title .created {
+  display: inline;
+}
+
+.view-npo-project-proposals .views-field-nothing .title .created:before {
+  content: " - "
+}
+

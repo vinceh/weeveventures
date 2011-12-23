@@ -119,7 +119,7 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
     $proposal_nid = arg(3);
 
     if (!$proposal_nid || !_weeve_project_is_allowed_create_project($proposal_nid)) {
-      drupal_goto('user/' . $user->uid . '/proposals');
+      drupal_goto('account/' . $user->uid . '/projects');
       exit;
     }
     $proposal = node_load(array('nid' => $proposal_nid));
@@ -161,7 +161,7 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
 
     if (!_weeve_project_is_allowed_create_proposal()) {
       global $user;
-      drupal_goto('user/' . $user->uid . '/proposals');
+      drupal_goto('account/' . $user->uid . '/projects');
       exit;
     }
   }
@@ -169,7 +169,7 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'project_node_form' && arg(2) == 'edit') {
     $youtube_id = $form['field_project_video'][0]['#default_value']['video_id'];
     //print_r($form['field_project_video_embed']); exit;
-    $form['field_project_video_embed'][0]['embed']['#default_value'] = 'www.youtube.com/watch?v=' . $youtube_id;
+    //$form['field_project_video_embed'][0]['embed']['#default_value'] = 'www.youtube.com/watch?v=' . $youtube_id;
   }
 }
 
@@ -190,8 +190,17 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     $proposal = node_load(array('nid' => $proposal_nid));
 
     $proposal->field_proposal_project[0]['nid'] = $node->nid;
-    $proposal->field_proposal_status[0]['value'] = 'running';
     node_save($proposal);
+  }
+
+  if ($op == 'update' && $node->type == 'project') {    
+    if ($node->field_project_status[0]['value'] == 'decline') {
+      $proposal_nid = $node->field_project_proposal[0]['nid'];
+      $proposal = node_load(array('nid' => $proposal_nid));
+      
+      $proposal->field_proposal_status[0]['value'] = 'approve';
+      node_save($proposal);
+    }
   }
 
   if ($op == 'view' && $node->type == 'project') {
@@ -201,6 +210,55 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   if ($op == 'view' && $node->type == 'project_update') {
     $node->native_body = $node->body;
   }
+
+  if ($op == 'presave' && in_array($node->type, array('project', 'project_request'))) {
+    if ($node->type == 'project') {
+      switch($node->field_project_status[0]['value']) {
+        case 'review':
+          $node->field_node_weight[0]['value'] = 1;         
+          break;
+        case 'accept':
+          $node->field_node_weight[0]['value'] = 2;
+          break;
+        case 'decline':
+          $node->field_node_weight[0]['value'] = 3;
+          break;
+        case 'archive':
+          $node->field_node_weight[0]['value'] = 4;
+          break;
+      }
+
+      if ($node->field_project_status[0]['value'] == 'archive') {
+        $node->status = 0;
+        $node->promote = 0;
+      }
+    }
+
+    if ($node->type == 'project_request') {
+      switch($node->field_proposal_status[0]['value']) {
+        case 'new':
+          $node->field_node_weight[0]['value'] = 1;
+          break;
+        case 'review':
+          $node->field_node_weight[0]['value'] = 2;
+          break;
+        case 'running':
+          $node->field_node_weight[0]['value'] = 3;
+          break;
+        case 'approve':
+          $node->field_node_weight[0]['value'] = 4;
+          break;
+        case 'decline':
+          $node->field_node_weight[0]['value'] = 5;
+          break;
+        case 'cancel':
+          $node->field_node_weight[0]['value'] = 6;
+          break;
+      }
+    }
+  }
+
+  
 }
 
 function weeve_project_theme() {
@@ -342,7 +400,7 @@ function weeve_project_preprocess_page(&$vars) {
 function weeve_project_terms_form() {
   if (_weeve_project_is_allowed_create_project()) {
     global $user;
-    drupal_goto('user/' . $user->uid . '/proposals');
+    drupal_goto('account/' . $user->uid . '/projects');
   }
 
   $form = array();
@@ -489,6 +547,7 @@ function _weeve_is_admin() {
   global $user;
   return in_array('admin', $user->roles);
 }
+
 
 if (!function_exists('date_parse_from_format')) {
   function date_parse_from_format($format, $date) {
