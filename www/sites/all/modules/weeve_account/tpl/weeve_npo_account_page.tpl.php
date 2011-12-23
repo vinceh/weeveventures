@@ -20,7 +20,7 @@
 	</div>
 
 	<div class='profile-links'>
-      <?php print l(t('about'), 'account/'. $account->uid, array('attributes' => array('class' => 'profile-link'))); ?>
+      <?php print l(t('about'), 'account/'. $account->uid .'/about', array('attributes' => array('class' => 'profile-link'))); ?>
       <?php print l(t('history'), 'account/'. $account->uid .'/history', array('attributes' => array('class' => 'profile-link'))); ?>
       <?php if($user->uid == $account->uid): ?>
         <?php print l(t('pending projects'), 'account/'. $account->uid .'/projects', array('attributes' => array('class' => 'profile-link'))); ?>

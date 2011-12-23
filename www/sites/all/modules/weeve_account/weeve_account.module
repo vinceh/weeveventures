@@ -61,6 +61,16 @@ function weeve_account_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['account/%/about'] = array(
+    'title' => '',
+    'access callback' => 'weeve_account_access',
+    'access arguments' => array(1),
+    'page callback' => 'weeve_account_about_page',
+    'page arguments' => array(1),
+    'type' => MENU_CALLBACK,
+  );
+
+
   $items['account/%/projects'] = array(
     'title' => '',
     'access callback' => 'weeve_account_owner_access',
@@ -499,7 +509,18 @@ function weeve_account_projects_page($uid) {
   } else {
     drupal_access_denied();
   }
+}
 
+function weeve_account_about_page($uid) {
+  $user_info = weeve_account_load_user($uid);
+  $type = weeve_account_check_type($user_info['user']);
+  if ($type == 'npo' || $type == 'corp') {
+    $content = theme('weeve_npo_account_about', $user_info['user'], $user_info['profile']);
+    $output = theme('weeve_npo_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
+    return $output;
+  } else {
+    drupal_access_denied();
+  }
 }
 
 
