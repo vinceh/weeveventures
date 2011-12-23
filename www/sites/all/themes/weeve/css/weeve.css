@@ -1,5 +1,5 @@
 @font-face {
-	font-family: fonty;
+	font-family: neue;
 	src: url('../fonts/HelveticaNeueLTCom-Lt.ttf');
 }
 
@@ -89,6 +89,7 @@ body{
   min-height: 350px;
   margin-left: 60px;
   margin-top: 20px;
+  height: 386px;
 }
 
 .sidebar-left #main-content .view-featured-projects.front-page {

@@ -9,9 +9,9 @@
 				<div class='profile-subname'><?php print "About company"; ?></div>
 				<div class='npo-profile-title-links'>
           <?php if($user->uid == $account->uid): ?>
-            <?php print l(t('Edit profile'), 'account/change', array('attributes' => array('class' => 'title-link weeve-link'))); ?>
-            <?php if (weeve_project_proposal_valid()): ?>
-            <?php print l(t('Create new proposal'), 'project/terms', array('attributes' => array('class' => 'title-link weeve-medium-button'))); ?>
+            <?php print l(t('Account Settings'), 'account/change', array('attributes' => array('class' => 'title-link weeve-link'))); ?>
+            <?php if (_weeve_project_is_allowed_create_proposal()): ?>
+            <?php print l(t('Propose new Project'), 'project/terms', array('attributes' => array('class' => 'title-link weeve-medium-button'))); ?>
             <?php endif; ?>
           <?php endif; ?>
 				</div>
