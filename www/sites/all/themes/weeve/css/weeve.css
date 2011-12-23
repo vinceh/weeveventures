@@ -89,7 +89,7 @@ body{
   min-height: 350px;
   margin-left: 60px;
   margin-top: 20px;
-  height: 386px;
+  height: 410px;
 }
 
 .sidebar-left #main-content .view-featured-projects.front-page {
@@ -120,6 +120,20 @@ body{
   height: 32px;
 }
 
+.view-featured-projects.front-page .views-field-field-project-location-value {
+  font-size: 11px;
+  height: 20px;
+  color: #555;
+  margin: 10px 0px;
+  padding-left: 14px;
+  background: url(../img/icon-location.png) left no-repeat;
+  padding-top: 5px;
+}
+
+.view-featured-projects.front-page .views-field-field-project-image-fid {
+  height: 150px;
+}
+
 .view-featured-projects.front-page .views-field-body {
   margin-bottom: 10px;
   height: 120px;
@@ -129,11 +143,22 @@ body{
   color: #00A0CE;
 }
 
+.view-featured-projects.front-page .views-field-field-project-percent-pledge-value {
+  width: 40%;
+}
+
 .view-featured-projects.front-page .views-field-field-project-percent-pledge-value,
 .view-featured-projects.front-page .views-field-field-project-amount-pledge-amount,
 .view-featured-projects.front-page .views-field-phpcode {
-  float: left;
-  width: 33%;
+  float: left;  
+}
+
+.view-featured-projects.front-page .views-field-field-project-amount-pledge-amount {
+  width: 35%;
+}
+
+.view-featured-projects.front-page .views-field-phpcode {
+  width: 25%;
 }
 
 .view-featured-projects.front-page .views-field-field-project-percent-pledge-value .field-content,

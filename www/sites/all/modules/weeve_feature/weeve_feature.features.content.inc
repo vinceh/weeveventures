@@ -59,161 +59,6 @@ corp|Corporate',
     ),
   );
 
-  // Exported field: field_location
-  $fields['profile-field_location'] = array(
-    'field_name' => 'field_location',
-    'type_name' => 'profile',
-    'display_settings' => array(
-      'label' => array(
-        'format' => 'above',
-        'exclude' => 0,
-      ),
-      'teaser' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'full' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      '4' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'token' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-    ),
-    'widget_active' => '1',
-    'type' => 'text',
-    'required' => '0',
-    'multiple' => '0',
-    'module' => 'text',
-    'active' => '1',
-    'text_processing' => '0',
-    'max_length' => '',
-    'allowed_values' => '',
-    'allowed_values_php' => '',
-    'widget' => array(
-      'default_value' => NULL,
-      'default_value_php' => NULL,
-      'label' => 'Location',
-      'weight' => '31',
-      'description' => '',
-      'type' => 'weeve_google_places_autocomplete',
-      'module' => 'weeve_google_places',
-    ),
-  );
-
-  // Exported field: field_npo_about
-  $fields['profile-field_npo_about'] = array(
-    'field_name' => 'field_npo_about',
-    'type_name' => 'profile',
-    'display_settings' => array(
-      'label' => array(
-        'format' => 'above',
-        'exclude' => 0,
-      ),
-      'teaser' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'full' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      '4' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'token' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-    ),
-    'widget_active' => '1',
-    'type' => 'text',
-    'required' => '0',
-    'multiple' => '0',
-    'module' => 'text',
-    'active' => '1',
-    'text_processing' => '0',
-    'max_length' => '',
-    'allowed_values' => '',
-    'allowed_values_php' => '',
-    'widget' => array(
-      'rows' => '5',
-      'size' => 60,
-      'default_value' => array(
-        '0' => array(
-          'value' => '',
-          '_error_element' => 'default_value_widget][field_npo_about][0][value',
-        ),
-      ),
-      'default_value_php' => NULL,
-      'label' => 'About',
-      'weight' => '33',
-      'description' => '',
-      'type' => 'text_textarea',
-      'module' => 'text',
-    ),
-  );
-
-  // Exported field: field_npo_bio
-  $fields['profile-field_npo_bio'] = array(
-    'field_name' => 'field_npo_bio',
-    'type_name' => 'profile',
-    'display_settings' => array(
-      'label' => array(
-        'format' => 'above',
-        'exclude' => 0,
-      ),
-      'teaser' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'full' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      '4' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'token' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-    ),
-    'widget_active' => '1',
-    'type' => 'text',
-    'required' => '0',
-    'multiple' => '0',
-    'module' => 'text',
-    'active' => '1',
-    'text_processing' => '0',
-    'max_length' => '300',
-    'allowed_values' => '',
-    'allowed_values_php' => '',
-    'widget' => array(
-      'rows' => '5',
-      'size' => 60,
-      'default_value' => array(
-        '0' => array(
-          'value' => '',
-          '_error_element' => 'default_value_widget][field_npo_bio][0][value',
-        ),
-      ),
-      'default_value_php' => NULL,
-      'label' => 'Bio',
-      'weight' => '32',
-      'description' => '',
-      'type' => 'text_textarea',
-      'module' => 'text',
-    ),
-  );
-
   // Exported field: field_npo_code
   $fields['profile-field_npo_code'] = array(
     'field_name' => 'field_npo_code',
@@ -546,6 +391,60 @@ corp|Corporate',
     ),
   );
 
+  // Exported field: field_node_weight
+  $fields['project-field_node_weight'] = array(
+    'field_name' => 'field_node_weight',
+    'type_name' => 'project',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'number_integer',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'number',
+    'active' => '1',
+    'prefix' => '',
+    'suffix' => '',
+    'min' => '0',
+    'max' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'default_value' => array(
+        '0' => array(
+          'value' => '0',
+          '_error_element' => 'default_value_widget][field_node_weight][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Weight',
+      'weight' => '16',
+      'description' => '',
+      'type' => 'number',
+      'module' => 'number',
+    ),
+  );
+
   // Exported field: field_project_amount_need
   $fields['project-field_project_amount_need'] = array(
     'field_name' => 'field_project_amount_need',
@@ -756,7 +655,7 @@ corp|Corporate',
       ),
       'default_value_php' => NULL,
       'label' => 'Amount needed',
-      'weight' => '7',
+      'weight' => '8',
       'description' => '',
       'type' => 'money_widget',
       'module' => 'money',
@@ -973,7 +872,7 @@ corp|Corporate',
       ),
       'default_value_php' => NULL,
       'label' => 'Amount pledged',
-      'weight' => '8',
+      'weight' => '9',
       'description' => '',
       'type' => 'money_widget',
       'module' => 'money',
@@ -1155,6 +1054,58 @@ corp|Corporate',
     ),
   );
 
+  // Exported field: field_project_location
+  $fields['project-field_project_location'] = array(
+    'field_name' => 'field_project_location',
+    'type_name' => 'project',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '1',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_project_location][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Location',
+      'weight' => '18',
+      'description' => '',
+      'type' => 'weeve_google_places_autocomplete',
+      'module' => 'weeve_google_places',
+    ),
+  );
+
   // Exported field: field_project_percent_pledge
   $fields['project-field_project_percent_pledge'] = array(
     'field_name' => 'field_project_percent_pledge',
@@ -1266,6 +1217,58 @@ if ($node->field_project_amount_need[0][\'amount\'] > 0) {
       'description' => '',
       'type' => 'nodereference_autocomplete',
       'module' => 'nodereference',
+    ),
+  );
+
+  // Exported field: field_project_staff_pick
+  $fields['project-field_project_staff_pick'] = array(
+    'field_name' => 'field_project_staff_pick',
+    'type_name' => 'project',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '0|No
+1|Yes',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'default_value' => array(
+        '0' => array(
+          'value' => 0,
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Staff pick',
+      'weight' => '17',
+      'description' => '',
+      'type' => 'optionwidgets_onoff',
+      'module' => 'optionwidgets',
     ),
   );
 
@@ -1520,10 +1523,64 @@ archive|Archived',
       ),
       'default_value_php' => NULL,
       'label' => 'Video URL',
-      'weight' => '16',
+      'weight' => '-1',
       'description' => '',
       'type' => 'emvideo_textfields',
       'module' => 'emvideo',
+    ),
+  );
+
+  // Exported field: field_node_weight
+  $fields['project_request-field_node_weight'] = array(
+    'field_name' => 'field_node_weight',
+    'type_name' => 'project_request',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'number_integer',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'number',
+    'active' => '1',
+    'prefix' => '',
+    'suffix' => '',
+    'min' => '0',
+    'max' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'default_value' => array(
+        '0' => array(
+          'value' => '0',
+          '_error_element' => 'default_value_widget][field_node_weight][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Weight',
+      'weight' => '32',
+      'description' => '',
+      'type' => 'number',
+      'module' => 'number',
     ),
   );
 
@@ -1921,11 +1978,9 @@ decline|Declined
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('About');
   t('Account type');
   t('Amount needed');
   t('Amount pledged');
-  t('Bio');
   t('Business Code');
   t('Business Number');
   t('Business Website');
@@ -1943,10 +1998,12 @@ decline|Declined
   t('Proposal back');
   t('Proposal links');
   t('Representative Name');
+  t('Staff pick');
   t('Status');
   t('Updates');
   t('Video');
   t('Video URL');
+  t('Weight');
   t('What is end date of your project to be funded?');
 
   return $fields;
