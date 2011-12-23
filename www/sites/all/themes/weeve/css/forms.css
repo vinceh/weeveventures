@@ -54,49 +54,6 @@ input.form-text {
   overflow: hidden;
 }
 
-/*General account edit form*/
-#weeve-account-change-general-form {
-  overflow: hidden;
-	margin: 30px 230px 30px 30px;
-}
-
-#weeve-account-change-general-form .label {
-  float: left;
-}
-
-#weeve-account-change-general-form .label label {
-  font-size: 16px;
-  font-weight: normal;
-  padding: 6px 10px;
-  text-align: right;
-  width: 250px;
-}
-
-#weeve-account-change-general-form .field {
-  float: left;
-}
-
-#weeve-account-change-general-form .form-item {
-  overflow: hidden;
-}
-
-#weeve-account-change-general-form .form-submit {
-  background: -moz-linear-gradient(center top , #37ABCC 0%, #00A0CE 51%, #008DB5 100%) repeat scroll 0 0 transparent;
-  background-color: #00A0CE;
-  border: medium none;
-  border-radius: 5px 5px 5px 5px;
-  color: white;
-  font-size: 16px;
-  padding: 10px 20px;
-  clear: both;
-  float: right;
-}
-
-#weeve-account-change-general-form .form-submit:hover {
-  cursor: pointer;
-  background-color: #0285ab;
-}
-
 /*NPO Edit account*/
 #weeve-account-change-general-npo-form .description {
   font-size: 16px;
@@ -138,6 +95,107 @@ input.form-text {
 }
 
 #weeve-account-change-general-npo-form #edit-submit:hover {
+  background: #18a5cc; /* Old browsers */
+  background: -moz-linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #18a5cc), color-stop(51%, #0098bf), color-stop(100%, #007e9e)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* IE10+ */
+  background: linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#18a5cc', endColorstr = '#007e9e', GradientType = 0); /* IE6-9 */
+  background-color: #0285AB;
+  cursor: pointer;
+}
+
+/*User edit account*/
+#weeve-account-change-general-user-form {
+  overflow: hidden;
+	margin: 30px 230px 30px 30px;
+}
+
+#weeve-account-change-general-user-form .description {
+  color: #505050;
+  font-size: 12px;
+}
+
+#weeve-account-change-general-user-form fieldset {
+  border: none;
+  width: 500px;
+  margin-left: 170px;
+}
+
+#weeve-account-change-general-user-form fieldset legend {
+  float: left;
+}
+
+#weeve-account-change-general-user-form fieldset .picture {
+  float: left;
+  padding: 10px;
+}
+
+#weeve-account-change-general-user-form fieldset #edit-picture-delete-wrapper {
+  float: left;
+}
+
+#weeve-account-change-general-user-form #edit-picture-upload-wrapper {
+  overflow: inherit;
+  margin-left: 170px;
+}
+
+#weeve-account-change-general-user-form fieldset legend {
+  font-size: 23px;
+  margin-top: 30px;
+  color: #333333;
+  font-family: fonty;
+}
+
+#weeve-account-change-general-user-form label {
+  font-size: 16px;
+  font-weight: normal;
+  padding: 6px 10px;
+  text-align: right;
+  width: 250px;
+}
+
+#weeve-account-change-general-user-form label.option {
+  float: right;
+  text-align: left;
+  width: auto;
+}
+
+#weeve-account-change-general-user-form .label {
+  float: left;
+}
+
+#weeve-account-change-general-user-form .label label {
+  font-size: 16px;
+  font-weight: normal;
+  padding: 6px 10px;
+  text-align: right;
+  width: 250px;
+}
+
+#weeve-account-change-general-user-form .field {
+  float: left;
+}
+
+#weeve-account-change-general-user-form .form-item {
+  overflow: hidden;
+}
+
+#weeve-account-change-general-user-form #edit-submit {
+  border: medium none;
+  border-radius: 5px 5px 5px 5px;
+  color: white;
+  font-size: 18px;
+  padding: 10px 20px;
+  background: -moz-linear-gradient(center top , #37ABCC 0%, #00A0CE 51%, #008DB5 100%) repeat scroll 0 0 transparent;
+  display: inline-block;
+  float: right;
+}
+
+
+#weeve-account-change-general-user-form #edit-submit:hover {
   background: #18a5cc; /* Old browsers */
   background: -moz-linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #18a5cc), color-stop(51%, #0098bf), color-stop(100%, #007e9e)); /* Chrome,Safari4+ */

@@ -125,6 +125,9 @@ function weeve_account_theme() {
     'wevee_account_textarea' => array(
       'arguments' => array('element' => NULL),
     ),
+    'wevee_account_checkbox' => array(
+      'arguments' => array('element' => NULL),
+    ),
     'wevee_account_form_element_inline' => array(
       'arguments' => array('element' => NULL, 'value' => NULL),
     ),
@@ -331,6 +334,7 @@ function weeve_account_change_general_user_form() {
     '#type' => 'checkbox',
     '#title' => t('Show my email on my profile'),
     '#default_value' => variable_get('account_show_email_'. $user->uid, TRUE),
+    '#theme' => 'wevee_account_checkbox',
   );
 
   $form['location'] = array(
@@ -345,6 +349,7 @@ function weeve_account_change_general_user_form() {
     '#type' => 'checkbox',
     '#title' => t('Show my location on my profile'),
     '#default_value' => variable_get('account_show_location_'. $user->uid, TRUE),
+    '#theme' => 'wevee_account_checkbox',
   );
 
   $form['donation_history'] = array(
@@ -352,13 +357,15 @@ function weeve_account_change_general_user_form() {
     '#title' => t('Donation History'),
     '#description' => t('Allow others to view my donation history'),
     '#default_value' => variable_get('account_donation_history_'. $user->uid, TRUE),
+    '#theme' => 'wevee_account_checkbox',
   );
 
   $form['picture'] = $user_edit_form['picture'];
-  $form['picture']['#title'] = t('Display Picture');
-  $form['picture']['#description'] = t('This is what users see when they view your profile');
+  $form['picture']['#title'] = t('Picture');
+  $form['picture']['#description'] = t('');
   $form['picture']['#weight'] = -10;
-  $form['picture']['picture_upload']['#size'] = 12;
+  $form['picture']['picture_upload']['#size'] = 20;
+  $form['picture']['picture_upload']['#title'] = '';
 
   unset($form['picture']['picture_upload']['#description']);
   unset($form['picture']['picture_delete']['#description']);
@@ -651,4 +658,23 @@ function theme_wevee_account_textarea($element) {
 
     _form_set_class($element, $class);
     return theme('wevee_account_form_element_inline', $element, '<textarea cols="' . $element['#cols'] . '" rows="' . $element['#rows'] . '" name="' . $element['#name'] . '" id="' . $element['#id'] . '" ' . drupal_attributes($element['#attributes']) . '>' . check_plain($element['#value']) . '</textarea>');
+}
+
+function theme_wevee_account_checkbox($element) {
+  _form_set_class($element, array('form-checkbox'));
+  $checkbox = '<input ';
+  $checkbox .= 'type="checkbox" ';
+  $checkbox .= 'name="' . $element['#name'] . '" ';
+  $checkbox .= 'id="' . $element['#id'] . '" ';
+  $checkbox .= 'value="' . $element['#return_value'] . '" ';
+  $checkbox .= $element['#value'] ? ' checked="checked" ' : ' ';
+  $checkbox .= drupal_attributes($element['#attributes']) . ' />';
+
+  if (!is_null($element['#title'])) {
+    $checkbox = '<label class="option" for="' . $element['#id'] . '">'. $element['#title'] .' '. $checkbox  .  ' <span class="description">'. $element['#description'] .'</span></label>';
+  }
+  unset($element['#description']);
+
+  unset($element['#title']);
+  return theme('form_element', $element, $checkbox);
 }
