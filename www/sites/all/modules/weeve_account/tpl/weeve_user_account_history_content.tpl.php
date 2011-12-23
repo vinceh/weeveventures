@@ -1,3 +1,13 @@
+<div class='profile-project-stats-wrap'>
+	<div class='profile-stats-wrap'>
+		<div class='stats-value'>3</div>
+		<div class='stats-title'>Projects Funded</div>
+	</div>
+	<div class='profile-stats-wrap'>
+		<div class='stats-value'>$34,387</div>
+		<div class='stats-title'>Donated Total</div>
+	</div>
+</div>
 <div class='profile-main-title'>September, 2011</div>
 <div class='profile-main-content-wrap'>
   <span class='profile-main-content-value'>Backed $60 to project</span>
