@@ -1,0 +1,13 @@
+name = Adaptive payments API
+description = PayPal-X Adaptive Payments API
+package = PayPal API
+core = 6.x
+project = adaptive_payments
+
+
+; Information added by drupal.org packaging script on 2011-02-25
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "adaptive_payments"
+datestamp = "1298618796"
+
