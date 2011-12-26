@@ -16,10 +16,8 @@ function weeve_feature_taxonomy_default_vocabularies() {
       'tags' => '0',
       'module' => 'features_project_categories',
       'weight' => '0',
-      'nodes' => array(
-        'project' => 'project',
-        'project_request' => 'project_request',
-      ),
+      'type' => NULL,
+      'nodes' => array(),
     ),
   );
 }
