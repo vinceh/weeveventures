@@ -864,7 +864,6 @@ return $user->uid == $argument;';
   $handler->display->display_options['header']['area']['content'] = '<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>
 <h4>Featured</h3>';
-  $handler->display->display_options['header']['area']['format'] = '2';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   /* Footer: Global: Text area */
   $handler->display->display_options['footer']['area']['id'] = 'area';
@@ -873,7 +872,6 @@ return $user->uid == $argument;';
   $handler->display->display_options['footer']['area']['label'] = '';
   $handler->display->display_options['footer']['area']['empty'] = TRUE;
   $handler->display->display_options['footer']['area']['content'] = '<div class="clear-block">&nbsp;</div>';
-  $handler->display->display_options['footer']['area']['format'] = '2';
   $handler->display->display_options['footer']['area']['tokenize'] = 0;
   /* Empty text: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
@@ -882,7 +880,6 @@ return $user->uid == $argument;';
   $handler->display->display_options['empty']['area']['label'] = '';
   $handler->display->display_options['empty']['area']['empty'] = FALSE;
   $handler->display->display_options['empty']['area']['content'] = '<h3>No projects in this category</h3>';
-  $handler->display->display_options['empty']['area']['format'] = '2';
   $handler->display->display_options['empty']['area']['tokenize'] = 0;
   /* Relationship: User: Nodes authored */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
@@ -950,8 +947,9 @@ return $user->uid == $argument;';
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '250';
   $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 1;
   $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['preserve_tags'] = '<br>';
   $handler->display->display_options['fields']['body']['alter']['html'] = 0;
   $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
@@ -1264,6 +1262,7 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
   $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 1;
   $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['preserve_tags'] = '<br>';
   $handler->display->display_options['fields']['body']['alter']['html'] = 0;
   $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
@@ -1474,7 +1473,6 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['header']['area']['content'] = '<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>
 <h4>Featured</h3>';
-  $handler->display->display_options['header']['area']['format'] = '2';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -1568,7 +1566,6 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['header']['area']['empty'] = FALSE;
   $handler->display->display_options['header']['area']['content'] = '<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>';
-  $handler->display->display_options['header']['area']['format'] = '2';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['empty'] = FALSE;
   /* Empty text: Global: Text area */
@@ -1578,7 +1575,6 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['empty']['area']['label'] = '';
   $handler->display->display_options['empty']['area']['empty'] = FALSE;
   $handler->display->display_options['empty']['area']['content'] = '<h3>Sorry, no projects in this category</h3>';
-  $handler->display->display_options['empty']['area']['format'] = '2';
   $handler->display->display_options['empty']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Argument: Taxonomy: Term ID (with depth) */
@@ -1668,8 +1664,9 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '250';
   $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 1;
   $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['preserve_tags'] = '<br>';
   $handler->display->display_options['fields']['body']['alter']['html'] = 0;
   $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
@@ -1907,7 +1904,6 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['header']['area']['content'] = '<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>
 <h4>Recently started projects</h3>';
-  $handler->display->display_options['header']['area']['format'] = '2';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Project image (field_project_image) */
@@ -1972,8 +1968,9 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '250';
   $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 1;
   $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['preserve_tags'] = '<br>';
   $handler->display->display_options['fields']['body']['alter']['html'] = 0;
   $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
@@ -2202,7 +2199,6 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['header']['area']['content'] = '<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>
 <h4>Ending soon projects</h3>';
-  $handler->display->display_options['header']['area']['format'] = '2';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Project image (field_project_image) */
@@ -2267,8 +2263,9 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '250';
   $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 1;
   $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['preserve_tags'] = '<br>';
   $handler->display->display_options['fields']['body']['alter']['html'] = 0;
   $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
@@ -2496,7 +2493,6 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['header']['area']['content'] = '<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>
 <h4>Small projects</h3>';
-  $handler->display->display_options['header']['area']['format'] = '2';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Project image (field_project_image) */
@@ -2561,8 +2557,9 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '250';
   $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 1;
   $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['preserve_tags'] = '<br>';
   $handler->display->display_options['fields']['body']['alter']['html'] = 0;
   $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
@@ -2813,7 +2810,6 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['header']['area']['content'] = '<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>
 <h4>Staff picks</h3>';
-  $handler->display->display_options['header']['area']['format'] = '2';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter: Node: Type */
@@ -3370,7 +3366,6 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['header']['area']['empty'] = FALSE;
   $handler->display->display_options['header']['area']['content'] = '<h3>Pending Project Creations</h3>
 This is the list of your projects that have been accepted as proposals and now are pending as official projects. We just need to verify the content before the project goes live! ';
-  $handler->display->display_options['header']['area']['format'] = '2';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['footer'] = FALSE;
   /* Footer: Global: Text area */
@@ -3381,7 +3376,6 @@ This is the list of your projects that have been accepted as proposals and now a
   $handler->display->display_options['footer']['area']['empty'] = FALSE;
   $handler->display->display_options['footer']['area']['content'] = '<h3>Pending Project Proposals</h3>
 This is the list of your project proposals. Once your project has been reviewed and accepted, you can go ahead and click on the \'Create Project\' button and get started! ';
-  $handler->display->display_options['footer']['area']['format'] = '2';
   $handler->display->display_options['footer']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Node: Title */
@@ -4013,6 +4007,26 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['css_class'] = 'project-updates-page';
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['label'] = '';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
+  $handler->display->display_options['header']['area']['content'] = '<?php
+$nid = arg(1);
+
+$node = node_load($nid);
+
+global $user;
+
+if ($user->uid == $node->uid) {
+  return l(t(\'Add update\'), \'node/add/project-update\');
+}
+?>';
+  $handler->display->display_options['header']['area']['format'] = '3';
+  $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: Content: Project (field_update_project) */
   $handler->display->display_options['relationships']['field_update_project_nid']['id'] = 'field_update_project_nid';
@@ -4128,6 +4142,17 @@ This is the list of your project proposals. Once your project has been reviewed 
     t('No updates for the project'),
     t('Project'),
     t('Page'),
+    t('<?php
+$nid = arg(1);
+
+$node = node_load($nid);
+
+global $user;
+
+if ($user->uid == $node->uid) {
+  return l(t(\'Add update\'), \'node/add/project-update\');
+}
+?>'),
     t('All'),
     t('Attachment'),
     t('<?php

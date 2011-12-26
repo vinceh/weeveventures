@@ -6,6 +6,12 @@
 function weeve_feature_user_default_permissions() {
   $permissions = array();
 
+  // Exported permission: Media Mover delete own file
+  $permissions['Media Mover delete own file'] = array(
+    'name' => 'Media Mover delete own file',
+    'roles' => array(),
+  );
+
   // Exported permission: Use PHP input for field settings (dangerous - grant with care)
   $permissions['Use PHP input for field settings (dangerous - grant with care)'] = array(
     'name' => 'Use PHP input for field settings (dangerous - grant with care)',
@@ -51,6 +57,15 @@ function weeve_feature_user_default_permissions() {
     'name' => 'access backup files',
     'roles' => array(
       '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: access ckeditor
+  $permissions['access ckeditor'] = array(
+    'name' => 'access ckeditor',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'npo',
     ),
   );
 
@@ -121,6 +136,14 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: administer blocks
   $permissions['administer blocks'] = array(
     'name' => 'administer blocks',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer ckeditor
+  $permissions['administer ckeditor'] = array(
+    'name' => 'administer ckeditor',
     'roles' => array(
       '0' => 'admin',
     ),
@@ -198,6 +221,12 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
+  // Exported permission: administer media_mover
+  $permissions['administer media_mover'] = array(
+    'name' => 'administer media_mover',
+    'roles' => array(),
+  );
+
   // Exported permission: administer menu
   $permissions['administer menu'] = array(
     'name' => 'administer menu',
@@ -212,6 +241,12 @@ function weeve_feature_user_default_permissions() {
     'roles' => array(
       '0' => 'admin',
     ),
+  );
+
+  // Exported permission: administer own media_mover files
+  $permissions['administer own media_mover files'] = array(
+    'name' => 'administer own media_mover files',
+    'roles' => array(),
   );
 
   // Exported permission: administer pathauto
@@ -283,6 +318,15 @@ function weeve_feature_user_default_permissions() {
     'name' => 'administer views',
     'roles' => array(
       '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: allow CKFinder file uploads
+  $permissions['allow CKFinder file uploads'] = array(
+    'name' => 'allow CKFinder file uploads',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'npo',
     ),
   );
 
@@ -458,9 +502,27 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
+  // Exported permission: edit field_location
+  $permissions['edit field_location'] = array(
+    'name' => 'edit field_location',
+    'roles' => array(),
+  );
+
   // Exported permission: edit field_node_weight
   $permissions['edit field_node_weight'] = array(
     'name' => 'edit field_node_weight',
+    'roles' => array(),
+  );
+
+  // Exported permission: edit field_npo_about
+  $permissions['edit field_npo_about'] = array(
+    'name' => 'edit field_npo_about',
+    'roles' => array(),
+  );
+
+  // Exported permission: edit field_npo_bio
+  $permissions['edit field_npo_bio'] = array(
+    'name' => 'edit field_npo_bio',
     'roles' => array(),
   );
 
@@ -777,6 +839,12 @@ function weeve_feature_user_default_permissions() {
     'roles' => array(),
   );
 
+  // Exported permission: see media mover alerts
+  $permissions['see media mover alerts'] = array(
+    'name' => 'see media mover alerts',
+    'roles' => array(),
+  );
+
   // Exported permission: select different theme
   $permissions['select different theme'] = array(
     'name' => 'select different theme',
@@ -842,9 +910,27 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
+  // Exported permission: view field_location
+  $permissions['view field_location'] = array(
+    'name' => 'view field_location',
+    'roles' => array(),
+  );
+
   // Exported permission: view field_node_weight
   $permissions['view field_node_weight'] = array(
     'name' => 'view field_node_weight',
+    'roles' => array(),
+  );
+
+  // Exported permission: view field_npo_about
+  $permissions['view field_npo_about'] = array(
+    'name' => 'view field_npo_about',
+    'roles' => array(),
+  );
+
+  // Exported permission: view field_npo_bio
+  $permissions['view field_npo_bio'] = array(
+    'name' => 'view field_npo_bio',
     'roles' => array(),
   );
 
@@ -1080,6 +1166,12 @@ function weeve_feature_user_default_permissions() {
       '1' => 'anonymous user',
       '2' => 'authenticated user',
     ),
+  );
+
+  // Exported permission: view imagecache scale_crop_200px
+  $permissions['view imagecache scale_crop_200px'] = array(
+    'name' => 'view imagecache scale_crop_200px',
+    'roles' => array(),
   );
 
   // Exported permission: view imagecache scale_crop_215x150
