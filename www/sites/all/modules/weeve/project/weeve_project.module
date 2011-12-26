@@ -9,7 +9,7 @@ function _weeve_project_autoload($className) {
 
 function weeve_project_init() {
   set_include_path(
-    dirname(__FILE__) . "../../../../../../sites/all/libraries"
+    $_SERVER['DOCUMENT_ROOT'] . "/sites/all/libraries"
 		. PATH_SEPARATOR . get_include_path()
   );
 
