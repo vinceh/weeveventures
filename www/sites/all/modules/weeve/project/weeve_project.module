@@ -9,7 +9,7 @@ function _weeve_project_autoload($className) {
 
 function weeve_project_init() {
   set_include_path(
-    dirname($_SERVER['SCRIPT_FILENAME']) . "/sites/all/libraries"
+    dirname(__FILE__) . "../../../../../../sites/all/libraries"
 		. PATH_SEPARATOR . get_include_path()
   );
 
@@ -148,6 +148,14 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
     $form['field_project_amount_need'][0]['#title'] = t("What is the exact amount of money you would like to raise?");
     $form['body_field']['body']['#title'] = t("State your project details; give a background to what the project is about, how it's relevant to society and how it helps forward the community. Tell people your goals, milestones, and tangible items (if they are tangible) that you will produce. Add images to help tell a story and convince donors to fund your project");
     $form['buttons']['submit']['#value'] = t('Submit Project');
+    unset($form['body_field']['teaser_js']);
+    unset($form['body_field']['teaser_include']);
+    unset($form['body_field']['format']);
+    unset($form['buttons']['preview']);
+  }
+
+  if ($form_id == 'project_update_node_form' && arg(1) == 'add') {
+    $form['buttons']['submit']['#value'] = t('Create project update');
     unset($form['body_field']['teaser_js']);
     unset($form['body_field']['teaser_include']);
     unset($form['body_field']['format']);
