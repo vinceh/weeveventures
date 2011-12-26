@@ -5,9 +5,7 @@
 <?php
   if ($node->field_project_video[0]['video_id']):
    print theme('video_upload_video', $node->field_project_video[0]['video_id'], 580, 460);
-  else:
 ?>
-<?php print theme_image($node->field_project_image[0]['filepath']); ?>
 <?php endif; ?>
   </div>
   <div class="project-body">
