@@ -332,7 +332,8 @@ function weeve_account_change_general_user_form() {
 
   $form['show_email'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Show my email on my profile'),
+    '#title' => t(''),
+    '#description' => t('Show my email on my profile'),
     '#default_value' => variable_get('account_show_email_'. $user->uid, TRUE),
     '#theme' => 'wevee_account_checkbox',
   );
@@ -347,7 +348,8 @@ function weeve_account_change_general_user_form() {
 
   $form['show_location'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Show my location on my profile'),
+    '#title' => t(''),
+    '#description' => t('Show my location on my profile'),
     '#default_value' => variable_get('account_show_location_'. $user->uid, TRUE),
     '#theme' => 'wevee_account_checkbox',
   );

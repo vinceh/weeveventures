@@ -121,7 +121,7 @@ input.form-text {
 #weeve-account-change-general-user-form fieldset {
   border: none;
   width: 500px;
-  margin-left: 170px;
+  margin-left: 200px;
 }
 
 #weeve-account-change-general-user-form fieldset legend {
@@ -133,6 +133,11 @@ input.form-text {
   padding: 10px;
 }
 
+#weeve-account-change-general-user-form fieldset .picture img {
+  height: 100px;
+}
+
+
 #weeve-account-change-general-user-form fieldset #edit-picture-delete-wrapper {
   float: left;
 }
@@ -143,10 +148,10 @@ input.form-text {
 }
 
 #weeve-account-change-general-user-form fieldset legend {
-  font-size: 23px;
-  margin-top: 30px;
-  color: #333333;
-  font-family: fonty;
+  font-size: 16px;
+  font-weight: normal;
+  padding: 6px 10px;
+  text-align: right;
 }
 
 #weeve-account-change-general-user-form label {
@@ -206,4 +211,19 @@ input.form-text {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#18a5cc', endColorstr = '#007e9e', GradientType = 0); /* IE6-9 */
   background-color: #0285AB;
   cursor: pointer;
+}
+
+#weeve-account-change-general-user-form  #edit-show-email-wrapper {
+  position: relative;
+  right: 180px;
+}
+
+#weeve-account-change-general-user-form  #edit-show-location-wrapper {
+  position: relative;
+  right: 168px;
+}
+
+#weeve-account-change-general-user-form #edit-donation-history-wrapper {
+    position: relative;
+    right: 122px;
 }
