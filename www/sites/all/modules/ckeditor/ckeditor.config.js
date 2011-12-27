@@ -26,6 +26,8 @@ CKEDITOR.editorConfig = function(config) {
   config.protectedSource.push(/<code>[\s\S]*?<\/code>/gi); // Code tags
   config.extraPlugins = '';
 
+  config.filebrowserUploadUrl = 'weeve_upload.php';
+  config.filebrowserImageUploadUrl = '/weeve_upload.php';
   /*
    * Append here extra CSS rules that should be applied into the editing area.
    * Example:
@@ -61,6 +63,8 @@ CKEDITOR.editorConfig = function(config) {
     config.bodyClass = 'singlepage';
     config.bodyId = 'primary';
   }
+
+  console.log(config);
 };
 
 /*

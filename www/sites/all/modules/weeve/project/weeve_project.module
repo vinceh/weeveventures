@@ -155,6 +155,9 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
   }
 
   if ($form_id == 'project_update_node_form' && arg(1) == 'add') {
+    if (is_numeric(arg(3))) {
+      $form['field_update_project']['#default_value'][0]['nid'] = arg(3);
+    }
     $form['buttons']['submit']['#value'] = t('Create project update');
     unset($form['body_field']['teaser_js']);
     unset($form['body_field']['teaser_include']);
@@ -375,7 +378,6 @@ function weeve_project_block($op = 'list', $delta = 0) {
 
     $node->days_left = round(($timestamp - time()) / 86400);
     $user_profile = node_load(array('uid' => $node->uid, 'type' => 'profile'));
-
 
     $block['content'] = theme('weeve_project_info_block', $node, $user_profile);
 
