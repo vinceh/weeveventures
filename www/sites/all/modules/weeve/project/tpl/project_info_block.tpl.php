@@ -22,8 +22,6 @@
 <div class="follow-link"><?= l(t('Follow this Project'), 'project/' . $node->nid . '/follow') ?></div>
 <div class="horizontal-line"></div>
 <div class="project-npo-name"><?= $profile->field_npo_name[0]['value'] ?></div>
-<div class="project-npo-content">The Centre assists women with their immediate and crisis needs so they can develop stability and access the resources they need to improve health, family, employment and housing situations. We promote positive change by offering individual long-term support, education, advocacy, peer mentorship and exposure to alternatives. <br><br>
-
-			Our community also works towards increasing awareness of systemic injustice and inequalities that contribute to women’s vulnerability. One of our goals is to bring awareness of poverty and violence issues to the general public and to the government.
-
+<div class="project-npo-content">
+  <?= $profile->field_npo_about[0]['value'] ?>
 </div>

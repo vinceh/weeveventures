@@ -16,6 +16,10 @@
   float: left;
 }
 
+#center .center-left img {
+  max-width: 100%;
+}
+
 #center .center-right {
   width: 274px;
   padding: 8px;
