@@ -48,14 +48,14 @@ if ($auth) {
   $callback = $_GET['CKEditorFuncNum'];
   $file_name = $_FILES['upload']['name'];
   $file_name_tmp = $_FILES['upload']['tmp_name'];
-  $file_new_name = $_SERVER['DOCUMENT_ROOT'] . '/sites/default/files/npo_projects/' . $user->uid . '/files/';
+  $file_new_name = trim($_SERVER['DOCUMENT_ROOT'], '/') . '/sites/default/files/npo_projects/' . $user->uid . '/files/';
 
-  if (!is_dir($_SERVER['DOCUMENT_ROOT'] . '/sites/default/files/npo_projects/' . $user->uid . '/')) {
-    mkdir($_SERVER['DOCUMENT_ROOT'] . '/sites/default/files/npo_projects/' . $user->uid . '/', 0777);
+  if (!is_dir(trim($_SERVER['DOCUMENT_ROOT'], '/') . '/sites/default/files/npo_projects/' . $user->uid . '/')) {
+    mkdir(trim($_SERVER['DOCUMENT_ROOT'], '/') . '/sites/default/files/npo_projects/' . $user->uid . '/', 0777);
   }
 
-  if (!is_dir($_SERVER['DOCUMENT_ROOT'] . '/sites/default/files/npo_projects/' . $user->uid . '/files/')) {
-    mkdir($_SERVER['DOCUMENT_ROOT'] . '/sites/default/files/npo_projects/' . $user->uid . '/files/', 0777);
+  if (!is_dir(trim($_SERVER['DOCUMENT_ROOT'], '/') . '/sites/default/files/npo_projects/' . $user->uid . '/files/')) {
+    mkdir(trim($_SERVER['DOCUMENT_ROOT'], '/') . '/sites/default/files/npo_projects/' . $user->uid . '/files/', 0777);
   }
 
   $full_path = $file_new_name . $file_name;
@@ -65,7 +65,6 @@ if ($auth) {
 
   } else {
     $error = 'Some error occured please try again later';
-    $error = $file_new_name;
     $http_path = '';
   }
 } else {
