@@ -46,7 +46,8 @@ function weeve_account_menu() {
 
   $items['account/%/following'] = array(
     'title' => '',
-    'access callback' => 'weeve_account_access',
+    'access callback' => 'weeve_account_following_access',
+    'access arguments' => array(1),
     'page callback' => 'weeve_account_following_page',
     'page arguments' => array(1),
     'type' => MENU_CALLBACK,
@@ -362,6 +363,14 @@ function weeve_account_change_general_user_form() {
     '#theme' => 'wevee_account_checkbox',
   );
 
+  $form['following'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Following'),
+    '#description' => t('Allow others to view my followings'),
+    '#default_value' => variable_get('account_following_'. $user->uid, TRUE),
+    '#theme' => 'wevee_account_checkbox',
+  );
+
   $form['picture'] = $user_edit_form['picture'];
   $form['picture']['#title'] = t('Picture');
   $form['picture']['#description'] = t('');
@@ -396,10 +405,12 @@ function weeve_account_change_general_user_form_submit(&$form, &$form_state) {
   $email = $form_state['values']['email'];
   $picture = $form_state['values']['picture'];
   $location = $form_state['values']['location'];
+  $following = $form_state['values']['following'];
 
   variable_set('account_show_email_'. $user->uid, $form_state['values']['show_email']);
   variable_set('account_show_location_'. $user->uid, $form_state['values']['show_location']);
   variable_set('account_donation_history_'. $user->uid, $form_state['values']['donation_history']);
+  variable_set('account_following_'. $user->uid, $following);
 
   $edit = array(
     'name' => $name,
@@ -440,6 +451,7 @@ function weeve_account_load_user($uid) {
     'show_email' => variable_get('account_show_email_'. $user->uid, TRUE),
     'show_location' => variable_get('account_show_location_'. $user->uid, TRUE),
     'donation_history' => variable_get('account_donation_history_'. $user->uid, TRUE),
+    'account_following' => variable_get('account_following_'. $user->uid, TRUE),
   );
   $profile = content_profile_load('profile', $user->uid);
   if ($user->picture) {
@@ -507,7 +519,15 @@ function weeve_account_check_type($user) {
 
 function weeve_account_donation_history_access($uid) {
   global $user;
-  if (variable_get('account_donation_history_'. $user->uid, TRUE) || $uid == $user->uid) {
+  if (variable_get('account_donation_history_'. $uid, TRUE) || $uid == $user->uid) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+function weeve_account_following_access($uid) {
+  global $user;
+  if (variable_get('account_following_'. $uid, TRUE) || $uid == $user->uid) {
     return TRUE;
   }
   return FALSE;

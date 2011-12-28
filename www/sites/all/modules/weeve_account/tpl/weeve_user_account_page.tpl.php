@@ -28,7 +28,9 @@
         <?php if (arg(0) == 'account' && !arg(2)) $active_class = ' active'; ?>
 			  <?php print l(t('history'), 'account/'. $account->uid, array('attributes' => array('class' => 'profile-link'. $active_class))); ?>
       <?php endif; ?>
+      <?php if ($settings['account_following'] || $account->uid == $user->uid): ?>
 		    <?php print l(t('following'), 'account/'. $account->uid .'/following', array('attributes' => array('class' => 'profile-link'))) ?>
+      <?php endif; ?>
 		</div>
 		<div class='profile-main-wrapper'>
       <?php print $content; ?>

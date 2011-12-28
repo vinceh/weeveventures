@@ -227,3 +227,8 @@ input.form-text {
     position: relative;
     right: 122px;
 }
+
+#weeve-account-change-general-user-form #edit-following-wrapper {
+    position: relative;
+    right: 153px;
+}
