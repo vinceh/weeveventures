@@ -44,6 +44,12 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
+  // Exported permission: access all webform results
+  $permissions['access all webform results'] = array(
+    'name' => 'access all webform results',
+    'roles' => array(),
+  );
+
   // Exported permission: access backup and migrate
   $permissions['access backup and migrate'] = array(
     'name' => 'access backup and migrate',
@@ -99,6 +105,18 @@ function weeve_feature_user_default_permissions() {
       '4' => 'npo',
       '5' => 'user',
     ),
+  );
+
+  // Exported permission: access own webform results
+  $permissions['access own webform results'] = array(
+    'name' => 'access own webform results',
+    'roles' => array(),
+  );
+
+  // Exported permission: access own webform submissions
+  $permissions['access own webform submissions'] = array(
+    'name' => 'access own webform submissions',
+    'roles' => array(),
   );
 
   // Exported permission: access site reports
@@ -297,6 +315,12 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
+  // Exported permission: administer uploaded videos
+  $permissions['administer uploaded videos'] = array(
+    'name' => 'administer uploaded videos',
+    'roles' => array(),
+  );
+
   // Exported permission: administer url aliases
   $permissions['administer url aliases'] = array(
     'name' => 'administer url aliases',
@@ -311,6 +335,12 @@ function weeve_feature_user_default_permissions() {
     'roles' => array(
       '0' => 'admin',
     ),
+  );
+
+  // Exported permission: administer video upload settings
+  $permissions['administer video upload settings'] = array(
+    'name' => 'administer video upload settings',
+    'roles' => array(),
   );
 
   // Exported permission: administer views
@@ -376,12 +406,32 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
+  // Exported permission: create project_update content
+  $permissions['create project_update content'] = array(
+    'name' => 'create project_update content',
+    'roles' => array(
+      '0' => 'npo',
+    ),
+  );
+
   // Exported permission: create url aliases
   $permissions['create url aliases'] = array(
     'name' => 'create url aliases',
     'roles' => array(
       '0' => 'admin',
     ),
+  );
+
+  // Exported permission: create webform content
+  $permissions['create webform content'] = array(
+    'name' => 'create webform content',
+    'roles' => array(),
+  );
+
+  // Exported permission: delete all webform submissions
+  $permissions['delete all webform submissions'] = array(
+    'name' => 'delete all webform submissions',
+    'roles' => array(),
   );
 
   // Exported permission: delete any page content
@@ -446,6 +496,12 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
+  // Exported permission: delete own webform submissions
+  $permissions['delete own webform submissions'] = array(
+    'name' => 'delete own webform submissions',
+    'roles' => array(),
+  );
+
   // Exported permission: delete revisions
   $permissions['delete revisions'] = array(
     'name' => 'delete revisions',
@@ -466,6 +522,12 @@ function weeve_feature_user_default_permissions() {
     'roles' => array(
       '0' => 'admin',
     ),
+  );
+
+  // Exported permission: edit all webform submissions
+  $permissions['edit all webform submissions'] = array(
+    'name' => 'edit all webform submissions',
+    'roles' => array(),
   );
 
   // Exported permission: edit any page content
@@ -767,6 +829,12 @@ function weeve_feature_user_default_permissions() {
     'roles' => array(),
   );
 
+  // Exported permission: edit own webform submissions
+  $permissions['edit own webform submissions'] = array(
+    'name' => 'edit own webform submissions',
+    'roles' => array(),
+  );
+
   // Exported permission: execute php code
   $permissions['execute php code'] = array(
     'name' => 'execute php code',
@@ -866,6 +934,15 @@ function weeve_feature_user_default_permissions() {
     'name' => 'translate interface',
     'roles' => array(
       '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: upload files
+  $permissions['upload files'] = array(
+    'name' => 'upload files',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'npo',
     ),
   );
 
@@ -1184,6 +1261,14 @@ function weeve_feature_user_default_permissions() {
   $permissions['view revisions'] = array(
     'name' => 'view revisions',
     'roles' => array(),
+  );
+
+  // Exported permission: view uploaded files
+  $permissions['view uploaded files'] = array(
+    'name' => 'view uploaded files',
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   return $permissions;
