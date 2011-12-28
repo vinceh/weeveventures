@@ -29,6 +29,13 @@ function weeve_account_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['account/password'] = array(
+    'title' => 'Request new password',
+    'access callback' => TRUE,
+    'page callback' => 'weeve_account_forgot_pass_page',
+    'type' => MENU_CALLBACK,
+  );
+
   $items['account/change/general'] = array(
     'title' => 'general',
     'type' => MENU_DEFAULT_LOCAL_TASK,
@@ -90,6 +97,14 @@ function weeve_account_menu() {
 
 
   return $items;
+}
+/*
+ * Implementation hook_menu_alter
+ */
+function weeve_account_menu_alter(&$items) {
+  $items['user']['access callback'] = MENU_CALLBACK;
+  $items['user/register']['type'] = MENU_CALLBACK;
+  $items['user/password']['type'] = MENU_CALLBACK;
 }
 
 function weeve_account_theme() {
@@ -699,4 +714,10 @@ function theme_wevee_account_checkbox($element) {
 
   unset($element['#title']);
   return theme('form_element', $element, $checkbox);
+}
+
+function weeve_account_forgot_pass_page() {
+  module_load_include('inc', 'user', 'user.pages');
+  $form = drupal_get_form('user_pass');
+  return $form;
 }

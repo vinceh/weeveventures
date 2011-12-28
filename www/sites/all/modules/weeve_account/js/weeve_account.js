@@ -14,7 +14,7 @@
         			"<input type='text' class='login-field login'/>" +
         			"<div class='login-hint'>Password</div>" +
         			"<input type='password' class='login-field password'/>" +
-        			"<div class='forgot-pass-link'><a href='" + Drupal.settings.basePath + "user/password'>forgot password?</a></div>" +
+        			"<div class='forgot-pass-link'><a href='" + Drupal.settings.basePath + "account/password'>forgot password?</a></div>" +
         			"<div class='login-button'>Log in</div>"
         		);
     this.$body.append(this.$wrapper);
