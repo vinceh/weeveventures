@@ -1,0 +1,4 @@
+name = Weeve Donation
+description = Provide donations
+package = Weeve
+core = 6.x

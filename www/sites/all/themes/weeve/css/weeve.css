@@ -1494,3 +1494,111 @@ a.profile-link.active {
 	margin: 15px 20px;
 	text-align: center;
 }
+
+/* popup stuff */
+
+.backdrop {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: white;
+	opacity: 0.8;
+}
+
+.popupwrap {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	z-index: 998;
+}
+
+.popup {
+	position: relative;
+	font-family: arial;
+	z-index: 999;
+	margin: 0px auto;
+	width: 750px;
+	border-radius: 3px;
+	border: 1px solid #888;
+	background-color: white;
+	padding: 25px;
+	overflow: hidden;
+	box-shadow: 0px 0px 20px #aaaaaa;
+}
+
+.popupleft {
+	width: 424px;
+	padding-right: 25px;
+	display: inline-block;
+	float: left;
+	border-right: 1px solid #ddd;
+}
+
+.popupcontent {
+	margin-top: 30px;
+}
+
+.popupright {
+	padding-left: 25px;
+	width: 275px;
+	display: inline-block;
+}
+
+.popupclose {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	height: 20px;
+	font-size: 12px;
+}
+
+.popupclose:hover {
+	cursor: pointer;
+}
+
+.popuptitle {
+	font-size: 30px;
+	color: #00a0ce;
+}
+
+.popupinputhint {
+	margin-left: 20px;
+	font-size: 13px;
+	display: inline-block;
+	font-style: italic;
+}
+
+.popupinput {
+	color: #444;
+	font-size: 30px;
+	border-radius: 3px;
+	border: 1px solid #aaa;
+	outline: none;
+	padding: 10px 10px 10px 40px;
+	width: 130px;
+	margin-top: 30px;
+}
+
+.popupinput:focus {
+	border: 1px solid #333;
+}
+
+.popupsubmit {
+	margin-top: 30px;
+}
+
+.fintprinttitle {
+	font-size: 25px;
+}
+
+.fintprint {
+	margin-top: 15px;
+	font-size: 13px;
+	background-color: #deeff9;
+	padding: 10px;
+	border-radius: 3px;
+}
