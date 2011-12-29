@@ -51,11 +51,11 @@ if ($auth) {
   $file_new_name = trim($_SERVER['DOCUMENT_ROOT'], '/') . '/sites/default/files/npo_projects/' . $user->uid . '/files/';
 
   if (!is_dir(trim($_SERVER['DOCUMENT_ROOT'], '/') . '/sites/default/files/npo_projects/' . $user->uid . '/')) {
-    mkdir(trim($_SERVER['DOCUMENT_ROOT'], '/') . '/sites/default/files/npo_projects/' . $user->uid . '/', 0777);
+    mkdir($file_new_name, 0777, true);
   }
 
-  if (!is_dir(trim($_SERVER['DOCUMENT_ROOT'], '/') . '/sites/default/files/npo_projects/' . $user->uid . '/files/')) {
-    mkdir(trim($_SERVER['DOCUMENT_ROOT'], '/') . '/sites/default/files/npo_projects/' . $user->uid . '/files/', 0777);
+  if (!is_dir($file_new_name)) {
+    mkdir($file_new_name, 0777);
   }
 
   $full_path = $file_new_name . $file_name;
