@@ -90,8 +90,8 @@ function weeve_project_edit_own_project_valid($nid) {
   return false;
 }
 
-function weeve_project_project_valid() {
-  if (_weeve_project_is_allowed_create_project ()) {
+function weeve_project_project_valid() {  
+  if (_weeve_project_is_allowed_create_project()) {
     return user_access('create project content');
   }
 
@@ -216,10 +216,14 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
   if ($op == 'view' && $node->type == 'project') {
     $node->native_body = $node->body;
+    $author = node_load(array('uid' => $node->uid, 'type' => 'profile'));
+    $node->author = $author;
   }
 
   if ($op == 'view' && $node->type == 'project_update') {
     $node->native_body = $node->body;
+    $author = node_load(array('uid' => $node->uid, 'type' => 'profile'));
+    $node->author = $author;
   }
 
   if ($op == 'presave' && in_array($node->type, array('project', 'project_request'))) {
@@ -386,7 +390,6 @@ function weeve_project_block($op = 'list', $delta = 0) {
 }
 
 function weeve_project_preprocess_page(&$vars) {
-
   if ($vars['node']->type == 'project') {
     $vars['node_menu'] = weeve_project_menu_html($vars['node']->nid);
   }
@@ -396,7 +399,10 @@ function weeve_project_preprocess_page(&$vars) {
       in_array('page-project-edit', $vars['template_files'])) {
     $query = explode('/', $_SERVER['QUERY_STRING']);
     $vars['node_menu'] = weeve_project_menu_html($query[1]);
-    $vars['node'] = node_load(array('nid' => $query[1]));
+    $node = node_load(array('nid' => $query[1]));
+    $author = node_load(array('uid' => $node->uid, 'type' => 'profile'));
+    $node->author = $author;
+    $vars['node'] = $node;
     $vars['title'] = $vars['node']->title;
     $vars['template_files'][] = 'page-node-project';
   }

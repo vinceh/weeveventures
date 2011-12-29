@@ -17,7 +17,7 @@ function weeve_account_menu() {
 
   $items['account'] = array(
     'title' => '',
-    'access callback' => 'weeve_account_access',
+    'access callback' => true,
     'page callback' => 'weeve_account_page',
     'type' => MENU_CALLBACK,
   );
@@ -71,7 +71,7 @@ function weeve_account_menu() {
 
   $items['account/%/about'] = array(
     'title' => '',
-    'access callback' => 'weeve_account_access',
+    'access callback' => true,
     'access arguments' => array(1),
     'page callback' => 'weeve_account_about_page',
     'page arguments' => array(1),

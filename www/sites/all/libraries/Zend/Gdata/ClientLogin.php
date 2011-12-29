@@ -151,7 +151,7 @@ class Zend_Gdata_ClientLogin
                 $goog_resp[$key] = $val;
             }
         }
-
+        
         if ($response->getStatus() == 200) {
             $client->setClientLoginToken($goog_resp['Auth']);
             $useragent = $source . ' Zend_Framework_Gdata/' . Zend_Version::VERSION;

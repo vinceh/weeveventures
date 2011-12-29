@@ -24,10 +24,19 @@ html.js input.throbbing {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#37abcc', endColorstr='#008db5',GradientType=0 ); /* IE6-9 */
 }
 
+.front-page #header-region {
+  height: 125px;
+}
+
 #header-region #header {
   width: 900px;
   margin: 0 auto;
-  height: 50px
+  height: 50px;
+  font-family: neue;
+}
+
+.front-page #header-region #header {
+  height: 125px;
 }
 
 #center {
@@ -50,9 +59,21 @@ html.js input.throbbing {
   width: 770px;
 }
 
+#block-menu-menu-top-menu {
+  position: relative;
+  height: 50px;
+  width: 700px;
+  float: left;
+}
+
+.front-page #block-menu-menu-top-menu {
+  height: 125px;
+}
+
 #block-menu-menu-top-menu .menu {
-  float: right;
-  margin-top: 25px;
+  right: 10px;
+  position: absolute;
+  bottom: 5px;
 }
 
 #block-menu-menu-top-menu ul.menu li {
@@ -66,7 +87,13 @@ html.js input.throbbing {
 #block-menu-menu-top-menu ul.menu li a {
   color: #fff;
   padding: 7px 10px;
+  font-size: 16px;
 }
+
+.front-page #block-menu-menu-top-menu ul.menu li a {
+  font-size: 20px;
+}
+
 
 #block-menu-menu-top-menu ul.menu li a:hover {
   background-color: #0285AB;  
@@ -129,14 +156,30 @@ html.js input.throbbing {
 }
 
 #header .site-title {
+  height: 50px;
+  float: left;
+  width: 200px;
+  position: relative;
+}
 
-  font-size: 25px;
-  position: absolute;
-  top: 10px;
+.front-page #header .site-title {
+  height: 125px;  
+  
 }
 
 #header .site-title a {
   color: #fff;
+  display: block;
+}
+
+#header .site-title a img {
+  height: 30px;
+  position: absolute;
+  bottom: 5px;
+}
+
+.front-page #header .site-title a img {
+  height: 90px;
 }
 
 /* Title */

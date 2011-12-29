@@ -4,7 +4,7 @@
     this.position;
     this.$wrapper;
     this.$body = $('body');
-    this.$loginLink = $("#block-menu-menu-top-menu a[href='" + Drupal.settings.basePath + "user/login']");
+    this.$loginLink = $("#block-menu-menu-top-menu a[href='" + Drupal.settings.basePath + "user/login']");    
 
     // Init login form
     // TODO: Use Drupal.t();
@@ -43,7 +43,7 @@
     updatePosition: function() {
       var self = this
         , position;
-      position = self.$loginLink.position();
+      position = self.$loginLink.offset();
       self.position = position;
       self.$wrapper.css("left", position.left - self.$wrapper.outerWidth() + self.$loginLink.outerWidth());
     	self.$wrapper.css("top", position.top + self.$loginLink.outerHeight() * 2 - 25);

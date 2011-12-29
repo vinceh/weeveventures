@@ -1,0 +1,12 @@
+name = Pay progress
+description = Progress bar for Pay forms
+package = Payment API
+dependencies[] = pay
+core = 6.x
+
+; Information added by drupal.org packaging script on 2011-05-09
+version = "6.x-1.1"
+core = "6.x"
+project = "pay"
+datestamp = "1304964416"
+

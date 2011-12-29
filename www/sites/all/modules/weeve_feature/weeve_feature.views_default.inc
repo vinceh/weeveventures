@@ -1601,6 +1601,14 @@ return round(($timestamp - time()) / 86400);
 
   /* Display: User projects */
   $handler = $view->new_display('page', 'User projects', 'page_4');
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['label'] = '';
+  $handler->display->display_options['header']['area']['empty'] = FALSE;
+  $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Project image (field_project_image) */
   $handler->display->display_options['fields']['field_project_image_fid']['id'] = 'field_project_image_fid';
@@ -1890,6 +1898,28 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['arguments']['uid']['validate_options']['restrict_roles'] = 0;
   $handler->display->display_options['arguments']['uid']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['uid']['not'] = 0;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter: Node: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'project' => 'project',
+  );
+  /* Filter: Content: Status (field_project_status) - Allowed values */
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['id'] = 'field_project_status_value_many_to_one';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['table'] = 'node_data_field_project_status';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['field'] = 'field_project_status_value_many_to_one';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['value'] = array(
+    'accept' => 'accept',
+    'archive' => 'archive',
+  );
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['reduce_duplicates'] = 0;
+  /* Filter: Node: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['path'] = 'account/%/projects-list';
 
   /* Display: Recently Started */
@@ -3673,17 +3703,12 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Empty text: Global: Text area */
-  $handler->display->display_options['empty']['area']['id'] = 'area';
-  $handler->display->display_options['empty']['area']['table'] = 'views';
-  $handler->display->display_options['empty']['area']['field'] = 'area';
-  $handler->display->display_options['empty']['area']['empty'] = FALSE;
   /* Relationship: Comment: User */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'comments';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   $handler->display->display_options['relationships']['uid']['label'] = 'User comment';
-  $handler->display->display_options['relationships']['uid']['required'] = 0;
+  $handler->display->display_options['relationships']['uid']['required'] = 1;
   /* Field: Comment: Body */
   $handler->display->display_options['fields']['comment']['id'] = 'comment';
   $handler->display->display_options['fields']['comment']['table'] = 'comments';
@@ -3815,54 +3840,17 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['css_class'] = 'project-comments-page';
+  $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* Empty text: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['label'] = '';
+  $handler->display->display_options['empty']['area']['empty'] = FALSE;
+  $handler->display->display_options['empty']['area']['content'] = 'No comments yet';
+  $handler->display->display_options['empty']['area']['tokenize'] = 0;
   $handler->display->display_options['path'] = 'project/%/comments';
-
-  /* Display: Attachment */
-  $handler = $view->new_display('attachment', 'Attachment', 'attachment_1');
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['defaults']['footer'] = FALSE;
-  /* Footer: Global: Text area */
-  $handler->display->display_options['footer']['area']['id'] = 'area';
-  $handler->display->display_options['footer']['area']['table'] = 'views';
-  $handler->display->display_options['footer']['area']['field'] = 'area';
-  $handler->display->display_options['footer']['area']['label'] = '';
-  $handler->display->display_options['footer']['area']['empty'] = FALSE;
-  $handler->display->display_options['footer']['area']['content'] = '<?php
-  $view = views_get_current_view();
-  return weeve_project_menu_html($view->args[0]);
-?>';
-  $handler->display->display_options['footer']['area']['format'] = '3';
-  $handler->display->display_options['footer']['area']['tokenize'] = 0;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Node: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['title']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['title']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['title']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['title']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['title']['link_to_node'] = 0;
-  $handler->display->display_options['defaults']['sorts'] = FALSE;
-  $handler->display->display_options['displays'] = array(
-    'default' => 0,
-    'page_1' => 0,
-  );
   $translatables['project_comments'] = array(
     t('Defaults'),
     t('more'),
@@ -3874,15 +3862,10 @@ This is the list of your project proposals. Once your project has been reviewed 
     t('Items per page'),
     t('- All -'),
     t('Offset'),
-    t('Text area'),
     t('User comment'),
     t('by '),
     t('Page'),
-    t('Attachment'),
-    t('<?php
-  $view = views_get_current_view();
-  return weeve_project_menu_html($view->args[0]);
-?>'),
+    t('No comments yet'),
   );
 
   $views[$view->name] = $view;
@@ -3990,6 +3973,11 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler->display->display_options['fields']['body']['hide_empty'] = 0;
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
+  /* Sort criterion: Node: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
   /* Filter: Node: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -4022,7 +4010,7 @@ $node = node_load($nid);
 global $user;
 
 if ($user->uid == $node->uid) {
-  return l(t(\'Add update\'), \'node/add/project-update\');
+  return l(t(\'Add update\'), \'node/add/project-update/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
 }
 ?>';
   $handler->display->display_options['header']['area']['format'] = '3';
@@ -4150,7 +4138,7 @@ $node = node_load($nid);
 global $user;
 
 if ($user->uid == $node->uid) {
-  return l(t(\'Add update\'), \'node/add/project-update\');
+  return l(t(\'Add update\'), \'node/add/project-update/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
 }
 ?>'),
     t('All'),

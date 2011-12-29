@@ -890,6 +890,7 @@ function weeve_feature_user_default_permissions() {
     'roles' => array(
       '0' => 'admin',
       '1' => 'authenticated user',
+      '2' => 'npo',
     ),
   );
 

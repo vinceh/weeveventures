@@ -18,7 +18,7 @@ function weeve_feature_menu_default_menu_links() {
       ),
     ),
     'module' => 'menu',
-    'hidden' => '0',
+    'hidden' => '1',
     'external' => '1',
     'has_children' => '0',
     'expanded' => '0',
@@ -60,24 +60,6 @@ function weeve_feature_menu_default_menu_links() {
     'expanded' => '0',
     'weight' => '-46',
   );
-  // Exported menu link: menu-top-menu:my-projects
-  $menu_links['menu-top-menu:my-projects'] = array(
-    'menu_name' => 'menu-top-menu',
-    'link_path' => 'my-projects',
-    'router_path' => 'my-projects',
-    'link_title' => 'create project',
-    'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
-    ),
-    'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-50',
-  );
   // Exported menu link: menu-top-menu:projects
   $menu_links['menu-top-menu:projects'] = array(
     'menu_name' => 'menu-top-menu',
@@ -98,7 +80,6 @@ function weeve_feature_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('create project');
   t('log out');
   t('organizations');
   t('profile');

@@ -15,6 +15,9 @@ CKEDITOR.editorConfig = function(config) {
 
   // The minimum editor width, in pixels, when resizing it with the resize handle.
   config.resize_minWidth = 450;
+  config.linkShowAdvancedTab = false;
+  config.linkShowTargetTab = false;
+  console.log(config);
 
   // Protect PHP code tags (<?...?>) so CKEditor will not break them when
   // switching from Source view to WYSIWYG.
@@ -26,14 +29,16 @@ CKEDITOR.editorConfig = function(config) {
   config.protectedSource.push(/<code>[\s\S]*?<\/code>/gi); // Code tags
   config.extraPlugins = '';
 
-  config.filebrowserUploadUrl = 'weeve_upload.php';
+  //config.filebrowserUploadUrl = 'weeve_upload.php';
   config.filebrowserImageUploadUrl = '/weeve_upload.php';
   /*
    * Append here extra CSS rules that should be applied into the editing area.
    * Example:
    * config.extraCss = 'body {color:#FF0000;}';
    */
-  config.extraCss = '';
+  if (themeName == 'weeve') {
+    config.extraCss = 'img {max-width: 570px;}';
+  }
   /**
    * Sample extraCss code for the "marinelli" theme.
    */
@@ -63,8 +68,6 @@ CKEDITOR.editorConfig = function(config) {
     config.bodyClass = 'singlepage';
     config.bodyId = 'primary';
   }
-
-  console.log(config);
 };
 
 /*

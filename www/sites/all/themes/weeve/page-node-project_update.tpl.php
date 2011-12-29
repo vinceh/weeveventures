@@ -16,7 +16,7 @@
 <!-- Layout -->
   <div id="header-region" class="clear-block">
     <div id="header">
-      <div class="site-title"><?= l(t('Weeve'), ''); ?></div>
+      <div class="site-title"><?= l('<img alt="Weeve" src="'.base_path().'sites/all/themes/weeve/img/logo.png" />', '', array('html' => 'true')); ?></div>
   <?php if ($search_box): ?><div class="block block-theme"><?php print $search_box ?></div><?php endif; ?>
   <?php print $header; ?></div>
   </div>
@@ -31,6 +31,7 @@
 
       <div id="center"><div id="squeeze"><div class="right-corner"><div class="left-corner">
           <?php if ($title): print '<h2 class="title">'. $title .'</h2>'; endif; ?>
+              <?php if ($node->author): print '<h3 class="author">' . l($node->author->field_npo_name[0]['value'], 'account/' . $node->uid) . '</h3>'; endif; ?>
           <?php if ($show_messages && $messages): print $messages; endif; ?>
           <?php print $help; ?>
           <div class="clear-block">

@@ -7,13 +7,16 @@
 /** PROJECT **/
 
 #center .left-corner {
-  margin-top: 40px;
+  margin-top: 50px;
 }
 
 #center .center-left {
-  width: 580px;
+  width: 595px;
   padding: 15px;
   float: left;
+  padding-top: 20px;
+
+  padding-left: 0px;
 }
 
 #center .center-left img {
@@ -23,6 +26,7 @@
 #center .center-right {
   width: 274px;
   padding: 8px;
+  padding-top: 0px;
   background-color: #F2F2F2;
   float: left;
 }
@@ -33,7 +37,19 @@ div.project-comments-page .attachment .views-field-title {
   font-size: 40px;
   font-weight: normal;
   color: #555;
-  margin: 0px
+  margin: 0px;
+}
+
+div.page-node-project h3.author {
+  font-size: 16px;
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 45px;
+  font-weight: normal;  
+}
+
+div.page-node-project h3.author a {
+  color: #00A0CE;
 }
 
 ul.project-node-menu {
@@ -65,6 +81,10 @@ ul.project-node-menu a:hover, ul.project-node-menu a.active {
   color: #555; 
 }
 
+div.project-updates-page .views-row {
+  margin-bottom: 30px;
+}
+
 div.project-updates-page .views-field-title {
   font-size: 25px;
 }
@@ -80,4 +100,10 @@ div.project-updates-page .view-display-id-attachment_1 {
 div.project-updates-page div.views-field-created {
   border-bottom: 1px solid #ddd;
   padding-bottom: 5px;
+  color: #999;
 }
+
+div.project-updates-page div.views-field-created em {
+  font-style: normal;
+}
+
