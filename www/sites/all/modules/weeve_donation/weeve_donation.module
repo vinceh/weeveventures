@@ -1,0 +1,43 @@
+<?php
+
+/*
+ * Implementation hook_init
+ */
+function weeve_donation_init() {
+  $path = drupal_get_path('module', 'weeve_donation');
+  drupal_add_js($path .'/js/weeve_donation.js');
+}
+
+/*
+ * Implementation hook_menu()
+ */
+function weeve_donation_menu() {
+  $items = array();
+
+  $items['ajax/donation/submit'] = array(
+    'title' => '',
+    'access callback' => TRUE,
+    'page callback' => 'weeve_donation_ajax_callback',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function weeve_donation_ajax_callback() {
+  $response = array('status' => false);
+
+  if (isset($_POST['amount']) && check_plain($_POST['amount']) && isset($_POST['nid']) && check_plain($_POST['nid']) && isset($_POST['uid']) && check_plain($_POST['uid'])) {
+    $amout = $_POST['amount'];
+    $nid = $_POST['nid'];
+    $uid = $_POST['uid'];
+    $response['status'] = true;
+  }
+
+
+
+  drupal_json($response);
+  exit(0);
+}
+
+

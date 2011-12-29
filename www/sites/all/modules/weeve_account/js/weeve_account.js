@@ -96,7 +96,9 @@
     });
 
     $(window).resize(function() {
-      LoginForm.updatePosition();
+      if ($('.login-box-wrap').is(':visible')) {
+        LoginForm.updatePosition();
+      }
     });
 
   };
