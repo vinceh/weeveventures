@@ -1,0 +1,13 @@
+name = Webform Rules
+core = 6.x
+description = "Adds rules integration for webform submissions."
+package = Webform
+dependencies[] = webform
+dependencies[] = rules
+
+; Information added by drupal.org packaging script on 2011-11-20
+version = "6.x-1.6"
+core = "6.x"
+project = "webform_rules"
+datestamp = "1321802451"
+

@@ -23,7 +23,8 @@
 	</div>
 
 	<div class='profile-links'>
-      <?php print l(t('about'), 'account/'. $account->uid .'/about', array('attributes' => array('class' => 'profile-link'))); ?>
+      <?php if (arg(0) == 'account' && !arg(2)) $active_class = ' active'; ?>
+      <?php print l(t('about'), 'account/'. $account->uid .'/about', array('attributes' => array('class' => 'profile-link'. $active_class))); ?>
       <?php print l(t('history'), 'account/'. $account->uid .'/history', array('attributes' => array('class' => 'profile-link'))); ?>
       <?php if($user->uid == $account->uid): ?>
         <?php print l(t('pending projects'), 'account/'. $account->uid .'/projects', array('attributes' => array('class' => 'profile-link'))); ?>

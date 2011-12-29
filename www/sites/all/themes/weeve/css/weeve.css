@@ -1144,6 +1144,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 	cursor: pointer;
 }
 
+a.profile-link.active {
+  background-color: #ddd;
+ 	cursor: pointer;
+}
+
 .profile-info-title, .profile-info-content {
 	padding: 3px 5px;
 }

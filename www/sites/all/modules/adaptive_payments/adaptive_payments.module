@@ -1,0 +1,885 @@
+<?php
+/**
+ * @file
+ * adaptive_payments.module
+ *
+ * Drupal API functions for PayPal X Adaptive Payments API
+ *
+ * Documentation:
+ * @see https://www.x.com/servlet/JiveServlet/downloadBody/1531-102-3-2020/PP_AdaptivePayments.pdf
+ * @see https://www.x.com/docs/DOC-1427
+ * @see https://www.paypal-labs.com/integrationwizard/adaptive/
+ * 20-05-2010: pdf is version 1.4.0 and the web page and integration wizard
+ * are version 1.3.0. This module is based on 1.3.0 with preparation for future
+ * 1.4.0 upgrades in place.
+ *
+ * This module use hook_ap_presets to load required API credentials. Please
+ * see the example in the test module.
+ *
+ * Developer note: CamelCase naming is deliberately used for variables and array
+ * keys to maintain naming conventions with the documents and NVP notation.
+ */
+
+
+//** Adaptive Payment API functions**//
+
+/**
+  * Pay:
+  *
+  *   Transfers funds from a sender’s PayPal account to one or more receivers’
+  *   PayPal accounts (up to 6 receivers).
+  *
+  * The following variables can be set by hook_ap_presets:
+  * - adaptive_payments_returnUrl: Can be overridden in parameters.
+  * - adaptive_payments_cancelUrl: Can be overridden in parameters.
+  * - adaptive_payments_currencyCode: Can be overridden in parameters.
+  * - adaptive_payments_ipnNotificationUrl: Can be overridden in $optional
+  *    parameters.
+  * - debug:
+  *
+  * @param $actionType
+  *   Action to take:
+  *   - PAY
+  *   - CREATE
+  *   New in v 1.4.0. Not implimented yet in this Drupal API.
+  * @param $receiver
+  *   multi dimensional array containing
+  *   (use exact name for key, note CamelCase):
+  *   - array key:
+  *     - receiverEmail: Receiver’s email address.
+  *       Required for all and at least one receiver for single payments.
+  *     - receiverAmount: Amount to be paid to the receiver.
+  *       Required for all and at least one receiver for single payments.
+  *     - receiverPrimary: Used for chained transactions.
+  *       All default to false with only one receiver set as primary.
+  *     - receiverInvoiceId: The invoice number for the payment.
+  *       This data in this field shows on the Transaction Details report.
+  * @param $optional
+  *   Array containing optional or conditionally required fields
+  *   (use exact name for key, note CamelCase):
+  *   - feesPayer: The payer of PayPal fees.
+  *     Allowable values are:
+  *     - SENDER: Sender pays all fees (for personal, implicit,
+  *              simple/parallel payments)
+  *     - PRIMARYRECEIVER: Primary receiver pays all fees
+  *     - EACHRECEIVER: Each receiver pays their own fee
+  *       (default and personal payments)
+  *     - SECONDARYONLY: Secondary receivers pay all fees
+  *       (use only for chained payments with one secondary receiver)
+  *   - memo: General memo. Maxlength is 1000 characters.
+  *   - pin: If you are executing the Pay call against an existing preapproval
+  *     that requires a pin, then you must set this.
+  *   - preapprovalKey: Required for Preaproved payments
+  *   - reverseAllParallelPaymentsOnError: Set TRUE to reverse payments to all
+  *     receivers in a parallel payment, if payment to one or more receiver
+  *     fail.
+  *   - senderEmail: If you are executing the Pay call against a preapprovalKey,
+  *     you should set senderEmail. It is not required if the web approval
+  *     flow immediately follows this Pay call.
+  *   - trackingId: Unique number for this transaction.
+  *   - ipnNotificationUrl: Return URL for IPN.
+  *     Optional. If this parameter is empty, it will default to preset
+  *     variable.
+  * @param $returnUrl
+  *   Optional. If this parameter is empty, it will default to
+  *   preset variable.
+  * @param $cancelUrl
+  *   Optional. If this parameter is empty, it will default to
+  *   preset variable.
+  * @param $currencyCode
+  *   Optional. If this parameter is empty, it will default
+  *   to the preset variable.
+  *
+  * @return $response_array
+  *     Associative array containing the response from the server.
+*/
+function adaptive_payments_pay($actionType, $receiver = array(), $optional = array(), $returnUrl='', $cancelUrl='', $currencyCode = '') {
+  //Preset variables.
+  foreach (module_list() as $module) {
+    $presets = module_invoke($module, 'ap_presets');
+    if ($presets) {
+      $returnUrl = $returnUrl? $returnUrl: $presets['returnUrl'];
+      $cancelUrl = $cancelUrl? $cancelUrl: $presets['cancelUrl'];
+      $currencyCode = $currencyCode? $currencyCode: $presets['currencyCode'];
+      $optional['ipnNotificationUrl'] = $optional['ipnNotificationUrl']? $optional['ipnNotificationUrl']: $presets['ipnNotificationUrl'];
+      $debug = $presets['debug'];
+      break; // Only one set of presets will be used.
+    }
+  }
+
+  // @todo: Remove after implementation of ExecutePayment, GetPaymentOptions and SetPaymentOptions which is new in 1.4.0
+  if ($actionType == 'CREATE') {
+    drupal_set_message(t('Action type: CREATE is not implemented yet.'), 'error');
+    return array();
+  }
+  // required fields
+  $nvp_str = "actionType=". urlencode($actionType) ."&currencyCode=". urlencode($currencyCode);
+  $nvp_str .= "&returnUrl=". urlencode($returnUrl) ."&cancelUrl=". urlencode($cancelUrl);
+
+  if (count($receiver) == 0) {
+    drupal_set_message(t('There are no receivers specified for payment.'), 'error');
+    return array();
+  }
+  elseif (count($receiver) > 6) {
+    drupal_set_message(t('Maximum allowed receivers of 6 per per transaction exceeded.'), 'error');
+    return array();
+  }
+  else {
+    reset($receiver);
+    $primary_check = 0;
+    while (list($key, $value) = each($receiver)) {
+      if ("" != $value) {
+        $nvp_str .= "&receiverList.receiver(". $key .").amount=". urlencode($value['receiverAmount']);
+        $nvp_str .= "&receiverList.receiver(". $key .").email=". urlencode($value['receiverEmail']);
+
+        if ($value['receiverPrimary']) {
+          $nvp_str .= "&receiverList.receiver(". $key .").primary=true";
+        }
+        else {
+          $nvp_str .= "&receiverList.receiver(". $key .").primary=false";
+        }
+
+        if (isset($value['receiverInvoiceId'])) {
+          $nvp_str .= "&receiverList.receiver(". $key .").invoiceId=". urlencode($value['receiverInvoiceId']);
+        }
+
+        if ($value['receiverPrimary']) {
+          $primary_check++;
+          if ($primary_check > 1) {
+            drupal_set_message(t('More than one primary receiver were specified. Only one primary receiver is allowed for chained payments.'));
+            return array();
+          }
+        }
+      }
+    }
+  }
+
+  // optional fields
+  reset($optional);
+    while (list($key, $value) = each($optional)) {
+      if ("" != $value) {
+        $nvp_str .= "&". $key ."=". urlencode($value);
+      }
+    }
+
+  // Make the Pay call to PayPal
+  $response_array = adaptive_payments_request("Pay", $nvp_str);
+
+  // develepment reports
+ 
+  If ($debug) {
+    dsm(array(
+          'function called' => 'adaptive_payments_pay',
+          'Input' => array(
+            'actionType' => $actionType,
+            'receiver' => $receiver,
+            'optional' => $optional,
+          ),
+          'Preset variables' => array(
+            'returnUrl' => $returnUrl,
+            'cancelUrl' => $cancelUrl,
+            'currencyCode' => $currencyCode,
+          ),
+          'NVP string' => $nvp_str,
+          'Output' => $response_array,
+        ), 'Pay');
+  }
+
+  // Return the response array
+  return $response_array;
+}
+
+/**
+ * Refund:
+ *
+ *  Refunds all or part of a payment.
+ *
+ * Please note:
+ *  The API credentials used in a Pay call can make the Refund call
+ *	against a payKey, or a tracking id, or to specific receivers of a payKey or
+ *  a tracking id that resulted from the Pay call.
+ *
+ *	A receiver itself with its own API credentials can make a Refund call
+ *  against the transactionId corresponding to their transaction. The API
+ *  credentials used in a Pay call cannot use transactionId to issue a refund
+ *  for a transaction for which they themselves were not the receiver.
+ *
+ *	If you do specify specific receivers, keep in mind that you must provide
+ *  the amounts as well If you specify a transactionId, then only the receiver
+ *  of that transactionId is affected therefore the receiver should have
+ *  1 entry each if you do want to give a partial refund.
+ *
+ *  Conditionally Required:
+ *    One of the following:  payKey or trackingId or trasactionId or
+ *    (payKey and receiverEmail and receiverAmount) or
+ *    (trackingId and receiverEmail and receiverAmount) or
+ *    (transactionId and receiverEmail and receiverAmount).
+ *
+ * Only a maximum of 6 receivers are allowed per transaction.
+ * (Exept where $transactionId is used, where it is only 1 receiver.)
+ *
+ *  The following variables can be set with hook_ap_presets:
+ *   - debug
+ *
+ * @param $payKey
+ *   Returned key after Pay request
+ * @param $transactionId
+ *   Id of succesful transaction.
+ * @param $trackingId
+ *   Locally generation ID for tracking, for ex. Invoice number.
+ * @param $receiver
+ *   multi dimensional array containing
+ *   (use exact name for key, note CamelCase):
+ *   - array key as number:
+ *     - receiverEmail: Receiver’s email address.
+ *       Required for all and at least one receiver for single payments.
+ *     - receiverAmount: Amount to be paid to the receiver.
+ *       Required for all and at least one receiver for single payments.
+ *     - receiverPrimary: Not used here. Mentioned for compatability.
+ *     - receiverInvoiceId: Not used here. Mentioned for compatability.
+ *
+ *
+ * @return $response_array
+ *    NVP Collection object of the Refund call response.
+*/
+function adaptive_payments_refund($payKey, $transactionId, $trackingId, $receiver) {
+
+  //Preset variables.
+  foreach (module_list() as $module) {
+    $presets = module_invoke($module, 'ap_presets');
+    if ($presets) {
+      $debug = $value['debug'];
+      break; // Only one set of presets will be used.
+    }
+  }
+
+  if (count($receiver == 0)) {
+    drupal_set_message(t('There are no receivers specified for payment.'), 'error');
+    return array();
+  }
+  elseif (count($receiver > 6)) {
+    drupal_set_message(t('Maximum allowed receivers of 6 per per transaction exeeded.'), 'error');
+    return array();
+  }
+  // conditionally required fields
+  if ("" != $payKey) {
+    $nvp_str = "payKey=" . urlencode($payKey);
+    reset($receiver);
+    while (list($key, $value) = each($receiver)) {
+      if ("" != $value) {
+        $nvp_str .= "&receiverList.receiver(". $key .").amount=". urlencode($value['receiverAmount']);
+        $nvp_str .= "&receiverList.receiver(". $key .").email=". urlencode($value['receiverEmail']);
+      }
+    }
+  }
+  elseif ("" != $trackingId) {
+    $nvp_str = "trackingId=" . urlencode($trackingId);
+    reset($receiver);
+    while (list($key, $value) = each($receiver)) {
+      if ("" != $value) {
+        $nvp_str .= "&receiverList.receiver(". $key .").amount=" . urlencode($value['receiverAmount']);
+        $nvp_str .= "&receiverList.receiver(". $key .").email=" . urlencode($value['receiverEmail']);
+      }
+    }
+  }
+  elseif ("" != $transactionId) {
+    $nvp_str = "transactionId=" . urlencode($transactionId);
+    // the caller should only have 1 entry in the email and amount arrays
+    if (count($receiver > 1)) {
+      drupal_set_message(t('Only one receiver can be refunded with transaction id.'), 'error');
+      return array();
+    }
+    reset($receiver);
+    while (list($key, $value) = each($receiver)) {
+      if ("" != $value) {
+        $nvp_str .= "&receiverList.receiver(". $key .").amount=". urlencode($value['receiverAmount']);
+        $nvp_str .= "&receiverList.receiver(". $key .").email=". urlencode($value['receiverEmail']);
+      }
+    }
+  }
+
+  // Make the Refund call to PayPal
+  $response_array = adaptive_payments_request("Refund", $nvp_str);
+
+  // develepment reports
+ 
+  If ($debug) {
+    dsm(array(
+          'function called' => 'adaptive_payments_refund',
+          'Input' => array(
+            'payKey' => $payKey,
+            'transactionId' => $transactionId,
+            'trackingId' => $trackingId,
+            'receiver' => $receiver,
+          ),
+          'Preset variables' => 'none',
+          'NVP string' => $nvp_str,
+          'Output' => $response_array,
+        ), 'Refund');
+  }
+
+  // Return the response array
+  return $response_array;
+}
+  
+/**
+  * PaymentDetails:
+  *
+  *  Obtains information about a payment set up with the Pay API operation.
+  *
+  * Use $payKey OR $transactionId OR $trackingId
+  *
+  *  The following variables can be set with hook_ap_presets:
+  *   - debug
+  *
+  * @param $payKey
+  *   Returned key after Pay request
+  * @param $transactionId
+  *   Id of succesful transaction.
+  * @param $trackingId
+  *   Locally generation ID for tracking, for ex. Invoice number.
+  *
+  * @return $response_array
+  *   Associative array containing the response from the server.
+*/
+function adaptive_payments_payment_details($payKey, $transactionId, $trackingId) {
+
+  foreach (module_list() as $module) {
+    $presets = module_invoke($module, 'ap_presets');
+    if ($presets) {
+      $debug = $value['debug'];
+      break; // Only one set of presets will be used.
+    }
+  }
+
+  if ("" != $payKey) {
+    $nvp_str = "payKey=". urlencode($payKey);
+  }
+  elseif ("" != $transactionId) {
+    $nvp_str = "transactionId=". urlencode($transactionId);
+  }
+  elseif ("" != $trackingId) {
+    $nvp_str = "trackingId=". urlencode($trackingId);
+  }
+
+  // Make the PaymentDetails call to PayPal
+  $response_array = adaptive_payments_request("PaymentDetails", $nvp_str);
+
+  // develepment reports
+ 
+  If ($debug) {
+    dsm(array(
+          'function called' => 'adaptive_payments_payment_details',
+          'Input' => array(
+            'payKey' => $payKey,
+            'transactionId' => $transactionId,
+            'trackingId' => $trackingId,
+          ),
+          'Preset variables' => 'none',
+          'NVP string' => $nvp_str,
+          'Output' => $response_array,
+        ), 'PaymentDetails');
+  }
+
+  // Return the response array
+  return $response_array;
+}
+
+/**
+ * SetPaymentOptions:
+ *
+ *  Set payment options to be executed with the ExecutePayment API operation.
+ *
+ * @todo: SetPaymentOptions new in PayPal Adaptive payments 1.4.0
+ *
+ */
+function  adaptive_payments_set_payment_options() {
+  // 
+}
+
+/**
+ * GetPaymentOptions:
+ *
+ *  Retrieve payment settings specified with the SetPaymentOptions API
+ *  operation.
+ *
+ * @todo: GetPaymentOptions new in PayPal Adaptive payments 1.4.0
+ *
+ */
+function  adaptive_payments_get_payment_options() {
+  // 
+}
+
+/**
+ * ExecutePayment:
+ *  Execute a payment created with a PayRequest that had the actionType set
+ *  to CREATE.
+ *
+ * @todo: ExecutePayment new in PayPal Adaptive payments 1.4.0
+ *
+ */
+function  adaptive_payments_execute_payment() {
+  // 
+}
+
+/**
+  * Preapproval:
+  *
+  *  Set up preapprovals, which is an approval to make future payments on the
+  *  sender’s behalf.
+  *
+  * The following preset variables can be set by hook_ap_presets:
+  * - adaptive_payments_returnUrl.
+  *   Can be overridden in parameters.
+  * - adaptive_payments_cancelUrl.
+  *    an be overridden in parameters.
+  * - adaptive_payments_currencyCode.
+  *   Can be overridden in parameters.
+  * - adaptive_payments_ipnNotificationUrl.
+  *   Can be overridden in $optional parameter.
+  * - debug
+  *
+  * @param $required
+  *   Array containing required fields (use exact name for key, note CamelCase):
+  *   - startingDate
+  *     Format: 2009-12-13T08:00:00.000Z
+  *   - endingDate
+  *     Format: 2009-12-13T08:00:00.000Z
+  *   - maxTotalAmountOfAllPayments
+  * @param $optional
+  *   Array containing optional fields (use exact name for key, note CamelCase):
+  *   - senderEmail
+  *   - maxNumberOfPayments
+  *   - paymentPeriod
+  *   - dateOfMonth
+  *   - dayOfWeek
+  *   - maxAmountPerPayment
+  *   - maxNumberOfPaymentsPerPeriod
+  *   - pinType
+  *   - ipnNotificationUrl
+  *     If this parameter is empty, it will default to the preset variable.
+  * @param $returnUrl
+  *   Optional. If this parameter is empty, it will default to the
+  *   preset variable.
+  * @param $cancelUrl
+  *   Optional. If this parameter is empty, it will default to the
+  *   preset variable.
+  * @param $currencyCode
+  *   Optional. If this parameter is empty, it will default to the
+  *   preset variable.
+  *     
+  * @return $response_array
+  *   Associative array containing the response from the server.
+*/
+function adaptive_payments_preapproval($required = array(), $optional = array(), $returnUrl='', $cancelUrl='', $currencyCode ='') {
+
+  if (!isset($required['startingDate'])) {
+    drupal_set_message(t('Preapproval requires starting date to be set.'), 'error');
+    $error = TRUE;
+  }
+
+  if (!isset($required['endingDate'])) {
+    drupal_set_message(t('Preapproval requires ending date to be set.'), 'error');
+    $error = TRUE;
+  }
+
+  if (!isset($required['maxTotalAmountOfAllPayments'])) {
+    drupal_set_message(t('Preapproval requires maximum total amount of all payments to be set.'), 'error');
+    $error = TRUE;
+  }
+
+  if ((strtotime($required['startingDate']) + 31536000) < strtotime($required['endingDate'])) {
+    drupal_set_message(t('Ending date can not be later than one year after starting date.'), 'error');
+    $error = TRUE;
+  }
+
+   if (strtotime($required['startingDate']) > strtotime($required['endingDate'])) {
+    drupal_set_message(t('Ending date can not fall before starting date.'), 'error');
+    $error = TRUE;
+  }
+  //@todo: Check max amount < 2000.00 USD, but what if it is in other currency?
+  //Answer: PPx got ConvertCurrency, but that would require another call to PayPal.
+  //For now, PayPal API does the check on preapproval request.
+
+  if ($error) {
+    return array();
+  }
+
+  //Preset variables.
+  foreach (module_list() as $module) {
+    $presets = module_invoke($module, 'ap_presets');
+    if ($presets) {
+      $returnUrl = $returnUrl? $returnUrl: $presets['returnUrl'];
+      $cancelUrl = $cancelUrl? $cancelUrl: $presets['cancelUrl'];
+      $currencyCode = $currencyCode? $currencyCode: $presets['currencyCode'];
+      $optional['ipnNotificationUrl'] = $optional['ipnNotificationUrl']? $optional['ipnNotificationUrl']: $presets['ipnNotificationUrl'];
+      $debug = $presets['debug'];
+      break; // Only one set of presets will be used.
+    }
+  }
+
+  // required fields
+  $nvp_str = "returnUrl=". urlencode($returnUrl) ."&cancelUrl=". urlencode($cancelUrl);
+  $nvp_str .= "&currencyCode=". urlencode($currencyCode) ."&startingDate=". urlencode($required['startingDate']);
+  $nvp_str .= "&endingDate=". urlencode($required['endingDate']);
+  $nvp_str .= "&maxTotalAmountOfAllPayments=". urlencode($required['maxTotalAmountOfAllPayments']);
+
+  // optional fields
+  reset($optional);
+  while (list($key, $value) = each($optional)) {
+    if ("" != $value) {
+      $nvp_str .= "&". $key ."=" . urlencode($value);
+    }
+  }
+
+  // Make the Preapproval call to PayPal
+  $response_array = adaptive_payments_request("Preapproval", $nvp_str);
+
+  // develepment reports
+ 
+  If ($debug) {
+    dsm(array(
+          'function called' => 'adaptive_payments_preapproval',
+          'Input' => array(
+            'required' => $required,
+            'optional' => $optional,
+          ),
+          'Preset variables' => array(
+            'returnUrl' => $returnUrl,
+            'cancelUrl' => $cancelUrl,
+            'currencyCode' => $currencyCode,
+          ),
+          'NVP string' => $nvp_str,
+          'Output' => $response_array,
+        ), 'Preapproval');
+  }
+
+  // Return the response array
+  return $response_array;
+}
+
+/**
+  * PreapprovalDetails:
+  *
+  *  Obtains information about a preapproval.
+  *
+  *  The following variables can be set with hook_ap_presets:
+  *   - debug
+  *
+  * @param $preapprovalKey
+  * @param $getBillingAddress
+  *   Optional
+  *
+  * @return $response_array
+  *   Associative array containing the response from the server.
+*/
+function adaptive_payments_preapproval_details($preapprovalKey, $getBillingAddress) {
+
+  foreach (module_list() as $module) {
+    $presets = module_invoke($module, 'ap_presets');
+    if ($presets) {
+      $debug = $presets['debug'];
+      break; // Only one set of presets will be used.
+    }
+  }
+
+  if (isset($preapprovalKey)) { //required
+    $nvp_str = "preapprovalKey=" . urlencode($preapprovalKey);
+    if (isset($getBillingAddress)) {
+      $nvp_str .= "&getBillingAddress=" . urlencode($getBillingAddress);
+    }
+    
+    // Make the PreapprovalDetails call to PayPal
+    $response_array = adaptive_payments_request("PreapprovalDetails", $nvp_str);
+
+    // develepment reports
+   
+    If ($debug) {
+      dsm(array(
+            'function called' => 'adaptive_payments_preapproval_details',
+            'Input' => array(
+              'preapprovalKey' => $preapprovalKey,
+              'getBillingAddress' => $getBillingAddress,
+            ),
+            'Preset variables' => 'none',
+            'NVP string' => $nvp_str,
+            'Output' => $response_array,
+          ), 'Preapproval');
+    }
+
+    // Return the response array
+    return $response_array;
+  }
+  else {
+     drupal_set_message(t('Preapproval detail request requires a preapproval key.'), 'error');
+     return array();
+  }
+}
+
+/**
+  * CancelPreapproval:
+  *
+  *  Cancels a preapproval
+  *
+  *  The following variables can be set with hook_ap_presets:
+  *   - debug
+  *
+  * @param $preapprovalKey
+  *
+  * @return $response_array
+  *   Associative array containing the response from the server.
+ */
+function adaptive_payments_preapproval_cancel($preapprovalKey) {
+
+  foreach (module_list() as $module) {
+    $presets = module_invoke($module, 'ap_presets');
+    if ($presets) {
+      $debug = $presets['debug'];
+      break; // Only one set of presets will be used.
+    }
+  }
+
+  if (isset($preapprovalKey)) {
+    $nvp_str = "preapprovalKey=" . urlencode($preapprovalKey);
+
+    // Make the CancelPreapproval call to PayPal
+    $response_array = adaptive_payments_request("CancelPreapproval", $nvp_str);
+
+    // develepment reports
+    If ($debug) {
+      dsm(array(
+            'function called' => 'adaptive_payments_preapproval_cancel',
+            'Input' => array(
+              'preapprovalKey' => $preapprovalKey,
+            ),
+            'Preset variables' => 'none',
+            'NVP string' => $nvp_str,
+            'Output' => $response_array,
+          ), 'CancelPreapproval');
+    }
+
+    // Return the response array
+    return $response_array;
+  }
+  else {
+     drupal_set_message(t('Preapproval cancelation requires a preapproval key.'), 'error');
+     return array();
+  }
+}
+
+/**
+  * ConvertCurrency:
+  *
+  *  Obtains Foreign Exchange currency conversion rates for a list of amounts.
+  *
+  * @todo: ConvertCurrency
+  *
+ */
+function  adaptive_payments_convert_currency() {
+  // 
+}
+
+//**Non Adaptive payments functions**//
+
+/**
+  *  Proccess a request
+  *
+  *  The following API credentials can be set with hook_ap_presets.
+  *  - API_UserName
+  *  - API_Password
+  *  - API_Signature
+  *  - API_AppID
+  *  - sandbox
+  *  - debug
+  *
+  * @param $methodName
+  *   Name of API method.
+  * @param nvp_str
+  *   NVP data.
+  * 
+  * @return $response_array
+  *   Associative array containing the response from the server.
+*/
+function adaptive_payments_request($methodName, $nvp_str) {
+
+  foreach (module_list() as $module) {
+    $presets = module_invoke($module, 'ap_presets');
+    if ($presets) {
+      $API_UserName = $presets['API_UserName'];
+      $API_Password = $presets['API_Password'];
+      $API_Signature = $presets['API_Signature'];
+      $API_AppID = $presets['API_AppID'];
+      $sandbox = $presets['sandbox'];
+      $debug = $presets['debug'];
+      $hook_found = TRUE;
+      break; // Only one set of presets will be used.
+    }
+  }
+
+  if (!$hook_found) {
+    drupal_set_message(t('No API pre-sets found.'), 'error');
+    return array();
+  }
+
+  $API_Endpoint = "";
+    if ($sandbox) {
+      $API_Endpoint = "https://svcs.sandbox.paypal.com/AdaptivePayments";
+    }
+    else{
+      $API_Endpoint = "https://svcs.paypal.com/AdaptivePayments";
+  }
+
+  $API_Endpoint .= "/" . $methodName;
+
+  //setting the curl parameters.
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
+  curl_setopt($ch, CURLOPT_VERBOSE, 1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_POST, 1);
+
+  // Set the HTTP Headers
+  curl_setopt($ch, CURLOPT_HTTPHEADER,  array(
+  'X-PAYPAL-REQUEST-DATA-FORMAT: NV',
+  'X-PAYPAL-RESPONSE-DATA-FORMAT: NV',
+  'X-PAYPAL-SECURITY-USERID: '. $API_UserName,
+  'X-PAYPAL-SECURITY-PASSWORD: '. $API_Password,
+  'X-PAYPAL-SECURITY-SIGNATURE: '. $API_Signature,
+  'X-PAYPAL-APPLICATION-ID: '. $API_AppID
+  ));
+
+  // RequestEnvelope fields
+  $detail_level = urlencode("ReturnAll"); // See DetailLevelCode in the WSDL for valid enumerations
+  $error_language = urlencode("en_US"); // This should be the standard RFC 3066 language identification tag, e.g., en_US
+
+  // NVPRequest for submitting to server
+  $nvp_req = "requestEnvelope.errorLanguage=$error_language&requestEnvelope.detailLevel=$detail_level";
+  $nvp_req .= "&$nvp_str";
+
+  //setting the nvp_req as POST FIELD to curl
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $nvp_req);
+
+  //getting response from server
+  $response = curl_exec($ch);
+
+  //converting NVPResponse to an Associative Array
+  $response_array=adaptive_payments_deformat_nvp($response);
+
+  if ($error = curl_error($ch)) {
+    watchdog('adaptive payment', t('CURL error: !error'), array('!error' => $error), WATCHDOG_ERROR);
+  }
+  else{
+    curl_close($ch);
+  }
+
+  // develepment reports
+  If ($debug) {
+    dsm(array(
+          'function called' => 'adaptive_payments_request',
+          'Input' => array(
+            'methodName' => $methodName,
+            'NVP string' => $nvp_str,
+          ),
+          'Preset variables' => array(
+            'API_UserName' => $API_UserName,
+            'API_Password' => $API_Password,
+            'API_Signature' => $API_Signature,
+            'API_AppID' => $API_AppID,
+          ),
+          'NVP request' => $nvp_req,
+          'Output' => $response_array,
+        ), 'Proccess request with PayPal');
+  }
+
+  return $response_array;
+}
+
+/**
+  * Redirect to PayPal to login and complete payment.
+  *
+  *  The following variables can be set with hook_ap_presets:
+  *   - sandbox
+  *
+  * @param $cmd
+  *   Can be:
+  *   - _ap-payment
+  *     Invokes PayPal login to approve a payment using Adaptive Payments
+  *   - _ap-preapproval
+  *     Invokes PayPal login to set up a preapproval using Adaptive Payments
+  * @param $key
+  *   Either the payment key or preapproval key.
+  *
+  * @return TRUE
+  *   bool completed
+*/
+function adaptive_payments_redirect($cmd, $key) {
+
+  foreach (module_list() as $module) {
+    $presets = module_invoke($module, 'ap_presets');
+    if ($presets) {
+      $sandbox = $presets['sandbox'];
+      break; // Only one set of presets will be used.
+    }
+  }
+
+  if (isset($key) && isset($cmd)) {
+    if ($cmd == '_ap-payment') {
+      $options = 'cmd='. $cmd .'&paykey='. $key;
+    }
+    else {
+      $options = 'cmd='. $cmd .'&preapprovalkey='. $key;
+    }
+    
+    $payPalURL = "";
+    if ($sandbox) {
+      $payPalURL = "https://www.sandbox.paypal.com/webscr?". $options;
+    }
+    else{
+      $payPalURL = "https://www.paypal.com/webscr?". $options;
+    }
+
+  }
+  else {
+    drupal_set_message(t('PayPal operation aborted: Missing Pay Key or Adaptive Pay Command'), 'error');
+    watchdog('adaptive payment', t('Missing Pay Key or Adaptive Pay Command'), array(), WATCHDOG_ERROR);
+    return FALSE;
+  }
+
+  header("Location:". $payPalURL);
+  return TRUE;
+}
+
+//***Helper functions***//
+
+/**
+  * Deformat NVP
+  *   This function will take NVPString and convert it to an Associative Array
+  *   and it will decode the response.
+  *
+  * @param $nvp_str
+  *   NameValue string.
+  *
+  * @return $nvp_array.
+*/
+function adaptive_payments_deformat_nvp($nvp_str) {
+
+  $intial=0;
+  $nvp_array = array();
+
+  while (strlen($nvp_str)) {
+    //postion of Key
+    $keypos= strpos($nvp_str, '=');
+    //position of value
+    $valuepos = strpos($nvp_str, '&')? strpos($nvp_str, '&'): strlen($nvp_str);
+
+    //getting the Key and Value values and storing in a Associative Array
+    $keyval=substr($nvp_str, $intial, $keypos);
+    $valval=substr($nvp_str, $keypos+1, $valuepos-$keypos-1);
+    //decoding the respose
+    $nvp_array[urldecode($keyval)] =urldecode( $valval);
+    $nvp_str=substr($nvp_str, $valuepos+1, strlen($nvp_str));
+     }
+  return $nvp_array;
+}

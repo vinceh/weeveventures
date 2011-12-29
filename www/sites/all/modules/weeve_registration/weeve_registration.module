@@ -371,7 +371,7 @@ function weeve_registration_npo_form() {
 
   $form['website'] = array(
     '#type' => 'textfield',
-    '#title' => t('Business Website'),
+    '#title' => t('Business Website (optional)'),
     '#description' => t('Where do people find you on the web?'),
     '#theme' => 'wevee_textfield_inline',
   );
