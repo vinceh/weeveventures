@@ -71,8 +71,16 @@ $(window).load( function() {
 		var title = "<div class='popuptitle'>Make your donation</div>";
 		var projectname = "<div class='project'>New Shelter for Women and Chidlren</div>";
 		
+		var close = $("<div class='popupclose weeve-link'>close</div>");
+		
+		close.click( function() {
+			popupwrap.remove();
+			backdrop.remove();
+		});
+		
 		popup.append(leftwrap);
 		popup.append(rightwrap);
+		popup.append(close);
 
 		$('body').css('overflow', 'hidden');
 		
