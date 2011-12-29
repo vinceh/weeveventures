@@ -76,6 +76,7 @@ $(window).load( function() {
 		close.click( function() {
 			popupwrap.remove();
 			backdrop.remove();
+			$('body').css('overflow', 'scroll');
 		});
 		
 		popup.append(leftwrap);
