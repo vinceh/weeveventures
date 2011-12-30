@@ -88,8 +88,11 @@
         data: {amount: amount, nid: nid, uid: uid},
         success: function (res) {
           res = Drupal.parseJson(res);
-          console.log(res);
-          //TODO: go to on paypal
+          if (res.status) {
+            window.location = res.url;
+          } else {
+            alert('Ooops... Unknow error.');
+          }
         }
       });
     });
