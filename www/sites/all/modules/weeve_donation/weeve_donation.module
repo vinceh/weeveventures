@@ -21,23 +21,155 @@ function weeve_donation_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['donation/payment/success'] = array(
+    'title' => '',
+    'access callback' => TRUE,
+    'page callback' => 'weeve_donation_payment_success_callback',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['donation/payment/cancelled'] = array(
+    'title' => '',
+    'access callback' => TRUE,
+    'page callback' => 'weeve_donation_payment_cancelled_callback',
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
+/*
+ * Submit form.
+ */
 function weeve_donation_ajax_callback() {
   $response = array('status' => false);
 
   if (isset($_POST['amount']) && check_plain($_POST['amount']) && isset($_POST['nid']) && check_plain($_POST['nid']) && isset($_POST['uid']) && check_plain($_POST['uid'])) {
-    $amout = $_POST['amount'];
+    $amount = $_POST['amount'];
     $nid = $_POST['nid'];
     $uid = $_POST['uid'];
-    $response['status'] = true;
+
+    $node = node_load($nid);
+    $user = user_load($uid);
+
+    // Store user and project in the session
+    $_SESSION['donation_info'] = array(
+      'node' => $node,
+      'user' => $user,
+    );
+
+    $pp_res = weeve_donation_set_express_checkout('Donate', $node->title, $amount);
+
+    if ($pp_res) {
+      $response['status'] = true;
+      $response['paypal'] = $pp_res;
+
+      //Sandbox or Production?
+      $response['url'] = 'https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($pp_res['TOKEN']);
+    }
   }
-
-
 
   drupal_json($response);
   exit(0);
 }
 
+/*
+ * Save or Edit donation
+ */
+function weeve_donation_save($amount, $uid, $nid, $datetime, $currencycode, $paypal_id, $did = null) {
+  $donate = new stdClass();
+  $donate->uid = $uid;
+  $donate->nid = $nid;
+  $donate->date = $datetime;
+  $donate->amount = $amount;
+  $donate->currencycode = $currencycode;
+  $donate->paypal_id = $paypal_id;
 
+  if ($did) {
+    $donate->did = $did;
+    drupal_write_record('weeve_donation', $donate, 'did');
+  }
+  else {
+    drupal_write_record('weeve_donation', $donate);
+  }
+  return $donate;
+}
+
+/*
+ * Payment success callback
+ */
+function weeve_donation_payment_success_callback() {
+  module_load_include('inc', 'weeve_donation', 'inc/paypal');
+
+  $paypal = new Paypal();
+  if (isset($_GET['token']) && !empty($_GET['token'])) {
+    $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $_GET['token']));
+
+    $requestParams = array(
+      'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
+      'PAYERID' => $_GET['PayerID'],
+      'PAYMENTREQUEST_0_AMT' => $checkoutDetails['AMT'],
+      'TOKEN' => $_GET['token'],
+    );
+
+    $response = $paypal->request('DoExpressCheckoutPayment', $requestParams);
+
+    $project = $_SESSION['donation_info']['node'];
+    $project_owner = $_SESSION['donation_info']['user'];
+
+    if (is_array($response) && $response['ACK'] == 'Success') {
+      $donate = weeve_donation_save($checkoutDetails['AMT'], $project_owner->uid, $project->nid,
+        substr($checkoutDetails['TIMESTAMP'], 0, strlen($checkoutDetails['TIMESTAMP'])-1),
+        $checkoutDetails['PAYMENTREQUEST_0_CURRENCYCODE'], $response['PAYMENTINFO_0_TRANSACTIONID']);
+
+      drupal_set_message(t("Thanks for Your donate"));
+      drupal_goto();
+    }
+    else {
+      drupal_set_message(t('Error'), 'error');
+      drupal_goto();
+    }
+  }
+  else {
+    drupal_access_denied();
+  }
+
+}
+
+/*
+ * Payment canceled callback
+ */
+function weeve_donation_payment_cancelled_callback() {
+  drupal_goto();
+}
+
+/*
+ *
+ */
+function weeve_donation_set_express_checkout($title, $desc, $amount) {
+  module_load_include('inc', 'weeve_donation', 'inc/paypal');
+
+  $requestParams = array(
+    'RETURNURL' => url('donation/payment/success', array('absolute' => TRUE)),
+    'CANCELURL' => url('donation/payment/cancelled', array('absolute' => TRUE)),
+  );
+
+  $orderParams = array(
+    'PAYMENTREQUEST_0_AMT' => $amount,
+    'PAYMENTREQUEST_0_ITEMAMT' => $amount,
+  );
+
+  $item = array(
+    'L_PAYMENTREQUEST_0_NAME0' => $title,
+    'L_PAYMENTREQUEST_0_DESC0' => $desc,
+    'L_PAYMENTREQUEST_0_AMT0' => $amount,
+  );
+
+  $paypal = new Paypal();
+  $response = $paypal->request('SetExpressCheckout', $requestParams + $orderParams + $item);
+
+  if (is_array($response) && $response['ACK'] == 'Success') {
+    return $response;
+  }
+  return FALSE;
+}

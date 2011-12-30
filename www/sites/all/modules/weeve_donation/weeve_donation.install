@@ -1,0 +1,64 @@
+<?php
+
+/*
+ * Implementation hook_install()
+ */
+function weeve_donation_install() {
+  drupal_install_schema('weeve_donation');
+}
+
+/*
+ * Implementation hook_uninstall()
+ */
+function weeve_donation_uninstall() {
+  drupal_uninstall_schema('weeve_donation');
+}
+
+/*
+ * Implementation hook_schema()
+ */
+function weeve_donation_schema() {
+  $schema = array();
+  $schema['weeve_donation'] = array(
+    'fields' => array(
+      'did' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'amount' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'currencycode' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'date' => array(
+        'type' => 'datetime',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'paypal_id' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('did'),
+  );
+
+  return $schema;
+}
