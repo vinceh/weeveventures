@@ -181,7 +181,7 @@ admin/settings/site-maintenance.*
         'allow_user_conf' => 'f',
         'filters' => array(
           'currency_api/0' => 0,
-          'eminline/0' => 1,
+          'eminline/0' => 0,
           'filter/3' => 0,
           'filter/0' => 1,
         ),
@@ -192,9 +192,7 @@ admin/settings/site-maintenance.*
 node/add/project-update*.edit-body
 project/*/edit*.edit-body
 account/change.edit-bio
-account/change.edit-about
-weeve:project@*.edit-body
-weeve:project_update@*.edit-body',
+account/change.edit-about',
         'simple_incl' => '',
         'default' => 't',
         'show_toggle' => 't',
@@ -283,7 +281,7 @@ weeve:project_update@*.edit-body',
             'default' => 't',
           ),
         ),
-        'excl_regex' => '#(?:^.*:.*@node/add/project/.*\\.edit\\-body$)|(?:^.*:.*@node/add/project\\-update.*\\.edit\\-body$)|(?:^.*:.*@project/.*/edit.*\\.edit\\-body$)|(?:^.*:.*@account/change\\.edit\\-bio$)|(?:^.*:.*@account/change\\.edit\\-about$)|(?:^weeve:project@.*\\.edit\\-body$)|(?:^weeve:project_update@.*\\.edit\\-body$)#',
+        'excl_regex' => '#(?:^.*:.*@node/add/project/.*\\.edit\\-body$)|(?:^.*:.*@node/add/project\\-update.*\\.edit\\-body$)|(?:^.*:.*@project/.*/edit.*\\.edit\\-body$)|(?:^.*:.*@account/change\\.edit\\-bio$)|(?:^.*:.*@account/change\\.edit\\-about$)#',
         'simple_incl_regex' => '',
       ),
       'roles' => array(

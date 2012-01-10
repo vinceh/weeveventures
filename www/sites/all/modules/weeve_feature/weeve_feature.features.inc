@@ -108,6 +108,135 @@ We are happy to bring your project on board to Weeve! Please fill out the follow
 function weeve_feature_rules_defaults() {
   return array(
     'rules' => array(
+      'rules_feedback' => array(
+        '#type' => 'rule',
+        '#set' => 'event_webform_rules_submit',
+        '#label' => 'Feedback',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'feedbacks',
+          'weeve_feature' => 'weeve_feature',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '0' => array(
+              '#type' => 'condition',
+              '#settings' => array(
+                'selected_webform' => 'webform-client-form-34',
+                '#eval input' => array(
+                  'token_rules_input_evaluator' => array(
+                    'selected_webform' => array(
+                      '0' => ':global',
+                    ),
+                  ),
+                ),
+              ),
+              '#name' => 'webform_rules_condition_webform_id',
+              '#info' => array(
+                'label' => 'Select a webform',
+                'arguments' => array(
+                  'form_id' => array(
+                    'type' => 'value',
+                    'label' => 'The form id of the submitted form',
+                  ),
+                  'selected_webform' => array(
+                    'label' => 'Webform',
+                    'type' => 'string',
+                  ),
+                ),
+                'module' => 'Webform',
+              ),
+              '#weight' => 0,
+            ),
+            '#type' => 'OR',
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to a user',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'Recipient',
+                ),
+              ),
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_user',
+            '#settings' => array(
+              'from' => 'admin@weeve',
+              'subject' => 'Thank for your feedback',
+              'message' => 'Bla bla bla',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+          ),
+          '1' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'to' => 'feedbacks@weeve',
+              'from' => '[data:email-display]',
+              'subject' => 'New feedback!',
+              'message' => 'We got a new feedback',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => 'data',
+                    '1' => ':global',
+                  ),
+                  'to' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'rules_action_mail',
+            '#info' => array(
+              'label' => 'Send a mail to an arbitrary mail address',
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+                '3' => 'to',
+              ),
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
       'rules_project_has_reached_its_end_date' => array(
         '#type' => 'rule',
         '#set' => 'event_node_view',
@@ -1232,135 +1361,6 @@ video_upload_cron();
               'module' => 'PHP',
               'eval input' => array(
                 '0' => 'code',
-              ),
-            ),
-            '#weight' => 0,
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'rules_feedback' => array(
-        '#type' => 'rule',
-        '#set' => 'event_webform_rules_submit',
-        '#label' => 'Feedback',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'feedbacks',
-          'weeve_feature' => 'weeve_feature',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '0' => array(
-              '#type' => 'condition',
-              '#settings' => array(
-                'selected_webform' => 'webform-client-form-34',
-                '#eval input' => array(
-                  'token_rules_input_evaluator' => array(
-                    'selected_webform' => array(
-                      '0' => ':global',
-                    ),
-                  ),
-                ),
-              ),
-              '#name' => 'webform_rules_condition_webform_id',
-              '#info' => array(
-                'label' => 'Select a webform',
-                'arguments' => array(
-                  'form_id' => array(
-                    'type' => 'value',
-                    'label' => 'The form id of the submitted form',
-                  ),
-                  'selected_webform' => array(
-                    'label' => 'Webform',
-                    'type' => 'string',
-                  ),
-                ),
-                'module' => 'Webform',
-              ),
-              '#weight' => 0,
-            ),
-            '#type' => 'OR',
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Send a mail to a user',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'Recipient',
-                ),
-              ),
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#name' => 'rules_action_mail_to_user',
-            '#settings' => array(
-              'from' => 'admin@weeve',
-              'subject' => 'Thank for your feedback',
-              'message' => 'Bla bla bla',
-              '#argument map' => array(
-                'user' => 'user',
-              ),
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'subject' => array(
-                    '0' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => ':global',
-                  ),
-                  'from' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#type' => 'action',
-          ),
-          '1' => array(
-            '#type' => 'action',
-            '#settings' => array(
-              'to' => 'feedbacks@weeve',
-              'from' => '[data:email-display]',
-              'subject' => 'New feedback!',
-              'message' => 'We got a new feedback',
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'subject' => array(
-                    '0' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => ':global',
-                  ),
-                  'from' => array(
-                    '0' => 'data',
-                    '1' => ':global',
-                  ),
-                  'to' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#name' => 'rules_action_mail',
-            '#info' => array(
-              'label' => 'Send a mail to an arbitrary mail address',
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-                '3' => 'to',
               ),
             ),
             '#weight' => 0,
