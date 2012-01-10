@@ -1601,6 +1601,8 @@ return round(($timestamp - time()) / 86400);
 
   /* Display: User projects */
   $handler = $view->new_display('page', 'User projects', 'page_4');
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  $handler->display->display_options['defaults']['footer'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Project image (field_project_image) */
   $handler->display->display_options['fields']['field_project_image_fid']['id'] = 'field_project_image_fid';

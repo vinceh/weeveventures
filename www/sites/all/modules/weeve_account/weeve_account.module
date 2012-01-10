@@ -504,6 +504,7 @@ function weeve_account_page($uid = null) {
 
   switch($account_type) {
 
+
     case 'user':
       $content = theme('weeve_user_account_history');
       $output = theme('weeve_user_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);

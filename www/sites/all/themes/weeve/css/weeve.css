@@ -325,9 +325,13 @@ a {
 }
 
 .signup-header {
-	text-align: center;
+	text-align: left;
 	margin-top: 50px;
 	padding-bottom: 10px;
+}
+
+.signup-subtitle {
+  font-size: 16px;
 }
 
 .signup-form {
@@ -1332,6 +1336,7 @@ a.profile-link.active {
 }
 
 .npo-profile-title-links {
+  font-size: 16px;
 	position: absolute;
 	bottom: 0px;
 	right: 0px;
@@ -1601,4 +1606,8 @@ a.profile-link.active {
 	background-color: #deeff9;
 	padding: 10px;
 	border-radius: 3px;
+}
+
+.profile-npo-title-location {
+  font-size: 16px;
 }
