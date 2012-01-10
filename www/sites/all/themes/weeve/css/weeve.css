@@ -7,8 +7,16 @@ body{
 	font-family: 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;
 	color: #555;
 	margin: 0px;
-  font-size: 12px;
+  font-size: 16px;
+}
 
+div.view {
+  font-size: 12px;
+}
+
+h2 {
+  margin: 10px 0px;
+  font-size: 40px;
 }
 
 .horizontal-line {
@@ -173,14 +181,14 @@ body{
   font-weight: normal;
 }
 
-.weeve-medium-button {		
+.weeve-medium-button, button, input[type="submit"] {
 	color: white;
 	padding: 10px 20px;
 	border-radius: 5px;
 	border: none;
 	font-size: 18px;
 }
-.weeve-small-button, .weeve-medium-button {
+.weeve-small-button, .weeve-medium-button, button, input[type="submit"] {
 background: #37abcc; /* Old browsers */
     background: -moz-linear-gradient(top, #37abcc 0%, #00a0ce 51%, #008db5 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#37abcc), color-stop(51%,#00a0ce), color-stop(100%,#008db5)); /* Chrome,Safari4+ */
@@ -197,7 +205,7 @@ background: #37abcc; /* Old browsers */
   opacity: 0.5;
 }
 
-.weeve-medium-button:hover, .weeve-small-button:hover {
+.weeve-medium-button:hover, .weeve-small-button:hover, button:hover, input[type="submit"]:hover {
 	background: #18a5cc; /* Old browsers */
     background: -moz-linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#18a5cc), color-stop(51%,#0098bf), color-stop(100%,#007e9e)); /* Chrome,Safari4+ */
@@ -325,8 +333,6 @@ a {
 }
 
 .signup-header {
-	text-align: center;
-	margin-top: 50px;
 	padding-bottom: 10px;
 }
 

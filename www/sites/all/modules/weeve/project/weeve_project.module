@@ -26,7 +26,7 @@ function weeve_project_menu() {
   $items = array();
 
   $items['project/terms'] = array(
-    'title' => 'Accept terms',
+    'title' => 'Starting a project - Guidelines & Conditions',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('weeve_project_terms_form'),
     'access callback' => 'weeve_project_proposal_valid',
@@ -427,7 +427,9 @@ function weeve_project_terms_form() {
     '#required' => true
   );
 
-  $form['submit'] = array('#type' => 'submit', '#value' => t('Save'));
+  $form['submit'] = array('#type' => 'submit', '#value' => t('Continue'), '#attributes' => array(
+    'class' => 'weeve-medium-button'
+  ));
 
   return $form;
 }
