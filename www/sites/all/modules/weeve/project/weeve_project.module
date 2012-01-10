@@ -26,7 +26,7 @@ function weeve_project_menu() {
   $items = array();
 
   $items['project/terms'] = array(
-    'title' => 'Starting a project - Guidelines & Conditions',
+    'title' => 'Accept terms',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('weeve_project_terms_form'),
     'access callback' => 'weeve_project_proposal_valid',
@@ -218,6 +218,7 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     $node->native_body = $node->body;
     $author = node_load(array('uid' => $node->uid, 'type' => 'profile'));
     $node->author = $author;
+    drupal_add_js(array('weeveProject' => array('nid' => $node->nid, 'uid' => $user->uid)), 'setting');
   }
 
   if ($op == 'view' && $node->type == 'project_update') {
@@ -225,7 +226,7 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     $author = node_load(array('uid' => $node->uid, 'type' => 'profile'));
     $node->author = $author;
   }
-  
+
   if ($op == 'presave' && in_array($node->type, array('project', 'project_request'))) {
     if ($node->type == 'project') {
       switch($node->field_project_status[0]['value']) {
@@ -234,7 +235,6 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           break;
         case 'accept':
           $node->field_node_weight[0]['value'] = 2;
-          $node->status = 1;
           break;
         case 'decline':
           $node->field_node_weight[0]['value'] = 3;
@@ -272,7 +272,9 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           break;
       }
     }
-  } 
+  }
+
+  
 }
 
 function weeve_project_theme() {
@@ -379,9 +381,7 @@ function weeve_project_block($op = 'list', $delta = 0) {
     $date_time = date_parse_from_format('Y-m-d\TH:i:s', $node->field_project_end[0]['value']);
     $timestamp = mktime((int)$date_time['hour'], (int)$date_time['minute'], (int)$date_time['second'], (int)$date_time['month'], (int)$date_time['day'], (int)$date_time['year']);
 
-    $node->days_left = (int)round(($timestamp - time()) / 86400);
-
-    $node->days_left = (int)$node->days_left;
+    $node->days_left = round(($timestamp - time()) / 86400);
     $user_profile = node_load(array('uid' => $node->uid, 'type' => 'profile'));
 
     $block['content'] = theme('weeve_project_info_block', $node, $user_profile);
@@ -427,9 +427,7 @@ function weeve_project_terms_form() {
     '#required' => true
   );
 
-  $form['submit'] = array('#type' => 'submit', '#value' => t('Continue'), '#attributes' => array(
-    'class' => 'weeve-medium-button'
-  ));
+  $form['submit'] = array('#type' => 'submit', '#value' => t('Save'));
 
   return $form;
 }
