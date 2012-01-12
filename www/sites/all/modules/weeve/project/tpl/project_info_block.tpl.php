@@ -21,7 +21,7 @@
 </div>
 <div class="follow-link"><?= l(t('Follow this Project'), 'project/' . $node->nid . '/follow') ?></div>
 <div class="horizontal-line"></div>
-<div class="project-npo-name"><?= $profile->field_npo_name[0]['value'] ?></div>
+<div class="project-npo-name"><?= l($profile->field_npo_name[0]['value'], 'account/' . $node->uid) ?></div>
 <div class="project-npo-content">
   <?= $profile->field_npo_about[0]['value'] ?>
 </div>

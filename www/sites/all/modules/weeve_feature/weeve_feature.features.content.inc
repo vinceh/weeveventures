@@ -1790,7 +1790,7 @@ archive|Archived',
         ),
       ),
       'default_value_php' => NULL,
-      'label' => 'Proposal back',
+      'label' => 'Project reward',
       'weight' => '3',
       'description' => '',
       'type' => 'text_textarea',
@@ -2156,8 +2156,8 @@ decline|Declined
   t('Project funds');
   t('Project image');
   t('Project reference');
+  t('Project reward');
   t('Proposal');
-  t('Proposal back');
   t('Proposal links');
   t('Representative Name');
   t('Staff pick');

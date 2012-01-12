@@ -73,6 +73,9 @@ h2 {
 .front-slogan {
   font-size: 22px;
   font-weight: normal;
+  color: #555;
+  padding-top: 10px;
+  margin-bottom: 50px;
 }
 
 .front-slogan a {
@@ -96,13 +99,14 @@ h2 {
   float: left;
   min-height: 350px;
   margin-left: 60px;
-  margin-top: 20px;
+  margin-top: 0px;
   height: 410px;
 }
 
 .sidebar-left #main-content .view-featured-projects.front-page {
   margin-left: 10px;
   margin-right: 0px;
+  margin-top: 0px;
 }
 
 .sidebar-left #main-content .view-featured-projects.front-page .views-row {
@@ -1021,14 +1025,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 	font-size: 16px;
 }
 
+.follow-link a {
+  color: #00a0ce;
+}
+
 .profile-edit-link {
 	font-size: 14px;
 }
 
-.follow-link:hover, .profile-edit-link:hover {
+.follow-link a:hover, .profile-edit-link a:hover {
 	cursor: pointer;
 	color: #0978B5;
 }
+
 
 .project-npo-name, .project-npo-content {
 	color: #555;
@@ -1037,6 +1046,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 .project-npo-name {
 	font-size: 16px;
 	margin: 15px 15px 0px 15px;
+}
+
+.project-npo-name a {
+  color: #00a0ce;
 }
 
 .project-npo-content {

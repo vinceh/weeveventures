@@ -12,6 +12,10 @@ html.js input.throbbing {
   background-position: 100% -18px;
 }
 
+a {
+  color: #00a0ce;
+}
+
 #header-region {
   height: 50px;
 	background-color: #37abcc; /* Old browsers */
@@ -59,6 +63,10 @@ html.js input.throbbing {
   width: 770px;
 }
 
+.sidebar-left a {
+  font-size: 14px;
+}
+
 #block-menu-menu-top-menu {
   position: relative;
   height: 50px;
@@ -71,9 +79,9 @@ html.js input.throbbing {
 }
 
 #block-menu-menu-top-menu .menu {
-  right: 10px;
+  right: 0px;
   position: absolute;
-  bottom: 5px;
+  bottom: 4px;
 }
 
 #block-menu-menu-top-menu ul.menu li {
@@ -88,6 +96,7 @@ html.js input.throbbing {
   color: #fff;
   padding: 7px 10px;
   font-size: 16px;
+  letter-spacing: 1px;
 }
 
 .front-page #block-menu-menu-top-menu ul.menu li a {
@@ -99,56 +108,60 @@ html.js input.throbbing {
   background-color: #0285AB;  
 }
 
-#block-views-project_categories-block_1 {
-  border-right: 1px solid #ccc;
-  padding-top: 15px;
+#block-views-project_categories-block_1, #block-menu-menu-projects-locations {
+  border-right: 1px solid #e5e5e5;
+  padding-top: 5px;
 }
 
-#block-views-project_categories-block_1 h2 {
+#block-views-project_categories-block_1 h2, #block-menu-menu-projects-locations h2 {
   font-size: 16px;
   font-weight: bold;
-  margin: 5px 0px;
+  padding-left: 5px;
 }
 
-#block-views-project_categories-block_1 a {
+#block-views-project_categories-block_1 a, #block-menu-menu-projects-locations a {
   color: #4a4a4a;
   display: block;
   width: 114px;
-  padding: 5px 0px 5px 5px;
+  padding: 5px 0px;
+  padding-left: 5px;
+  margin: 0px;
 }
 
-#block-views-project_categories-block_1 a:hover {
+#block-views-project_categories-block_1 a:hover, #block-menu-menu-projects-locations a:hover {
   background-color: #ecebeb;
 }
 
 #block-menu-menu-featured-projects {
-  margin-top: 100px;
-  border-right: 1px solid #ccc;
+  margin-top: 105px;
+  border-right: 1px solid #e5e5e5;
 }
 
 #block-menu-menu-featured-projects h2 {
   font-size: 16px;
   margin: 0px;
   font-weight: bold;
+  padding-left: 5px;
 }
 
-#block-menu-menu-featured-projects ul {
+#block-menu-menu-featured-projects ul, #block-menu-menu-projects-locations ul {
   margin-top: 10px;
   margin-left: 0px;
   padding: 0px;
 }
 
-#block-menu-menu-featured-projects ul li {
+#block-menu-menu-featured-projects ul li, #block-menu-menu-projects-locations ul li {
   list-style-type: none;
   list-style-image: none;
   margin: 0px;
   padding: 0px;
 }
 
-#block-menu-menu-featured-projects ul li a {
+#block-menu-menu-featured-projects ul li a, #block-menu-menu-projects-locations ul li a {
   color: #4a4a4a;
-  padding: 5px;
+  padding: 5px 5px;
   display: block;
+  width: 109px;
 }
 
 #block-menu-menu-featured-projects ul li a:hover {
@@ -180,6 +193,7 @@ html.js input.throbbing {
 
 .front-page #header .site-title a img {
   height: 90px;
+  bottom: 0px;
 }
 
 /* Title */

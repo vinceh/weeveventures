@@ -696,7 +696,7 @@ function weeve_feature_views_default_views() {
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['link_to_node'] = 0;
-  /* Field: Content: Proposal back (field_proposal_back) */
+  /* Field: Content: Project reward (field_proposal_back) */
   $handler->display->display_options['fields']['field_proposal_back_value']['id'] = 'field_proposal_back_value';
   $handler->display->display_options['fields']['field_proposal_back_value']['table'] = 'node_data_field_proposal_back';
   $handler->display->display_options['fields']['field_proposal_back_value']['field'] = 'field_proposal_back_value';
@@ -1256,19 +1256,41 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['fields']['body']['alter']['external'] = 0;
   $handler->display->display_options['fields']['body']['alter']['replace_spaces'] = 0;
   $handler->display->display_options['fields']['body']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['nl2br'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['nl2br'] = 0;
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '250';
   $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
   $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 1;
   $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['preserve_tags'] = '<br>';
   $handler->display->display_options['fields']['body']['alter']['html'] = 0;
   $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['body']['hide_empty'] = 0;
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
+  /* Field: Content: Location (field_project_location) */
+  $handler->display->display_options['fields']['field_project_location_value']['id'] = 'field_project_location_value';
+  $handler->display->display_options['fields']['field_project_location_value']['table'] = 'node_data_field_project_location';
+  $handler->display->display_options['fields']['field_project_location_value']['field'] = 'field_project_location_value';
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['field_project_location_value']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_project_location_value']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_project_location_value']['link_to_node'] = 0;
+  $handler->display->display_options['fields']['field_project_location_value']['label_type'] = 'none';
   /* Field: Content: Full Name (field_user_full_name) */
   $handler->display->display_options['fields']['field_user_full_name_value']['id'] = 'field_user_full_name_value';
   $handler->display->display_options['fields']['field_user_full_name_value']['table'] = 'node_data_field_user_full_name';
@@ -2871,6 +2893,33 @@ return round(($timestamp - time()) / 86400);;
   );
   $handler->display->display_options['filters']['field_project_staff_pick_value_many_to_one']['reduce_duplicates'] = 0;
   $handler->display->display_options['path'] = 'projects/picked';
+
+  /* Display: Location projects */
+  $handler = $view->new_display('page', 'Location projects', 'page_9');
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['label'] = '';
+  $handler->display->display_options['header']['area']['empty'] = FALSE;
+  $handler->display->display_options['header']['area']['content'] = '<h2>Explore Projects</h2>
+<h3>Fund and follow your favourite projects. Start your discovery!</h3>';
+  $handler->display->display_options['header']['area']['tokenize'] = 0;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Argument: Content: Location (field_project_location) */
+  $handler->display->display_options['arguments']['field_project_location_value']['id'] = 'field_project_location_value';
+  $handler->display->display_options['arguments']['field_project_location_value']['table'] = 'node_data_field_project_location';
+  $handler->display->display_options['arguments']['field_project_location_value']['field'] = 'field_project_location_value';
+  $handler->display->display_options['arguments']['field_project_location_value']['style_plugin'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_project_location_value']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_project_location_value']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['field_project_location_value']['glossary'] = 0;
+  $handler->display->display_options['arguments']['field_project_location_value']['ignorecase'] = 0;
+  $handler->display->display_options['arguments']['field_project_location_value']['limit'] = '0';
+  $handler->display->display_options['arguments']['field_project_location_value']['transform_dash'] = 0;
+  $handler->display->display_options['arguments']['field_project_location_value']['break_phrase'] = 0;
+  $handler->display->display_options['path'] = 'projects/location/%';
   $translatables['featured_projects'] = array(
     t('Defaults'),
     t('more'),
@@ -2923,6 +2972,9 @@ return round(($timestamp - time()) / 86400);;
     t('<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>
 <h4>Staff picks</h3>'),
+    t('Location projects'),
+    t('<h2>Explore Projects</h2>
+<h3>Fund and follow your favourite projects. Start your discovery!</h3>'),
   );
 
   $views[$view->name] = $view;
