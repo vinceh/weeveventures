@@ -26,10 +26,16 @@
   font-weight: bold;
 }
 
+.view-featured-projects.front-page .view-header h4 {
+  margin-top: 35px;
+}
+
 .view-featured-projects.front-page .view-header h2 {
   font-size: 30px;
   color: #4a4a4a;
+  font-weight: normal;
   margin: 5px 0px;
+  font-family: neue;
 }
 
 .view-featured-projects.front-page .view-header h3 {

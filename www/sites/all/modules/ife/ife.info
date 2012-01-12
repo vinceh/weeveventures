@@ -1,0 +1,11 @@
+name = "Inline Form Errors"
+description = "Put form error messages inline with the form elements"
+package = User interface
+core = 6.x
+
+; Information added by drupal.org packaging script on 2011-12-06
+version = "6.x-1.2"
+core = "6.x"
+project = "ife"
+datestamp = "1323213340"
+

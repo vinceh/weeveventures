@@ -1,5 +1,4 @@
 <div class='signup-header'>
-  <div class='signup-title'>Starting a project - Guidelines & Conditions</div>
   <div class='signup-subtitle'>Review our conditions to make sure your project is eligible</div>
 </div>
 

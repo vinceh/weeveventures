@@ -18,6 +18,12 @@ function weeve_feature_menu_default_menu_custom() {
     'title' => 'Featured menu',
     'description' => '',
   );
+  // Exported menu: menu-projects-locations
+  $menus['menu-projects-locations'] = array(
+    'menu_name' => 'menu-projects-locations',
+    'title' => 'Project locations',
+    'description' => '',
+  );
   // Exported menu: menu-top-menu
   $menus['menu-top-menu'] = array(
     'menu_name' => 'menu-top-menu',
@@ -29,6 +35,7 @@ function weeve_feature_menu_default_menu_custom() {
   t('Featured menu');
   t('Features');
   t('Menu items for any enabled features.');
+  t('Project locations');
   t('Top menu');
 
 
