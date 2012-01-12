@@ -184,17 +184,8 @@ function weeve_donation_set_express_checkout($title, $desc, $amount) {
 
 function weeve_donation_test_callback() {
   module_load_include('php', 'weeve_donation', 'inc/CallerService');
-  $req = "requestEnvelope.errorLanguage=en_US
-  &actionType=PAY
-  &senderEmail=dev_pp_1325160588_per@shkuro.net
-  &receiverList.receiver(0).email=dev_pp_1325213935_biz@shkuro.net
-  &receiverList.receiver(0).amount=100.00
-  &currencyCode=USD
-  &feesPayer=EACHRECEIVER
-  &memo=Simple payment example.
-  &cancelUrl=http://your_cancel_url
-  &returnUrl=http://your_return_url
-  &ipnNotificationUrl=http://your_ipn_notification_url";
+  $req = "requestEnvelope.errorLanguage=en_US&actionType=PAY&senderEmail=dev_pp_1325160588_per@shkuro.net&receiverList.receiver(0).email=dev_pp_1325213935_biz@shkuro.net&receiverList.receiver(0).amount=100.00
+  &currencyCode=USD&feesPayer=EACHRECEIVER&memo=Simple payment example.&cancelUrl=http://your_cancel_url&returnUrl=http://your_return_url&ipnNotificationUrl=http://your_ipn_notification_url";
   $response = hash_call('AdaptivePayments/Pay', $req);
 
   kpr($response);
