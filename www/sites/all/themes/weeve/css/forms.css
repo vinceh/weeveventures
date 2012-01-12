@@ -26,7 +26,8 @@ input.form-text {
   font-size: 16px;
   padding: 10px 20px;
   clear: both;
-  float: right;
+  position: relative;
+  left: 270px;
 }
 
 #weeve-account-change-password-form .form-submit:hover {
@@ -91,7 +92,7 @@ input.form-text {
   font-size: 18px;
   padding: 10px 20px;
   background: -moz-linear-gradient(center top , #37ABCC 0%, #00A0CE 51%, #008DB5 100%) repeat scroll 0 0 transparent;
-  display: inline-block;
+  display: block;
 }
 
 #weeve-account-change-general-npo-form #edit-submit:hover {
@@ -196,7 +197,8 @@ input.form-text {
   padding: 10px 20px;
   background: -moz-linear-gradient(center top , #37ABCC 0%, #00A0CE 51%, #008DB5 100%) repeat scroll 0 0 transparent;
   display: inline-block;
-  float: right;
+  position: relative;
+  left: 270px;
 }
 
 

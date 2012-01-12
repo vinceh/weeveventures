@@ -22,6 +22,7 @@
 }
 /*Submit*/
 input.form-submit.signup-submit {
+  background: -moz-linear-gradient(center top , #37ABCC 0%, #00A0CE 51%, #008DB5 100%) repeat scroll 0 0 transparent;
 	background-color: #00a0ce;
 	color: white;
 	border: none;
@@ -30,11 +31,21 @@ input.form-submit.signup-submit {
 	font-size: 16px;
   height: auto;
   width: auto;
-  float: right;
+  float: left;
   clear: both;
+  position: relative;
+  left: 270px;
 }
 
 input.form-submit.signup-submit:hover {
+  background: #18a5cc; /* Old browsers */
+      background: -moz-linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #18a5cc), color-stop(51%, #0098bf), color-stop(100%, #007e9e)); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* IE10+ */
+      background: linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#18a5cc', endColorstr = '#007e9e', GradientType = 0); /* IE6-9 */
 	background-color: #0285AB;
 	cursor: pointer;
 }

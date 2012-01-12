@@ -477,6 +477,9 @@ function weeve_account_load_user($uid) {
   $user->photo = $photo;
   if ($account_type == 'npo' || $account_type == 'corp') {
     $view_result = views_get_view_result('featured_projects', 'page_4', $user->uid);
+    // WTF: I cannot get value of donors field!
+    // $view_donors_result = views_get_view_result('featured_projects', 'donors', $user->uid);
+    // kpr($view_donors_result);
     $money = 0;
     foreach ($view_result as $value) {
       $money += $value->node_data_field_project_image_field_project_amount_pledge_am;
@@ -500,6 +503,7 @@ function weeve_account_page($uid = null) {
   $account_type = weeve_account_check_type($user_info['user']);
 
   switch($account_type) {
+
 
     case 'user':
       $content = theme('weeve_user_account_history');

@@ -1624,13 +1624,7 @@ return round(($timestamp - time()) / 86400);
   /* Display: User projects */
   $handler = $view->new_display('page', 'User projects', 'page_4');
   $handler->display->display_options['defaults']['header'] = FALSE;
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['label'] = '';
-  $handler->display->display_options['header']['area']['empty'] = FALSE;
-  $handler->display->display_options['header']['area']['tokenize'] = 0;
+  $handler->display->display_options['defaults']['footer'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Project image (field_project_image) */
   $handler->display->display_options['fields']['field_project_image_fid']['id'] = 'field_project_image_fid';
@@ -1920,28 +1914,6 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['arguments']['uid']['validate_options']['restrict_roles'] = 0;
   $handler->display->display_options['arguments']['uid']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['uid']['not'] = 0;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter: Node: Type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'project' => 'project',
-  );
-  /* Filter: Content: Status (field_project_status) - Allowed values */
-  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['id'] = 'field_project_status_value_many_to_one';
-  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['table'] = 'node_data_field_project_status';
-  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['field'] = 'field_project_status_value_many_to_one';
-  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['value'] = array(
-    'accept' => 'accept',
-    'archive' => 'archive',
-  );
-  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['reduce_duplicates'] = 0;
-  /* Filter: Node: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['path'] = 'account/%/projects-list';
 
   /* Display: Recently Started */
@@ -2894,6 +2866,7 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['filters']['field_project_staff_pick_value_many_to_one']['reduce_duplicates'] = 0;
   $handler->display->display_options['path'] = 'projects/picked';
 
+<<<<<<< HEAD
   /* Display: Location projects */
   $handler = $view->new_display('page', 'Location projects', 'page_9');
   $handler->display->display_options['defaults']['header'] = FALSE;
@@ -2920,6 +2893,109 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['arguments']['field_project_location_value']['transform_dash'] = 0;
   $handler->display->display_options['arguments']['field_project_location_value']['break_phrase'] = 0;
   $handler->display->display_options['path'] = 'projects/location/%';
+=======
+  /* Display: Donors */
+  $handler = $view->new_display('page', 'Donors', 'donors');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  $handler->display->display_options['defaults']['footer'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: User: Nodes authored */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'users';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Node: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['nid']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['nid']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['nid']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['nid']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['nid']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['nid']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['nid']['link_to_node'] = 0;
+  /* Field: Content: Donors (field_project_donors) */
+  $handler->display->display_options['fields']['field_project_donors_value']['id'] = 'field_project_donors_value';
+  $handler->display->display_options['fields']['field_project_donors_value']['table'] = 'node_data_field_project_donors';
+  $handler->display->display_options['fields']['field_project_donors_value']['field'] = 'field_project_donors_value';
+  $handler->display->display_options['fields']['field_project_donors_value']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['field_project_donors_value']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_project_donors_value']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_project_donors_value']['link_to_node'] = 0;
+  $handler->display->display_options['fields']['field_project_donors_value']['label_type'] = 'none';
+  $handler->display->display_options['fields']['field_project_donors_value']['format'] = 'unformatted';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Argument: User: Uid */
+  $handler->display->display_options['arguments']['uid']['id'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['table'] = 'users';
+  $handler->display->display_options['arguments']['uid']['field'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['default_action'] = 'empty';
+  $handler->display->display_options['arguments']['uid']['style_plugin'] = 'default_summary';
+  $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'php';
+  $handler->display->display_options['arguments']['uid']['default_argument_options']['code'] = 'false';
+  $handler->display->display_options['arguments']['uid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['uid']['validate_type'] = 'user';
+  $handler->display->display_options['arguments']['uid']['validate_options']['restrict_roles'] = 0;
+  $handler->display->display_options['arguments']['uid']['validate_fail'] = 'empty';
+  $handler->display->display_options['arguments']['uid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['uid']['not'] = 0;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter: Node: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'project' => 'project',
+  );
+  /* Filter: Content: Status (field_project_status) - Allowed values */
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['id'] = 'field_project_status_value_many_to_one';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['table'] = 'node_data_field_project_status';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['field'] = 'field_project_status_value_many_to_one';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['value'] = array(
+    'accept' => 'accept',
+    'archive' => 'archive',
+  );
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['reduce_duplicates'] = 0;
+  /* Filter: Node: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  $handler->display->display_options['path'] = 'account/%/projects-donors';
+>>>>>>> dev
   $translatables['featured_projects'] = array(
     t('Defaults'),
     t('more'),
@@ -2972,9 +3048,13 @@ return round(($timestamp - time()) / 86400);;
     t('<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>
 <h4>Staff picks</h3>'),
+<<<<<<< HEAD
     t('Location projects'),
     t('<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>'),
+=======
+    t('Donors'),
+>>>>>>> dev
   );
 
   $views[$view->name] = $view;
@@ -4025,11 +4105,6 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler->display->display_options['fields']['body']['hide_empty'] = 0;
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
-  /* Sort criterion: Node: Post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
   /* Filter: Node: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -4062,7 +4137,7 @@ $node = node_load($nid);
 global $user;
 
 if ($user->uid == $node->uid) {
-  return l(t(\'Add update\'), \'node/add/project-update/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
+  return l(t(\'Add update\'), \'node/add/project-update\');
 }
 ?>';
   $handler->display->display_options['header']['area']['format'] = '3';
@@ -4190,7 +4265,7 @@ $node = node_load($nid);
 global $user;
 
 if ($user->uid == $node->uid) {
-  return l(t(\'Add update\'), \'node/add/project-update/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
+  return l(t(\'Add update\'), \'node/add/project-update\');
 }
 ?>'),
     t('All'),
