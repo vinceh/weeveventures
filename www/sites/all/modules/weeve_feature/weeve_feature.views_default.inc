@@ -2866,7 +2866,6 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['filters']['field_project_staff_pick_value_many_to_one']['reduce_duplicates'] = 0;
   $handler->display->display_options['path'] = 'projects/picked';
 
-<<<<<<< HEAD
   /* Display: Location projects */
   $handler = $view->new_display('page', 'Location projects', 'page_9');
   $handler->display->display_options['defaults']['header'] = FALSE;
@@ -2893,7 +2892,6 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['arguments']['field_project_location_value']['transform_dash'] = 0;
   $handler->display->display_options['arguments']['field_project_location_value']['break_phrase'] = 0;
   $handler->display->display_options['path'] = 'projects/location/%';
-=======
   /* Display: Donors */
   $handler = $view->new_display('page', 'Donors', 'donors');
   $handler->display->display_options['defaults']['pager'] = FALSE;
@@ -3048,13 +3046,10 @@ return round(($timestamp - time()) / 86400);;
     t('<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>
 <h4>Staff picks</h3>'),
-<<<<<<< HEAD
     t('Location projects'),
     t('<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>'),
-=======
-    t('Donors'),
->>>>>>> dev
+    t('Donors')
   );
 
   $views[$view->name] = $view;
