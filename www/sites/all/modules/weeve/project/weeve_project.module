@@ -204,14 +204,16 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     node_save($proposal);
   }
 
-  if ($op == 'update' && $node->type == 'project') {    
+  if ($op == 'update' && $node->type == 'project') {
+    $proposal_nid = $node->field_project_proposal[0]['nid'];
+    $proposal = node_load(array('nid' => $proposal_nid));
     if ($node->field_project_status[0]['value'] == 'decline') {
-      $proposal_nid = $node->field_project_proposal[0]['nid'];
-      $proposal = node_load(array('nid' => $proposal_nid));
-      
-      $proposal->field_proposal_status[0]['value'] = 'approve';
-      node_save($proposal);
+      $proposal->field_proposal_status[0]['value'] = 'approve';      
+    } else if ($node->field_project_status[0]['value'] == 'accept') {
+      $proposal->field_proposal_status[0]['value'] = 'running';
     }
+
+    node_save($proposal);
   }
 
   if ($op == 'view' && $node->type == 'project') {
@@ -247,6 +249,8 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       if ($node->field_project_status[0]['value'] == 'archive') {
         $node->status = 0;
         $node->promote = 0;
+      } else if ($node->field_project_status[0]['value'] == 'accept') {
+        $node->status = 1;
       }
     }
 
