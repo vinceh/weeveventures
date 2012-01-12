@@ -2993,7 +2993,7 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['path'] = 'account/%/projects-donors';
->>>>>>> dev
+
   $translatables['featured_projects'] = array(
     t('Defaults'),
     t('more'),
