@@ -169,9 +169,10 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
     if (!isset($_SESSION['project_terms_accepted']) || !$_SESSION['project_terms_accepted']) {
       drupal_goto('project/terms');
     }
+    global $user;
+    $form['#redirect'] = 'account/' . $user->uid . '/projects';
 
-    if (!_weeve_project_is_allowed_create_proposal()) {
-      global $user;
+    if (!_weeve_project_is_allowed_create_proposal()) {      
       drupal_goto('account/' . $user->uid . '/projects');
       exit;
     }
