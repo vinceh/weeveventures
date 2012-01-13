@@ -277,8 +277,6 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       }
     }
   }
-
-  
 }
 
 function weeve_project_theme() {
@@ -294,10 +292,18 @@ function weeve_project_theme() {
     'weeve_project_info_block' => array(
       'arguments' => array('node' => null, 'profile' => null),
       'template' => 'tpl/project_info_block'
-    )
+    ),
+    'weeve_project_locations_block' => array(
+      'arguments' => array('items' => null),
+      'template' => 'tpl/project_locations_block'
+    ),
+    'weeve_project_featured_block' => array(
+      'arguments' => array('items' => null),
+      'template' => 'tpl/project_featured_block'
+    ),
+
   );
 }
-
 
 function weeve_project_edit_project_form($form, $nid) {
   $form = array();
@@ -374,23 +380,92 @@ function weeve_project_block($op = 'list', $delta = 0) {
     $blocks[0]['info'] = t('Project information');
     // Not worth caching.
     $blocks[0]['cache'] = BLOCK_NO_CACHE;
+
+    $blocks[1]['info'] = t('Project location block');
+    $blocks[1]['cache'] = BLOCK_NO_CACHE;
+
+    $blocks[2]['info'] = t('Project featured block');
+    $blocks[2]['cache'] = BLOCK_NO_CACHE;
     return $blocks;
   }
   else if ($op == 'view') {
-    $block['subject'] = '';
+    if ($delta == 0) {
+      $block['subject'] = '';
 
-    $query = explode('/', $_SERVER['QUERY_STRING']);
-    $node = node_load(array('nid' => $query[1]));
-    
-    $date_time = date_parse_from_format('Y-m-d\TH:i:s', $node->field_project_end[0]['value']);
-    $timestamp = mktime((int)$date_time['hour'], (int)$date_time['minute'], (int)$date_time['second'], (int)$date_time['month'], (int)$date_time['day'], (int)$date_time['year']);
+      $query = explode('/', $_SERVER['QUERY_STRING']);
+      $node = node_load(array('nid' => $query[1]));
 
-    $node->days_left = round(($timestamp - time()) / 86400);
-    $user_profile = node_load(array('uid' => $node->uid, 'type' => 'profile'));
+      $date_time = date_parse_from_format('Y-m-d\TH:i:s', $node->field_project_end[0]['value']);
+      $timestamp = mktime((int)$date_time['hour'], (int)$date_time['minute'], (int)$date_time['second'], (int)$date_time['month'], (int)$date_time['day'], (int)$date_time['year']);
 
-    $block['content'] = theme('weeve_project_info_block', $node, $user_profile);
+      $node->days_left = round(($timestamp - time()) / 86400);
+      $user_profile = node_load(array('uid' => $node->uid, 'type' => 'profile'));
 
-    return $block;
+      $block['content'] = theme('weeve_project_info_block', $node, $user_profile);
+
+      return $block;
+    } else if ($delta == 1) {
+      $block['content'] = '';
+      $menu = menu_tree_all_data('menu-projects-locations');
+
+      $location_block = array();
+      foreach($menu as $item) {
+        $location = str_replace('projects/location/', '', $item['link']['link_path']);
+
+        $query = "SELECT node.nid
+         FROM node node
+         LEFT JOIN content_type_project node_data_field_project_location ON node.vid = node_data_field_project_location.vid
+         WHERE (node_data_field_project_location.field_project_status_value = 'accept') AND (node.status = 1)
+         AND UPPER(node_data_field_project_location.field_project_location_value) = UPPER('%s')";
+
+        $result = db_fetch_object(db_query($query, $location));
+
+        if ($result) {
+          $location_block['projects/location/' . $location] = t($item['link']['link_title']);
+        }
+      }
+      $block['content'] = theme('weeve_project_locations_block', $location_block);
+      return $block;
+    } else if ($delta == 2) {
+      $block['content'] = '';
+      $menu = menu_tree_all_data('menu-featured-projects');
+
+      $featured_block = array();
+      foreach($menu as $item) {
+        $location = $item['link']['link_path'];
+        if ($location == 'projects/picked') {
+          $query = "SELECT node.nid AS nid
+           FROM node node
+           INNER JOIN content_type_project node_data_field_project_status ON node.vid = node_data_field_project_status.vid
+           WHERE (node.status = 1) AND (node_data_field_project_status.field_project_status_value = 'accept')
+           AND (node_data_field_project_status.field_project_staff_pick_value = '1')";
+
+          $result = db_fetch_object(db_query($query));
+
+          if ($result) {
+            $featured_block[$location] = t($item['link']['link_title']);
+          }
+        } else if ($location == 'projects/small') {
+          $small_amount = variable_get('small_amount_money', 1000);
+          $query = "SELECT node.nid AS nid
+           FROM node node
+           INNER JOIN content_type_project node_data_field_project_status ON node.vid = node_data_field_project_status.vid
+           LEFT JOIN content_type_project node_data_field_project_amount_need ON node.vid = node_data_field_project_amount_need.vid
+           WHERE (node.status = 1) AND (node_data_field_project_status.field_project_status_value = 'accept')
+           AND (node_data_field_project_amount_need.field_project_amount_need_amount <= %d)";
+
+          $result = db_fetch_object(db_query($query, $small_amount));
+
+          if ($result) {
+            $featured_block[$location] = t($item['link']['link_title']);
+          }
+        } else {
+          $featured_block[$location] = t($item['link']['link_title']);
+        }
+      }
+      $block['content'] = theme('weeve_project_featured_block', $featured_block);
+      return $block;
+    }
   }
 }
 
@@ -567,6 +642,41 @@ function _weeve_project_is_user_npo() {
 function _weeve_is_admin() {
   global $user;
   return in_array('admin', $user->roles);
+}
+
+function weeve_project_cron() {
+  $query = "SELECT node_data_field_project_end.field_project_end_value AS node_data_field_project_end_field_project_end_value,
+node.type AS node_type,
+node.nid AS nid,
+node.vid AS node_vid
+ FROM node node
+ INNER JOIN content_type_project node_data_field_project_status ON node.vid = node_data_field_project_status.vid
+ LEFT JOIN content_type_project node_data_field_project_end ON node.vid = node_data_field_project_end.vid
+ WHERE (node.status = 1) AND (node_data_field_project_status.field_project_status_value = 'accept')";
+
+  $result = db_query($query);
+
+  while($row = db_fetch_object($result)) {
+    $date = date_parse_from_format('Y-m-d\TH:i:s', $row->node_data_field_project_end_field_project_end_value);
+
+    $timestamp = mktime((int)$dateTime['hour'], (int)$dateTime['minute'], (int)$dateTime['second'], (int)$dateTime['month'], (int)$dateTime['day'], (int)$dateTime['year']);
+
+    $current_timestamp = time();
+
+    if ($current_timestamp >= $timestamp) {
+      $node = node_load($row->nid);
+      module_invoke_all('weeve_project', $node, 'end');
+    }
+  }
+}
+
+function weeve_project_weeve_project(&$node, $op) {
+  if ($op == 'end') {
+    $node->status = 0;
+    $node->promote = 0;
+    $node->field_project_status[0]['value'] = 'archive';
+    node_save($node);
+  }
 }
 
 

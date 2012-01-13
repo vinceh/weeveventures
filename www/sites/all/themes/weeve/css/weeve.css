@@ -111,12 +111,13 @@ h2 {
 
 .sidebar-left #main-content .view-featured-projects.front-page .views-row {
   margin-left: 15px;
+  margin-bottom: 20px;
 }
 
 .view-featured-projects.front-page .views-row.first-row-line, 
 .sidebar-left #main-content .view-featured-projects.front-page .views-row-first, 
 .view-featured-projects.front-page .views-row.views-row-first {
-  margin-left: 0px;
+  margin-left: 0px !important;
 }
 
 .view-featured-projects.front-page .views-row:hover {

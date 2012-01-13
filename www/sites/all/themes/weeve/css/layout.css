@@ -67,6 +67,10 @@ a {
   font-size: 14px;
 }
 
+.sidebar-left a.active {
+  background-color: #ecebeb;
+}
+
 #block-menu-menu-top-menu {
   position: relative;
   height: 50px;
@@ -108,18 +112,18 @@ a {
   background-color: #0285AB;  
 }
 
-#block-views-project_categories-block_1, #block-menu-menu-projects-locations {
+#block-views-project_categories-block_1, #block-weeve_project-1 {
   border-right: 1px solid #e5e5e5;
   padding-top: 5px;
 }
 
-#block-views-project_categories-block_1 h2, #block-menu-menu-projects-locations h2 {
+#block-views-project_categories-block_1 h2, #block-weeve_project-1 h2 {
   font-size: 16px;
   font-weight: bold;
   padding-left: 5px;
 }
 
-#block-views-project_categories-block_1 a, #block-menu-menu-projects-locations a {
+#block-views-project_categories-block_1 a, #block-weeve_project-1 a {
   color: #4a4a4a;
   display: block;
   width: 114px;
@@ -128,43 +132,43 @@ a {
   margin: 0px;
 }
 
-#block-views-project_categories-block_1 a:hover, #block-menu-menu-projects-locations a:hover {
+#block-views-project_categories-block_1 a:hover, #block-weeve_project-1 a:hover {
   background-color: #ecebeb;
 }
 
-#block-menu-menu-featured-projects {
+#block-weeve_project-2 {
   margin-top: 105px;
   border-right: 1px solid #e5e5e5;
 }
 
-#block-menu-menu-featured-projects h2 {
+#block-weeve_project-2 h2 {
   font-size: 16px;
   margin: 0px;
   font-weight: bold;
   padding-left: 5px;
 }
 
-#block-menu-menu-featured-projects ul, #block-menu-menu-projects-locations ul {
+#block-weeve_project-2 ul, #block-weeve_project-1 ul {
   margin-top: 10px;
   margin-left: 0px;
   padding: 0px;
 }
 
-#block-menu-menu-featured-projects ul li, #block-menu-menu-projects-locations ul li {
+#block-weeve_project-2 ul li, #block-weeve_project-1 ul li {
   list-style-type: none;
   list-style-image: none;
   margin: 0px;
   padding: 0px;
 }
 
-#block-menu-menu-featured-projects ul li a, #block-menu-menu-projects-locations ul li a {
+#block-weeve_project-2 ul li a, #block-weeve_project-1 ul li a {
   color: #4a4a4a;
   padding: 5px 5px;
   display: block;
   width: 109px;
 }
 
-#block-menu-menu-featured-projects ul li a:hover {
+#block-weeve_project-2 ul li a:hover {
   background-color: #ecebeb;
 }
 
