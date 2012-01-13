@@ -67,7 +67,7 @@ a {
   font-size: 14px;
 }
 
-.sidebar-left a.active {
+#sidebar-left a.active {
   background-color: #ecebeb;
 }
 
