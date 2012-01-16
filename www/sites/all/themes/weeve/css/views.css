@@ -155,3 +155,36 @@
   content: " - "
 }
 
+/* COMMENTS */
+.project-comments-page .view-content {
+  margin-top: 20px;
+}
+
+.project-comments-page .views-row {
+  clear: both;
+  border-bottom: 1px dotted #ddd;
+  padding-bottom: 0px;
+  padding-top: 10px;
+}
+
+.project-comments-page .views-field-picture {
+  float: left;
+  padding: 10px;
+  padding-top: 0px;
+  padding-left: 0px;
+}
+
+.project-comments-page .views-field-nothing {
+  float: left;
+}
+
+.project-comments-page .views-field-nothing .timestamp, .project-comments-page .views-field-nothing .timestamp em {
+  font-size: 11px;
+  color: #aaa;
+  font-style: normal;
+}
+
+.project-comments-page .clear {
+  clear: both;
+}
+

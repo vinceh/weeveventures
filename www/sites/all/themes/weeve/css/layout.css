@@ -72,20 +72,20 @@ a {
 }
 
 #block-menu-menu-top-menu {
-  position: relative;
   height: 50px;
-  width: 700px;
-  float: left;
+  margin-top: 25px;
+  float: right;
 }
 
 .front-page #block-menu-menu-top-menu {
   height: 125px;
+  margin-top: 95px;
 }
 
 #block-menu-menu-top-menu .menu {
-  right: 0px;
+  /*right: 0px;
   position: absolute;
-  bottom: 4px;
+  bottom: 4px; */
 }
 
 #block-menu-menu-top-menu ul.menu li {
@@ -171,6 +171,50 @@ a {
 #block-weeve_project-2 ul li a:hover {
   background-color: #ecebeb;
 }
+
+/**SEARCH BLOCK**/
+#block-weeve_project-3 {
+  margin-top: 10px;
+  float: right;
+  height: 14px;
+  width: 125px;
+  margin-right: 20px;
+}
+
+.front-page #block-weeve_project-3 {
+  display: none;
+}
+
+#block-weeve_project-3 input {
+  height: 14px;
+  width: 125px;
+  color: #555;
+  border: none;
+  outline-style: none;
+  margin-right: 5px;
+  border-radius: 999px;
+  font-size: 13px;
+  background: url('../img/searchicon_small.png') 6px #fff no-repeat;
+  padding-left: 22px;
+}
+
+#block-weeve_project-3 input[type=submit] {
+  display: none !important;
+}
+
+.apachesolr_search-results dd {
+  margin-left: 0px;
+}
+
+.apachesolr_search-results .title {
+  margin-bottom: 10px;
+}
+
+.apachesolr_search-results img {
+  float: left;
+  padding-right: 10px;
+}
+/** END SEARCH **/
 
 #header .site-title {
   height: 50px;

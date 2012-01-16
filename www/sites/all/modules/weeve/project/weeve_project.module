@@ -51,6 +51,11 @@ function weeve_project_menu_alter($items) {
   $items['node/add/project']['access callback'] = 'weeve_project_project_valid';
 
   $items['node/%node']['page callback'] = 'weeve_node_page_view';
+
+  $items['search/node/%menu_tail']['page callback'] = 'drupal_not_found';
+  $items['search/node/%menu_tail']['type'] = MENU_CALLBACK;
+  $items['search/user/%menu_tail']['page callback'] = 'drupal_not_found';
+  $items['search/user/%menu_tail']['type'] = MENU_CALLBACK;
 }
 
 function weeve_node_page_view($node, $cid = NULL) {
@@ -302,6 +307,10 @@ function weeve_project_theme() {
       'arguments' => array('items' => null),
       'template' => 'tpl/project_featured_block'
     ),
+    'weeve_project_search_block' => array(
+      'arguments' => array('items' => null),
+      'template' => 'tpl/project_search_block'
+    )
 
   );
 }
@@ -387,6 +396,9 @@ function weeve_project_block($op = 'list', $delta = 0) {
 
     $blocks[2]['info'] = t('Project featured block');
     $blocks[2]['cache'] = BLOCK_NO_CACHE;
+
+    $blocks[3]['info'] = t('Project search');
+    $blocks[3]['cache'] = BLOCK_NO_CACHE;
     return $blocks;
   }
   else if ($op == 'view') {
@@ -466,8 +478,31 @@ function weeve_project_block($op = 'list', $delta = 0) {
       }
       $block['content'] = theme('weeve_project_featured_block', $featured_block);
       return $block;
+    } else if ($delta == 3) {
+      $block['content'] = drupal_get_form('weeve_project_search_form');
+      return $block;
     }
   }
+}
+
+function weeve_project_search_form($form_state) {
+  $form = array();
+
+  $form['keys'] = array(
+    '#type' => 'textfield',
+    '#title' => '',
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Search')
+  );
+
+  if (!empty ($form_state['post'])) {
+    $form['#redirect'] = 'search/apachesolr_search/' . $form_state['post']['keys'];
+  }  
+
+  return $form;
 }
 
 function weeve_project_preprocess_page(&$vars) {

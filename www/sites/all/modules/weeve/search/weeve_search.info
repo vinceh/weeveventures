@@ -1,0 +1,4 @@
+name = Weeve Search
+description = Provide project search
+package = Weeve
+core = 6.x
