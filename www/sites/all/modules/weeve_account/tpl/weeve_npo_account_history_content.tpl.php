@@ -9,7 +9,7 @@
   </div>
 
   <div class='profile-npo-stats-wrap'>
-    <div class='stats-value'>30,321</div>
+    <div class='stats-value'><?php print $account->donors; ?></div>
     <div class='stats-title'><?php print t('donors'); ?></div>
   </div>
 </div>

@@ -478,19 +478,19 @@ function weeve_account_load_user($uid) {
   $user->photo = $photo;
   if ($account_type == 'npo' || $account_type == 'corp') {
     $view_result = views_get_view_result('featured_projects', 'page_4', $user->uid);
-    // WTF: I cannot get value of donors field!
-    // $view_donors_result = views_get_view_result('featured_projects', 'donors', $user->uid);
-    // kpr($view_donors_result);
     $money = 0;
     foreach ($view_result as $value) {
       $money += $value->node_data_field_project_image_field_project_amount_pledge_am;
     }
     $user->count_projects = count($view_result);
     $user->money = $money;
+    $user->donors = weeve_account_get_total_donors($user->uid);
   }
   if ($account_type == 'user') {
-    $user->projects_funded = weeve_account_get_count_projects_funded($uid);
-    $user->donated = weeve_account_get_total_donated($uid);;
+    if (module_exists('weeve_donation')) {
+      $user->projects_funded = weeve_account_get_count_projects_funded($uid);
+      $user->donated = weeve_account_get_total_donated($uid);;
+    }
   }
   $result['user'] = $user;
   $result['profile'] = $profile;
@@ -741,4 +741,12 @@ function weeve_account_get_total_donated($uid) {
   $query = 'SELECT SUM(amount) as total_amount FROM {weeve_preapproval_payments} WHERE uid = %d AND paid = %d AND archived =  %d';
   $result = db_result(db_query($query, $uid, 1, 0));
   return $result;
+}
+
+function weeve_account_get_total_donors($uid) {
+  $query = "SELECT SUM(ctp.field_project_donors_value) as total_donors FROM node n
+  INNER JOIN content_type_project ctp ON n.nid = ctp.nid
+  WHERE n.uid = %d";
+  $donors = db_result(db_query($query, $uid));
+  return $donors;
 }

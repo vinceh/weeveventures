@@ -66,9 +66,7 @@ function weeve_donation_ajax_callback() {
     $node = node_load($nid);
     $user = user_load($uid);
 
-    //@todo: check start date
-    //$resArray = weeve_donation_preapproval(date('Y-m-d\TH:i:s'), $node->field_project_end[0]['value'], $amount);
-    $resArray = weeve_donation_preapproval('2012-01-15', $node->field_project_end[0]['value'], $amount);
+    $resArray = weeve_donation_preapproval(date('Y-m-d'), $node->field_project_end[0]['value'], $amount);
 
     $response['status'] = TRUE;
     $response['data'] = $resArray;
@@ -78,6 +76,7 @@ function weeve_donation_ajax_callback() {
         'node' => $node,
         'user' => $user,
         'amount' => $amount,
+        'donors' => weeve_donation_get_donors_by_project($nid),
         'pp_response' => $resArray,
       );
       $_SESSION['donation_info'] = $donation_info;
@@ -212,7 +211,11 @@ function weeve_donation_pay_success_project($nid) {
     }
   }
 }
-
+function weeve_donation_get_donors_by_project($nid) {
+  $query = "SELECT COUNT(DISTINCT(uid)) FROM {weeve_preapproval_payments} WHERE nid = %d";
+  $result = db_result(db_query($query, $nid));
+  return $result;
+}
 
 function weeve_donation_settings_form() {
   $form = array();
