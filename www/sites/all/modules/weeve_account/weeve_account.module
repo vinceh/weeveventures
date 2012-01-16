@@ -118,6 +118,7 @@ function weeve_account_theme() {
       'template' => 'tpl/weeve_npo_account_page'
     ),
     'weeve_user_account_history' => array(
+      'arguments' => array('account' => NULL),
       'template' => 'tpl/weeve_user_account_history_content'
     ),
     'weeve_user_account_following' => array(
@@ -487,6 +488,10 @@ function weeve_account_load_user($uid) {
     $user->count_projects = count($view_result);
     $user->money = $money;
   }
+  if ($account_type == 'user') {
+    $user->projects_funded = weeve_account_get_count_projects_funded($uid);
+    $user->donated = weeve_account_get_total_donated($uid);;
+  }
   $result['user'] = $user;
   $result['profile'] = $profile;
   $result['settings'] = $settings;
@@ -506,7 +511,7 @@ function weeve_account_page($uid = null) {
 
 
     case 'user':
-      $content = theme('weeve_user_account_history');
+      $content = theme('weeve_user_account_history', $user_info['user']);
       $output = theme('weeve_user_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
       break;
 
@@ -724,4 +729,16 @@ function weeve_account_forgot_pass_page() {
   module_load_include('inc', 'user', 'user.pages');
   $form = drupal_get_form('user_pass');
   return $form;
+}
+
+function weeve_account_get_count_projects_funded($uid) {
+  $query = 'SELECT COUNT(DISTINCT(nid)) FROM {weeve_preapproval_payments} WHERE uid = %d AND paid = %d AND archived =  %d';
+  $result = db_result(db_query($query, $uid, 1, 0));
+  return $result;
+}
+
+function weeve_account_get_total_donated($uid) {
+  $query = 'SELECT SUM(amount) as total_amount FROM {weeve_preapproval_payments} WHERE uid = %d AND paid = %d AND archived =  %d';
+  $result = db_result(db_query($query, $uid, 1, 0));
+  return $result;
 }
