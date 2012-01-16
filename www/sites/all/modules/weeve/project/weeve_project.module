@@ -706,7 +706,7 @@ node.vid AS node_vid
   }
 }
 
-function weeve_project_weeve_project(&$node, $op) {
+function weeve_project_weeve_project($node, $op) {
   if ($op == 'end') {
     $node->status = 0;
     $node->promote = 0;
@@ -718,7 +718,7 @@ function weeve_project_weeve_project(&$node, $op) {
 /*
  * Implementation hook_donation
  */
-function weeve_project_weeve_donation(&$node, $op, $donation_info = null) {
+function weeve_project_weeve_donation($node, $op, $donation_info = null) {
   if ($op == 'create_preapproval') {
     $node->field_project_amount_pledge[0]['amount'] = $node->field_project_amount_pledge[0]['amount'] + $donation_info['amount'];
     $node->field_project_donors[0]['value'] = $donation_info['donors'];
