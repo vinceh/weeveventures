@@ -72,13 +72,12 @@ a {
 }
 
 #block-menu-menu-top-menu {
-  height: 50px;
+  height: 37px;
   margin-top: 25px;
   float: right;
 }
 
 .front-page #block-menu-menu-top-menu {
-  height: 125px;
   margin-top: 95px;
 }
 
