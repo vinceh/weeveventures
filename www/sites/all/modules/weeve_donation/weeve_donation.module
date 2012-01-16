@@ -59,7 +59,9 @@ function weeve_donation_ajax_callback() {
     $node = node_load($nid);
     $user = user_load($uid);
 
-    $resArray = weeve_donation_preapproval(date('Y-m-d\TH:i:s'), $node->field_project_end[0]['value'], $amount);
+    //@todo: check start date
+    //$resArray = weeve_donation_preapproval(date('Y-m-d\TH:i:s'), $node->field_project_end[0]['value'], $amount);
+    $resArray = weeve_donation_preapproval('2012-01-15', $node->field_project_end[0]['value'], $amount);
 
     $response['status'] = TRUE;
     $response['data'] = $resArray;
@@ -88,7 +90,7 @@ function weeve_donation_ajax_callback() {
 /*
  * Save or Edit donation
  */
-function weeve_preapproval_payment_save($amount, $uid, $nid, $preapproval_key, $paid = 0, $archived = 0, $pid = null) {
+function weeve_donation_preapproval_payment_save($amount, $uid, $nid, $preapproval_key, $paid = 0, $archived = 0, $pid = null) {
   $donate = new stdClass();
   $donate->uid = $uid;
   $donate->nid = $nid;
@@ -113,7 +115,7 @@ function weeve_preapproval_payment_save($amount, $uid, $nid, $preapproval_key, $
 function weeve_donation_preapproval_payment_success_callback() {
   $donate = $_SESSION['donation_info'];
   unset($_SESSION['donation_info']);
-  $preapproval_payment = weeve_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey']);
+  $preapproval_payment = weeve_donation_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey']);
   drupal_set_message(t('Your donate has beed saved'));
   drupal_goto();
 }
@@ -145,13 +147,67 @@ function weeve_donation_redirect($cmd, $key, $sandbox) {
   }
   else {
     drupal_set_message(t('PayPal operation aborted: Missing Pay Key or Adaptive Pay Command'), 'error');
-    watchdog('adaptive payment', t('Missing Pay Key or Adaptive Pay Command'), array(), WATCHDOG_ERROR);
+    watchdog('weeve donate', t('Missing Pay Key or Adaptive Pay Command'), array(), WATCHDOG_ERROR);
     return FALSE;
   }
 
   return $payPalURL;
 }
 
+
+function weeve_donation_get_preapproval_by_nid($nid) {
+  $query = "SELECT * FROM {weeve_preapproval_payments} WHERE nid = %d AND paid = %d AND archived = %d";
+  $result = db_query($query, $nid, 0, 0);
+  $donations = array();
+  while ($row = db_fetch_object($result)) {
+    $donations[$row->preapproval_key] = $row;
+  }
+  return $donations;
+}
+
+function weeve_donation_set_paid($pid) {
+  $donate = new stdClass();
+  $donate->pid = $pid;
+  $donate->paid = 1;
+  drupal_write_record('weeve_preapproval_payments', $donate, 'pid');
+  return $donate;
+}
+
+function weeve_donation_set_archived($pid) {
+  $donate = new stdClass();
+  $donate->pid = $pid;
+  $donate->archived = 1;
+  drupal_write_record('weeve_preapproval_payments', $donate, 'pid');
+  return $donate;
+}
+
+function weeve_donation_pay_success_project($nid) {
+  // @todo: notify user via email?
+  $donations = weeve_donation_get_preapproval_by_nid($nid);
+  $recipient = 'dev_pp_1325213935_biz@shkuro.net';  //todo: change later
+  foreach($donations as $key => $donate) {
+    $node = node_load($donate->nid);
+    $memo = 'Donate : '. $node->title;
+    $res = weeve_donation_pay($key, $recipient, $donate->amount, $memo);
+    if ($res['responseEnvelope.ack'] == 'Success') {
+      weeve_donation_set_paid($donate->pid);
+    }
+    else {
+      watchdog('weeve donate', t('!errorId: !message'), array('!errorId' => $res['error(0).errorId'], '!message' => $res['error(0).message']), WATCHDOG_ERROR);
+    }
+  }
+}
+
+
+/**
+ * Preapproval API Operation
+ *
+ * @param $start_date
+ * @param $end_date
+ * @param $max_total_amount
+ * @return array PayPal API response
+ * @see https://www.x.com/developers/paypal/documentation-tools/api/preapproval-api-operation
+ */
 function weeve_donation_preapproval($start_date, $end_date, $max_total_amount) {
   module_load_include('php', 'weeve_donation', 'inc/CallerService');
 
@@ -173,13 +229,67 @@ function weeve_donation_preapproval($start_date, $end_date, $max_total_amount) {
   return $resArray;
 }
 
-function weeve_donation_pay($key, $receiver, $amount, $currency, $memo) {
+/**
+ *  Cancel Preapproval API Operation
+ *
+ *  @param: (string) preapproval_key
+ *  @return (array) PayPal API response
+ *  @see: https://www.x.com/developers/paypal/documentation-tools/api/cancelpreapproval-api-operation
+ */
+function weeve_donation_preapproval_cancel($preapproval_key) {
+  module_load_include('php', 'weeve_donation', 'inc/CallerService');
+
+  $request = array(
+    'preapprovalKey' => $preapproval_key,
+    'requestEnvelope.errorLanguage' => 'en_US',
+  );
+
+  $nvp_str = drupal_query_string_encode($request);
+  $resArray = hash_call("AdaptivePayments/CancelPreapproval", $nvp_str);
+  return $resArray;
+}
+
+/**
+ * PreapprovalDetails API Operation
+ *
+ * @param $preapproval_key
+ * @param bool $get_billing_address
+ *  Optional
+ * @return array PayPal API response
+ * @see: https://www.x.com/developers/paypal/documentation-tools/api/preapprovaldetails-api-operation
+ */
+function weeve_donation_preapproval_details($preapproval_key, $get_billing_address = false) {
+  module_load_include('php', 'weeve_donation', 'inc/CallerService');
+
+  $request = array(
+    'preapprovalKey' => $preapproval_key,
+    'getBillingAddress' => $get_billing_address,
+    'requestEnvelope.errorLanguage' => 'en_US',
+  );
+
+  $nvp_str = drupal_query_string_encode($request);
+  $resArray = hash_call("AdaptivePayments/PreapprovalDetails", $nvp_str);
+  return $resArray;
+}
+
+/**
+ * Pay API Operation
+ *
+ * @param $key
+ * @param $receiver
+ * @param $amount
+ * @param $currency
+ * @param $memo
+ * @return array
+ * @see https://www.x.com/developers/paypal/documentation-tools/api/pay-api-operation
+ */
+function weeve_donation_pay($key, $receiver, $amount, $memo) {
   module_load_include('php', 'weeve_donation', 'inc/CallerService');
   $request = array(
     'preapprovalKey' => $key,
     'receiverList.receiver(0).email' => $receiver,
     'receiverList.receiver(0).amount' => $amount,
-    'currencyCode' => $currency,
+    'currencyCode' => 'USD',
     'actionType' => 'PAY',
     'feesPayer' => 'EACHRECEIVER',
     'cancelUrl' => 'http://weeveventures.dev',
@@ -194,7 +304,5 @@ function weeve_donation_pay($key, $receiver, $amount, $currency, $memo) {
 
 
 function weeve_donation_test_callback() {
-  // $resArray = weeve_donation_preapproval('2012-01-13T07:00:00.000Z', '2012-01-20T07:00:00.000Z', '75000');
-  // weeve_donation_redirect('_ap-preapproval', $resArray['preapprovalKey'], true);
-  // weeve_donation_pay('PA-2XM383385S726302C', 'dev_pp_1325160588_per@shkuro.net', 'dev_pp_1325213935_biz@shkuro.net', '5', 'USD', 'Donation for cool project');
+  die;
 }
