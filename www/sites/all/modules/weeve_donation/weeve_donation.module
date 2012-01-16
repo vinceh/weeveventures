@@ -42,6 +42,13 @@ function weeve_donation_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['admin/settings/weeve_donation'] = array(
+    'title' => 'Donation settings',
+    'access arguments' => array('access content'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('weeve_donation_settings_form'),
+  );
+
   return $items;
 }
 
@@ -74,7 +81,8 @@ function weeve_donation_ajax_callback() {
         'pp_response' => $resArray,
       );
       $_SESSION['donation_info'] = $donation_info;
-      $url = weeve_donation_redirect('_ap-preapproval', $resArray['preapprovalKey'], true);
+      $sandbox = variable_get('pp_api_sandbox', 1);
+      $url = weeve_donation_redirect('_ap-preapproval', $resArray['preapprovalKey'], $sandbox);
       $response['url'] = $url;
     }
     else {
@@ -190,7 +198,7 @@ function weeve_donation_set_archived($pid) {
 function weeve_donation_pay_success_project($nid) {
   // @todo: notify user via email?
   $donations = weeve_donation_get_preapproval_by_nid($nid);
-  $recipient = 'dev_pp_1325213935_biz@shkuro.net';  //todo: change later
+  $recipient = variable_get('pp_api_recipient', '');
   foreach($donations as $key => $donate) {
     $node = node_load($donate->nid);
     $memo = 'Donate : '. $node->title;
@@ -205,6 +213,55 @@ function weeve_donation_pay_success_project($nid) {
   }
 }
 
+
+function weeve_donation_settings_form() {
+  $form = array();
+
+  $form['pp_api_username'] = array(
+    '#type' => 'textfield',
+    '#title' => t('API username'),
+    '#default_value' => variable_get('pp_api_username', ''),
+  );
+
+  $form['pp_api_password'] = array(
+    '#type' => 'textfield',
+    '#title' => t('API password'),
+    '#default_value' => variable_get('pp_api_password', ''),
+  );
+
+  $form['pp_api_signature'] = array(
+    '#type' => 'textfield',
+    '#title' => t('API signature'),
+    '#default_value' => variable_get('pp_api_signature', ''),
+  );
+
+  $form['pp_api_app_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('API APP ID'),
+    '#default_value' => variable_get('pp_api_app_id', ''),
+  );
+
+  $form['pp_api_endpoint'] = array(
+    '#type' => 'textfield',
+    '#title' => t('API ENDPOINT'),
+    '#default_value' => variable_get('pp_api_endpoint', 'https://svcs.sandbox.paypal.com/'),
+  );
+
+  $form['pp_api_recipient'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Recipient'),
+    '#default_value' => variable_get('pp_api_recipient', ''),
+  );
+
+  $form['pp_api_sandbox'] = array(
+    '#type' => 'radios',
+    '#title' => t('Use sandbox'),
+    '#default_value' => variable_get('pp_api_sandbox', 1),
+    '#options' => array(t('Production'), t('Sandbox')),
+  );
+
+  return system_settings_form($form);
+}
 
 /*
  * Implementation hook_weeve_project
