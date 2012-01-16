@@ -22,7 +22,6 @@
           <div class='landingspace'></div>
           <div class='landingnumber'><div>2</div></div>fund
           <div class='landingspace'></div>
-
           <div class='landingnumber'><div>3</div></div>earn rewards
         </div>
         <h2 class="front-slogan">
