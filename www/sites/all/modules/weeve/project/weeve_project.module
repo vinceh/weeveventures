@@ -694,8 +694,8 @@ node.vid AS node_vid
 
   while($row = db_fetch_object($result)) {
     $date = date_parse_from_format('Y-m-d\TH:i:s', $row->node_data_field_project_end_field_project_end_value);
-
-    $timestamp = mktime((int)$dateTime['hour'], (int)$dateTime['minute'], (int)$dateTime['second'], (int)$dateTime['month'], (int)$dateTime['day'], (int)$dateTime['year']);
+    
+    $timestamp = mktime((int)$date['hour'], (int)$date['minute'], (int)$date['second'], (int)$date['month'], (int)$date['day'], (int)$date['year']);
 
     $current_timestamp = time();
 
