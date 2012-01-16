@@ -66,16 +66,16 @@ function weeve_donation_ajax_callback() {
     $response['status'] = TRUE;
     $response['data'] = $resArray;
     if ($resArray['responseEnvelope.ack'] == 'Success') {
-      $url = weeve_donation_redirect('_ap-preapproval', $resArray['preapprovalKey'], true);
-      $response['url'] = $url;
 
-      $_SESSION['donation_info'] = array(
+      $donation_info = array(
         'node' => $node,
         'user' => $user,
         'amount' => $amount,
         'pp_response' => $resArray,
       );
-
+      $_SESSION['donation_info'] = $donation_info;
+      $url = weeve_donation_redirect('_ap-preapproval', $resArray['preapprovalKey'], true);
+      $response['url'] = $url;
     }
     else {
       drupal_set_message(t('Error. Your donation not saved'), 'error');
@@ -116,6 +116,7 @@ function weeve_donation_preapproval_payment_success_callback() {
   $donate = $_SESSION['donation_info'];
   unset($_SESSION['donation_info']);
   $preapproval_payment = weeve_donation_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey']);
+  module_invoke_all('weeve_donation', $donate['node'], 'create_preapproval', $donate);
   drupal_set_message(t('Your donate has beed saved'));
   drupal_goto();
 }
@@ -165,6 +166,11 @@ function weeve_donation_get_preapproval_by_nid($nid) {
   return $donations;
 }
 
+function weeve_donation_mark_archive_payments_by_nid($nid) {
+  $query = "UPDATE {weeve_preapproval_payments} SET archived = %d WHERE nid = %d";
+  db_query($query, 1, $nid);
+}
+
 function weeve_donation_set_paid($pid) {
   $donate = new stdClass();
   $donate->pid = $pid;
@@ -190,6 +196,7 @@ function weeve_donation_pay_success_project($nid) {
     $memo = 'Donate : '. $node->title;
     $res = weeve_donation_pay($key, $recipient, $donate->amount, $memo);
     if ($res['responseEnvelope.ack'] == 'Success') {
+      module_invoke_all('weeve_donation', $node, 'paid');
       weeve_donation_set_paid($donate->pid);
     }
     else {
@@ -198,6 +205,27 @@ function weeve_donation_pay_success_project($nid) {
   }
 }
 
+
+/*
+ * Implementation hook_weeve_project
+ */
+function weeve_donation_weeve_project(&$node, $op) {
+  if ($op == 'end') {
+
+    //@todo check status project here
+
+    // success project
+    if (true) {
+      weeve_donation_pay_success_project($node->nid);
+    }
+
+    // failed project
+    if (false) {
+      weeve_donation_mark_archive_payments_by_nid($node->nid);
+    }
+
+  }
+}
 
 /**
  * Preapproval API Operation
