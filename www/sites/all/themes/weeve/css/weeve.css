@@ -1633,3 +1633,9 @@ a.profile-link.active {
 .profile-npo-title-location {
   font-size: 16px;
 }
+
+.loader {
+  display: none;
+  margin-left: 30px;
+  margin-top: 30px;
+}

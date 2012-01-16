@@ -39,6 +39,7 @@
             "<div class='popupcontent'>" + Drupal.t('How much would you like to donate?') + "</div>" +
             "<input id='amount' type='text' class='popupinput'/><div class='popupinputhint'>" + Drupal.t('Any amount you want!') + "<br/>" + Drupal.t('$1 minimum please') + "</div>" +
             "<button id='donate-submit' class='popupsubmit weeve-medium-button'>" + Drupal.t('Continue to PayPal') + "</button>" +
+            "<img class='loader' src=" + Drupal.settings.basePath + 'sites/all/themes/weeve/img/ajax-loader.gif' + ">"+
             "</div>";
     var rightwrap = "<div class='popupright'>" +
             "<div class='fintprinttitle'>" + Drupal.t('Things to know') + "</div>" +
@@ -74,27 +75,35 @@
     });
 
     $('#donate-submit', context).click(function() {
-      //TODO: Add validation
       var amount
         , nid
-        , uid;
+        , uid
+        , re;
       amount = $('#amount').val();
+      re = /(?:^\d{1,3}(?:\.?\d{3})*(?:,\d{2})?$)|(?:^\d{1,3}(?:,?\d{3})*(?:\.\d{2})?$)/;
       nid  = Drupal.settings.weeveProject.nid;
       uid  = Drupal.settings.weeveProject.uid;
-      $.ajax({
-        url: Drupal.settings.basePath + 'ajax/donation/submit',
-        type: "POST",
-        cache: false,
-        data: {amount: amount, nid: nid, uid: uid},
-        success: function (res) {
-          res = Drupal.parseJson(res);
-          if (res.status) {
-            window.location = res.url;
-          } else {
-            alert('Ooops... Unknow error.');
+      $('#amount').css({border: '1px solid #AAAAAA'});
+      if (re.test(amount)) {
+        $('.loader').css('display', 'block');
+        $('#donate-submit').hide();
+        $.ajax({
+          url: Drupal.settings.basePath + 'ajax/donation/submit',
+          type: "POST",
+          cache: false,
+          data: {amount: amount, nid: nid, uid: uid},
+          success: function (res) {
+            res = Drupal.parseJson(res);
+            if (res.status) {
+              window.location = res.url;
+            } else {
+              alert('Ooops... Unknow error.');
+            }
           }
-        }
-      });
+        });
+      } else {
+        $('#amount').css({border: '2px solid red'});
+      }
     });
 
 

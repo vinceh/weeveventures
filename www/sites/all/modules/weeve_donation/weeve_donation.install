@@ -19,9 +19,9 @@ function weeve_donation_uninstall() {
  */
 function weeve_donation_schema() {
   $schema = array();
-  $schema['weeve_donation'] = array(
+  $schema['weeve_preapproval_payments'] = array(
     'fields' => array(
-      'did' => array(
+      'pid' => array(
         'type' => 'serial',
         'unsigned' => TRUE,
         'not null' => TRUE,
@@ -41,23 +41,23 @@ function weeve_donation_schema() {
         'length' => 255,
         'not null' => TRUE,
       ),
-      'currencycode' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-      ),
-      'date' => array(
-        'type' => 'datetime',
+      'paid' => array(
+        'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
       ),
-      'paypal_id' => array(
+      'archived' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'preapproval_key' => array(
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
       ),
     ),
-    'primary key' => array('did'),
+    'primary key' => array('pid'),
   );
 
   return $schema;

@@ -57,11 +57,7 @@ $URL=API_ENDPOINT.$methodName;
  	
 	//convrting NVPResponse to an Associative Array
 	$nvpResArray=deformatNVP($response);
-  kpr($nvpResArray);
-  kpr($headers_array);
-  kpr($URL);
-  kpr(curl_error($ch));
-  die;
+
 	//$nvpReqArray=deformatNVP($nvpreq);
 	//$_SESSION['nvpReqArray']=$nvpReqArray;
 
