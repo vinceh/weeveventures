@@ -4060,29 +4060,13 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   $handler->display->display_options['relationships']['uid']['label'] = 'User comment';
   $handler->display->display_options['relationships']['uid']['required'] = 1;
-  /* Field: Comment: Body */
-  $handler->display->display_options['fields']['comment']['id'] = 'comment';
-  $handler->display->display_options['fields']['comment']['table'] = 'comments';
-  $handler->display->display_options['fields']['comment']['field'] = 'comment';
-  $handler->display->display_options['fields']['comment']['relationship'] = 'nid';
-  $handler->display->display_options['fields']['comment']['label'] = '';
-  $handler->display->display_options['fields']['comment']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['comment']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['comment']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['comment']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['comment']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['comment']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['comment']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['comment']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['comment']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['comment']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['comment']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['comment']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['comment']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['comment']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['comment']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['comment']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['comment']['hide_alter_empty'] = 1;
+  /* Relationship: Node: Content Profile */
+  $handler->display->display_options['relationships']['content_profile_rel']['id'] = 'content_profile_rel';
+  $handler->display->display_options['relationships']['content_profile_rel']['table'] = 'users';
+  $handler->display->display_options['relationships']['content_profile_rel']['field'] = 'content_profile_rel';
+  $handler->display->display_options['relationships']['content_profile_rel']['relationship'] = 'uid';
+  $handler->display->display_options['relationships']['content_profile_rel']['required'] = 1;
+  $handler->display->display_options['relationships']['content_profile_rel']['type'] = 'profile';
   /* Field: User: Picture */
   $handler->display->display_options['fields']['picture']['id'] = 'picture';
   $handler->display->display_options['fields']['picture']['table'] = 'users';
@@ -4106,7 +4090,30 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler->display->display_options['fields']['picture']['hide_empty'] = 0;
   $handler->display->display_options['fields']['picture']['empty_zero'] = 0;
   $handler->display->display_options['fields']['picture']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['picture']['link_photo_to_profile'] = 1;
+  $handler->display->display_options['fields']['picture']['link_photo_to_profile'] = 0;
+  /* Field: Comment: Body */
+  $handler->display->display_options['fields']['comment']['id'] = 'comment';
+  $handler->display->display_options['fields']['comment']['table'] = 'comments';
+  $handler->display->display_options['fields']['comment']['field'] = 'comment';
+  $handler->display->display_options['fields']['comment']['relationship'] = 'nid';
+  $handler->display->display_options['fields']['comment']['label'] = '';
+  $handler->display->display_options['fields']['comment']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['comment']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['comment']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['comment']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['comment']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['comment']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['comment']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['comment']['hide_alter_empty'] = 1;
   /* Field: Comment: Author */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'comments';
@@ -4192,6 +4199,24 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['css_class'] = 'project-comments-page';
   $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['label'] = '';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
+  $handler->display->display_options['header']['area']['content'] = '<?php
+global $user;
+$view = views_get_current_view();
+$nid = $view->args[0];
+$node = node_load($nid);
+
+if ($node->uid == $user->uid || $user->uid == 1) {
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
+}
+?>';
+  $handler->display->display_options['header']['area']['format'] = '3';
+  $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['empty'] = FALSE;
   /* Empty text: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
@@ -4201,6 +4226,204 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler->display->display_options['empty']['area']['empty'] = FALSE;
   $handler->display->display_options['empty']['area']['content'] = 'No comments yet';
   $handler->display->display_options['empty']['area']['tokenize'] = 0;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: User: Picture */
+  $handler->display->display_options['fields']['picture']['id'] = 'picture';
+  $handler->display->display_options['fields']['picture']['table'] = 'users';
+  $handler->display->display_options['fields']['picture']['field'] = 'picture';
+  $handler->display->display_options['fields']['picture']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['picture']['label'] = '';
+  $handler->display->display_options['fields']['picture']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['picture']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['picture']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['picture']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['picture']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['picture']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['picture']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['picture']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['picture']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['picture']['link_photo_to_profile'] = 0;
+  /* Field: User: Uid */
+  $handler->display->display_options['fields']['uid']['id'] = 'uid';
+  $handler->display->display_options['fields']['uid']['table'] = 'users';
+  $handler->display->display_options['fields']['uid']['field'] = 'uid';
+  $handler->display->display_options['fields']['uid']['relationship'] = 'content_profile_rel';
+  $handler->display->display_options['fields']['uid']['label'] = '';
+  $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['uid']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['uid']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['uid']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['uid']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['uid']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['uid']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['uid']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['uid']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['uid']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['uid']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['uid']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['uid']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['uid']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['uid']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['uid']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['uid']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['uid']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['uid']['link_to_user'] = 0;
+  /* Field: Content: Full Name (field_user_full_name) */
+  $handler->display->display_options['fields']['field_user_full_name_value']['id'] = 'field_user_full_name_value';
+  $handler->display->display_options['fields']['field_user_full_name_value']['table'] = 'node_data_field_user_full_name';
+  $handler->display->display_options['fields']['field_user_full_name_value']['field'] = 'field_user_full_name_value';
+  $handler->display->display_options['fields']['field_user_full_name_value']['relationship'] = 'content_profile_rel';
+  $handler->display->display_options['fields']['field_user_full_name_value']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['make_link'] = 1;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['path'] = 'account/[uid]';
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['field_user_full_name_value']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_user_full_name_value']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_user_full_name_value']['link_to_node'] = 0;
+  $handler->display->display_options['fields']['field_user_full_name_value']['label_type'] = 'none';
+  /* Field: Content: Organization Name (field_npo_name) */
+  $handler->display->display_options['fields']['field_npo_name_value']['id'] = 'field_npo_name_value';
+  $handler->display->display_options['fields']['field_npo_name_value']['table'] = 'node_data_field_npo_name';
+  $handler->display->display_options['fields']['field_npo_name_value']['field'] = 'field_npo_name_value';
+  $handler->display->display_options['fields']['field_npo_name_value']['relationship'] = 'content_profile_rel';
+  $handler->display->display_options['fields']['field_npo_name_value']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['make_link'] = 1;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['path'] = 'account/[uid]';
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['field_npo_name_value']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_npo_name_value']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_npo_name_value']['link_to_node'] = 0;
+  $handler->display->display_options['fields']['field_npo_name_value']['label_type'] = 'none';
+  /* Field: Comment: Body */
+  $handler->display->display_options['fields']['comment']['id'] = 'comment';
+  $handler->display->display_options['fields']['comment']['table'] = 'comments';
+  $handler->display->display_options['fields']['comment']['field'] = 'comment';
+  $handler->display->display_options['fields']['comment']['label'] = '';
+  $handler->display->display_options['fields']['comment']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['comment']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['comment']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['comment']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['comment']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['comment']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['comment']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['comment']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['comment']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['comment']['hide_alter_empty'] = 1;
+  /* Field: Comment: Post date */
+  $handler->display->display_options['fields']['timestamp']['id'] = 'timestamp';
+  $handler->display->display_options['fields']['timestamp']['table'] = 'comments';
+  $handler->display->display_options['fields']['timestamp']['field'] = 'timestamp';
+  $handler->display->display_options['fields']['timestamp']['label'] = '';
+  $handler->display->display_options['fields']['timestamp']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['timestamp']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['timestamp']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['timestamp']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['timestamp']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['timestamp']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['timestamp']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['timestamp']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['timestamp']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['timestamp']['date_format'] = 'time span';
+  $handler->display->display_options['fields']['timestamp']['custom_date_format'] = 'd j Y';
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['label'] = '';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="name">[field_user_full_name_value]</div>
+<div class="name">[field_npo_name_value]</div>
+<div class="comment">[comment]</div>
+<div class="timestamp">[timestamp]</div>';
+  $handler->display->display_options['fields']['nothing']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['nothing']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['nothing']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['nothing']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['nothing']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['nothing']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['nothing']['hide_alter_empty'] = 1;
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+  $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing_1']['label'] = '';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '&nbsp;';
+  $handler->display->display_options['fields']['nothing_1']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['nothing_1']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['nothing_1']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['nothing_1']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['nothing_1']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['nothing_1']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['nothing_1']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['nothing_1']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['nothing_1']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['nothing_1']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['nothing_1']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['nothing_1']['element_wrapper_class'] = 'clear';
+  $handler->display->display_options['fields']['nothing_1']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['nothing_1']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['nothing_1']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['nothing_1']['hide_alter_empty'] = 1;
   $handler->display->display_options['path'] = 'project/%/comments';
   $translatables['project_comments'] = array(
     t('Defaults'),
@@ -4214,9 +4437,26 @@ This is the list of your project proposals. Once your project has been reviewed 
     t('- All -'),
     t('Offset'),
     t('User comment'),
+    t('Content Profile'),
     t('by '),
     t('Page'),
+    t('<?php
+global $user;
+$view = views_get_current_view();
+$nid = $view->args[0];
+$node = node_load($nid);
+
+if ($node->uid == $user->uid || $user->uid == 1) {
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
+}
+?>'),
     t('No comments yet'),
+    t('account/[uid]'),
+    t('<div class="name">[field_user_full_name_value]</div>
+<div class="name">[field_npo_name_value]</div>
+<div class="comment">[comment]</div>
+<div class="timestamp">[timestamp]</div>'),
+    t('&nbsp;'),
   );
 
   $views[$view->name] = $view;

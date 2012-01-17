@@ -1469,7 +1469,8 @@ if ($node->field_project_amount_need[0][\'amount\'] > 0) {
     'allowed_values' => 'review|In review
 decline|Declined
 accept|Accepted
-archive|Archived',
+archive|Archived
+cancel|Cancelled',
     'allowed_values_php' => '',
     'widget' => array(
       'default_value' => array(

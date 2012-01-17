@@ -707,11 +707,13 @@ node.vid AS node_vid
 }
 
 function weeve_project_weeve_project($node, $op) {
-  if ($op == 'end') {
+  if ($op == 'end') {    
     $node->status = 0;
     $node->promote = 0;
-    $node->field_project_status[0]['value'] = 'archive';
-    node_save($node);
+    if ($node->field_project_status[0]['value'] != 'cancel') {
+      $node->field_project_status[0]['value'] = 'archive';
+    }
+    node_save($node);   
   }
 }
 
