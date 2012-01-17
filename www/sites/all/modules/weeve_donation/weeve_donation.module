@@ -1,5 +1,5 @@
 <?php
-
+define('WEEVE_PROJECT_SUCCESS_PERCENT', 25);
 /*
  * Implementation hook_init
  */
@@ -271,19 +271,14 @@ function weeve_donation_settings_form() {
  */
 function weeve_donation_weeve_project(&$node, $op) {
   if ($op == 'end') {
-
-    //@todo check status project here
-
     // success project
-    if (true) {
+    if ($node->field_project_percent_pledge >= WEEVE_PROJECT_SUCCESS_PERCENT
+            && $node->field_project_status[0]['value'] != 'cancel') {
+    //Project is 25%+ successfull, finished and not cancelled.
       weeve_donation_pay_success_project($node->nid);
-    }
-
-    // failed project
-    if (false) {
+    } else {
       weeve_donation_mark_archive_payments_by_nid($node->nid);
     }
-
   }
 }
 
