@@ -84,7 +84,7 @@
       nid  = Drupal.settings.weeveProject.nid;
       uid  = Drupal.settings.weeveProject.uid;
       $('#amount').css({border: '1px solid #AAAAAA'});
-      if (re.test(amount)) {
+      if (re.test(amount) && amount >= 1) {
         $('.loader').css('display', 'block');
         $('#donate-submit').hide();
         $.ajax({
@@ -103,6 +103,12 @@
         });
       } else {
         $('#amount').css({border: '2px solid red'});
+      }
+    });
+
+    $('#amount', context).keypress(function(e) {
+      if (e.keyCode == 13) {
+        $('#donate-submit').click();
       }
     });
 
