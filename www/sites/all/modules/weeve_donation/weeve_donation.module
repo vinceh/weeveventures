@@ -173,6 +173,16 @@ function weeve_donation_get_preapproval_by_nid($nid) {
   return $donations;
 }
 
+function weeve_donation_get_preapproval_by_uid($uid) {
+  $query = "SELECT * FROM {weeve_preapproval_payments} WHERE uid = %d";
+  $result = db_query($query, $uid);
+  $donations = array();
+  while ($row = db_fetch_object($result)) {
+    $donations[$row->preapproval_key] = $row;
+  }
+  return $donations;
+}
+
 function weeve_donation_mark_archive_payments_by_nid($nid) {
   $query = "UPDATE {weeve_preapproval_payments} SET archived = %d WHERE nid = %d";
   db_query($query, 1, $nid);
