@@ -21,6 +21,20 @@ function weeve_donation_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['ajax/donation/cancel'] = array(
+    'title' => '',
+    'access callback' => TRUE,
+    'page callback' => 'weeve_donation_cancel_ajax_callback',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['ajax/donation/edit'] = array(
+    'title' => '',
+    'access callback' => TRUE,
+    'page callback' => 'weeve_donation_edit_ajax_callback',
+    'type' => MENU_CALLBACK,
+  );
+
   $items['donation/preapproval_payment/success'] = array(
     'title' => '',
     'access callback' => TRUE,
@@ -73,6 +87,7 @@ function weeve_donation_ajax_callback() {
     if ($resArray['responseEnvelope.ack'] == 'Success') {
 
       $donation_info = array(
+        'op' => 'create',
         'node' => $node,
         'user' => $user,
         'amount' => $amount,
@@ -93,6 +108,85 @@ function weeve_donation_ajax_callback() {
   drupal_json($response);
   exit(0);
 }
+
+/*
+ * Cancel donate
+ */
+function weeve_donation_cancel_ajax_callback() {
+  //@todo: add secure token
+  $response = array('status' => false);
+  if (isset($_POST['pid']) && check_plain($_POST['pid'])) {
+    $response['status'] = TRUE;
+    $pid = $_POST['pid'];
+    $preapproval = weeve_donation_get_preapproval_by_pid($pid);
+    $node = node_load($preapproval->nid);
+    $resArray = weeve_donation_preapproval_cancel($preapproval->preapproval_key);
+    if ($resArray['responseEnvelope.ack'] == 'Success') {
+      weeve_donation_remove_preapproval($pid);
+      $donate = array(
+        'donors' => weeve_donation_get_donors_by_project($node->nid),
+        'total_amount' => weeve_donation_get_total_donated_by_nid($node->nid),
+      );
+      module_invoke_all('weeve_donation', $node, 'remove_preapproval', $donate);
+
+      $response['url'] = $_SERVER['HTTP_REFERER'];
+    }
+    $response['data'] = $resArray;
+  }
+  drupal_json($response);
+  exit(0);
+}
+
+/*
+ * Edit preapproval donate
+ */
+function weeve_donation_edit_ajax_callback() {
+  //@todo: add secure token
+  $response = array('status' => false);
+
+  if (isset($_POST['amount']) && check_plain($_POST['amount']) && isset($_POST['pid']) && check_plain($_POST['pid'])) {
+    $amount = $_POST['amount'];
+    $pid = $_POST['pid'];
+
+    // load exist preapproval payment
+    $preapproval = weeve_donation_get_preapproval_by_pid($pid);
+
+    // cancel exist preapproval key
+    $cancel_response = weeve_donation_preapproval_cancel($preapproval->preapproval_key);
+
+    // create new preapproval key with new amount value
+    $nid = $preapproval->nid;
+    $node = node_load($nid);
+    $resArray = weeve_donation_preapproval(date('Y-m-d'), $node->field_project_end[0]['value'], $amount);
+
+    $response['status'] = TRUE;
+    $response['data'] = $resArray;
+    if ($resArray['responseEnvelope.ack'] == 'Success') {
+
+      $donation_info = array(
+        'op' => 'edit',
+        'pid' => $pid,
+        'amount' => $amount,
+        'node' => $node,
+        'donors' => weeve_donation_get_donors_by_project($nid),
+        'pp_response' => $resArray,
+      );
+
+      $_SESSION['donation_info'] = $donation_info;
+      $sandbox = variable_get('pp_api_sandbox', 1);
+      $url = weeve_donation_redirect('_ap-preapproval', $resArray['preapprovalKey'], $sandbox);
+      $response['url'] = $url;
+    }
+    else {
+      drupal_set_message(t('Error. Your donation not saved'), 'error');
+      $response['url'] = $_SERVER['HTTP_REFERER']; // redirect on project page
+    }
+  }
+
+  drupal_json($response);
+  exit(0);
+}
+
 
 /*
  * Save or Edit donation
@@ -127,8 +221,15 @@ function weeve_donation_preapproval_payment_save($amount, $uid, $nid, $preapprov
 function weeve_donation_preapproval_payment_success_callback() {
   $donate = $_SESSION['donation_info'];
   unset($_SESSION['donation_info']);
-  $preapproval_payment = weeve_donation_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey'], 0, 0, null, time());
-  module_invoke_all('weeve_donation', $donate['node'], 'create_preapproval', $donate);
+  if ($donate['op'] == 'create') {
+    $preapproval_payment = weeve_donation_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey'], 0, 0, null, time());
+    $donate['total_amount'] = weeve_donation_get_total_donated_by_nid($donate['node']->nid);
+    module_invoke_all('weeve_donation', $donate['node'], 'create_preapproval', $donate);
+  } else if ($donate['op'] == 'edit') {
+    $preapproval_payment = weeve_donation_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey'], 0, 0, $donate['pid'], null, time());
+    $donate['total_amount'] = weeve_donation_get_total_donated_by_nid($donate['node']->nid);
+    module_invoke_all('weeve_donation', $donate['node'], 'edit_preapproval', $donate);
+  }
   drupal_set_message(t('Your donate has beed saved'));
   drupal_goto();
 }
@@ -167,6 +268,33 @@ function weeve_donation_redirect($cmd, $key, $sandbox) {
   return $payPalURL;
 }
 
+
+function weeve_donation_get_preapproval_key_by_pid($pid) {
+  $query = "SELECT preapproval_key FROM {weeve_preapproval_payments} WHERE pid = %d";
+  $key = db_result(db_query($query, $pid));
+  return $key;
+}
+
+function weeve_donation_get_preapproval_by_pid($pid) {
+  $query = "SELECT * FROM {weeve_preapproval_payments} WHERE pid = %d";
+  while ($row = db_fetch_object(db_query($query, $pid))) {
+    return $row;
+  }
+}
+
+function weeve_donation_remove_preapproval($pid) {
+  $query = "DELETE FROM {weeve_preapproval_payments} WHERE pid = %d";
+  db_query($query, $pid);
+}
+
+function weeve_donation_get_total_donated_by_nid($nid) {
+  $query = 'SELECT SUM(amount) as total_amount FROM {weeve_preapproval_payments} WHERE nid = %d AND archived = %d';
+  $result = db_result(db_query($query, $nid, 0));
+  if (!$result) {
+    $result = 0;
+  }
+  return $result;
+}
 
 function weeve_donation_get_preapproval_by_nid($nid) {
   $query = "SELECT * FROM {weeve_preapproval_payments} WHERE nid = %d AND paid = %d AND archived = %d";
@@ -408,5 +536,8 @@ function weeve_donation_pay($key, $receiver, $amount, $memo) {
 
 
 function weeve_donation_test_callback() {
+  $donors = weeve_donation_get_donors_by_project(39);
+  $amount = weeve_donation_get_total_donated_by_nid(37);
+  kpr($amount);
   die;
 }

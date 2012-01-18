@@ -88,6 +88,15 @@ function weeve_account_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['account/%/donated'] = array(
+    'title' => '',
+    'access callback' => 'weeve_account_owner_access',
+    'access arguments' => array(1),
+    'page callback' => 'weeve_account_donated_page',
+    'page arguments' => array(1),
+    'type' => MENU_CALLBACK,
+  );
+
   $items['ajax/login'] = array(
     'title' => '',
     'access callback' => 'user_is_anonymous',
@@ -124,6 +133,10 @@ function weeve_account_theme() {
     'weeve_user_account_following' => array(
       'template' => 'tpl/weeve_user_account_following_content'
     ),
+    'weeve_user_account_donated' => array(
+      'arguments' => array('projects' => NULL),
+      'template' => 'tpl/weeve_user_account_donated_content'
+     ),
     'weeve_npo_account_about' => array(
       'arguments' => array('account' => NULL, 'profile' => NULL),
       'template' => 'tpl/weeve_npo_account_about_content'
@@ -769,4 +782,26 @@ function weeve_account_build_donation_history($donations) {
     $history[$date][$key] = $donate;
   }
   return $history;
+}
+
+function weeve_account_donated_page($uid) {
+  $user_info = weeve_account_load_user($uid);
+  $type = weeve_account_check_type($user_info['user']);
+  if ($type == 'user') {
+    $donations = weeve_donation_get_preapproval_by_uid($uid, 0, 0);
+    foreach ($donations as $donate) {
+      $node = node_load($donate->nid);
+      $dateTime = date_parse_from_format('Y-m-d\TH:i:s', $node->field_project_end[0]['value']);
+      $timestamp = mktime((int)$dateTime['hour'], (int)$dateTime['minute'], (int)$dateTime['second'], (int)$dateTime['month'], (int)$dateTime['day'], (int)$dateTime['year']);
+      $left =  round(($timestamp - time()) / 86400);
+      $node->days_left = $left;
+      $projects[$donate->pid]['node'] = $node;
+      $projects[$donate->pid]['donate'] = $donate;
+    }
+    $content = theme('weeve_user_account_donated', $projects);
+    $output = theme('weeve_user_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
+    return $output;
+  } else {
+    drupal_access_denied();
+  }
 }

@@ -38,7 +38,7 @@ function weeve_donation_schema() {
       ),
       'amount' => array(
         'type' => 'varchar',
-        'length' => 255,
+        'default' => 0,
         'not null' => TRUE,
       ),
       'paid' => array(
@@ -52,7 +52,7 @@ function weeve_donation_schema() {
         'default' => 0,
       ),
       'preapproval_key' => array(
-        'type' => 'varchar',
+        'type' => 'int',
         'length' => 255,
         'not null' => TRUE,
       ),
