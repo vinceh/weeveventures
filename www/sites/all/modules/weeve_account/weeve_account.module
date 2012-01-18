@@ -17,7 +17,8 @@ function weeve_account_menu() {
 
   $items['account'] = array(
     'title' => '',
-    'access callback' => true,
+    'access callback' => 'weeve_account_view_access',
+    'access arguments' => array(1),
     'page callback' => 'weeve_account_page',
     'type' => MENU_CALLBACK,
   );
@@ -107,6 +108,19 @@ function weeve_account_menu() {
 
   return $items;
 }
+
+function weeve_account_view_access($uid = null) {
+  if (!$uid) {
+    global $user;
+
+    if (!$user->uid) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 /*
  * Implementation hook_menu_alter
  */
@@ -519,6 +533,10 @@ function weeve_account_page($uid = null) {
   if (!$uid) {
     global $user;
     $uid = $user->uid;
+  }
+
+  if (!$uid) {
+    drupal_goto('signup');
   }
   $user_info = weeve_account_load_user($uid);
   $account_type = weeve_account_check_type($user_info['user']);

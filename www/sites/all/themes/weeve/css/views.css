@@ -17,7 +17,7 @@
 
 #block-views-featured_projects-block_1 {
   clear: both;
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 #block-views-featured_projects-block_1 h2,
@@ -28,6 +28,10 @@
 
 .view-featured-projects.front-page .view-header h4 {
   margin-top: 35px;
+}
+
+#block-views-featured_projects-block_1 h4 {
+  margin-top: 0px;
 }
 
 .view-featured-projects.front-page .view-header h2 {

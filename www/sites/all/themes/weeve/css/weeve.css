@@ -1493,6 +1493,7 @@ a.profile-link.active {
 	border-radius: 5px;
 	margin: 0px 22px;
 	box-shadow: 0px 0px 4px #aaaaaa;
+  color: #444;
 }
 
 .signup-choice-wrap:hover {
