@@ -8,7 +8,7 @@
 		<div class='stats-title'><?php print t('Donated Total'); ?></div>
 	</div>
 </div>
-
+<?php if (!empty($account->history)): ?>
 <?php foreach($account->history as $date => $donates): ?>
   <div class='profile-main-title'><?php print $date; ?></div>
     <?php foreach ($donates as $donate): ?>
@@ -19,3 +19,6 @@
       </div>
     <?php endforeach; ?>
 <?php endforeach; ?>
+<?php else: ?>
+  <div class='profile-main-title'><?php print t('No history yet'); ?></div>
+<?php endif; ?>

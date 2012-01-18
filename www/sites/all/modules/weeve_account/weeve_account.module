@@ -743,6 +743,9 @@ function weeve_account_get_count_projects_funded($uid) {
 function weeve_account_get_total_donated($uid) {
   $query = 'SELECT SUM(amount) as total_amount FROM {weeve_preapproval_payments} WHERE uid = %d AND paid = %d AND archived =  %d';
   $result = db_result(db_query($query, $uid, 1, 0));
+  if (!$result) {
+    $result = 0;
+  }
   return $result;
 }
 
