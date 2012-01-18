@@ -65,10 +65,13 @@ input.form-submit.signup-submit:hover {
   border: 2px solid red;
 }
 
+.signup-form .form-item {
+  margin-top: 0px;
+}
 
 .signup-form .description {
 	font-size: 12px;
-	padding: 2px 0px 12px 6px;
+	padding: 2px 0px 0px 6px;
 	color: #505050 ;
 }
 
