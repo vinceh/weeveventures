@@ -183,6 +183,7 @@ a {
 }
 
 .confirm-content-title {
+	font-weight: bold;
 	font-size: 20px;
 	margin-bottom: 20px;
 }
@@ -263,9 +264,11 @@ a {
 	border-radius: 3px;
 	border: 1px solid #aaa;
 	outline: none;
-	padding: 10px 10px 10px 40px;
+	padding: 10px 10px 7px 30px;
 	width: 130px;
 	margin-top: 30px;
+	background: url('dollar-sign.png') no-repeat 9px center;
+	background-origin: padding-box;
 }
 
 .popupinput:focus {
