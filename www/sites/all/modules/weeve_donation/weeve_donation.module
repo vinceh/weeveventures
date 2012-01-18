@@ -97,7 +97,7 @@ function weeve_donation_ajax_callback() {
 /*
  * Save or Edit donation
  */
-function weeve_donation_preapproval_payment_save($amount, $uid, $nid, $preapproval_key, $paid = 0, $archived = 0, $pid = null) {
+function weeve_donation_preapproval_payment_save($amount, $uid, $nid, $preapproval_key, $paid = 0, $archived = 0, $pid = null, $created = null, $updated = null) {
   $donate = new stdClass();
   $donate->uid = $uid;
   $donate->nid = $nid;
@@ -105,7 +105,12 @@ function weeve_donation_preapproval_payment_save($amount, $uid, $nid, $preapprov
   $donate->paid = $paid;
   $donate->archived = $archived;
   $donate->preapproval_key = $preapproval_key;
-
+  if ($created) {
+    $donate->created = $created;
+  }
+  if ($updated) {
+    $donate->updated = $updated;
+  }
   if ($pid) {
     $donate->pid = $pid;
     drupal_write_record('weeve_preapproval_payments', $donate, 'pid');
@@ -122,7 +127,7 @@ function weeve_donation_preapproval_payment_save($amount, $uid, $nid, $preapprov
 function weeve_donation_preapproval_payment_success_callback() {
   $donate = $_SESSION['donation_info'];
   unset($_SESSION['donation_info']);
-  $preapproval_payment = weeve_donation_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey']);
+  $preapproval_payment = weeve_donation_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey'], 0, 0, null, time());
   module_invoke_all('weeve_donation', $donate['node'], 'create_preapproval', $donate);
   drupal_set_message(t('Your donate has beed saved'));
   drupal_goto();
@@ -173,15 +178,30 @@ function weeve_donation_get_preapproval_by_nid($nid) {
   return $donations;
 }
 
+function weeve_donation_get_preapproval_by_uid($uid, $paid = null, $archived = null) {
+  $query = "SELECT * FROM {weeve_preapproval_payments} WHERE uid = %d";
+  if ($paid || $archived) {
+    $query .= ' AND paid = %d AND archived = %d';
+  }
+
+  $result = db_query($query, $uid, $paid, $archived);
+  $donations = array();
+  while ($row = db_fetch_object($result)) {
+    $donations[$row->preapproval_key] = $row;
+  }
+  return $donations;
+}
+
 function weeve_donation_mark_archive_payments_by_nid($nid) {
-  $query = "UPDATE {weeve_preapproval_payments} SET archived = %d WHERE nid = %d";
-  db_query($query, 1, $nid);
+  $query = "UPDATE {weeve_preapproval_payments} SET archived = %d, updated = %d WHERE nid = %d";
+  db_query($query, 1, time(), $nid);
 }
 
 function weeve_donation_set_paid($pid) {
   $donate = new stdClass();
   $donate->pid = $pid;
   $donate->paid = 1;
+  $donate->updated = time();
   drupal_write_record('weeve_preapproval_payments', $donate, 'pid');
   return $donate;
 }
@@ -190,6 +210,7 @@ function weeve_donation_set_archived($pid) {
   $donate = new stdClass();
   $donate->pid = $pid;
   $donate->archived = 1;
+  $donate->updated = time();
   drupal_write_record('weeve_preapproval_payments', $donate, 'pid');
   return $donate;
 }
