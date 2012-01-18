@@ -60,6 +60,7 @@ a {
   padding-bottom: 32000px;
   border-right: 1px solid #e5e5e5;
   margin-right: 5px;
+  margin-top: 105px;
 }
 
 #center #main-content {  
@@ -145,7 +146,7 @@ a {
 }
 
 #block-weeve_project-2 {
-  margin-top: 105px;
+  margin-top: 0px;
 }
 
 #block-weeve_project-2 h2 {
