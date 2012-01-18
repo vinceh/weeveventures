@@ -56,6 +56,16 @@ function weeve_donation_schema() {
         'length' => 255,
         'not null' => TRUE,
       ),
+      'created' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'updated' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
     ),
     'primary key' => array('pid'),
   );

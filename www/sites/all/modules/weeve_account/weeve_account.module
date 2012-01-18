@@ -489,7 +489,10 @@ function weeve_account_load_user($uid) {
   if ($account_type == 'user') {
     if (module_exists('weeve_donation')) {
       $user->projects_funded = weeve_account_get_count_projects_funded($uid);
-      $user->donated = weeve_account_get_total_donated($uid);;
+      $user->donated = weeve_account_get_total_donated($uid);
+      $donations = weeve_donation_get_preapproval_by_uid($uid, 1, 0);
+      $history = weeve_account_build_donation_history($donations);
+      $user->history = $history;
     }
   }
   $result['user'] = $user;
@@ -749,4 +752,18 @@ function weeve_account_get_total_donors($uid) {
   WHERE n.uid = %d";
   $donors = db_result(db_query($query, $uid));
   return $donors;
+}
+
+function weeve_account_build_donation_history($donations) {
+  $history = array();
+  foreach ($donations as $key => $donate) {
+    $timestamp = $donate->created;
+    $date = date('F, Y', $timestamp);
+
+    $sql = 'SELECT title FROM {node} WHERE nid = %d';
+    $donate->project_title = db_result(db_query($sql, $donate->nid));
+
+    $history[$date][$key] = $donate;
+  }
+  return $history;
 }
