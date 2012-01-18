@@ -107,6 +107,7 @@
  							"<input type='text' class='popupinput' value='"+ amount +"'/><div class='popupinputhint'>Any amount you want!<br/>$1 minimum please</div>" +
               "<input class='preapproval-id' type='hidden' value='" + pid + "'>"+
  							"<button class='popupsubmit edit-donate weeve-medium-button'>Continue to PayPal</button>" +
+              "<img class='loader' src=" + Drupal.settings.basePath + 'sites/all/themes/weeve/img/ajax-loader.gif' + ">" +
  							"<a ' class='popupcancel weeve-link'>Cancel Donation</a>"
  					   "</div>";
  		var rightwrap = "<div class='popupright'>" +
@@ -313,7 +314,8 @@
     $('.edit-donate', context).click(function(e) {
       var pid = $('.preapproval-id').val()
         , amount = $('.popupinput').val();
-
+      $('.loader').css('display', 'block');
+      $('.donate-cancel').hide();
       $.ajax({
         url: Drupal.settings.basePath + 'ajax/donation/edit',
         type: "POST",
