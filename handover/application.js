@@ -97,7 +97,7 @@ $(window).load( function() {
 		var confirm = "<div class='cancelConfirm'>" +
 				"<div class='cancelConfirm-content'>" +
 				"<div class='confirm-content-title'>Cancel your project</div>"+
-				"<div class='confirm-content-text'>Are you sure you want to cancel your project?  All project cancellations will be reviewed by Admins with a follow-up.</div>" +
+				"<div class='confirm-content-text'>Are you sure you want to cancel your project?  If your project is cancelled, users will no longer be able to donate to your project and all current donations will be cancelled.  All project cancellations will be reviewed by Admins with a follow-up.</div>" +
 				"<div class='confirm-content-label'>Please tell us why you want to cancel the project.</div>" +
 				"<textarea class='confirm-content-textarea'></textarea>" +
 				"<button class='weeve-medium-button submit'>Cancel Project</button><a class='weeve-link'>go back</a></div>"
