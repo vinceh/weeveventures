@@ -804,8 +804,8 @@ function weeve_project_weeve_project($node, $op) {
  * Implementation hook_donation
  */
 function weeve_project_weeve_donation($node, $op, $donation_info = null) {
-  if ($op == 'create_preapproval') {
-    $node->field_project_amount_pledge[0]['amount'] = $node->field_project_amount_pledge[0]['amount'] + $donation_info['amount'];
+  if ($op == 'create_preapproval' || $op == 'edit_preapproval' || $op == 'remove_preapproval') {
+    $node->field_project_amount_pledge[0]['amount'] = $donation_info['amount'];
     $node->field_project_donors[0]['value'] = $donation_info['donors'];
     node_save($node);
   }
