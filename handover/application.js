@@ -31,6 +31,90 @@ $(window).load( function() {
 		return false;
 	});
 	
+	$('.follow-link').click( function() {
+		
+		popupConfirm();
+	});
+	
+	function popupConfirm() {
+
+		var body = $("body");
+		body.append("<div class='backdrop'></div>");
+
+		var backdrop = $(".backdrop");
+
+		var popupwrap = $("<div class='popupwrap'></div>");
+		body.prepend(popupwrap);
+
+		var popup = $("<div class='popupConfirm'></div>");
+
+		$(window).resize(function() {
+
+			var windowheight = $(window).height();
+			var popupheight = popup.outerHeight();
+
+			popup.css("margin-top", (windowheight - popupheight)/2);
+		});
+
+		popupwrap.append(popup);
+
+		popupwrap.click( function() {
+
+			$(this).remove();
+			backdrop.remove();
+			$('body').css('overflow', 'scroll');
+		});
+
+		popup.click( function() {
+			return false;
+		});
+
+		var leftwrap = "<div class='popupleft'>" +
+							"<div class='popuptitle'>Manage your donation</div>" +
+							"<div class='popupcontent'>This is your donation for the <a class='weeve-link'>New Shelter for Women and Children</a> project!  Make sure you review the 'Things to know' to the right before you make changes to your donation!</div>" +
+							"<div class='popupcontent'>Enter the new amount below.</div>" +
+							"<input type='text' class='popupinput'></input><div class='popupinputhint'>Any amount you want!<br/>$1 minimum please</div>" +
+							"<button class='popupsubmit weeve-medium-button'>Continue to PayPal</button>" +
+							"<a class='popupcancel weeve-link'>Cancel Donation</a>"
+					   "</div>";
+		var rightwrap = "<div class='popupright'>" +
+							"<div class='fintprinttitle'>Things to know</div>" +
+							"<div class='fintprint'>To change your donation, enter a new amount in the box.  This new amount will not add to your previous donation.</div>" +
+							"<div class='fintprint'>If the project is successful, your credit card will be charged on Friday, Jan 20, 11:59pm EST.</div>" +
+							"<div class='fintprint'>You can cancel your donation by clicking the 'Cancel Donation' link.</div>" +
+						"</div>";
+		var title = "<div class='popuptitle'>Make your donation</div>";
+		var projectname = "<div class='project'>New Shelter for Women and Chidlren</div>";
+		
+		var close = $("<div class='popupclose weeve-link'>close</div>");
+		
+		close.click( function() {
+			popupwrap.remove();
+			backdrop.remove();
+			$('body').css('overflow', 'scroll');
+		});
+		
+		var confirm = "<div class='cancelConfirm'>" +
+				"<div class='cancelConfirm-content'>" +
+				"<div class='confirm-content-title'>Cancel your project</div>"+
+				"<div class='confirm-content-text'>Are you sure you want to cancel your project?  All project cancellations will be reviewed by Admins with a follow-up.</div>" +
+				"<div class='confirm-content-label'>Please tell us why you want to cancel the project.</div>" +
+				"<textarea class='confirm-content-textarea'></textarea>" +
+				"<button class='weeve-medium-button submit'>Cancel Project</button><a class='weeve-link'>go back</a></div>"
+		"</div>";
+		
+		
+		popup.append(leftwrap);
+		popup.append(rightwrap);
+		popup.append(close);
+		popup.append(confirm);
+		
+
+		$('body').css('overflow', 'hidden');
+		
+		$(window).resize();
+	}
+	
 	function popup3() {
 
 		var body = $("body");
