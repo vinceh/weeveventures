@@ -1,3 +1,4 @@
+<?php if (!empty($projects)):?>
 <?php foreach($projects as $project): ?>
 <div class='donated-project'>
   <input type="hidden" class="preapproval-amount" value="<?php print $project['donate']->amount; ?>">
@@ -36,3 +37,6 @@
 	</div>
 </div>
 <?php endforeach; ?>
+<?php else: ?>
+        <p>No donated projects</p>
+<?php endif; ?>  
