@@ -266,7 +266,7 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     $node->native_body = $node->body;
     $author = node_load(array('uid' => $node->uid, 'type' => 'profile'));
     $node->author = $author;
-    drupal_add_js(array('weeveProject' => array('nid' => $node->nid, 'uid' => $user->uid)), 'setting');
+    drupal_add_js(array('weeveProject' => array('nid' => $node->nid, 'uid' => $user->uid, 'end_date' => date_format(date_make_date($node->field_project_end[0]['value']), 'L, M j, 11:59p\m'))), 'setting');
   }
 
   if ($op == 'view' && $node->type == 'project_update') {
