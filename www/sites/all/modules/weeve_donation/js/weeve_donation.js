@@ -12,13 +12,12 @@
 
     var popup = $("<div class='popup'></div>");
 
-    $(window).resize(function () {
-
-      var windowheight = $(window).height();
-      var popupheight = popup.outerHeight();
-
-      popup.css("margin-top", (windowheight - popupheight) / 2);
-    });
+    $(window).resize(function() {
+        var w = $(window);
+        popup.css("position","absolute");
+        popup.css("top",(w.height()-popup.height())/2+w.scrollTop() + "px");
+        popup.css("left",(w.width()-popup.width())/2+w.scrollLeft() + "px");
+  		});
 
     popupwrap.append(popup);
 
@@ -80,11 +79,10 @@
  		var popup = $("<div class='popup'></div>");
 
  		$(window).resize(function() {
-
- 			var windowheight = $(window).height();
- 			var popupheight = popup.outerHeight();
-
- 			popup.css("margin-top", (windowheight - popupheight)/2);
+       var w = $(window);
+       popup.css("position","absolute");
+       popup.css("top",(w.height()-popup.height())/2+w.scrollTop() + "px");
+       popup.css("left",(w.width()-popup.width())/2+w.scrollLeft() + "px");
  		});
 
  		popupwrap.append(popup);
@@ -131,9 +129,9 @@
  		popup.append(rightwrap);
  		popup.append(close);
 
- 		$('body').css('overflow', 'hidden');
+    $('body').css('overflow', 'hidden');
 
- 		$(window).resize();
+    $(window).resize();
  	}
 
   function popup3(left, right, title, link, amount) {
@@ -147,18 +145,16 @@
 
    		var popup = $("<div class='popup'></div>");
 
-   		$(window).resize(function() {
-
-   			var windowheight = $(window).height();
-   			var popupheight = popup.outerHeight();
-
-   			popup.css("margin-top", (windowheight - popupheight)/2);
-   		});
+    $(window).resize(function() {
+        var w = $(window);
+        popup.css("position","absolute");
+        popup.css("top",(w.height()-popup.height())/2+w.scrollTop() + "px");
+        popup.css("left",(w.width()-popup.width())/2+w.scrollLeft() + "px");
+  		});
 
    		popupwrap.append(popup);
 
    		popupwrap.click( function() {
-
    			$(this).remove();
    			backdrop.remove();
    			$('body').css('overflow', 'scroll');
@@ -287,6 +283,7 @@
     $('.confirm-content a', context).click(function() {
       $('.popupwrap').remove();
       $('.backdrop').remove();
+      $('body').css('overflow', 'scroll');
     });
 
 
