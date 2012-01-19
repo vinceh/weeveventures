@@ -103,7 +103,7 @@ function weeve_donation_ajax_callback() {
         'node' => $node,
         'user' => $user,
         'amount' => $amount,
-        'donors' => weeve_donation_get_donors_by_project($nid),
+
         'pp_response' => $resArray,
       );
       $_SESSION['donation_info'] = $donation_info;
@@ -234,6 +234,7 @@ function weeve_donation_preapproval_payment_success_callback() {
   if ($donate['op'] == 'create') {
     $preapproval_payment = weeve_donation_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey'], 0, 0, null, time());
     $donate['total_amount'] = weeve_donation_get_total_donated_by_nid($donate['node']->nid);
+    $donate['donors'] = weeve_donation_get_donors_by_project($donate['node']->nid);
     module_invoke_all('weeve_donation', $donate['node'], 'create_preapproval', $donate);
   } else if ($donate['op'] == 'edit') {
     $preapproval_payment = weeve_donation_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey'], 0, 0, $donate['pid'], null, time());
@@ -546,8 +547,8 @@ function weeve_donation_pay($key, $receiver, $amount, $memo) {
 
 
 function weeve_donation_test_callback() {
-  $donors = weeve_donation_get_donors_by_project(39);
+  $donors = weeve_donation_get_donors_by_project(37);
   $amount = weeve_donation_get_total_donated_by_nid(37);
-  kpr($amount);
+  kpr($donors);
   die;
 }
