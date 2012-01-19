@@ -104,7 +104,7 @@
  							"<div class='popuptitle'>Manage your donation</div>" +
  							"<div class='popupcontent'>This is your donation for the <a class='weeve-link' href='"+ link +"'>" + title + "</a> project!  Make sure you review the 'Things to know' to the right before you make changes to your donation!</div>" +
  							"<div class='popupcontent'>Enter the new amount below.</div>" +
- 							"<input type='text' class='popupinput' value='"+ amount +"'/><div class='popupinputhint'>Any amount you want!<br/>$1 minimum please</div>" +
+ 							"<input id='amount-edit' type='text' class='popupinput' value='"+ amount +"'/><div class='popupinputhint'>Any amount you want!<br/>$1 minimum please</div>" +
               "<input class='preapproval-id' type='hidden' value='" + pid + "'>"+
  							"<button class='popupsubmit edit-donate weeve-medium-button'>Continue to PayPal</button>" +
               "<img class='loader' src=" + Drupal.settings.basePath + 'sites/all/themes/weeve/img/ajax-loader.gif' + ">" +
@@ -292,7 +292,12 @@
 
     $('.donate-cancel', context).click(function(e) {
       e.preventDefault();
-      $('.loader').css('display', 'inline-block');
+      $('.loader').css({'display': 'inline-block',
+                         'margin-left': '30px',
+                         'margin-top': '30px',
+                         'padding-right': '15px',
+                         'position': 'relative',
+                         'top': '10px'});
       $('.donate-cancel').hide();
       var pid = $('.preapproval-id').val();
       $.ajax({
@@ -314,8 +319,13 @@
     $('.edit-donate', context).click(function(e) {
       var pid = $('.preapproval-id').val()
         , amount = $('.popupinput').val();
-      $('.loader').css('display', 'block');
-      $('.donate-cancel').hide();
+      $('.edit-donate').hide();
+      $('.loader').css({'display': 'inline-block',
+                        'padding-left': '25px',
+                        'padding-right': '10px',
+                        'position': 'relative',
+                        'right': '20px',
+                        'top': '10px'});
       $.ajax({
         url: Drupal.settings.basePath + 'ajax/donation/edit',
         type: "POST",
@@ -330,8 +340,12 @@
           }
         }
       });
+    });
 
-
+    $('#amount-edit', context).keypress(function(e) {
+      if (e.keyCode == 13) {
+        $('.edit-donate').click();
+      }
     });
   }
 })(jQuery);

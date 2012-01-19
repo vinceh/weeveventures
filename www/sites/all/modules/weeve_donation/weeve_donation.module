@@ -139,7 +139,7 @@ function weeve_donation_cancel_ajax_callback() {
         'total_amount' => weeve_donation_get_total_donated_by_nid($node->nid),
       );
       module_invoke_all('weeve_donation', $node, 'remove_preapproval', $donate);
-
+      drupal_set_message(t('Your donation cancelled'), 'status');
       $response['url'] = $_SERVER['HTTP_REFERER'];
     }
     $response['data'] = $resArray;
