@@ -13,7 +13,7 @@
 		</div>
 		<!--<div class='proj-subtitle'></div>-->
 		<div class='proj-paragraph'>
-			<?php print $project['node']->teaser; ?>
+			<?php print preg_replace('#<img[^>]+>#i', '', $project['node']->teaser); ?>
 		</div>
 		<div class='project-location-wrap'>
 			<img src='<?php print url(drupal_get_path('theme', 'weeve') .'/img/icon-location.png') ?>'/>
