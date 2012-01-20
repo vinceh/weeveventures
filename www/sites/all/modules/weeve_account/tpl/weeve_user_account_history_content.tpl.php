@@ -1,3 +1,4 @@
+<?php if(variable_get('account_donation_history_'. $account->uid, TRUE) || $user->uid == $account->uid): ?>
 <div class='profile-project-stats-wrap'>
 	<div class='profile-stats-wrap'>
 		<div class='stats-value'><?php print $account->projects_funded ?></div>
@@ -22,3 +23,6 @@
 <?php else: ?>
   <div class='profile-main-title'><?php print t('No history yet'); ?></div>
 <?php endif; ?>
+<?php else: ?>
+ <div><p><?php print t('The user has denied view of this information'); ?></p></div>
+<?php endif ?>

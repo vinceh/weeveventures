@@ -607,8 +607,14 @@ function weeve_account_history_page($uid) {
 }
 
 function weeve_account_following_page($uid) {
+  global $user;
   $user_info = weeve_account_load_user($uid);
-  $content = theme('weeve_user_account_following');
+  if (variable_get('account_following_'. $uid, TRUE) || $user->uid == $uid) {
+    $content = theme('weeve_user_account_following');
+  }
+  else {
+    $content = t('The user has denied view of this information');
+  }
   $output = theme('weeve_user_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
   return $output;
 }
