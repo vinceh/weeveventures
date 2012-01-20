@@ -6,8 +6,6 @@
 		  <div class='profile-edit-link'><?php print l(t('Edit Profile'), 'account/change'); ?></div>
     <?php endif; ?>
 
-		<div class='profile-info-title'><?php // print t('Information');?></div>
-
     <?php if($settings['show_location']): ?>
 		  <div class='profile-info-content'><?php print $profile->field_location[0]['value']; ?></div>
     <?php endif; ?>
