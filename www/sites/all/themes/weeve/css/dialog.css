@@ -1,0 +1,38 @@
+#project-cancel-dialog {
+  margin: 20px;
+  padding: 0px;
+  color: #555;
+}
+
+.ui-dialog {
+  border: 1px solid #888888;
+  border-radius: 3px 3px 3px 3px;
+  box-shadow: 0 0 20px #AAAAAA;
+}
+
+#project-cancel-dialog .main-text {
+  margin-bottom: 20px;
+}
+
+#project-cancel-dialog textarea {
+  margin: 10px 0px;
+  width: 415px;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  height: 100px;
+}
+
+.ui-dialog-titlebar {
+  background: transparent;
+  border: none;
+  padding: 0px !important;
+  margin: 10px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #555;
+}
+
+#project-cancel-dialog .close-dialog {
+  color: #00A0CE;
+  margin-left: 20px;
+}

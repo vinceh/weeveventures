@@ -5,7 +5,10 @@ $(document).ready(function() {
     }
     e.preventDefault();
     $(this).find('.body_small').toggle();
-    $(this).find('.body').toggle();
-    
+    $(this).find('.body').toggle();    
+  });
+
+  $('#weeve-project-edit-project-form button.cancel').click(function(e) {
+    e.preventDefault();
   });
 });

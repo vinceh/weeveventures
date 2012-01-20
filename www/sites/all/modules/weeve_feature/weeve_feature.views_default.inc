@@ -569,6 +569,19 @@ function weeve_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'project' => 'project',
   );
+  /* Filter: Node: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  /* Filter: Content: Status (field_project_status) - Allowed values */
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['id'] = 'field_project_status_value_many_to_one';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['table'] = 'node_data_field_project_status';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['field'] = 'field_project_status_value_many_to_one';
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['value'] = array(
+    'accept' => 'accept',
+  );
+  $handler->display->display_options['filters']['field_project_status_value_many_to_one']['reduce_duplicates'] = 0;
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
@@ -4211,8 +4224,8 @@ $view = views_get_current_view();
 $nid = $view->args[0];
 $node = node_load($nid);
 
-if ($node->uid == $user->uid || $user->uid == 1) {
-  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
+if (weeve_project_can_comment($nid)) {
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
 }
 ?>';
   $handler->display->display_options['header']['area']['format'] = '3';
@@ -4446,8 +4459,8 @@ $view = views_get_current_view();
 $nid = $view->args[0];
 $node = node_load($nid);
 
-if ($node->uid == $user->uid || $user->uid == 1) {
-  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
+if (weeve_project_can_comment($nid)) {
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
 }
 ?>'),
     t('No comments yet'),

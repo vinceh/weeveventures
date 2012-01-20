@@ -43,8 +43,8 @@
  *   <?php print '<pre>'. check_plain(print_r($info_split, 1)) .'</pre>'; ?>
  *
  * @see template_preprocess_search_result()
- */
-?>
+ 
+
 <dt class="title">
   <a href="<?php print $url; ?>"><?php print $title; ?></a>
 </dt>
@@ -67,3 +67,36 @@
   <?php endif; ?>
   <div class="clear-block">&nbsp;</div>
 </dd>
+*/ ?>
+
+<div class='search-project'>
+	<div class='image'>
+		<?php print theme('imagecache', 'scale_crop_215x150', $result['node']->sm_field_project_image[0]); ?>
+	</div>
+	<div class='content'>
+		<div class='proj-title'>
+      <?php print l($result['node']->title, drupal_get_path_alias('node/'. $result['node']->nid), array('attributes' => array('class' => 'weeve-link'))); ?>
+		</div>
+		<div class='proj-paragraph'>
+			<?php print $snippet; ?>
+		</div>
+		<div class='project-location-wrap'>
+			<img src='<?php print url(drupal_get_path('theme', 'weeve') .'/img/icon-location.png') ?>'/>
+			<span><?php print $result['node']->sm_field_project_location[0]; ?></span>
+		</div>
+	</div>
+	<div class='donated-history'>
+		<div class='donated-history-stat-wrap'>
+			<div class='value'><?php print $result['node']->sm_field_project_donors[0] ?></div>
+			<div class='subject'><?php print t('donors'); ?></div>
+		</div>
+		<div class='donated-history-stat-wrap'>
+			<div class='value'>$<?php print $result['node']->sm_field_project_amount_pledge[0]; ?></div>
+			<div class='subject'><?php print t('of $@amount', array('@amount' => $result['node']->sm_field_project_amount_need[0])); ?></div>
+		</div>
+		<div class='donated-history-stat-wrap'>
+			<div class='value'><?php print $result['node']->sm_field_project_end[0]; ?></div>
+			<div class='subject'><?php print t('days left'); ?></div>
+		</div>
+	</div>
+</div>

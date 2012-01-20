@@ -44,8 +44,8 @@ function weeve_project_menu() {
 
   $items['project/%/cancel'] = array(
     'title' => 'Cancel project',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('weeve_project_cancel_project_form', 1),
+    'page callback' => 'weeve_project_cancel_project',
+    'page arguments' => array(1),
     'access callback' => 'weeve_project_edit_own_project_valid',
     'access arguments' => array(1),
     'type' => MENU_CALLBACK
@@ -208,6 +208,8 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
     unset($form['body_field']['teaser_include']);
     unset($form['body_field']['format']);
     unset($form['buttons']['preview']);
+    unset($form['attachments']);
+    $form['field_update_project']['#weight'] = 50;
   }
 
   if ($form_id == 'project_request_node_form' && arg(1) == 'add') {
@@ -359,6 +361,14 @@ function weeve_project_edit_project_form($form_state, $nid) {
   $form = array();
   $node = node_load($nid);
 
+  drupal_add_js(drupal_get_path('module', 'weeve_project') . '/js/project.cancel.js');
+  jquery_ui_add('ui.dialog');
+
+  $form['cancel'] = array(
+    '#type' => 'markup',
+    '#value' => '<button class="weeve-medium-button cancel">'.t('Cancel project').'</button>'
+  );
+
   $form['title'] = array(
     '#title' => t('Title'),
     '#type' => 'textfield',
@@ -384,32 +394,33 @@ function weeve_project_edit_project_form($form_state, $nid) {
     '#type' => 'submit',
     '#value' => t('Update')
   );
-
-  if ($node->field_project_status[0]['value'] != 'cancel') {
-    $form['cancel'] = array(
-      '#type' => 'submit',
-      '#value' => t('Cancel project')
-    );
-  }
   
   $form['#redirect'] = 'node/' . $nid;
 
   return $form;
 }
 
-function weeve_project_cancel_project_form($form_state, $nid) {
+function weeve_project_cancel_project($nid) {
+  $response = array('success' => false);
+  if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    echo json_encode($response); exit;
+  }  
+
+  if (!weeve_project_edit_own_project_valid($nid)) {
+    echo json_encode($response); exit;
+  }
+
   $form = array();
   $node = node_load($nid);
-  global $user;
+  $node->field_project_cancel_notes[0]['value'] = $_POST['reason'];
+  $node->field_project_status[0]['value'] = 'cancel';
+  $node->status = 0;
+  $node->promote = 0;
 
-  $form['nid'] = array(
-    '#type' => 'hidden',
-    '#value' => $nid
-  );
+  node_save($node);
 
-  $form['#redirect'] = 'account/' . $user->uid . '/projects';
-
-  return confirm_form($form, t('Are you sure you want to cancel project "' . $node->title . '"'), 'node/' . $nid);
+  $response['success'] = true;
+  echo json_encode($response); exit;
 }
 
 function weeve_project_edit_project_form_validate($form, &$form_state) {
@@ -487,7 +498,6 @@ function weeve_project_block($op = 'list', $delta = 0) {
   else if ($op == 'view') {
     if ($delta == 0) {
       $block['subject'] = '';
-
       $query = explode('/', $_SERVER['QUERY_STRING']);
       $node = node_load(array('nid' => $query[1]));
 

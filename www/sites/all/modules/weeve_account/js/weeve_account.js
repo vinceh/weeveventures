@@ -46,7 +46,7 @@
       position = self.$loginLink.offset();
       self.position = position;
       self.$wrapper.css("left", position.left - self.$wrapper.outerWidth() + self.$loginLink.outerWidth());
-    	self.$wrapper.css("top", position.top + self.$loginLink.outerHeight() * 2 - 25);
+    	self.$wrapper.css("top", position.top + self.$loginLink.outerHeight());
     }
   };
 

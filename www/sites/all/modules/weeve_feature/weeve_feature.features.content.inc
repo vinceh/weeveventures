@@ -1039,6 +1039,68 @@ corp|Corporate',
     ),
   );
 
+  // Exported field: field_project_cancel_notes
+  $fields['project-field_project_cancel_notes'] = array(
+    'field_name' => 'field_project_cancel_notes',
+    'type_name' => 'project',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'rows' => '5',
+      'size' => 60,
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_project_cancel_notes][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Cancel notes',
+      'weight' => '19',
+      'description' => '',
+      'type' => 'text_textarea',
+      'module' => 'text',
+    ),
+  );
+
   // Exported field: field_project_donors
   $fields['project-field_project_donors'] = array(
     'field_name' => 'field_project_donors',
@@ -2147,6 +2209,7 @@ decline|Declined
   t('Business Code');
   t('Business Number');
   t('Business Website');
+  t('Cancel notes');
   t('Donors');
   t('Full Name');
   t('Location');

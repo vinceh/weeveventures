@@ -192,3 +192,10 @@
   clear: both;
 }
 
+
+/*PROJECT UPDATES*/
+.view-project-updates .view-header .weeve-medium-button,
+.view-project-comments .view-header .weeve-medium-button,
+#weeve-project-edit-project-form .weeve-medium-button {
+  margin: 20px 10px;
+}
