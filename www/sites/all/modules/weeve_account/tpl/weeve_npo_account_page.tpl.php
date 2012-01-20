@@ -7,7 +7,7 @@
 			<div class='npo-profile-header-wrap'>
         <div class="npo-profile-title-wrap">
           <div class='profile-name'><?php print $profile->field_npo_name[0]['value']; ?></div>
-          <div class="weevesubtitle profile-npo-title-location"><?php print $profile->field_location[0]['value'] .' - '.  l(t('Visit our website'), $profile->field_npo_website[0]['url']);  ?></div>
+          <div class="weevesubtitle profile-npo-title-location"><?php print $profile->field_location[0]['value'] .' - '.  l(t('Visit our website'), $profile->field_npo_website[0]['url'], array('attributes' => array('target' => '_blank')));  ?></div>
         </div>
 				<div class='profile-subname'><?php print $profile->field_npo_bio[0]['value']; ?></div>
 				<div class='npo-profile-title-links'>
@@ -24,8 +24,8 @@
 
 	<div class='profile-links'>
       <?php if (arg(0) == 'account' && !arg(2)) $active_class = ' active'; ?>
-      <?php print l(t('about'), 'account/'. $account->uid .'/about', array('attributes' => array('class' => 'profile-link'. $active_class))); ?>
-      <?php print l(t('history'), 'account/'. $account->uid .'/history', array('attributes' => array('class' => 'profile-link'))); ?>
+      <?php print l(t('about'), 'account/'. $account->uid .'/about', array('attributes' => array('class' => 'profile-link'))); ?>
+      <?php print l(t('history'), 'account/'. $account->uid .'/history', array('attributes' => array('class' => 'profile-link'. $active_class))); ?>
       <?php if($user->uid == $account->uid): ?>
         <?php print l(t('pending projects'), 'account/'. $account->uid .'/projects', array('attributes' => array('class' => 'profile-link'))); ?>
       <?php endif; ?>

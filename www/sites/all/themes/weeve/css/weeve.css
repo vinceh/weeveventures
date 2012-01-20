@@ -1195,6 +1195,7 @@ a.profile-link.active {
 
 .profile-edit-link {
 	margin-left: 5px;
+  margin-bottom: 10px;
 }
 
 .profile-main-wrapper {
@@ -1617,6 +1618,7 @@ a.profile-link.active {
 
 .popupsubmit {
 	margin-top: 30px;
+  margin-right: 10px;
 }
 
 .fintprinttitle {
@@ -1658,7 +1660,7 @@ a.profile-link.active {
 	height: 90%;
 	overflow: hidden;
 	display: inline-block;
-	margin: 10px;
+	margin: 10px 0 10px 10px;
 }
 
 .donated-content {
@@ -1671,6 +1673,7 @@ a.profile-link.active {
 
 .donated-content .manage {
 	margin-left: 10px;
+  font-size: 14px;
 }
 
 .donated-content .proj-title {
@@ -1689,7 +1692,7 @@ a.profile-link.active {
 
 .donated-history {
 	float: left;
-	width: 138px;
+	width: 147px;
 	display: inline-block;
 	background-color: #f7f7f7;
 	height: 100%;
@@ -1713,7 +1716,15 @@ a.profile-link.active {
 }
 
 .donated-image  img{
-	height: 100%;
+	display: inline-block;
+  vertical-align: middle;
+}
+
+.donated-image .helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  width: 0;
 }
 
 .projectbox:hover, .donated-project:hover {

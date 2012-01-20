@@ -627,7 +627,7 @@ Weeve team',
             '#settings' => array(
               'from' => 'weeve@localhost',
               'subject' => 'Your project"[node:title]" has been finished',
-              'message' => 'Your project"[node:title]" has been finished and archived. 
+              'message' => 'Your project"[node:title]" has been finished and archived.
 
 If you have any questions please feel free to contact us.
 

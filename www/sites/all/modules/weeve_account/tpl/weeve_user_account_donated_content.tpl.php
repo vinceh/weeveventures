@@ -1,9 +1,12 @@
+<?php if (!empty($projects)):?>
 <?php foreach($projects as $project): ?>
 <div class='donated-project'>
   <input type="hidden" class="preapproval-amount" value="<?php print $project['donate']->amount; ?>">
   <input type="hidden" class="preapproval-id" value="<?php print $project['donate']->pid; ?>">
+  <input type="hidden" class="end-date" value="<?php print date_format(date_make_date($project['node']->field_project_end[0]['value']), 'L, M j, 11:59p\m'); ?>">
 	<div class='donated-image'>
-		<?php print theme('imagecache', 'scale_crop_215x150', $project['node']->field_project_image[0]['filepath']); ?>
+		<?php print theme('imagecache', 'scale_224', $project['node']->field_project_image[0]['filepath']); ?>
+    <div class="helper"></div>
 	</div>
 	<div class='donated-content'>
 		<div class='proj-title'>
@@ -11,12 +14,14 @@
 		</div>
 		<!--<div class='proj-subtitle'></div>-->
 		<div class='proj-paragraph'>
-			<?php print $project['node']->teaser; ?>
+			<?php print preg_replace('#<img[^>]+>#i', '', $project['node']->teaser); ?>
 		</div>
 		<div class='project-location-wrap'>
 			<img src='<?php print url(drupal_get_path('theme', 'weeve') .'/img/icon-location.png') ?>'/>
 			<span><?php print $project['node']->field_project_location[0]['value']; ?></span>
-			<button class='weeve-small-button manage'>Manage Donation</button>
+			<!--<button class='weeve-small-button manage'>Manage Donation</button>-->
+      <?php print l(t('Manage Donation'), '#', array('attributes' => array('class' => 'weeve-link manage'))); ?>
+
 		</div>
 	</div>
 	<div class='donated-history'>
@@ -35,3 +40,6 @@
 	</div>
 </div>
 <?php endforeach; ?>
+<?php else: ?>
+        <p>No donated projects</p>
+<?php endif; ?>  

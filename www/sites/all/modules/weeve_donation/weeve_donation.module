@@ -16,35 +16,35 @@ function weeve_donation_menu() {
 
   $items['ajax/donation/submit'] = array(
     'title' => '',
-    'access callback' => TRUE,
+    'access callback' => 'weeve_donation_access_callback',
     'page callback' => 'weeve_donation_ajax_callback',
     'type' => MENU_CALLBACK,
   );
 
   $items['ajax/donation/cancel'] = array(
     'title' => '',
-    'access callback' => TRUE,
+    'access callback' => 'weeve_donation_access_callback',
     'page callback' => 'weeve_donation_cancel_ajax_callback',
     'type' => MENU_CALLBACK,
   );
 
   $items['ajax/donation/edit'] = array(
     'title' => '',
-    'access callback' => TRUE,
+    'access callback' => 'weeve_donation_access_callback',
     'page callback' => 'weeve_donation_edit_ajax_callback',
     'type' => MENU_CALLBACK,
   );
 
   $items['donation/preapproval_payment/success'] = array(
     'title' => '',
-    'access callback' => TRUE,
+    'access callback' => 'weeve_donation_access_callback',
     'page callback' => 'weeve_donation_preapproval_payment_success_callback',
     'type' => MENU_CALLBACK,
   );
 
   $items['donation/preapproval_payment/cancelled'] = array(
     'title' => '',
-    'access callback' => TRUE,
+    'access callback' => 'weeve_donation_access_callback',
     'page callback' => 'weeve_donation_preapproval_payment_cancelled_callback',
     'type' => MENU_CALLBACK,
   );
@@ -65,6 +65,18 @@ function weeve_donation_menu() {
 
   return $items;
 }
+
+/*
+ * Access callback
+ */
+function weeve_donation_access_callback() {
+  global $user;
+  if ($user->uid > 0) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
 
 /*
  * Submit form.
@@ -91,7 +103,7 @@ function weeve_donation_ajax_callback() {
         'node' => $node,
         'user' => $user,
         'amount' => $amount,
-        'donors' => weeve_donation_get_donors_by_project($nid),
+
         'pp_response' => $resArray,
       );
       $_SESSION['donation_info'] = $donation_info;
@@ -113,11 +125,10 @@ function weeve_donation_ajax_callback() {
  * Cancel donate
  */
 function weeve_donation_cancel_ajax_callback() {
-  //@todo: add secure token
   $response = array('status' => false);
   if (isset($_POST['pid']) && check_plain($_POST['pid'])) {
-    $response['status'] = TRUE;
     $pid = $_POST['pid'];
+    $response['status'] = TRUE;
     $preapproval = weeve_donation_get_preapproval_by_pid($pid);
     $node = node_load($preapproval->nid);
     $resArray = weeve_donation_preapproval_cancel($preapproval->preapproval_key);
@@ -128,7 +139,7 @@ function weeve_donation_cancel_ajax_callback() {
         'total_amount' => weeve_donation_get_total_donated_by_nid($node->nid),
       );
       module_invoke_all('weeve_donation', $node, 'remove_preapproval', $donate);
-
+      drupal_set_message(t('Your donation cancelled'), 'status');
       $response['url'] = $_SERVER['HTTP_REFERER'];
     }
     $response['data'] = $resArray;
@@ -141,7 +152,6 @@ function weeve_donation_cancel_ajax_callback() {
  * Edit preapproval donate
  */
 function weeve_donation_edit_ajax_callback() {
-  //@todo: add secure token
   $response = array('status' => false);
 
   if (isset($_POST['amount']) && check_plain($_POST['amount']) && isset($_POST['pid']) && check_plain($_POST['pid'])) {
@@ -224,6 +234,7 @@ function weeve_donation_preapproval_payment_success_callback() {
   if ($donate['op'] == 'create') {
     $preapproval_payment = weeve_donation_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey'], 0, 0, null, time());
     $donate['total_amount'] = weeve_donation_get_total_donated_by_nid($donate['node']->nid);
+    $donate['donors'] = weeve_donation_get_donors_by_project($donate['node']->nid);
     module_invoke_all('weeve_donation', $donate['node'], 'create_preapproval', $donate);
   } else if ($donate['op'] == 'edit') {
     $preapproval_payment = weeve_donation_preapproval_payment_save($donate['amount'], $donate['user']->uid, $donate['node']->nid, $donate['pp_response']['preapprovalKey'], 0, 0, $donate['pid'], null, time());
@@ -536,8 +547,8 @@ function weeve_donation_pay($key, $receiver, $amount, $memo) {
 
 
 function weeve_donation_test_callback() {
-  $donors = weeve_donation_get_donors_by_project(39);
+  $donors = weeve_donation_get_donors_by_project(37);
   $amount = weeve_donation_get_total_donated_by_nid(37);
-  kpr($amount);
+  kpr($donors);
   die;
 }

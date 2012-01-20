@@ -1,6 +1,6 @@
 (function() {
 
-  function popup() {
+  function popup(end) {
 
     var body = $("body");
     body.append("<div class='backdrop'></div>");
@@ -12,13 +12,12 @@
 
     var popup = $("<div class='popup'></div>");
 
-    $(window).resize(function () {
-
-      var windowheight = $(window).height();
-      var popupheight = popup.outerHeight();
-
-      popup.css("margin-top", (windowheight - popupheight) / 2);
-    });
+    $(window).resize(function() {
+        var w = $(window);
+        popup.css("position","absolute");
+        popup.css("top",(w.height()-popup.height())/2+w.scrollTop() + "px");
+        popup.css("left",(w.width()-popup.width())/2+w.scrollLeft() + "px");
+  		});
 
     popupwrap.append(popup);
 
@@ -45,8 +44,8 @@
     var rightwrap = "<div class='popupright'>" +
             "<div class='fintprinttitle'>" + Drupal.t('Things to know') + "</div>" +
             "<div class='fintprint'>" + Drupal.t('Once your enter your donation amount, you will be taken to PayPal to complete the donation process.  PayPal is secure and a trusted source for online transactions.') + "</div>" +
-            "<div class='fintprint'>" + Drupal.t('If the project is successful, your credit card will be charged on Friday, Jan 20, 11:59pm EST.') + "</div>" +
-            "<div class='fintprint'>" + Drupal.t('You can change or cancel your donation anytime before Friday, Jan 20, 11:59pm EST.') + "</div>" +
+            "<div class='fintprint'>" + Drupal.t('If the project is successful, your credit card will be charged on !end.', {'!end': end}) + "</div>" +
+            "<div class='fintprint'>" + Drupal.t('You can change or cancel your donation anytime before !end.', {'!end': end}) + "</div>" +
             "</div>";
     var title = "<div class='popuptitle'>" + Drupal.t('Make your donation') + "</div>";
     var projectname = "<div class='project'>" + Drupal.t('New Shelter for Women and Chidlren') + "</div>";
@@ -68,7 +67,7 @@
     $(window).resize();
   }
 
-  function popup2(title, link, amount, pid) {
+  function popup2(title, link, amount, pid, end) {
  		var body = $("body");
  		body.append("<div class='backdrop'></div>");
 
@@ -80,11 +79,10 @@
  		var popup = $("<div class='popup'></div>");
 
  		$(window).resize(function() {
-
- 			var windowheight = $(window).height();
- 			var popupheight = popup.outerHeight();
-
- 			popup.css("margin-top", (windowheight - popupheight)/2);
+       var w = $(window);
+       popup.css("position","absolute");
+       popup.css("top",(w.height()-popup.height())/2+w.scrollTop() + "px");
+       popup.css("left",(w.width()-popup.width())/2+w.scrollLeft() + "px");
  		});
 
  		popupwrap.append(popup);
@@ -104,7 +102,7 @@
  							"<div class='popuptitle'>Manage your donation</div>" +
  							"<div class='popupcontent'>This is your donation for the <a class='weeve-link' href='"+ link +"'>" + title + "</a> project!  Make sure you review the 'Things to know' to the right before you make changes to your donation!</div>" +
  							"<div class='popupcontent'>Enter the new amount below.</div>" +
- 							"<input type='text' class='popupinput' value='"+ amount +"'/><div class='popupinputhint'>Any amount you want!<br/>$1 minimum please</div>" +
+ 							"<input id='amount-edit' type='text' class='popupinput' value='"+ amount +"'/><div class='popupinputhint'>Any amount you want!<br/>$1 minimum please</div>" +
               "<input class='preapproval-id' type='hidden' value='" + pid + "'>"+
  							"<button class='popupsubmit edit-donate weeve-medium-button'>Continue to PayPal</button>" +
               "<img class='loader' src=" + Drupal.settings.basePath + 'sites/all/themes/weeve/img/ajax-loader.gif' + ">" +
@@ -113,7 +111,7 @@
  		var rightwrap = "<div class='popupright'>" +
  							"<div class='fintprinttitle'>Things to know</div>" +
  							"<div class='fintprint'>To change your donation, enter a new amount in the box.  This new amount will not add to your previous donation.</div>" +
- 							"<div class='fintprint'>If the project is successful, your credit card will be charged on Friday, Jan 20, 11:59pm EST.</div>" +
+ 							"<div class='fintprint'>If the project is successful, your credit card will be charged on " + end +"</div>" +
  							"<div class='fintprint'>You can cancel your donation by clicking the 'Cancel Donation' link.</div>" +
  						"</div>";
  		var title = "<div class='popuptitle'>Make your donation</div>";
@@ -131,9 +129,9 @@
  		popup.append(rightwrap);
  		popup.append(close);
 
- 		$('body').css('overflow', 'hidden');
+    $('body').css('overflow', 'hidden');
 
- 		$(window).resize();
+    $(window).resize();
  	}
 
   function popup3(left, right, title, link, amount) {
@@ -147,18 +145,16 @@
 
    		var popup = $("<div class='popup'></div>");
 
-   		$(window).resize(function() {
-
-   			var windowheight = $(window).height();
-   			var popupheight = popup.outerHeight();
-
-   			popup.css("margin-top", (windowheight - popupheight)/2);
-   		});
+    $(window).resize(function() {
+        var w = $(window);
+        popup.css("position","absolute");
+        popup.css("top",(w.height()-popup.height())/2+w.scrollTop() + "px");
+        popup.css("left",(w.width()-popup.width())/2+w.scrollLeft() + "px");
+  		});
 
    		popupwrap.append(popup);
 
    		popupwrap.click( function() {
-
    			$(this).remove();
    			backdrop.remove();
    			$('body').css('overflow', 'scroll');
@@ -210,22 +206,25 @@
   Drupal.behaviors.weeveDonation = function(context) {
     $('div.donate-button-content a', context).click(function(e) {
       e.preventDefault();
-      popup();
+      var end = Drupal.settings.weeveProject.end_date;
+      popup(end);
       Drupal.attachBehaviors('.popup');
     });
 
-    $('.manage', context).click(function(e) {
-      // e.preventDefault();
+    $('a.manage', context).click(function(e) {
+      e.preventDefault();
       var $this = $(this)
               , title
               , link
               , amount
-              , pid;
+              , pid
+              , end;
       title = $this.parents('.donated-project').find('.proj-title a').text();
       link = $this.parents('.donated-project').find('.proj-title a').attr('href');
       amount = $this.parents('.donated-project').find('.preapproval-amount').val();
       pid = $this.parents('.donated-project').find('.preapproval-id').val();
-      popup2(title, link, amount, pid);
+      end = $this.parents('.donated-project').find('.end-date').val();
+      popup2(title, link, amount, pid, end);
       Drupal.attachBehaviors('.popup');
     });
 
@@ -287,12 +286,18 @@
     $('.confirm-content a', context).click(function() {
       $('.popupwrap').remove();
       $('.backdrop').remove();
+      $('body').css('overflow', 'scroll');
     });
 
 
     $('.donate-cancel', context).click(function(e) {
       e.preventDefault();
-      $('.loader').css('display', 'inline-block');
+      $('.loader').css({'display': 'inline-block',
+                         'margin-left': '30px',
+                         'margin-top': '30px',
+                         'padding-right': '15px',
+                         'position': 'relative',
+                         'top': '10px'});
       $('.donate-cancel').hide();
       var pid = $('.preapproval-id').val();
       $.ajax({
@@ -314,24 +319,39 @@
     $('.edit-donate', context).click(function(e) {
       var pid = $('.preapproval-id').val()
         , amount = $('.popupinput').val();
-      $('.loader').css('display', 'block');
-      $('.donate-cancel').hide();
-      $.ajax({
-        url: Drupal.settings.basePath + 'ajax/donation/edit',
-        type: "POST",
-        cache: false,
-        data: {pid: pid, amount: amount},
-        success: function (res) {
-          res = Drupal.parseJson(res);
-          if (res.status) {
-             window.location = res.url;
-          } else {
-             alert('Ooops... Unknow error.');
+      var re = /(?:^\d{1,3}(?:\.?\d{3})*(?:,\d{2})?$)|(?:^\d{1,3}(?:,?\d{3})*(?:\.\d{2})?$)/;
+      $('.popupinput').css({border: '1px solid #AAAAAA'});
+      if (re.test(amount) && amount >= 1) {
+        $('.edit-donate').hide();
+        $('.loader').css({'display': 'inline-block',
+                          'padding-left': '25px',
+                          'padding-right': '10px',
+                          'position': 'relative',
+                          'right': '20px',
+                          'top': '10px'});
+        $.ajax({
+          url: Drupal.settings.basePath + 'ajax/donation/edit',
+          type: "POST",
+          cache: false,
+          data: {pid: pid, amount: amount},
+          success: function (res) {
+            res = Drupal.parseJson(res);
+            if (res.status) {
+               window.location = res.url;
+            } else {
+               alert('Ooops... Unknow error.');
+            }
           }
-        }
-      });
+        });
+      } else {
+        $('.popupinput').css({border: '2px solid red'});
+      }
+    });
 
-
+    $('#amount-edit', context).keypress(function(e) {
+      if (e.keyCode == 13) {
+        $('.edit-donate').click();
+      }
     });
   }
 })(jQuery);
