@@ -548,7 +548,7 @@ function weeve_account_page($uid = null) {
       break;
 
     case 'npo':
-      $content = theme('weeve_npo_account_about', $user_info['user'], $user_info['profile']);
+      $content = theme('weeve_npo_account_history', $user_info['user'], $user_info['profile']);
       $output = theme('weeve_npo_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
       break;
 
