@@ -4211,7 +4211,7 @@ $view = views_get_current_view();
 $nid = $view->args[0];
 $node = node_load($nid);
 
-if ($node->uid == $user->uid || $user->uid == 1) {
+if (weeve_project_can_comment($nid)) {
   print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
 }
 ?>';
@@ -4446,7 +4446,7 @@ $view = views_get_current_view();
 $nid = $view->args[0];
 $node = node_load($nid);
 
-if ($node->uid == $user->uid || $user->uid == 1) {
+if (weeve_project_can_comment($nid)) {
   print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
 }
 ?>'),
