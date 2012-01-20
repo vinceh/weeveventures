@@ -247,7 +247,7 @@ function weeve_account_change_password_form_submit(&$form, &$form_state) {
 function weeve_account_change_general_page() {
   global $user;
   $type = weeve_account_check_type($user);
-  if ($type == 'user') {
+  if ($type == 'user' || $type == 'corp') {
     $form = drupal_get_form('weeve_account_change_general_user_form');
   }
   else {
@@ -503,7 +503,7 @@ function weeve_account_load_user($uid) {
     $photo = variable_get('user_picture_default', '');
   }
   $user->photo = $photo;
-  if ($account_type == 'npo' || $account_type == 'corp') {
+  if ($account_type == 'npo') {
     $view_result = views_get_view_result('featured_projects', 'page_4', $user->uid);
     $money = 0;
     foreach ($view_result as $value) {
@@ -513,7 +513,7 @@ function weeve_account_load_user($uid) {
     $user->money = $money;
     $user->donors = weeve_account_get_total_donors($user->uid);
   }
-  if ($account_type == 'user') {
+  if ($account_type == 'user' || $account_type == 'corp') {
     if (module_exists('weeve_donation')) {
       $user->projects_funded = weeve_account_get_count_projects_funded($uid);
       $user->donated = weeve_account_get_total_donated($uid);
@@ -540,17 +540,14 @@ function weeve_account_page($uid = null) {
   }
   $user_info = weeve_account_load_user($uid);
   $account_type = weeve_account_check_type($user_info['user']);
-
   switch($account_type) {
-
-
     case 'user':
+    case 'corp':
       $content = theme('weeve_user_account_history', $user_info['user']);
       $output = theme('weeve_user_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
       break;
 
     case 'npo':
-    case 'corp':
       $content = theme('weeve_npo_account_about', $user_info['user'], $user_info['profile']);
       $output = theme('weeve_npo_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
       break;
@@ -619,7 +616,7 @@ function weeve_account_following_page($uid) {
 function weeve_account_projects_page($uid) {
   $user_info = weeve_account_load_user($uid);
   $type = weeve_account_check_type($user_info['user']);
-  if ($type == 'npo' || $type == 'corp') {
+  if ($type == 'npo') {
     $content = views_embed_view('npo_project_proposals', 'page_1', $user_info['user']->uid);
     $output = theme('weeve_npo_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
     return $output;
@@ -631,7 +628,7 @@ function weeve_account_projects_page($uid) {
 function weeve_account_about_page($uid) {
   $user_info = weeve_account_load_user($uid);
   $type = weeve_account_check_type($user_info['user']);
-  if ($type == 'npo' || $type == 'corp') {
+  if ($type == 'npo') {
     $content = theme('weeve_npo_account_about', $user_info['user'], $user_info['profile']);
     $output = theme('weeve_npo_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
     return $output;
@@ -805,7 +802,7 @@ function weeve_account_build_donation_history($donations) {
 function weeve_account_donated_page($uid) {
   $user_info = weeve_account_load_user($uid);
   $type = weeve_account_check_type($user_info['user']);
-  if ($type == 'user') {
+  if ($type == 'user' || $type == 'corp') {
     $donations = weeve_donation_get_preapproval_by_uid($uid, 0, 0);
     foreach ($donations as $donate) {
       $node = node_load($donate->nid);
