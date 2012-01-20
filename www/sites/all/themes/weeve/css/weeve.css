@@ -1110,17 +1110,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 	background-color: #f2f2f2;
 }
 .profile-wrapper {
-	margin-top: 70px;
+
 }
 
 .profile-left, .profile-right {
 	display: inline-block;
 	float:left;
-	height: 1000px;
 }
 
 .profile-left {
 	width: 199px;
+  height: 1000px;
 	border-right: 1px solid #ddd
 }
 
