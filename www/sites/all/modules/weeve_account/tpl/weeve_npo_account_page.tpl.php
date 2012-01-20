@@ -7,7 +7,7 @@
 			<div class='npo-profile-header-wrap'>
         <div class="npo-profile-title-wrap">
           <div class='profile-name'><?php print $profile->field_npo_name[0]['value']; ?></div>
-          <div class="weevesubtitle profile-npo-title-location"><?php print $profile->field_location[0]['value'] .' - '.  l(t('Visit our website'), $profile->field_npo_website[0]['url']);  ?></div>
+          <div class="weevesubtitle profile-npo-title-location"><?php print $profile->field_location[0]['value'] .' - '.  l(t('Visit our website'), $profile->field_npo_website[0]['url'], array('attributes' => array('target' => '_blank')));  ?></div>
         </div>
 				<div class='profile-subname'><?php print $profile->field_npo_bio[0]['value']; ?></div>
 				<div class='npo-profile-title-links'>
