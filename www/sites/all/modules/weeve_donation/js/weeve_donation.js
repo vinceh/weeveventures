@@ -211,8 +211,8 @@
       Drupal.attachBehaviors('.popup');
     });
 
-    $('.manage', context).click(function(e) {
-      // e.preventDefault();
+    $('a.manage', context).click(function(e) {
+      e.preventDefault();
       var $this = $(this)
               , title
               , link

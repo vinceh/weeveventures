@@ -18,7 +18,8 @@
 		<div class='project-location-wrap'>
 			<img src='<?php print url(drupal_get_path('theme', 'weeve') .'/img/icon-location.png') ?>'/>
 			<span><?php print $project['node']->field_project_location[0]['value']; ?><span>
-			<button class='weeve-small-button manage'>Manage Donation</button>
+			<!--<button class='weeve-small-button manage'>Manage Donation</button>-->
+      <?php print l(t('Manage Donation'), '#', array('attributes' => array('class' => 'weeve-link manage'))); ?>
 		</div>
 	</div>
 	<div class='donated-history'>
