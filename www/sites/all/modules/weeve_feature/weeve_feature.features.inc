@@ -5,6 +5,21 @@
  */
 function weeve_feature_imagecache_default_presets() {
   $items = array(
+    'scale_224' => array(
+      'presetname' => 'scale_224',
+      'actions' => array(
+        '0' => array(
+          'weight' => '0',
+          'module' => 'imagecache',
+          'action' => 'imagecache_scale',
+          'data' => array(
+            'width' => '224px',
+            'height' => '',
+            'upscale' => 0,
+          ),
+        ),
+      ),
+    ),
     'scale_crop_200px' => array(
       'presetname' => 'scale_crop_200px',
       'actions' => array(
@@ -29,20 +44,6 @@ function weeve_feature_imagecache_default_presets() {
           'data' => array(
             'width' => '215',
             'height' => '150',
-          ),
-        ),
-      ),
-    ),
-    'scale_crop_224x180' => array(
-      'presetname' => 'scale_crop_224x180',
-      'actions' => array(
-        '0' => array(
-          'weight' => '0',
-          'module' => 'imagecache',
-          'action' => 'imagecache_scale_and_crop',
-          'data' => array(
-            'width' => '224',
-            'height' => '180',
           ),
         ),
       ),

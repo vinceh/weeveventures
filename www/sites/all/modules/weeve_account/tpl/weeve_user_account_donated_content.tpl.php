@@ -5,7 +5,8 @@
   <input type="hidden" class="preapproval-id" value="<?php print $project['donate']->pid; ?>">
   <input type="hidden" class="end-date" value="<?php print date_format(date_make_date($project['node']->field_project_end[0]['value']), 'L, M j, 11:59p\m'); ?>">
 	<div class='donated-image'>
-		<?php print theme('imagecache', 'scale_crop_224x180', $project['node']->field_project_image[0]['filepath']); ?>
+		<?php print theme('imagecache', 'scale_224', $project['node']->field_project_image[0]['filepath']); ?>
+    <div class="helper"></div>
 	</div>
 	<div class='donated-content'>
 		<div class='proj-title'>
