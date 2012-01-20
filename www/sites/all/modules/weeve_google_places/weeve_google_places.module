@@ -61,7 +61,8 @@ function weeve_google_places_sort_array($result) {
     foreach ($result['predictions'] as $location) {
       foreach ($location['types'] as $type) {
         if ($type == 'locality') {
-          $items[check_plain($location['description'])] = check_plain($location['description']);
+          $location = weeve_google_places_filtred_result(check_plain($location['description']));
+          $items[$location] = check_plain($location);
         }
       }
     }
@@ -71,7 +72,19 @@ function weeve_google_places_sort_array($result) {
 
 function weeve_google_places_autocomplete_callback($string) {
   $gdata = weeve_google_places_query($string);
+  weeve_google_places_filtred_result('Russia, Omsk');
   $items = weeve_google_places_sort_array($gdata);
   drupal_json($items);
   exit(0);
+}
+
+function weeve_google_places_filtred_result($string) {
+  $array = explode(',', $string);
+  if (strtolower(trim(end($array))) == "canada" || strtolower(trim(end($array))) == 'united states') {
+    $result = trim($array[0]) .', '. trim($array[1]);
+  }
+  else {
+    $result = trim(reset($array)) .', '. trim(end($array));
+  }
+  return $result;
 }
