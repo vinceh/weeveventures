@@ -11,6 +11,8 @@ stylesheets[all][] = css/weeve.css
 stylesheets[all][] = css/node.css
 stylesheets[all][] = css/views.css
 stylesheets[all][] = css/forms.css
+stylesheets[all][] = css/jquery.ui.css
+stylesheets[all][] = css/dialog.css
 
 regions[header] = Header
 regions[before_content] = Before Content

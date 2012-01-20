@@ -234,3 +234,7 @@ input.form-text {
     position: relative;
     right: 153px;
 }
+
+#edit-field-update-project-nid-nid-wrapper {
+  display: none;
+}

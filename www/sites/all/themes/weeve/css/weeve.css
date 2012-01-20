@@ -338,7 +338,7 @@ a {
 }
 
 .signup-header {
-	text-align: left;
+	text-align: center;
 	margin-top: 50px;
 	padding-bottom: 10px;
 }
@@ -547,8 +547,8 @@ a {
 .landingwords {
 	font-weight: 200;
 	font-size: 30px;
-	margin-top: 50px;
-	margin-bottom: 40px;
+	margin-top: 10px;
+	margin-bottom: 33px;
 	font-size: 30px;
 }
 
@@ -1085,7 +1085,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 	color: #555;
 	font-size: 16px;
 	margin-top: 15px;
-	padding-bottom: 200px;
 }
 
 /* profile pages */
@@ -1610,6 +1609,7 @@ a.profile-link.active {
 	padding: 10px 10px 10px 40px;
 	width: 130px;
 	margin-top: 30px;
+  background: url('../img/dollar-sign.png') 10% no-repeat;
 }
 
 .popupinput:focus {
