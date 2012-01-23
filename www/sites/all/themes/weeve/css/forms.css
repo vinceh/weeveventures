@@ -56,6 +56,10 @@ input.form-text {
 }
 
 /*NPO Edit account*/
+#weeve-account-change-general-npo-form {
+  margin: 30px;
+}
+
 #weeve-account-change-general-npo-form .description {
   font-size: 16px;
   color: #777777;
@@ -64,7 +68,7 @@ input.form-text {
   font-size: 23px;
   margin-top: 30px;
   color: #333333;
-  font-family: fonty;
+  font-family: neue;
   font-weight: normal;
 }
 #weeve-account-change-general-npo-form fieldset {
@@ -75,7 +79,7 @@ input.form-text {
   font-size: 23px;
   margin-top: 30px;
   color: #333333;
-  font-family: fonty;
+  font-family: neue;
 }
 #weeve-account-change-general-npo-form fieldset .description {
   margin-bottom: 15px;
@@ -280,4 +284,26 @@ input.form-text {
 
 #node-form #edit-field-proposal-project-funds-value-wrapper select:focus, #node-form #edit-taxonomy-1-wrapper select:focus {
   border-color: #555;
+
+}
+#user-profile-form {
+
+}
+
+#user-profile-form fieldset {
+  border: none;
+}
+
+#user-profile-form .password-description {
+   display: none !important;
+}
+#user-profile-form .form-submit {
+  margin-left: 10px;
+}
+
+#user-profile-form label {
+  font-size: 16px;
+  font-weight: normal;
+  padding: 6px 0;
+  width: 250px;
 }

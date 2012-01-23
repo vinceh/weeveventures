@@ -5,6 +5,21 @@
  */
 function weeve_feature_imagecache_default_presets() {
   $items = array(
+    'scale_224' => array(
+      'presetname' => 'scale_224',
+      'actions' => array(
+        '0' => array(
+          'weight' => '0',
+          'module' => 'imagecache',
+          'action' => 'imagecache_scale',
+          'data' => array(
+            'width' => '224px',
+            'height' => '',
+            'upscale' => 0,
+          ),
+        ),
+      ),
+    ),
     'scale_crop_200px' => array(
       'presetname' => 'scale_crop_200px',
       'actions' => array(
@@ -213,151 +228,6 @@ return $current_time > $timestamp;',
               'module' => 'CCK',
             ),
             '#weight' => 0,
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'rules_project_is_cancelled_admin_email' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_update',
-        '#label' => 'Project is "CANCELLED" ADMIN EMAIL',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'project',
-          'weeve_feature' => 'weeve_feature',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'project' => 'project',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#info' => array(
-              'label' => 'Updated content is Project',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#weight' => 0,
-          ),
-          '1' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_project_cancel_notes\' has been changed',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content containing changes',
-                ),
-                'node_unchanged' => array(
-                  'type' => 'node',
-                  'label' => 'Content not containing changes',
-                ),
-              ),
-              'module' => 'CCK',
-            ),
-            '#name' => 'content_rules_field_changed',
-            '#settings' => array(
-              'field_name' => 'field_project_cancel_notes',
-              '#argument map' => array(
-                'node' => 'node',
-                'node_unchanged' => 'node_unchanged',
-              ),
-            ),
-            '#type' => 'condition',
-          ),
-          '2' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'field_name' => 'field_project_status',
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-              'value' => array(
-                '0' => array(
-                  'value' => 'cancel',
-                ),
-              ),
-              'code' => '',
-              'vars' => array(),
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'code' => array(
-                    '0' => ':global',
-                  ),
-                  'value|0|value' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#name' => 'content_rules_field_has_value',
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_project_status\' has value',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'eval input' => array(
-                '0' => 'code',
-                '1' => 'value|0|value',
-              ),
-              'module' => 'CCK',
-            ),
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Send a mail to all users of a role',
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#name' => 'rules_action_mail_to_users_of_role',
-            '#settings' => array(
-              'recipients' => array(
-                '0' => 6,
-              ),
-              'from' => 'weeve@localhost',
-              'subject' => 'Project "[node:title]" has been cancelled by its author',
-              'message' => 'Reason: [node:field_project_cancel_notes-raw]',
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'subject' => array(
-                    '0' => 'node',
-                    '1' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => 'node',
-                    '1' => ':global',
-                  ),
-                  'from' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#type' => 'action',
           ),
         ),
         '#version' => 6003,
@@ -626,11 +496,10 @@ Weeve team',
             '#type' => 'action',
             '#settings' => array(
               'from' => 'weeve@localhost',
-              'subject' => 'Your project"[node:title]" has been finished',
-              'message' => 'Your project"[node:title]" has been finished and archived. 
+              'subject' => 'Your project "[node:title]" has been finished',
+              'message' => 'Your project "[node:title]" has been finished and archived.
 
 If you have any questions please feel free to contact us.
-
 Weeve team',
               '#argument map' => array(
                 'user' => 'user',
@@ -1707,6 +1576,151 @@ video_upload_cron();
               ),
             ),
             '#weight' => 0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_project_is_cancelled_admin_email' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'Project is "CANCELLED" ADMIN EMAIL',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'project',
+          'weeve_feature' => 'weeve_feature',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'project' => 'project',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Updated content is Project',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#weight' => 0,
+          ),
+          '1' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_project_cancel_notes\' has been changed',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content containing changes',
+                ),
+                'node_unchanged' => array(
+                  'type' => 'node',
+                  'label' => 'Content not containing changes',
+                ),
+              ),
+              'module' => 'CCK',
+            ),
+            '#name' => 'content_rules_field_changed',
+            '#settings' => array(
+              'field_name' => 'field_project_cancel_notes',
+              '#argument map' => array(
+                'node' => 'node',
+                'node_unchanged' => 'node_unchanged',
+              ),
+            ),
+            '#type' => 'condition',
+          ),
+          '2' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'field_name' => 'field_project_status',
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+              'value' => array(
+                '0' => array(
+                  'value' => 'cancel',
+                ),
+              ),
+              'code' => '',
+              'vars' => array(),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                  'value|0|value' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'content_rules_field_has_value',
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_project_status\' has value',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'eval input' => array(
+                '0' => 'code',
+                '1' => 'value|0|value',
+              ),
+              'module' => 'CCK',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to all users of a role',
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_users_of_role',
+            '#settings' => array(
+              'recipients' => array(
+                '0' => 6,
+              ),
+              'from' => 'weeve@localhost',
+              'subject' => 'Project "[node:title]" has been cancelled by its author',
+              'message' => 'Reason: [node:field_project_cancel_notes-raw]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
           ),
         ),
         '#version' => 6003,

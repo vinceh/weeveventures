@@ -4223,7 +4223,7 @@ $nid = $view->args[0];
 $node = node_load($nid);
 
 if (weeve_project_can_comment($nid)) {
-  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
 }
 ?>';
   $handler->display->display_options['header']['area']['format'] = '3';
@@ -4458,7 +4458,7 @@ $nid = $view->args[0];
 $node = node_load($nid);
 
 if (weeve_project_can_comment($nid)) {
-  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
 }
 ?>'),
     t('No comments yet'),
