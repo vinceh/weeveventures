@@ -15,7 +15,7 @@ div.view {
 }
 
 h2 {
-  margin: 10px 0px;
+  margin: 10px 0px 0px;
   font-size: 40px;
 }
 
@@ -338,8 +338,7 @@ a {
 }
 
 .signup-header {
-	text-align: center;
-	margin-top: 50px;
+	text-align: left;
 	padding-bottom: 10px;
 }
 

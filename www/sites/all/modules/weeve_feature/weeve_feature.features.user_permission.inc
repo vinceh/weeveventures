@@ -729,27 +729,9 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
-  // Exported permission: edit field_proposal_back
-  $permissions['edit field_proposal_back'] = array(
-    'name' => 'edit field_proposal_back',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'npo',
-    ),
-  );
-
   // Exported permission: edit field_proposal_body
   $permissions['edit field_proposal_body'] = array(
     'name' => 'edit field_proposal_body',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'npo',
-    ),
-  );
-
-  // Exported permission: edit field_proposal_links
-  $permissions['edit field_proposal_links'] = array(
-    'name' => 'edit field_proposal_links',
     'roles' => array(
       '0' => 'admin',
       '1' => 'npo',
@@ -1164,29 +1146,9 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
-  // Exported permission: view field_proposal_back
-  $permissions['view field_proposal_back'] = array(
-    'name' => 'view field_proposal_back',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'anonymous user',
-      '2' => 'authenticated user',
-    ),
-  );
-
   // Exported permission: view field_proposal_body
   $permissions['view field_proposal_body'] = array(
     'name' => 'view field_proposal_body',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'anonymous user',
-      '2' => 'authenticated user',
-    ),
-  );
-
-  // Exported permission: view field_proposal_links
-  $permissions['view field_proposal_links'] = array(
-    'name' => 'view field_proposal_links',
     'roles' => array(
       '0' => 'admin',
       '1' => 'anonymous user',

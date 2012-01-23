@@ -26,7 +26,7 @@ function weeve_project_menu() {
   $items = array();
 
   $items['project/terms'] = array(
-    'title' => 'Accept terms',
+    'title' => 'Starting a project - Guidelines & Conditions',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('weeve_project_terms_form'),
     'access callback' => 'weeve_project_proposal_valid',
@@ -56,7 +56,7 @@ function weeve_project_menu() {
 
 function weeve_project_menu_alter($items) {
   $items['node/add/project-request']['access callback'] = 'weeve_project_proposal_valid';
-
+  
   $items['node/add/project']['access callback'] = 'weeve_project_project_valid';
 
   $items['node/%node']['page callback'] = 'weeve_node_page_view';
@@ -89,6 +89,10 @@ function weeve_node_show($node, $cid, $message = FALSE) {
 
 function weeve_project_can_comment($nid) {
   global $user;
+  if ($user->uid) {
+    return true;
+  }
+
   $node = node_load($nid);
   if (in_array('admin', $user->roles) || $user->uid == $node->uid) {
     return true;
@@ -209,10 +213,30 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
     unset($form['body_field']['format']);
     unset($form['buttons']['preview']);
     unset($form['attachments']);
-    $form['field_update_project']['#weight'] = 50;
+    $form['field_update_project']['#weight'] = 50;    
   }
 
   if ($form_id == 'project_request_node_form' && arg(1) == 'add') {
+    drupal_set_title(t('Submit your proposal'));
+
+    $form['subtitle']['#value'] = t('Fill out the information and we will review your project and contact you soon');
+    $form['subtitle']['#weight'] = -20;
+    $form['subtitle']['#prefix'] = '<div class="element-subtitle">';
+    $form['subtitle']['#suffix'] = '</div>';
+    
+    $form['notification']['#value'] = t("We're thrilled that you're interested in using Weeve, and we can't wait to hear about your project. Please take a few minutes to tell us about what you're raising funds to create. Thanks!");
+    $form['notification']['#weight'] = -10;
+    $form['notification']['#prefix'] = '<div class="element-notification">';
+    $form['notification']['#suffix'] = '</div>';
+    
+    $form['field_proposal_body'][0]['#title'] = '';
+    
+    //print_r($form); exit;
+    $form['field_proposal_body'][0]['#theme'] = 'weeve_add_proposal_form_element';
+    $form['taxonomy'][VOCABULARY_PROJECT_CATEGORIES_ID]['#title'] = t('What category does your project fit into?');
+    //$form['taxonomy']['#weight'] = -30;
+    //print_r($form['taxonomy']); exit;
+    
     if (!isset($_SESSION['project_terms_accepted']) || !$_SESSION['project_terms_accepted']) {
       drupal_goto('project/terms');
     }
@@ -352,8 +376,11 @@ function weeve_project_theme() {
     'weeve_project_search_block' => array(
       'arguments' => array('items' => null),
       'template' => 'tpl/project_search_block'
+    ),
+    'weeve_add_proposal_form_element' => array(
+      'arguments' => array('element' => null),
+      'template' => 'tpl/proposal_add_element'
     )
-
   );
 }
 
@@ -635,7 +662,7 @@ function weeve_project_terms_form() {
     '#required' => true
   );
 
-  $form['submit'] = array('#type' => 'submit', '#value' => t('Save'));
+  $form['submit'] = array('#type' => 'submit', '#value' => t('Continue'));
 
   return $form;
 }

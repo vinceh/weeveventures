@@ -238,3 +238,46 @@ input.form-text {
 #edit-field-update-project-nid-nid-wrapper {
   display: none;
 }
+
+#node-form .element-notification {
+  margin-top: 25px;
+  margin-bottom: 30px;
+}
+
+#node-form .element-title {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+#node-form #edit-field-proposal-body-0-value-wrapper textarea {
+  border-radius: 3px;
+  height: 200px;
+  padding: 10px;
+  border: 1px solid #aaa;
+}
+
+#node-form #edit-field-proposal-body-0-value-wrapper textarea:focus {
+  border-color: #555;
+}
+
+#node-form #edit-field-proposal-body-0-value-wrapper .grippie {
+  display: none;
+}
+
+#node-form #edit-field-proposal-project-funds-value-wrapper label, #node-form #edit-taxonomy-1-wrapper label {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: normal;
+}
+
+#node-form #edit-field-proposal-project-funds-value-wrapper select, #node-form #edit-taxonomy-1-wrapper select {
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  padding: 5px;
+}
+
+#node-form #edit-field-proposal-project-funds-value-wrapper select:focus, #node-form #edit-taxonomy-1-wrapper select:focus {
+  border-color: #555;
+}
