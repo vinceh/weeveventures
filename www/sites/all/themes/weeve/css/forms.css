@@ -242,3 +242,25 @@ input.form-text {
 #edit-field-update-project-nid-nid-wrapper {
   display: none;
 }
+
+#user-profile-form {
+
+}
+
+#user-profile-form fieldset {
+  border: none;
+}
+
+#user-profile-form .password-description {
+   display: none !important;
+}
+#user-profile-form .form-submit {
+  margin-left: 10px;
+}
+
+#user-profile-form label {
+  font-size: 16px;
+  font-weight: normal;
+  padding: 6px 0;
+  width: 250px;
+}

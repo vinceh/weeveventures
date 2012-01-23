@@ -125,7 +125,8 @@ function weeve_account_view_access($uid = null) {
  * Implementation hook_menu_alter
  */
 function weeve_account_menu_alter(&$items) {
-  $items['user']['access callback'] = MENU_CALLBACK;
+  $items['user/%user/view']['type'] = MENU_CALLBACK;
+  $items['user/%user_category/edit']['type'] = MENU_CALLBACK;
   $items['user/register']['type'] = MENU_CALLBACK;
   $items['user/password']['type'] = MENU_CALLBACK;
 }
@@ -824,5 +825,15 @@ function weeve_account_donated_page($uid) {
     return $output;
   } else {
     drupal_access_denied();
+  }
+}
+
+function weeve_account_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'user_profile_form') {
+    drupal_set_title(t('Change password'));
+    $form['picture']['#access'] = FALSE;
+    $form['submit']['#value'] = t('Update');
+    $form['account']['#title'] = '';
+    $form['account']['mail']['#access'] = FALSE;
   }
 }
