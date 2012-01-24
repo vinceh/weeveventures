@@ -204,7 +204,7 @@
   }
 
   Drupal.behaviors.weeveDonation = function(context) {
-    $('div.donate-button-content a', context).click(function(e) {
+    $('div.donate-button', context).click(function(e) {
       e.preventDefault();
       var end = Drupal.settings.weeveProject.end_date;
       popup(end);
