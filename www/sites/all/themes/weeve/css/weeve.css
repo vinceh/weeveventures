@@ -998,7 +998,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 	font-size: 16px;
 }
 
-.donate-button {
+.donate-button, .manage-donate-button {
 	margin-left: 15px;
 	margin-right: 30px;
 	background-color: #00a0ce;
