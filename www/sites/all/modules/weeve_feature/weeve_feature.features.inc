@@ -5,21 +5,6 @@
  */
 function weeve_feature_imagecache_default_presets() {
   $items = array(
-    'scale_224' => array(
-      'presetname' => 'scale_224',
-      'actions' => array(
-        '0' => array(
-          'weight' => '0',
-          'module' => 'imagecache',
-          'action' => 'imagecache_scale',
-          'data' => array(
-            'width' => '224px',
-            'height' => '',
-            'upscale' => 0,
-          ),
-        ),
-      ),
-    ),
     'scale_crop_200px' => array(
       'presetname' => 'scale_crop_200px',
       'actions' => array(
@@ -44,6 +29,20 @@ function weeve_feature_imagecache_default_presets() {
           'data' => array(
             'width' => '215',
             'height' => '150',
+          ),
+        ),
+      ),
+    ),
+    'scale_crop_225x180' => array(
+      'presetname' => 'scale_crop_225x180',
+      'actions' => array(
+        '0' => array(
+          'weight' => '0',
+          'module' => 'imagecache',
+          'action' => 'imagecache_scale_and_crop',
+          'data' => array(
+            'width' => '225',
+            'height' => '180',
           ),
         ),
       ),
@@ -496,10 +495,11 @@ Weeve team',
             '#type' => 'action',
             '#settings' => array(
               'from' => 'weeve@localhost',
-              'subject' => 'Your project "[node:title]" has been finished',
-              'message' => 'Your project "[node:title]" has been finished and archived.
+              'subject' => 'Your project"[node:title]" has been finished',
+              'message' => 'Your project"[node:title]" has been finished and archived. 
 
 If you have any questions please feel free to contact us.
+
 Weeve team',
               '#argument map' => array(
                 'user' => 'user',

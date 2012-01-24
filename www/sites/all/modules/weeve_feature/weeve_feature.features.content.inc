@@ -1800,10 +1800,64 @@ cancel|Cancelled',
       ),
       'default_value_php' => NULL,
       'label' => 'Weight',
-      'weight' => '6',
+      'weight' => '32',
       'description' => '',
       'type' => 'number',
       'module' => 'number',
+    ),
+  );
+
+  // Exported field: field_proposal_back
+  $fields['project_request-field_proposal_back'] = array(
+    'field_name' => 'field_proposal_back',
+    'type_name' => 'project_request',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '1',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'rows' => '5',
+      'size' => '60',
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_proposal_back][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Project reward',
+      'weight' => '3',
+      'description' => '',
+      'type' => 'text_textarea',
+      'module' => 'text',
     ),
   );
 
@@ -1861,6 +1915,60 @@ cancel|Cancelled',
     ),
   );
 
+  // Exported field: field_proposal_links
+  $fields['project_request-field_proposal_links'] = array(
+    'field_name' => 'field_proposal_links',
+    'type_name' => 'project_request',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'rows' => '5',
+      'size' => '60',
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_proposal_links][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Proposal links',
+      'weight' => '4',
+      'description' => '',
+      'type' => 'text_textarea',
+      'module' => 'text',
+    ),
+  );
+
   // Exported field: field_proposal_project
   $fields['project_request-field_proposal_project'] = array(
     'field_name' => 'field_proposal_project',
@@ -1912,7 +2020,7 @@ cancel|Cancelled',
       ),
       'default_value_php' => NULL,
       'label' => 'Project reference',
-      'weight' => '5',
+      'weight' => '7',
       'description' => '',
       'type' => 'nodereference_select',
       'module' => 'nodereference',
@@ -1953,8 +2061,10 @@ cancel|Cancelled',
     'active' => '1',
     'text_processing' => '0',
     'max_length' => '',
-    'allowed_values' => '10 | less than $1000
-1000 | $1000-5000
+    'allowed_values' => '10 | $10-100
+100 | $100-500
+500 | $500-2000
+2000 | $2000-5000
 5000 | $5000-10000
 10000 | $10000-20000
 20000 | $20000+',
@@ -1966,8 +2076,8 @@ cancel|Cancelled',
         ),
       ),
       'default_value_php' => NULL,
-      'label' => 'How much would you like to raise?',
-      'weight' => '4',
+      'label' => 'Project funds',
+      'weight' => '5',
       'description' => '',
       'type' => 'optionwidgets_select',
       'module' => 'optionwidgets',
@@ -2024,7 +2134,7 @@ decline|Declined
       ),
       'default_value_php' => NULL,
       'label' => 'Status',
-      'weight' => '3',
+      'weight' => '6',
       'description' => '',
       'type' => 'optionwidgets_select',
       'module' => 'optionwidgets',
@@ -2102,15 +2212,17 @@ decline|Declined
   t('Cancel notes');
   t('Donors');
   t('Full Name');
-  t('How much would you like to raise?');
   t('Location');
   t('Organization Name');
   t('Percent pledged');
   t('Project');
   t('Project Proposal');
+  t('Project funds');
   t('Project image');
   t('Project reference');
+  t('Project reward');
   t('Proposal');
+  t('Proposal links');
   t('Representative Name');
   t('Staff pick');
   t('Status');

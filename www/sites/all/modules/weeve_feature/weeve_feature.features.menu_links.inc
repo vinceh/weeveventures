@@ -78,31 +78,12 @@ function weeve_feature_menu_default_menu_links() {
     'expanded' => '0',
     'weight' => '-48',
   );
-  // Exported menu link: menu-top-menu:signup
-  $menu_links['menu-top-menu:signup'] = array(
-    'menu_name' => 'menu-top-menu',
-    'link_path' => 'signup',
-    'router_path' => 'signup',
-    'link_title' => 'sign up',
-    'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
-    ),
-    'module' => 'menu',
-    'hidden' => '0',
-    'external' => '0',
-    'has_children' => '0',
-    'expanded' => '0',
-    'weight' => '-46',
-  );
   // Translatables
   // Included for use with string extractors like potx.
   t('log out');
   t('organizations');
   t('profile');
   t('projects');
-  t('sign up');
 
 
   return $menu_links;
