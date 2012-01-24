@@ -1130,7 +1130,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30aacc', end
 .profile-title-section {
 	height: 100px;
 	padding-left: 35px;
-	padding-top: 20px;
+  margin-top: -10px;
 }
 
 .profile-name {
