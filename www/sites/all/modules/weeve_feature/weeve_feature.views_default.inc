@@ -1507,6 +1507,7 @@ return round(($timestamp - time()) / 86400);
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>
 <h4>Featured</h3>';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
+  $handler->display->display_options['defaults']['footer'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter: Node: Type */
@@ -1601,6 +1602,7 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['header']['area']['content'] = '<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
+  $handler->display->display_options['defaults']['footer'] = FALSE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
   /* Empty text: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
