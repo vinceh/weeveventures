@@ -383,7 +383,7 @@ function weeve_project_theme() {
       'template' => 'tpl/project_menu'
     ),
     'weeve_project_info_block' => array(
-      'arguments' => array('node' => null, 'profile' => null),
+      'arguments' => array('node' => null, 'profile' => null, 'donation' => NULL),
       'template' => 'tpl/project_info_block'
     ),
     'weeve_project_locations_block' => array(
@@ -549,6 +549,7 @@ function weeve_project_block($op = 'list', $delta = 0) {
   }
   else if ($op == 'view') {
     if ($delta == 0) {
+      global $user;
       $block['subject'] = '';
       $query = explode('/', $_SERVER['QUERY_STRING']);
       $node = node_load(array('nid' => $query[1]));
@@ -558,8 +559,8 @@ function weeve_project_block($op = 'list', $delta = 0) {
 
       $node->days_left = round(($timestamp - time()) / 86400);
       $user_profile = node_load(array('uid' => $node->uid, 'type' => 'profile'));
-
-      $block['content'] = theme('weeve_project_info_block', $node, $user_profile);
+      $donate = weeve_donation_projects_is_donated($node->nid, $user->uid);
+      $block['content'] = theme('weeve_project_info_block', $node, $user_profile, $donate);
 
       return $block;
     } else if ($delta == 1) {

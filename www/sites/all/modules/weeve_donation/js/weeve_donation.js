@@ -204,7 +204,7 @@
   }
 
   Drupal.behaviors.weeveDonation = function(context) {
-    $('div.donate-button-content a', context).click(function(e) {
+    $('div.donate-button', context).click(function(e) {
       e.preventDefault();
       var end = Drupal.settings.weeveProject.end_date;
       popup(end);
@@ -227,7 +227,25 @@
       popup2(title, link, amount, pid, end);
       Drupal.attachBehaviors('.popup');
     });
-
+    
+    // manage button on project page
+    $('div.manage-donate-button', context).click(function(e){
+      e.preventDefault();
+      var $this = $(this)
+              , title
+              , link
+              , amount
+              , pid
+              , end;
+      title = $this.find('#project-title').val();
+      link = $this.find('#project-link').val();
+      amount = $this.find('#project-amount').val();
+      pid = $this.find('#project-pid').val();
+      end = $this.find('#project-end').val();
+      popup2(title, link, amount, pid, end);
+      Drupal.attachBehaviors('.popup');
+    });
+    
     $('.popupcancel', context).click(function(e) {
       var left
               , right

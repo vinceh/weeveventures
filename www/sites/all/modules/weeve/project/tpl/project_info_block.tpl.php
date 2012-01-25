@@ -15,10 +15,22 @@
   <div class="value-box-subtitle"><?= t('the project has ended') ?></div>
   <?php  endif; ?>
 </div>
+<?php if($donation): ?>
+<div class="manage-donate-button weeve-medium-button">
+  <input type="hidden" id="project-link" value="<?php print url(drupal_get_path_alias($_GET['q'])); ?>">
+  <input type="hidden" id="project-title" value="<?php print $node->title; ?>">
+  <input type="hidden" id="project-amount" value="<?php print $donation->amount; ?>">
+  <input type="hidden" id="project-pid" value="<?php print $donation->pid; ?>">
+  <input type="hidden" id="project-end" value="<?php print date_format(date_make_date($node->field_project_end[0]['value']), 'L, M j, 11:59p\m'); ?>">
+  <div class="donate-button-content "><?= l(t('manage donation'), 'project/' . $node->nid . '/donate') ?></div>
+  <div class="donate-button-subtitle">$1 <?= t('minimum') ?></div>
+</div>
+<?php else: ?>
 <div class="donate-button weeve-medium-button">
   <div class="donate-button-content "><?= l(t('make donation'), 'project/' . $node->nid . '/donate') ?></div>
   <div class="donate-button-subtitle">$1 <?= t('minimum') ?></div>
 </div>
+ <?php endif; ?>
 <div class="follow-link"><?= l(t('Follow this Project'), 'project/' . $node->nid . '/follow') ?></div>
 <div class="horizontal-line"></div>
 <div class="project-npo-name"><?= l($profile->field_npo_name[0]['value'], 'account/' . $node->uid) ?></div>

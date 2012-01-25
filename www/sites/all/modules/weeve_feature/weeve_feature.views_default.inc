@@ -138,7 +138,7 @@ function weeve_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['title']['link_to_node'] = 0;
-  /* Field: Content: How much would you like to raise? (field_proposal_project_funds) */
+  /* Field: Content: Project funds (field_proposal_project_funds) */
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['id'] = 'field_proposal_project_funds_value';
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['table'] = 'node_data_field_proposal_project_funds';
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['field'] = 'field_proposal_project_funds_value';
@@ -686,7 +686,7 @@ function weeve_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Content: How much would you like to raise? (field_proposal_project_funds) */
+  /* Field: Content: Project funds (field_proposal_project_funds) */
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['id'] = 'field_proposal_project_funds_value';
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['table'] = 'node_data_field_proposal_project_funds';
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['field'] = 'field_proposal_project_funds_value';
@@ -709,7 +709,7 @@ function weeve_feature_views_default_views() {
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['link_to_node'] = 0;
-  /* Field: Broken/missing handler */
+  /* Field: Content: Project reward (field_proposal_back) */
   $handler->display->display_options['fields']['field_proposal_back_value']['id'] = 'field_proposal_back_value';
   $handler->display->display_options['fields']['field_proposal_back_value']['table'] = 'node_data_field_proposal_back';
   $handler->display->display_options['fields']['field_proposal_back_value']['field'] = 'field_proposal_back_value';
@@ -731,7 +731,7 @@ function weeve_feature_views_default_views() {
   $handler->display->display_options['fields']['field_proposal_back_value']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_proposal_back_value']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_proposal_back_value']['hide_alter_empty'] = 1;
-  /* Field: Broken/missing handler */
+  /* Field: Content: Proposal links (field_proposal_links) */
   $handler->display->display_options['fields']['field_proposal_links_value']['id'] = 'field_proposal_links_value';
   $handler->display->display_options['fields']['field_proposal_links_value']['table'] = 'node_data_field_proposal_links';
   $handler->display->display_options['fields']['field_proposal_links_value']['field'] = 'field_proposal_links_value';
@@ -1507,6 +1507,7 @@ return round(($timestamp - time()) / 86400);
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>
 <h4>Featured</h3>';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
+  $handler->display->display_options['defaults']['footer'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter: Node: Type */
@@ -1601,6 +1602,7 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['header']['area']['content'] = '<h2>Explore Projects</h2>
 <h3>Fund and follow your favourite projects. Start your discovery!</h3>';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
+  $handler->display->display_options['defaults']['footer'] = FALSE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
   /* Empty text: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
@@ -3377,7 +3379,7 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['fields']['created']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'd M Y';
-  /* Field: Content: How much would you like to raise? (field_proposal_project_funds) */
+  /* Field: Content: Project funds (field_proposal_project_funds) */
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['id'] = 'field_proposal_project_funds_value';
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['table'] = 'node_data_field_proposal_project_funds';
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['field'] = 'field_proposal_project_funds_value';
@@ -3594,7 +3596,7 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['fields']['created']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'd M Y';
-  /* Field: Content: How much would you like to raise? (field_proposal_project_funds) */
+  /* Field: Content: Project funds (field_proposal_project_funds) */
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['id'] = 'field_proposal_project_funds_value';
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['table'] = 'node_data_field_proposal_project_funds';
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['field'] = 'field_proposal_project_funds_value';
