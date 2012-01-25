@@ -14,7 +14,17 @@ function weeve_report_menu() {
 }
 
 function weeve_report_page() {
-  return 'test';
+  $data = weeve_report_get_all();
+  return theme('weeve_report_page', $data);
+}
+
+function weeve_report_theme() {
+  return array(
+    'weeve_report_page' => array(
+      'arguments' => array('data' => null),
+      'template' => 'tpl/global_report'
+    ),
+  );
 }
 
 function weeve_report_get_types() {
@@ -36,6 +46,16 @@ function weeve_report_update($type, $add_value = 1) {
 function weeve_report_get($type) {
   $result = db_query("SELECT * FROM {weeve_global_report} WHERE type='%s'", $type);
   return db_fetch_object($result);
+}
+
+function weeve_report_get_all() {
+  $result = db_query("SELECT * FROM {weeve_global_report}");
+  $data = array();
+  while($row = db_fetch_object($result)) {
+    $data[$row->type] = $row;
+  }
+
+  return $data;
 }
 
 function weeve_report_update_title($type, $title) {

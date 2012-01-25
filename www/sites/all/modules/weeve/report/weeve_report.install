@@ -1,7 +1,57 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/*
+ * Implementation hook_install()
  */
+function weeve_report_install() {
+  drupal_install_schema('weeve_report');
+}
 
-?>
+/*
+ * Implementation hook_uninstall()
+ */
+function weeve_report_uninstall() {
+  drupal_uninstall_schema('weeve_report');
+}
+
+/*
+ * Implementation hook_schema()
+ */
+function weeve_report_schema() {
+  $schema = array();
+  $schema['weeve_global_report'] = array(
+      'description' => t('TODO: please describe this table!'),
+      'fields' => array(
+          'type' => array(
+              'description' => t('TODO: please describe this field!'),
+              'type' => 'enum',
+              'not null' => TRUE,
+          ),
+          'value' => array(
+              'description' => t('TODO: please describe this field!'),
+              'type' => 'float',
+              'unsigned' => TRUE,
+              'not null' => FALSE,
+              'precision' => '',
+              'scale' => '',
+          ),
+          'last_updated' => array(
+              'description' => t('TODO: please describe this field!'),
+              'type' => 'datetime',
+              'not null' => FALSE,
+          ),
+          'title' => array(
+              'description' => t('TODO: please describe this field!'),
+              'type' => 'varchar',
+              'length' => '500',
+              'not null' => FALSE,
+          ),
+      ),
+      'primary key' => array('type'),
+      'unique keys' => array(
+          'type' => array('type')
+      ),
+  );
+
+
+  return $schema;
+}
