@@ -1,0 +1,25 @@
+<?php
+function weeve_report_get_types() {
+  $result = db_query("SELECT type FROM {weeve_global_report}");
+  return db_fetch_array($result);
+}
+
+function weeve_report_update($type, $add_value = 1) {
+  $result = db_query("UPDATE {weeve_global_report} SET value=value + %f, last_updated='%s' WHERE type='%s'", 
+          $add_value, date('Y-m-d H:i:s'), $type);
+
+  if (!db_affected_rows()) {
+    db_query("INSERT {weeve_global_report} VALUES ('%s', %f, '%s', '%s')", $type, (float)$add_value, date('Y-m-d H:i:s'), $type);
+  }
+
+  return weeve_report_get($type);
+}
+
+function weeve_report_get($type) {
+  $result = db_query("SELECT * FROM {weeve_global_report} WHERE type='%s'", $type);
+  return db_fetch_object($result);
+}
+
+function weeve_report_update_title($type, $title) {
+  db_query("UPDATE {weeve_global_report} SET title='%s' WHERE type='%s'", $title, $type);
+}

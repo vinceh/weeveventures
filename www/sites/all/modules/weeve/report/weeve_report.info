@@ -1,0 +1,4 @@
+name = Weeve Report
+description = Provide global reports
+package = Weeve
+core = 6.x
