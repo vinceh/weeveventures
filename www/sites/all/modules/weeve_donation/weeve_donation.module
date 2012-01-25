@@ -222,6 +222,13 @@ function weeve_donation_preapproval_payment_save($amount, $uid, $nid, $preapprov
   else {
     drupal_write_record('weeve_preapproval_payments', $donate);
   }
+
+  if ($paid) {
+    weeve_report_update('donate approved', $amount);
+  } else {
+    weeve_report_update('donate pending', $amount);
+  }
+
   return $donate;
 }
 

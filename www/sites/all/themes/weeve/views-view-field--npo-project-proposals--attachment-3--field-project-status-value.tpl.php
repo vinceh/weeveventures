@@ -19,10 +19,8 @@
   * the view is modified.
   */
 ?>
-<div class="weeve-medium-button<?= $row->node_data_field_proposal_status_field_proposal_status_value == 'approve' ? '' : ' weevedisabled'?>">
-<?php if ($row->node_data_field_proposal_status_field_proposal_status_value == 'approve'): ?>
-<?php print l(t('Create Project'), 'node/add/project/' . $row->nid); ?>
+<?php if ($row->node_data_field_project_percent_pledge_field_project_payed_o): ?>
+<div class="weeve-medium-button payout" nid="<?= $row->nid?>"><?= t('Request payout'); ?></div>
 <?php else: ?>
-<?= $output; ?>
+<div class="weeve-medium-button weevedisabled"><?= $output; ?></div>
 <?php endif; ?>
-</div>

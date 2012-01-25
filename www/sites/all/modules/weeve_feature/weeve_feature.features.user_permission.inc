@@ -99,11 +99,6 @@ function weeve_feature_user_default_permissions() {
     'name' => 'access devel information',
     'roles' => array(
       '0' => 'admin',
-      '1' => 'anonymous user',
-      '2' => 'authenticated user',
-      '3' => 'corporate',
-      '4' => 'npo',
-      '5' => 'user',
     ),
   );
 
@@ -132,6 +127,7 @@ function weeve_feature_user_default_permissions() {
     'name' => 'access user profiles',
     'roles' => array(
       '0' => 'admin',
+      '1' => 'authenticated user',
     ),
   );
 

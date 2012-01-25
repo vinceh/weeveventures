@@ -89,6 +89,15 @@ function weeve_account_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['account/%/payment'] = array(
+    'title' => '',
+    'access callback' => 'weeve_account_owner_access',
+    'access arguments' => array(1),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('weeve_account_payment_page'),
+    'type' => MENU_CALLBACK,
+  );
+
   $items['account/%/donated'] = array(
     'title' => '',
     'access callback' => 'weeve_account_owner_access',
@@ -176,6 +185,9 @@ function weeve_account_theme() {
     'wevee_account_form_element_inline' => array(
       'arguments' => array('element' => NULL, 'value' => NULL),
     ),
+    'weeve_account_payment_form' => array(
+      'arguments' => array('form' => NULL),
+    ),
   );
 }
 
@@ -229,7 +241,7 @@ function weeve_account_change_password_form_validate(&$form, &$form_state) {
   $confirm = $form_state['values']['confirm_pwd'];
 
   if ($user->pass != md5($old)) {
-    form_set_error('old_pwd', t('Incorrect curent password'));
+    form_set_error('old_pwd', t('Incorrect current password'));
   }
 
   if ($new != $confirm) {
@@ -624,12 +636,73 @@ function weeve_account_projects_page($uid) {
   $user_info = weeve_account_load_user($uid);
   $type = weeve_account_check_type($user_info['user']);
   if ($type == 'npo') {
+    jquery_ui_add('ui.dialog');
     $content = views_embed_view('npo_project_proposals', 'page_1', $user_info['user']->uid);
     $output = theme('weeve_npo_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], $content);
     return $output;
   } else {
     drupal_access_denied();
   }
+}
+
+function weeve_account_payment_page() {
+  global $user;
+  $profile = node_load(array('type' => 'profile', 'uid' => $user->uid));
+
+  $form = array();
+
+  $form['paypal'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Paypal'
+  );
+
+  $form['paypal']['email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Paypal primary email'),
+    '#default_value' => $profile->field_payment_paypal_email[0]['value']
+  );
+
+  $form['paypal']['admin_verified'] = array(
+    '#value' => $profile->field_payment_paypal_verified[0]['value'] ? t('Verified') : t('Not verified')
+  );
+
+  $form['submit'] = array(
+    '#type'   => 'submit',
+    '#value' => t('Save settings')
+  );
+
+  $form['#theme'] = 'weeve_account_payment_form';
+
+  return $form;
+}
+
+function weeve_account_payment_page_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  $email = trim($values['email']);
+  if ($email) {
+    if (!valid_email_address($email)) {
+      form_set_error('error', t('Email you entered is not valid'));
+    }
+  }  
+}
+
+function weeve_account_payment_page_submit($form, &$form_state) {
+  global $user;
+  $values = $form_state['values'];
+  $email = trim($values['email']);
+
+  $profile = node_load(array('type' => 'profile', 'uid' => $user->uid));
+
+  $profile->field_payment_paypal_email[0]['value'] = $email;
+  $profile->field_payment_paypal_verified[0]['value'] = 0;
+  node_save($profile);
+}
+
+function theme_weeve_account_payment_form($form) {
+  global $user;
+  $user_info = weeve_account_load_user($user->uid);
+  $output = theme('weeve_npo_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], drupal_render($form));
+  return $output;
 }
 
 function weeve_account_about_page($uid) {
