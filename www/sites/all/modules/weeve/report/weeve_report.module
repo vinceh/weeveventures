@@ -1,4 +1,22 @@
 <?php
+
+function weeve_report_menu() {
+  $items = array();
+
+  $items['admin/reports/weeve'] = array(
+    'title' => 'Weeve',
+    'page callback' => 'weeve_report_page',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration')
+  );
+
+  return $items;
+}
+
+function weeve_report_page() {
+  return 'test';
+}
+
 function weeve_report_get_types() {
   $result = db_query("SELECT type FROM {weeve_global_report}");
   return db_fetch_array($result);

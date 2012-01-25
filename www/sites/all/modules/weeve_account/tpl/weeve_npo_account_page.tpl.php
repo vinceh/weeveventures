@@ -28,7 +28,6 @@
       <?php print l(t('history'), 'account/'. $account->uid .'/history', array('attributes' => array('class' => 'profile-link'. $active_class))); ?>
       <?php if($user->uid == $account->uid): ?>
         <?php print l(t('pending projects'), 'account/'. $account->uid .'/projects', array('attributes' => array('class' => 'profile-link'))); ?>
-        <?php print l(t('payment'), 'account/'. $account->uid .'/payment', array('attributes' => array('class' => 'profile-link'))); ?>
       <?php endif; ?>
 	</div>
 

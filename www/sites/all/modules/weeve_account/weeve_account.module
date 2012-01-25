@@ -89,13 +89,13 @@ function weeve_account_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['account/%/payment'] = array(
-    'title' => '',
-    'access callback' => 'weeve_account_owner_access',
-    'access arguments' => array(1),
+  $items['account/change/payment'] = array(
+    'title' => 'payment',
+    'access callback' => 'weeve_account_access',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('weeve_account_payment_page'),
-    'type' => MENU_CALLBACK,
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 2,
   );
 
   $items['account/%/donated'] = array(
@@ -671,7 +671,7 @@ function weeve_account_payment_page() {
     '#value' => t('Save settings')
   );
 
-  $form['#theme'] = 'weeve_account_payment_form';
+  //$form['#theme'] = 'weeve_account_payment_form';
 
   return $form;
 }
