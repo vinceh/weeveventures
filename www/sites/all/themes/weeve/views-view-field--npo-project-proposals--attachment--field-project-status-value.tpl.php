@@ -19,4 +19,4 @@
   * the view is modified.
   */
 ?>
-<div class="weeve-medium-button weevedisabled"><?= $output; ?>
+<div class="weeve-medium-button"><?= $output; ?></div>

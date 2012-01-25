@@ -132,6 +132,12 @@
   padding-left: 30px;
 }
 
+.view-npo-project-proposals .view-header {
+  font-weight: bold;
+  color: #333;
+  font-size: 20px;
+}
+
 .view-npo-project-proposals .view-header h3,
 .view-npo-project-proposals .view-footer h3 {
   color: #333;

@@ -25,3 +25,4 @@
 <?php else: ?>
 <?= $output; ?>
 <?php endif; ?>
+</div>

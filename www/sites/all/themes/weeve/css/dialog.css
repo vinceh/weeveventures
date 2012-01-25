@@ -32,7 +32,43 @@
   color: #555;
 }
 
+
 #project-cancel-dialog .close-dialog {
   color: #00A0CE;
   margin-left: 20px;
+}
+
+#project-payout-dialog .weeve-medium-button {
+  display: block;
+  margin-top: 20px;
+}
+
+#project-payout-dialog .node-title {
+  color: #00A0CE;
+}
+
+.ui-dialog span.ui-icon-closethick, .ui-dialog .ui-dialog-titlebar-close {
+  text-indent: 0px;
+  width: auto;
+  height: 20px;
+  font-weight: normal;
+  font-size: 14px;
+  color: #00A0CE;
+  padding: 0px;
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close:hover {
+  background: transparent;
+  border: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+#ui-dialog-title-project-payout-dialog {
+  color: #00A0CE;
+  font-weight: normal;
+  font-size: 28px;
 }
