@@ -11,7 +11,7 @@
   <tr>
     <td><?= $row->title ? $row->title : $row->type ?></td>
     <td><?= (float)$row->value ?></td>
-    <td><?=$row->last_updated ?></td>
+    <td><?= $row->last_updated ?></td>
   </tr>
 <?php  endforeach; ?>
   </tbody>

@@ -1,4 +1,21 @@
 <?php
+function weeve_report_titles($type = null) {
+  $types = array(
+    'donate pending' => t('Dollars Pledged'),
+    'projects created' => t('Launched Projects'),
+    'projects approved' => t('Approved Projects'),
+    'npos registered' => t('Non profit organizations registered'),
+    'users registered' => t('Users registered'),
+    'projects success' => t('Successful Projects'),
+    'donate approved' => t('Dollars Approved')
+  );
+
+  if ($type) {
+    return $types[$type];
+  }
+
+  return $types;
+}
 
 function weeve_report_menu() {
   $items = array();
@@ -7,7 +24,16 @@ function weeve_report_menu() {
     'title' => 'Weeve',
     'page callback' => 'weeve_report_page',
     'access callback' => 'user_access',
-    'access arguments' => array('administer site configuration')
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK
+  );
+
+  $items['stats/%'] = array(
+    'title' => 'Weeve report',
+    'page callback' => 'weeve_report_statistic',
+    'page arguments' => array(1),
+    'access callback' => true,
+    'type' => MENU_CALLBACK
   );
 
   return $items;
@@ -15,7 +41,54 @@ function weeve_report_menu() {
 
 function weeve_report_page() {
   $data = weeve_report_get_all();
+
   return theme('weeve_report_page', $data);
+}
+
+function weeve_report_statistic($year) {
+  $min_date = $year . '-01-01 00:00:00';
+  $max_date = $year . '-12-31 23:59:59';
+  $result = db_query("SELECT type, SUM(value) as total FROM {weeve_global_report} WHERE last_updated >='%s' AND last_updated <='%s'
+    GROUP BY type", $min_date, $max_date);
+  $data = array();
+  while($row = db_fetch_object($result)) {    
+    $dollar_sign = '';
+    if (in_array($row->type, array('donate pending', 'donate approved'))) {
+      $dollar_sign = '$';
+    }
+
+    if ($row->type == 'projects success') {
+      $success = $row->total;
+    }
+
+    if ($row->type == 'projects approved') {
+      $projects = $row->total;
+    }
+
+    $data[] = weeve_report_titles($row->type) . ': ' . $dollar_sign . number_format($row->total);
+  }
+
+  if ($success && $projects) {
+    $data[] = t('Project success rate') . ': ' . ($projects / $success) * 100 . '%';
+  }
+
+  if (empty ($data)) {
+    return drupal_not_found();
+  }
+
+
+  //CATEGORIES
+  $result = db_query("SELECT description, SUM(value) as total FROM {weeve_global_report} WHERE last_updated >='%s' AND last_updated <='%s'
+    AND description <> '' AND type='donate approved' GROUP BY description", $min_date, $max_date);
+
+  $category_data = array();
+
+  while($row = db_fetch_object($result)) {
+    $category_data[] = $row;
+  }
+
+  $text = t('Let’s look at some statistics for ' . $year . ':');
+  return theme('weeve_report_stats', theme('item_list', $data), $category_data, $year);
 }
 
 function weeve_report_theme() {
@@ -24,28 +97,32 @@ function weeve_report_theme() {
       'arguments' => array('data' => null),
       'template' => 'tpl/global_report'
     ),
+    'weeve_report_stats' => array(
+      'arguments' => array('data' => null, 'category_data' => array(), 'year' => null),
+      'template' => 'tpl/stats'
+    ),
   );
 }
 
 function weeve_report_get_types() {
-  $result = db_query("SELECT type FROM {weeve_global_report}");
+  $result = db_query("SELECT type FROM {weeve_global_report} GROUP BY type");
   return db_fetch_array($result);
 }
 
-function weeve_report_update($type, $add_value = 1) {
-  $result = db_query("UPDATE {weeve_global_report} SET value=value + %f, last_updated='%s' WHERE type='%s'", 
-          $add_value, date('Y-m-d H:i:s'), $type);
-
-  if (!db_affected_rows()) {
-    db_query("INSERT {weeve_global_report} VALUES ('%s', %f, '%s', '%s')", $type, (float)$add_value, date('Y-m-d H:i:s'), $type);
-  }
+function weeve_report_update($type, $add_value = 1, $description = null) {
+  db_query("INSERT INTO {weeve_global_report}('type', 'value', 'last_updated', 'description') VALUES ('%s', %f, '%s', '%s')", $type, (float)$add_value, date('Y-m-d H:i:s'), $description);
 
   return weeve_report_get($type);
 }
 
 function weeve_report_get($type) {
   $result = db_query("SELECT * FROM {weeve_global_report} WHERE type='%s'", $type);
-  return db_fetch_object($result);
+  $data = array();
+  while($row = db_fetch_object($result)) {
+    $data[] = $row;
+  }
+
+  return $data;
 }
 
 function weeve_report_get_all() {
@@ -56,8 +133,4 @@ function weeve_report_get_all() {
   }
 
   return $data;
-}
-
-function weeve_report_update_title($type, $title) {
-  db_query("UPDATE {weeve_global_report} SET title='%s' WHERE type='%s'", $title, $type);
 }
