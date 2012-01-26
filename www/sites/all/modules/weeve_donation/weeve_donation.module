@@ -222,9 +222,18 @@ function weeve_donation_preapproval_payment_save($amount, $uid, $nid, $preapprov
   else {
     drupal_write_record('weeve_preapproval_payments', $donate);
   }
+  
 
   if ($paid) {
-    weeve_report_update('donate approved', $amount);
+    $node = node_load($nid);
+    $description = '';
+    foreach($node->taxonomy as $term) {
+      if ($term->vid == VOCABULARY_PROJECT_CATEGORIES_ID) {
+        $description = strtolower($term->name);
+        break;
+      }
+    }
+    weeve_report_update('donate approved', $amount, $description);
   } else {
     weeve_report_update('donate pending', $amount);
   }
