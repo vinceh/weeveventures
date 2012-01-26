@@ -92,7 +92,12 @@ function weeve_donation_ajax_callback() {
     $node = node_load($nid);
     $user = user_load($uid);
 
-    $resArray = weeve_donation_preapproval(date('Y-m-d'), $node->field_project_end[0]['value'], $amount);
+
+    $date_time = new DateTime($node->field_project_end[0]['value']);
+    $date_time->modify('+1 day');
+    $endDate = $date_time->format('Y-m-d');
+
+    $resArray = weeve_donation_preapproval(date('Y-m-d'), $endDate, $amount);
 
     $response['status'] = TRUE;
     $response['data'] = $resArray;
@@ -167,7 +172,12 @@ function weeve_donation_edit_ajax_callback() {
     // create new preapproval key with new amount value
     $nid = $preapproval->nid;
     $node = node_load($nid);
-    $resArray = weeve_donation_preapproval(date('Y-m-d'), $node->field_project_end[0]['value'], $amount);
+
+    $date_time = new DateTime($node->field_project_end[0]['value']);
+    $date_time->modify('+1 day');
+    $endDate = $date_time->format('Y-m-d');
+
+    $resArray = weeve_donation_preapproval(date('Y-m-d'), $endDate, $amount);
 
     $response['status'] = TRUE;
     $response['data'] = $resArray;
@@ -572,8 +582,5 @@ function weeve_donation_pay($key, $receivers, $memo) {
 
 
 function weeve_donation_test_callback() {
-  $amount = '10001';
-  kpr($amount * 0.95);
-  kpr($amount * 0.05);
   die;
 }
