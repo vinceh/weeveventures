@@ -19,7 +19,7 @@
   * the view is modified.
   */
 ?>
-<?php if ($row->node_data_field_project_percent_pledge_field_project_payed_o): ?>
+<?php if (!$row->node_data_field_project_percent_pledge_field_project_payed_o): ?>
 <div class="weeve-medium-button payout" nid="<?= $row->nid?>"><?= t('Request payout'); ?></div>
 <?php else: ?>
 <div class="weeve-medium-button weevedisabled"><?= $output; ?></div>
