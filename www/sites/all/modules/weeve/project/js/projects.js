@@ -44,13 +44,15 @@ $(document).ready(function() {
     $('#project-payout-dialog button.weeve-medium-button').one('click', function() {      
       $.post(
         Drupal.settings.basePath + 'project/' + nid + '/payout',
-        {method: $('#weeve-payout-method').val()},
+        {method: 'paypal'},
         function(response) {
           if (response.success) {
             document.location.href = Drupal.settings.basePath + 'projects';
           } else {
             alert(Drupal.t('Error occured'));
           }
+          $('#project-payout-dialog').remove();
+          $('#project-payout-dialog').dialog('close');
         },
         'json'
       );
@@ -60,5 +62,35 @@ $(document).ready(function() {
   $('.ui-widget-overlay').live('click', function() {
     $('#project-payout-dialog').remove();
     $('#project-payout-dialog').dialog('close');
+  });
+
+  $('a.weeve-medium-button[href$="project/terms"]').click(function(e) {
+    e.preventDefault();
+
+    $('#project-payment-dialog').dialog('destroy');
+    var title = $(this).parents('table tr').find('.views-field-title').text();
+
+    var text = '';
+    text += '<div class="main-text">' +
+      Drupal.t('Please go to payment settings and check your status') + '</div>';
+    text += '<a class="weeve-medium-button" href="'+Drupal.settings.basePath + 'account/change/payment">' + Drupal.t('Payment settings') + '</a>';
+
+
+
+    var div = '<div id="project-payment-dialog">' + text + '</div>';
+    $('body').append(div);
+    $('#project-payment-dialog').dialog(
+      {resizable: false, width: 680, modal: true, title: 'Account is not verified', close: function() {
+          $('#project-payment-dialog').remove();
+          $('#project-payment-dialog').dialog('close');
+      }}
+    );
+
+
+    $('#project-payment-dialog .close-dialog').one('click', function(e) {
+      e.preventDefault();
+      $('#project-payment-dialog').remove();
+      $('#project-payment-dialog').dialog('close');
+    });
   });
 });

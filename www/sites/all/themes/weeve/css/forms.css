@@ -12,6 +12,10 @@ input.form-text {
   width: 350px;
 }
 
+#weeve-project-edit-project-form #edit-title {
+  width: 800px;
+}
+
 #weeve-account-change-password-form {
   overflow: hidden;
 	margin: 30px 230px 30px 30px;

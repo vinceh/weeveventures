@@ -39,8 +39,55 @@ $(document).ready(function() {
     });
   });
 
+  $('#weeve-project-edit-project-form button.funds').click(function(e) {
+    e.preventDefault();
+    $('#project-funds-dialog').dialog('destroy');
+
+    var text = '';
+    text += Drupal.t('How much funds the project requires?');
+    text += '<input type="text" id="weeve-funds" name="weeve-funds" />';
+    text += '<button class="weeve-medium-button">' + Drupal.t('Update') + '</button>';
+    text += '<a href="#" class="close-dialog">' + Drupal.t('go back') + '</a>';
+
+    var div = '<div id="project-funds-dialog">' + text + '</div>';
+    $('body').append(div);
+    $('#project-funds-dialog').dialog(
+      {resizable: false, width: 480, modal: true, title: 'Do you really want to change funds?'}
+    );
+
+    $('#project-funds-dialog .close-dialog').one('click', function(e) {
+      e.preventDefault();
+      $('#project-funds-dialog').remove();
+      $('#project-funds-dialog').dialog('close');
+    });
+
+    $('#project-funds-dialog button').one('click', function() {
+      var nid = $('#weeve-project-edit-project-form #edit-nid').val();
+      $.post(
+        Drupal.settings.basePath + 'project/' + nid + '/funds',
+        {funds: $('#weeve-funds').val()},
+        function(response) {
+          if (response.success) {
+            alert(Drupal.t('Your request has been recieved'));
+          } else {
+            if (response.message) {
+              alert(response.message);
+            } else {
+              alert(Drupal.t('Error occured'));
+            }
+          }
+          $('#project-funds-dialog').remove();
+          $('#project-funds-dialog').dialog('close');
+        },
+        'json'
+      );
+    });
+  });
+
   $('.ui-widget-overlay').live('click', function() {
     $('#project-cancel-dialog').remove();
-    $('#project-cancel-dialog').dialog('close');    
+    $('#project-cancel-dialog').dialog('close');
+    $('#project-funds-dialog').remove();
+    $('#project-funds-dialog').dialog('close');
   });
 });

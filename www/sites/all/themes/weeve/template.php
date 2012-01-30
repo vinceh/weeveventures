@@ -5,17 +5,25 @@
  *
  * Adds 'sidebar-left', 'sidebar-right' or 'sidebars' classes as needed.
  */
-function phptemplate_body_class($left, $right) {
+function phptemplate_body_class($left, $right, $body_classes = null) {
   if ($left != '' && $right != '') {
-    $class = 'sidebars';
+    $add_class = 'sidebars';
   }
   else {
     if ($left != '') {
-      $class = 'sidebar-left';
+      $add_class = 'sidebar-left';
     }
     if ($right != '') {
-      $class = 'sidebar-right';
+      $add_class = 'sidebar-right';
     }
+  }
+
+  if ($add_class) {
+    $body_classes[] = $add_class;
+  }
+
+  if ($body_classes) {
+    $class = implode(', ', (array)$body_classes);
   }
 
   if (isset($class)) {

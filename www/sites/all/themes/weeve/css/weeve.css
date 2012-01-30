@@ -109,6 +109,10 @@ h2 {
   margin-top: 0px;
 }
 
+.sidebar-left #main-content .view-featured-projects.category .view-header {
+  margin-bottom: 35px;
+}
+
 .sidebar-left #main-content .view-featured-projects.front-page .views-row {
   margin-left: 15px;
   margin-bottom: 20px;

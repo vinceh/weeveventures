@@ -17,8 +17,8 @@ function weeve_project_init() {
   include_once 'Zend/Loader/Autoloader.php';
   Zend_Loader_Autoloader::getInstance()->setDefaultAutoloader('_weeve_project_autoload');
 
-  if (arg(2) == 'projects') {
-    //NPO project page (views)
+  if (arg(0) == 'account') {
+    jquery_ui_add('ui.dialog');
     drupal_add_js(drupal_get_path('module', 'weeve_project') . '/js/projects.js');
   }
 }
@@ -61,6 +61,15 @@ function weeve_project_menu() {
     'type' => MENU_CALLBACK
   );
   
+  $items['project/%/funds'] = array(
+    'title' => 'Change funds',
+    'page callback' => 'weeve_project_funds_project',
+    'page arguments' => array(1),
+    'access callback' => 'weeve_project_edit_own_project_valid',
+    'access arguments' => array(1),
+    'type' => MENU_CALLBACK
+  );
+
   return $items;
 }
 
@@ -181,7 +190,7 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
 
     if (!$profile->field_payment_paypal_verified[0]['value']) {
       drupal_set_message('Your paypal account is not verified', 'error');
-      drupal_goto('account/' . $user->uid . '/projects');
+      drupal_goto('account/change/payment');
     }
 
     if (!$proposal_nid || !_weeve_project_is_allowed_create_project($proposal_nid)) {
@@ -234,6 +243,13 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
   }
 
   if ($form_id == 'project_request_node_form' && arg(1) == 'add') {
+    global $user;
+
+    $profile = node_load(array('type' => 'profile', 'uid' => $user->uid));
+    if (!$profile->field_payment_paypal_verified[0]['value']) {
+      drupal_set_message('Your paypal account is not verified', 'error');
+      drupal_goto('account/change/payment');
+    }
     drupal_set_title(t('Submit your proposal'));
 
     $form['subtitle']['#value'] = t('Fill out the information and we will review your project and contact you soon');
@@ -405,8 +421,76 @@ function weeve_project_theme() {
   );
 }
 
-function weeve_project_payout_project($nid) {
+function weeve_project_funds_project($nid) {
+  $response = array(
+    'success' => false
+  );
+
+  $admin = user_load(1);
   
+  if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    echo json_encode($response); exit;
+  }
+
+  $funds = $_POST['funds'];
+
+  if (!is_numeric($funds) || $funds <= 0) {
+    $response['message'] = t("Invalid funds value");
+    echo json_encode($response); exit;
+  }
+
+  drupal_mail('weeve_project', 'funds', $admin->mail, user_preferred_language($admin), array('account' => $admin, 'nid' => $nid, 'funds' => $funds));
+
+  $response['success'] = true;
+  echo json_encode($response); exit;
+}
+
+function weeve_project_mail($key, &$message, $params) {
+  $language = $message['language'];
+  $variables = user_mail_tokens($params['account'], $language);
+
+  switch ($key) {
+    case 'funds':
+      $nid = $params['nid'];
+      $project = node_load($nid);
+      $funds = $params['funds'];
+
+      $project_link = url('node/' . $nid . '/edit', array('absolute' => true));
+      $title = $project->title;
+
+      $message['subject'] = t('Funds request change from !site', $variables, $language->language);
+      $message['body'][] = t("Dear !username\n\n<br />There is fund request change.\n\n<br />New value is: \$$funds.\n\n<br />Please go to <a href=\"$project_link\">$title</a> to change to new value.", $variables, $language->language);
+      $message['headers']['Content-Type'] = 'text/html; charset=UTF-8;';
+      break;
+    case 'payout':
+      $nid = $params['nid'];
+      $project = node_load($nid);
+      $project_link = url('node/' . $nid . '/edit', array('absolute' => true));
+      $title = $project->title;
+
+      $message['subject'] = t('Payout request from !site', $variables, $language->language);
+      $message['body'][] = t("Dear !username\n\n<br />There is payout request.\n\n<br />Please go to <a href=\"$project_link\">$title</a> to view the project.", $variables, $language->language);
+      $message['headers']['Content-Type'] = 'text/html; charset=UTF-8;';
+  }
+}
+
+function weeve_project_payout_project($nid) {
+  $response = array(
+    'success' => false
+  );
+
+  $admin = user_load(1);
+
+  if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    echo json_encode($response); exit;
+  }
+
+  $method = $_POST['method'];
+
+  drupal_mail('weeve_project', 'payout', $admin->mail, user_preferred_language($admin), array('account' => $admin, 'nid' => $nid, 'method' => $method));
+
+  $response['success'] = true;
+  echo json_encode($response); exit;
 }
 
 function weeve_project_edit_project_form($form_state, $nid) {
@@ -419,6 +503,11 @@ function weeve_project_edit_project_form($form_state, $nid) {
   $form['cancel'] = array(
     '#type' => 'markup',
     '#value' => '<button class="weeve-medium-button cancel">'.t('Cancel project').'</button>'
+  );
+
+  $form['fund'] = array(
+    '#type' => 'markup',
+    '#value' => '<button class="weeve-medium-button funds">'.t('Request fund change').'</button>'
   );
 
   $form['title'] = array(
@@ -667,6 +756,10 @@ function weeve_project_preprocess_page(&$vars) {
     $vars['node'] = $node;
     $vars['title'] = $vars['node']->title;
     $vars['template_files'][] = 'page-node-project';
+
+    if (in_array('page-project-edit', $vars['template_files'])) {
+      $vars['body_classes'] = array('project-edit');
+    }
   }
 
   if ($vars['node']->type == 'project_update') {
@@ -679,6 +772,15 @@ function weeve_project_terms_form() {
   if (_weeve_project_is_allowed_create_project()) {
     global $user;
     drupal_goto('account/' . $user->uid . '/projects');
+  }
+
+  global $user;
+
+  $profile = node_load(array('type' => 'profile', 'uid' => $user->uid));
+  
+  if (!$profile->field_payment_paypal_verified[0]['value']) {
+    drupal_set_message('Your paypal account is not verified', 'error');
+    drupal_goto('account/change/payment');
   }
 
   $form = array();

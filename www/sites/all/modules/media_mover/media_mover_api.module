@@ -231,7 +231,7 @@ function media_mover_api_simpletest() {
  * @param $file is the file in use
  * @param $running_config is the full configuration data currently running
  */
-function media_mover_api_media_mover($op, $action = NULL, $configuration = NULL, &$file = array(), $running_config = NULL ) {
+function media_mover_api_media_mover($op, $action = NULL, $configuration = NULL, $file = array(), $running_config = NULL ) {
 
   switch ($op) {
 

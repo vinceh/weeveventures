@@ -26,10 +26,13 @@
   <div class="donate-button-subtitle">$1 <?= t('minimum') ?></div>
 </div>
 <?php else: ?>
+<?php global $user; ?>
+<?php if (!in_array('npo', $user->roles) && $user->uid): ?>
 <div class="donate-button weeve-medium-button">
   <div class="donate-button-content "><?= l(t('make donation'), 'project/' . $node->nid . '/donate') ?></div>
   <div class="donate-button-subtitle">$1 <?= t('minimum') ?></div>
 </div>
+<?php endif; ?>
  <?php endif; ?>
 <div class="follow-link"><?= l(t('Follow this Project'), 'project/' . $node->nid . '/follow') ?></div>
 <div class="horizontal-line"></div>

@@ -12,9 +12,13 @@
 
 #center .center-left {
   width: 595px;
-  padding: 7px 15px;
+  padding: 7px 15px 7px 0px;
   float: left;
   margin: 0px;
+}
+
+.project-edit #center .center-left {
+  width: 100%;
 }
 
 #center .center-left img {
@@ -76,6 +80,10 @@ ul.project-node-menu a:hover, ul.project-node-menu a.active {
 .node.project .project-body {
   font-size: 16px;
   color: #555; 
+}
+
+.node.project .project-body .media_embed > * {
+  max-width: 100%;
 }
 
 div.project-updates-page .views-row {
