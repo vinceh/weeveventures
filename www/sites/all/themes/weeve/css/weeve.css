@@ -4,7 +4,7 @@
 }
 
 body{
-	font-family: 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-family: Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;
 	color: #555;
 	margin: 0px;
   font-size: 16px;
@@ -288,7 +288,7 @@ a {
 	height: 200px;
 	margin: 15px 0px;
 	padding: 10px;
-	font-family: 'Helvetica Neue', Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-family: Arial, Helvetica, 'Liberation Sans', 'lucida grande', tahoma, verdana, arial, sans-serif;
 	border-radius: 3px;
 	border: 1px solid #aaa;
 	outline: none;

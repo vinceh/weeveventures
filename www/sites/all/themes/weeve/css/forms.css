@@ -71,7 +71,6 @@ input.form-text {
   font-size: 23px;
   margin-top: 30px;
   color: #333333;
-  font-family: neue;
   font-weight: normal;
 }
 #weeve-account-change-general-npo-form fieldset {
@@ -82,7 +81,6 @@ input.form-text {
   font-size: 23px;
   margin-top: 30px;
   color: #333333;
-  font-family: neue;
 }
 #weeve-account-change-general-npo-form fieldset .description {
   margin-bottom: 15px;

@@ -39,7 +39,6 @@
   color: #4a4a4a;
   font-weight: normal;
   margin: 5px 0px;
-  font-family: neue;
 }
 
 .view-featured-projects.front-page .view-header h3 {
@@ -66,7 +65,7 @@
 
 /* PENDING PROJECTS */
 .view-npo-project-proposals {
-  font-family: neue;
+  
 }
 
 .view-npo-project-proposals table {
