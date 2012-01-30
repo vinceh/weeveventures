@@ -1643,6 +1643,16 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['header']['area']['label'] = '';
   $handler->display->display_options['header']['area']['empty'] = FALSE;
   $handler->display->display_options['header']['area']['tokenize'] = 0;
+  $handler->display->display_options['defaults']['footer'] = FALSE;
+  /* Footer: Global: Text area */
+  $handler->display->display_options['footer']['area']['id'] = 'area';
+  $handler->display->display_options['footer']['area']['table'] = 'views';
+  $handler->display->display_options['footer']['area']['field'] = 'area';
+  $handler->display->display_options['footer']['area']['label'] = '';
+  $handler->display->display_options['footer']['area']['empty'] = TRUE;
+  $handler->display->display_options['footer']['area']['content'] = '<div class="clear-block">&nbsp;</div>';
+  $handler->display->display_options['footer']['area']['tokenize'] = 0;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Project image (field_project_image) */
   $handler->display->display_options['fields']['field_project_image_fid']['id'] = 'field_project_image_fid';
@@ -4998,7 +5008,7 @@ $nid = $view->args[0];
 $node = node_load($nid);
 
 if (weeve_project_can_comment($nid)) {
-  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
 }
 ?>';
   $handler->display->display_options['header']['area']['format'] = '3';
@@ -5233,7 +5243,7 @@ $nid = $view->args[0];
 $node = node_load($nid);
 
 if (weeve_project_can_comment($nid)) {
-  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
 }
 ?>'),
     t('No comments yet'),
