@@ -76,6 +76,7 @@ h2 {
   color: #555;
   padding-top: 10px;
   margin-bottom: 50px;
+  text-align: center;
 }
 
 .front-slogan a {
@@ -515,7 +516,7 @@ a {
 
 .landingspace {
 	display: inline-block;
-	width: 120px;
+	width: 114px;
 	letter-spacing: 0px;
 }
 
