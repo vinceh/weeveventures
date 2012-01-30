@@ -1672,7 +1672,7 @@ if ($node->field_project_amount_need[0][\'amount\'] > 0) {
       'default_value_php' => NULL,
       'label' => 'Staff pick',
       'weight' => '17',
-      'description' => '',
+      'description' => 'Staff pick?',
       'type' => 'optionwidgets_onoff',
       'module' => 'optionwidgets',
     ),

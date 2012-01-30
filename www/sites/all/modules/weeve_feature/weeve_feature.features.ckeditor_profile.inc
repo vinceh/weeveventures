@@ -206,7 +206,7 @@ weeve:project_update@*.edit-body',
 ',
         'uicolor_user' => 'default',
         'toolbar' => '[
-    [\'Bold\',\'Underline\',\'Italic\',\'Subscript\',\'Superscript\',\'Strike\',\'NumberedList\',\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'Link\',\'Unlink\',\'Image\',\'BulletedList\',\'Source\',\'Undo\',\'Redo\',\'Styles\',\'Format\',\'Font\',\'FontSize\',\'BGColor\',\'TextColor\',\'Blockquote\',\'PasteFromWord\',\'MediaEmbed\']
+    [\'Bold\',\'Underline\',\'Italic\',\'Subscript\',\'Superscript\',\'Strike\',\'NumberedList\',\'Link\',\'Unlink\',\'Image\',\'BulletedList\',\'Source\',\'FontSize\',\'TextColor\',\'Blockquote\',\'PasteFromWord\',\'MediaEmbed\']
 ]',
         'expand' => 't',
         'width' => '100%',

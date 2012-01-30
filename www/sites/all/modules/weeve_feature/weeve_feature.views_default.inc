@@ -1591,6 +1591,8 @@ return round(($timestamp - time()) / 86400);
 
   /* Display: Category projects */
   $handler = $view->new_display('page', 'Category projects', 'page_3');
+  $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'front-page category';
   $handler->display->display_options['defaults']['header'] = FALSE;
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
@@ -1643,16 +1645,6 @@ return round(($timestamp - time()) / 86400);
   $handler->display->display_options['header']['area']['label'] = '';
   $handler->display->display_options['header']['area']['empty'] = FALSE;
   $handler->display->display_options['header']['area']['tokenize'] = 0;
-  $handler->display->display_options['defaults']['footer'] = FALSE;
-  /* Footer: Global: Text area */
-  $handler->display->display_options['footer']['area']['id'] = 'area';
-  $handler->display->display_options['footer']['area']['table'] = 'views';
-  $handler->display->display_options['footer']['area']['field'] = 'area';
-  $handler->display->display_options['footer']['area']['label'] = '';
-  $handler->display->display_options['footer']['area']['empty'] = TRUE;
-  $handler->display->display_options['footer']['area']['content'] = '<div class="clear-block">&nbsp;</div>';
-  $handler->display->display_options['footer']['area']['tokenize'] = 0;
-  $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Project image (field_project_image) */
   $handler->display->display_options['fields']['field_project_image_fid']['id'] = 'field_project_image_fid';
@@ -3927,6 +3919,7 @@ This is the list of your project proposals. Once your project has been reviewed 
     'review' => 'review',
   );
   $handler->display->display_options['filters']['field_project_status_value_many_to_one']['reduce_duplicates'] = 0;
+  $handler->display->display_options['attachment_position'] = 'after';
   $handler->display->display_options['displays'] = array(
     'page_1' => 'page_1',
     'default' => 0,
@@ -4139,6 +4132,7 @@ This is the list of your project proposals. Once your project has been reviewed 
     'accept' => 'accept',
   );
   $handler->display->display_options['filters']['field_project_status_value_many_to_one']['reduce_duplicates'] = 0;
+  $handler->display->display_options['attachment_position'] = 'after';
   $handler->display->display_options['displays'] = array(
     'page_1' => 'page_1',
     'default' => 0,
@@ -4355,6 +4349,7 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler->display->display_options['filters']['field_project_percent_pledge_value']['operator'] = '>=';
   $handler->display->display_options['filters']['field_project_percent_pledge_value']['value']['value'] = '25';
   $handler->display->display_options['filters']['field_project_percent_pledge_value']['allow_null'] = 1;
+  $handler->display->display_options['attachment_position'] = 'after';
   $handler->display->display_options['displays'] = array(
     'page_1' => 'page_1',
     'default' => 0,
@@ -4541,6 +4536,7 @@ This is the list of your project proposals. Once your project has been reviewed 
     'cancel' => 'cancel',
   );
   $handler->display->display_options['filters']['field_project_status_value_many_to_one']['reduce_duplicates'] = 0;
+  $handler->display->display_options['attachment_position'] = 'after';
   $handler->display->display_options['displays'] = array(
     'page_1' => 'page_1',
     'default' => 0,
@@ -5008,7 +5004,7 @@ $nid = $view->args[0];
 $node = node_load($nid);
 
 if (weeve_project_can_comment($nid)) {
-  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
 }
 ?>';
   $handler->display->display_options['header']['area']['format'] = '3';
@@ -5243,7 +5239,7 @@ $nid = $view->args[0];
 $node = node_load($nid);
 
 if (weeve_project_can_comment($nid)) {
-  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
 }
 ?>'),
     t('No comments yet'),
