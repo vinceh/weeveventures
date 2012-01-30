@@ -862,6 +862,9 @@ function weeve_account_get_total_donors($uid) {
   INNER JOIN content_type_project ctp ON n.nid = ctp.nid
   WHERE n.uid = %d";
   $donors = db_result(db_query($query, $uid));
+  if (!$donors) {
+    $donors = 0;
+  }
   return $donors;
 }
 

@@ -22,7 +22,7 @@
           <div class='landingspace'></div>
           <div class='landingnumber'><div>2</div></div>fund
           <div class='landingspace'></div>
-          <div class='landingnumber'><div>3</div></div>earn rewards
+          <div class='landingnumber'><div>3</div></div>be the change
         </div>
         <h2 class="front-slogan">
           Fund and follow your favourite projects.  Be the change in your community.

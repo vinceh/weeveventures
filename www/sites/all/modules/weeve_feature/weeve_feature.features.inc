@@ -77,8 +77,8 @@ function weeve_feature_node_info() {
       'description' => t('A user profile built as content.'),
       'has_title' => '1',
       'title_label' => t('Title'),
-      'has_body' => '0',
-      'body_label' => '',
+      'has_body' => '1',
+      'body_label' => t('Body'),
       'min_word_count' => '0',
       'help' => '',
     ),
@@ -122,8 +122,8 @@ We are happy to bring your project on board to Weeve! Please fill out the follow
       'description' => t('Create a new form or questionnaire accessible to users. Submission results and statistics are recorded and accessible to privileged users.'),
       'has_title' => '1',
       'title_label' => t('Title'),
-      'has_body' => '1',
-      'body_label' => t('Body'),
+      'has_body' => '0',
+      'body_label' => '',
       'min_word_count' => '0',
       'help' => '',
     ),
@@ -137,66 +137,86 @@ We are happy to bring your project on board to Weeve! Please fill out the follow
 function weeve_feature_rules_defaults() {
   return array(
     'rules' => array(
-      'rules_npo_has_been_registered' => array(
+      'rules_feedback' => array(
         '#type' => 'rule',
-        '#set' => 'event_user_insert',
-        '#label' => 'NPO has been registered',
+        '#set' => 'event_webform_rules_submit',
+        '#label' => 'Feedback',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
-          '0' => 'user',
-          'weeve_feature' => 'weeve_feature',
+          '0' => 'feedbacks',
+          '1' => 'weeve_feature',
         ),
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'roles' => array(
-                '0' => 5,
-              ),
-              'operation' => 'OR',
-              '#argument map' => array(
-                'user' => 'user',
-              ),
-            ),
-            '#name' => 'rules_condition_user_hasrole',
             '#info' => array(
-              'label' => 'User has role(s)',
+              'label' => 'Select a webform',
               'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'User',
+                'form_id' => array(
+                  'type' => 'value',
+                  'label' => 'The form id of the submitted form',
+                ),
+                'selected_webform' => array(
+                  'label' => 'Webform',
+                  'type' => 'string',
                 ),
               ),
-              'module' => 'User',
+              'module' => 'Webform',
             ),
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Execute custom PHP code',
-              'module' => 'PHP',
-              'eval input' => array(
-                '0' => 'code',
-              ),
-            ),
-            '#name' => 'rules_action_custom_php',
+            '#name' => 'webform_rules_condition_webform_id',
             '#settings' => array(
-              'code' => 'weeve_report_update(\'npos registered\', 1);',
-              'vars' => array(),
+              'selected_webform' => 'webform-client-form-50',
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
-                  'code' => array(
+                  'selected_webform' => array(
                     '0' => ':global',
                   ),
                 ),
               ),
             ),
+            '#type' => 'condition',
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '1' => array(
             '#type' => 'action',
+            '#settings' => array(
+              'to' => 'feedbacks@weeve',
+              'from' => '[data:email-display]',
+              'subject' => 'New feedback!',
+              'message' => 'We got a new feedback',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => 'data',
+                    '1' => ':global',
+                  ),
+                  'to' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'rules_action_mail',
+            '#info' => array(
+              'label' => 'Send a mail to an arbitrary mail address',
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+                '3' => 'to',
+              ),
+            ),
+            '#weight' => 0,
           ),
         ),
         '#version' => 6003,
@@ -295,151 +315,6 @@ return $current_time > $timestamp;',
         ),
         '#version' => 6003,
       ),
-      'rules_project_is_cancelled_admin_email' => array(
-        '#type' => 'rule',
-        '#set' => 'event_node_update',
-        '#label' => 'Project is "CANCELLED" ADMIN EMAIL',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'project',
-          'weeve_feature' => 'weeve_feature',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'project' => 'project',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
-            '#info' => array(
-              'label' => 'Updated content is Project',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'module' => 'Node',
-            ),
-            '#weight' => 0,
-          ),
-          '1' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_project_cancel_notes\' has been changed',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content containing changes',
-                ),
-                'node_unchanged' => array(
-                  'type' => 'node',
-                  'label' => 'Content not containing changes',
-                ),
-              ),
-              'module' => 'CCK',
-            ),
-            '#name' => 'content_rules_field_changed',
-            '#settings' => array(
-              'field_name' => 'field_project_cancel_notes',
-              '#argument map' => array(
-                'node' => 'node',
-                'node_unchanged' => 'node_unchanged',
-              ),
-            ),
-            '#type' => 'condition',
-          ),
-          '2' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'field_name' => 'field_project_status',
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-              'value' => array(
-                '0' => array(
-                  'value' => 'cancel',
-                ),
-              ),
-              'code' => '',
-              'vars' => array(),
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'code' => array(
-                    '0' => ':global',
-                  ),
-                  'value|0|value' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#name' => 'content_rules_field_has_value',
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_project_status\' has value',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'eval input' => array(
-                '0' => 'code',
-                '1' => 'value|0|value',
-              ),
-              'module' => 'CCK',
-            ),
-            '#weight' => 0,
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Send a mail to all users of a role',
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#name' => 'rules_action_mail_to_users_of_role',
-            '#settings' => array(
-              'recipients' => array(
-                '0' => 6,
-              ),
-              'from' => 'weeve@localhost',
-              'subject' => 'Project "[node:title]" has been cancelled by its author',
-              'message' => 'Reason: [node:field_project_cancel_notes-raw]',
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'subject' => array(
-                    '0' => 'node',
-                    '1' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => 'node',
-                    '1' => ':global',
-                  ),
-                  'from' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#type' => 'action',
-          ),
-        ),
-        '#version' => 6003,
-      ),
       'rules_project_update_status_accepted_' => array(
         '#type' => 'rule',
         '#set' => 'event_node_update',
@@ -453,7 +328,16 @@ return $current_time > $timestamp;',
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'project' => 'project',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
             '#info' => array(
               'label' => 'Updated content is Project',
               'arguments' => array(
@@ -464,19 +348,26 @@ return $current_time > $timestamp;',
               ),
               'module' => 'Node',
             ),
-            '#name' => 'rules_condition_content_is_type',
-            '#settings' => array(
-              'type' => array(
-                'project' => 'project',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
           '1' => array(
-            '#type' => 'condition',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_project_status\' has value',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'eval input' => array(
+                '0' => 'code',
+                '1' => 'value|0|value',
+              ),
+              'module' => 'CCK',
+            ),
+            '#name' => 'content_rules_field_has_value',
             '#settings' => array(
               'field_name' => 'field_project_status',
               '#argument map' => array(
@@ -500,26 +391,18 @@ return $current_time > $timestamp;',
                 ),
               ),
             ),
-            '#name' => 'content_rules_field_has_value',
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_project_status\' has value',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'eval input' => array(
-                '0' => 'code',
-                '1' => 'value|0|value',
-              ),
-              'module' => 'CCK',
-            ),
-            '#weight' => 0,
+            '#type' => 'condition',
           ),
           '2' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'field_name' => 'field_project_status',
+              '#argument map' => array(
+                'node' => 'node',
+                'node_unchanged' => 'node_unchanged',
+              ),
+            ),
+            '#name' => 'content_rules_field_changed',
             '#info' => array(
               'label' => 'Updated content\'s field \'field_project_status\' has been changed',
               'arguments' => array(
@@ -534,20 +417,28 @@ return $current_time > $timestamp;',
               ),
               'module' => 'CCK',
             ),
-            '#name' => 'content_rules_field_changed',
-            '#settings' => array(
-              'field_name' => 'field_project_status',
-              '#argument map' => array(
-                'node' => 'node',
-                'node_unchanged' => 'node_unchanged',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
         ),
         '#actions' => array(
           '0' => array(
-            '#type' => 'action',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to a user',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'Recipient',
+                ),
+              ),
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_user',
             '#settings' => array(
               'from' => 'weeve@localhost',
               'subject' => 'Your project "[node:title]" has been accepted ',
@@ -569,45 +460,6 @@ Weeve team',
                     '0' => ':global',
                   ),
                   'from' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#name' => 'rules_action_mail_to_user',
-            '#info' => array(
-              'label' => 'Send a mail to a user',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'Recipient',
-                ),
-              ),
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#weight' => 0,
-          ),
-          '1' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Execute custom PHP code',
-              'module' => 'PHP',
-              'eval input' => array(
-                '0' => 'code',
-              ),
-            ),
-            '#name' => 'rules_action_custom_php',
-            '#settings' => array(
-              'code' => 'weeve_report_update(\'projects approved\', 1);',
-              'vars' => array(),
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'code' => array(
                     '0' => ':global',
                   ),
                 ),
@@ -786,7 +638,16 @@ Weeve team',
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'project' => 'project',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
             '#info' => array(
               'label' => 'Updated content is Project',
               'arguments' => array(
@@ -797,19 +658,25 @@ Weeve team',
               ),
               'module' => 'Node',
             ),
-            '#name' => 'rules_condition_content_is_type',
-            '#settings' => array(
-              'type' => array(
-                'project' => 'project',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
           '1' => array(
-            '#type' => 'condition',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_project_status\' has value',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'eval input' => array(
+                '0' => 'code',
+                '1' => 'value|0|value',
+              ),
+              'module' => 'CCK',
+            ),
+            '#name' => 'content_rules_field_has_value',
             '#settings' => array(
               'field_name' => 'field_project_status',
               '#argument map' => array(
@@ -833,25 +700,18 @@ Weeve team',
                 ),
               ),
             ),
-            '#name' => 'content_rules_field_has_value',
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_project_status\' has value',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'eval input' => array(
-                '0' => 'code',
-                '1' => 'value|0|value',
-              ),
-              'module' => 'CCK',
-            ),
-            '#weight' => 0,
+            '#type' => 'condition',
           ),
           '2' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'field_name' => 'field_project_status',
+              '#argument map' => array(
+                'node' => 'node',
+                'node_unchanged' => 'node_unchanged',
+              ),
+            ),
+            '#name' => 'content_rules_field_changed',
             '#info' => array(
               'label' => 'Updated content\'s field \'field_project_status\' has been changed',
               'arguments' => array(
@@ -866,20 +726,28 @@ Weeve team',
               ),
               'module' => 'CCK',
             ),
-            '#name' => 'content_rules_field_changed',
-            '#settings' => array(
-              'field_name' => 'field_project_status',
-              '#argument map' => array(
-                'node' => 'node',
-                'node_unchanged' => 'node_unchanged',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
         ),
         '#actions' => array(
           '0' => array(
-            '#type' => 'action',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to a user',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'Recipient',
+                ),
+              ),
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_user',
             '#settings' => array(
               'from' => 'weeve@localhost',
               'subject' => 'Your project "[node:title]" has been cancelled',
@@ -902,45 +770,6 @@ Weeve team',
                     '1' => ':global',
                   ),
                   'from' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#name' => 'rules_action_mail_to_user',
-            '#info' => array(
-              'label' => 'Send a mail to a user',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'Recipient',
-                ),
-              ),
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#weight' => 0,
-          ),
-          '1' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Execute custom PHP code',
-              'module' => 'PHP',
-              'eval input' => array(
-                '0' => 'code',
-              ),
-            ),
-            '#name' => 'rules_action_custom_php',
-            '#settings' => array(
-              'code' => 'weeve_report_update(\'projects cancelled\', 1);',
-              'vars' => array(),
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'code' => array(
                     '0' => ':global',
                   ),
                 ),
@@ -1835,6 +1664,215 @@ video_upload_cron();
         ),
         '#version' => 6003,
       ),
+      'rules_npo_has_been_registered' => array(
+        '#type' => 'rule',
+        '#set' => 'event_user_insert',
+        '#label' => 'NPO has been registered',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'user',
+          'weeve_feature' => 'weeve_feature',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'roles' => array(
+                '0' => 5,
+              ),
+              'operation' => 'OR',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+            ),
+            '#name' => 'rules_condition_user_hasrole',
+            '#info' => array(
+              'label' => 'User has role(s)',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'User',
+                ),
+              ),
+              'module' => 'User',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Execute custom PHP code',
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#name' => 'rules_action_custom_php',
+            '#settings' => array(
+              'code' => 'weeve_report_update(\'npos registered\', 1);',
+              'vars' => array(),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_project_is_cancelled_admin_email' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'Project is "CANCELLED" ADMIN EMAIL',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'project',
+          'weeve_feature' => 'weeve_feature',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'project' => 'project',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Updated content is Project',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#weight' => 0,
+          ),
+          '1' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_project_cancel_notes\' has been changed',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content containing changes',
+                ),
+                'node_unchanged' => array(
+                  'type' => 'node',
+                  'label' => 'Content not containing changes',
+                ),
+              ),
+              'module' => 'CCK',
+            ),
+            '#name' => 'content_rules_field_changed',
+            '#settings' => array(
+              'field_name' => 'field_project_cancel_notes',
+              '#argument map' => array(
+                'node' => 'node',
+                'node_unchanged' => 'node_unchanged',
+              ),
+            ),
+            '#type' => 'condition',
+          ),
+          '2' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              'field_name' => 'field_project_status',
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+              'value' => array(
+                '0' => array(
+                  'value' => 'cancel',
+                ),
+              ),
+              'code' => '',
+              'vars' => array(),
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'code' => array(
+                    '0' => ':global',
+                  ),
+                  'value|0|value' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'content_rules_field_has_value',
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_project_status\' has value',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'eval input' => array(
+                '0' => 'code',
+                '1' => 'value|0|value',
+              ),
+              'module' => 'CCK',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to all users of a role',
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_users_of_role',
+            '#settings' => array(
+              'recipients' => array(
+                '0' => 6,
+              ),
+              'from' => 'weeve@localhost',
+              'subject' => 'Project "[node:title]" has been cancelled by its author',
+              'message' => 'Reason: [node:field_project_cancel_notes-raw]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
       'rules_user_has_been_registered' => array(
         '#type' => 'rule',
         '#set' => 'event_user_insert',
@@ -1889,131 +1927,6 @@ video_upload_cron();
               '#eval input' => array(
                 'token_rules_input_evaluator' => array(
                   'code' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#type' => 'action',
-          ),
-        ),
-        '#version' => 6003,
-      ),
-      'rules_feedback' => array(
-        '#type' => 'rule',
-        '#set' => 'event_webform_rules_submit',
-        '#label' => 'Feedback',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'feedbacks',
-          '1' => 'weeve_feature',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#type' => 'condition',
-            '#settings' => array(
-              'selected_webform' => 'webform-client-form-50',
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'selected_webform' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#name' => 'webform_rules_condition_webform_id',
-            '#info' => array(
-              'label' => 'Select a webform',
-              'arguments' => array(
-                'form_id' => array(
-                  'type' => 'value',
-                  'label' => 'The form id of the submitted form',
-                ),
-                'selected_webform' => array(
-                  'label' => 'Webform',
-                  'type' => 'string',
-                ),
-              ),
-              'module' => 'Webform',
-            ),
-          ),
-        ),
-        '#actions' => array(
-          '0' => array(
-            '#type' => 'action',
-            '#settings' => array(
-              'from' => 'admin@weeve',
-              'subject' => 'Thank for your feedback',
-              'message' => 'Bla bla bla',
-              '#argument map' => array(
-                'user' => 'user',
-              ),
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'subject' => array(
-                    '0' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => ':global',
-                  ),
-                  'from' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#name' => 'rules_action_mail_to_user',
-            '#info' => array(
-              'label' => 'Send a mail to a user',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'Recipient',
-                ),
-              ),
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#weight' => 0,
-          ),
-          '1' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Send a mail to an arbitrary mail address',
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-                '3' => 'to',
-              ),
-            ),
-            '#name' => 'rules_action_mail',
-            '#settings' => array(
-              'to' => 'feedbacks@weeve',
-              'from' => '[data:email-display]',
-              'subject' => 'New feedback!',
-              'message' => 'We got a new feedback',
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'subject' => array(
-                    '0' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => ':global',
-                  ),
-                  'from' => array(
-                    '0' => 'data',
-                    '1' => ':global',
-                  ),
-                  'to' => array(
                     '0' => ':global',
                   ),
                 ),
