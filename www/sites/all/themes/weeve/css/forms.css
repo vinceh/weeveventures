@@ -90,7 +90,13 @@ input.form-text {
 #weeve-account-change-general-npo-form fieldset .description {
   margin-bottom: 15px;
 }
-
+#weeve-account-change-general-npo-form textarea {
+  border: 1px solid #999999;
+  border-radius: 5px 5px 5px 5px;
+}
+#weeve-account-change-general-npo-form .grippie {
+  display: none !important;
+}
 #weeve-account-change-general-npo-form input, #weeve-account-change-general-npo-form textarea {
   margin-top: 15px;
 }

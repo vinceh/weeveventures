@@ -26,7 +26,7 @@
       <div id="center"><div id="squeeze"><div class="right-corner"><div class="left-corner">
           <?php if ($mission): print '<div id="mission">'. $mission .'</div>'; endif; ?>
           <?php if ($tabs): print '<div id="tabs-wrapper" class="clear-block">'; endif; ?>
-          <?php if ($title): print '<h2'. ($tabs ? ' class="with-tabs"' : '') .'>'. $title .'</h2>'; endif; ?>
+          <?php if ($title): print '<h2'. ($tabs ? ' class="with-tabs profile-name"' : 'profile-name') .'>'. $title .'</h2>'; endif; ?>
           <div class="profile-subname"><?php print t('all your personal stuff'); ?></div>
           <?php if ($tabs): print '<ul class="tabs primary">'. $tabs .'</ul></div>'; endif; ?>
           <?php if ($tabs2): print '<ul class="tabs secondary">'. $tabs2 .'</ul>'; endif; ?>
