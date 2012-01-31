@@ -58,6 +58,11 @@ input.form-text {
   overflow: hidden;
 }
 
+#weeve-account-change-password-form .description {
+  font-size: 12px;
+  padding-top: 5px;
+}
+
 /*NPO Edit account*/
 #weeve-account-change-general-npo-form {
   margin: 30px;
