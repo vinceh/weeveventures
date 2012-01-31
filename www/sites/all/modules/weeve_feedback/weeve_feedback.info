@@ -1,0 +1,4 @@
+name = Weeve Feedback
+description = Provide feedbacks
+package = Weeve
+core = 6.x

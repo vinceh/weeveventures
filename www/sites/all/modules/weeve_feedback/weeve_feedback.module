@@ -1,0 +1,58 @@
+<?php
+
+/*
+ * Implementation hook_init
+ */
+function weeve_feedback_init() {
+  $path = drupal_get_path('module', 'weeve_feedback');
+  drupal_add_js($path .'/js/weeve_feedback.js');
+  jquery_ui_add('ui.dialog');
+}
+
+/*
+ * Implementation hook_menu
+ */
+function weeve_feedback_menu() {
+  $items = array();
+  $items['ajax/feedback/save'] = array(
+    'title' => '',
+    'page callback' => 'weeve_feedback_save_ajax_callback',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+
+function weeve_feedback_save($email, $message) {
+  global $user;
+
+  $webform_node_id = 50;
+  $node = node_load($webform_node_id);
+  $submission = new stdClass();
+  $submission->nid = $node->nid;
+  $submission->uid = $user->uid;
+  $submission->submitted = time();
+  $submission->remote_addr = $_SERVER['REMOTE_ADDR'];
+  $submission->is_draft = FALSE;
+  $submission->data = array(
+    '2' => array('value' => array($message)),
+    '4' => array('value' => array($email)),
+  );
+
+  module_load_include('inc', 'webform', 'includes/webform.submissions');
+  $sid = webform_submission_insert($node, $submission);
+  return $sid;
+}
+
+function weeve_feedback_save_ajax_callback() {
+  global $user;
+  $sid = NULL;
+  if (isset($_POST['message']) && check_plain($_POST['message'])) {
+    $message = $_POST['message'];
+    $email = $user->mail;
+    $sid = weeve_feedback_save($email, $message);
+  }
+  print $sid;
+  exit(0);
+}
