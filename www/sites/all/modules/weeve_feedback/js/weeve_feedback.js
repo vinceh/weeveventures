@@ -2,14 +2,13 @@
   Drupal.behaviors.weeveFeedback = function(context) {
 
     var form_html = "<form id='feedback' title='Leave your feedback'>"+
-      "<div class='wrapper'><label for='message'>Message</label></div>" +
-      "<div><textarea id='feedback-message' name='message' rows='14' cols='60'></textarea></div>" +
+      "<div><textarea id='feedback-message' name='message' rows='14' cols='65'></textarea></div>" +
       "</form>";
 
     $(form_html).dialog({
     			autoOpen: false,
-    			height: 420,
-    			width: 640,
+    			height: 385,
+    			width: 580,
     			modal: true,
           buttons: {
             "Submit": function() {
@@ -22,6 +21,7 @@
                 'cache': false,
                 'success': function(response) {
                   $dialog.dialog('close');
+                  $('#feedback-message').val('');
                 }
               });
             }
