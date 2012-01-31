@@ -33,7 +33,13 @@
   <div class="donate-button-subtitle">$1 <?= t('minimum') ?></div>
 </div>
 <?php endif; ?>
- <?php endif; ?>
+<?php if(!$user->uid): ?>
+  <div class="donate-button-anon weeve-medium-button">
+    <div class="donate-button-content "><?= l(t('make donation'), 'signup') ?></div>
+    <div class="donate-button-subtitle">$1 <?= t('minimum') ?></div>
+  </div>
+<?php endif; ?>
+<?php endif; ?>
 <div class="follow-link"><?= l(t('Follow this Project'), 'project/' . $node->nid . '/follow') ?></div>
 <div class="horizontal-line"></div>
 <div class="project-npo-name"><?= l($profile->field_npo_name[0]['value'], 'account/' . $node->uid) ?></div>
