@@ -327,7 +327,7 @@ ul.tabs {
   background-color: #EEEEEE;
   height: 35px;
   padding: 0 0 0 18px;
-  margin: 0;
+  margin: 40px 0 0 0;
 }
 
 ul.tabs li {

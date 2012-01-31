@@ -237,12 +237,19 @@ input.form-text {
 
 #weeve-account-change-general-user-form #edit-donation-history-wrapper {
     position: relative;
-    right: 122px;
+    right: 25px;
+}
+
+#weeve-account-change-general-user-form #edit-donation-history-wrapper .description {
+  font-size: 16px;
 }
 
 #weeve-account-change-general-user-form #edit-following-wrapper {
     position: relative;
-    right: 153px;
+    right: 68px;
+}
+#weeve-account-change-general-user-form #edit-following-wrapper .description{
+  font-size: 16px;
 }
 
 #edit-field-update-project-nid-nid-wrapper {
