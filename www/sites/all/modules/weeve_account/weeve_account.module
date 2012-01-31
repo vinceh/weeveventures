@@ -90,7 +90,7 @@ function weeve_account_menu() {
   );
 
   $items['account/change/payment'] = array(
-    'title' => 'payment',
+    'title' => 'PayPal settings',
     'access callback' => 'weeve_account_access',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('weeve_account_payment_page'),
@@ -188,6 +188,10 @@ function weeve_account_theme() {
     'weeve_account_payment_form' => array(
       'arguments' => array('form' => NULL),
     ),
+    'weeve_npo_account_paypal' => array(
+      'arguments' => array('verified' => false, 'form' => null),
+      'template' => 'tpl/weeve_npo_account_paypal'
+    )
   );
 }
 
@@ -652,26 +656,21 @@ function weeve_account_payment_page() {
   $form = array();
 
   $form['paypal'] = array(
-    '#type' => 'fieldset',
-    '#title' => 'Paypal'
   );
 
   $form['paypal']['email'] = array(
     '#type' => 'textfield',
-    '#title' => t('Paypal primary email'),
+    '#title' => t('PayPal email'),
+    '#description' => t('The email attached to your PayPal account'),
     '#default_value' => $profile->field_payment_paypal_email[0]['value']
-  );
-
-  $form['paypal']['admin_verified'] = array(
-    '#value' => $profile->field_payment_paypal_verified[0]['value'] ? t('Verified') : t('Not verified')
   );
 
   $form['submit'] = array(
     '#type'   => 'submit',
-    '#value' => t('Save settings')
+    '#value' => t('Submit')
   );
 
-  //$form['#theme'] = 'weeve_account_payment_form';
+  $form['#theme'] = 'weeve_account_payment_form';
 
   return $form;
 }
@@ -698,10 +697,11 @@ function weeve_account_payment_page_submit($form, &$form_state) {
   node_save($profile);
 }
 
-function theme_weeve_account_payment_form($form) {
+function theme_weeve_account_payment_form($form) {  
   global $user;
   $user_info = weeve_account_load_user($user->uid);
-  $output = theme('weeve_npo_account_page', $user_info['user'], $user_info['profile'], $user_info['settings'], drupal_render($form));
+  $verified_account = $user_info->field_payment_paypal_verified[0]['value'];
+  $output = theme('weeve_npo_account_paypal', $verified_account, $form);
   return $output;
 }
 

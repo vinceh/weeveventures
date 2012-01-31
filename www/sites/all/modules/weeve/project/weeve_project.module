@@ -433,13 +433,14 @@ function weeve_project_funds_project($nid) {
   }
 
   $funds = $_POST['funds'];
+  $reason = $_POST['reason'];
 
   if (!is_numeric($funds) || $funds <= 0) {
     $response['message'] = t("Invalid funds value");
     echo json_encode($response); exit;
   }
 
-  drupal_mail('weeve_project', 'funds', $admin->mail, user_preferred_language($admin), array('account' => $admin, 'nid' => $nid, 'funds' => $funds));
+  drupal_mail('weeve_project', 'funds', $admin->mail, user_preferred_language($admin), array('account' => $admin, 'nid' => $nid, 'funds' => $funds, 'reason' => $reason));
 
   $response['success'] = true;
   echo json_encode($response); exit;
@@ -454,12 +455,13 @@ function weeve_project_mail($key, &$message, $params) {
       $nid = $params['nid'];
       $project = node_load($nid);
       $funds = $params['funds'];
+      $reason = nl2br($params['reason']);
 
       $project_link = url('node/' . $nid . '/edit', array('absolute' => true));
       $title = $project->title;
 
       $message['subject'] = t('Funds request change from !site', $variables, $language->language);
-      $message['body'][] = t("Dear !username\n\n<br />There is fund request change.\n\n<br />New value is: \$$funds.\n\n<br />Please go to <a href=\"$project_link\">$title</a> to change to new value.", $variables, $language->language);
+      $message['body'][] = t("Dear !username\n\n<br />There is fund request change.\n\n<br />New value is: \$$funds.\n\n<br />Reason: $reason\n\n<br />Please go to <a href=\"$project_link\">$title</a> to change to new value.", $variables, $language->language);
       $message['headers']['Content-Type'] = 'text/html; charset=UTF-8;';
       break;
     case 'payout':

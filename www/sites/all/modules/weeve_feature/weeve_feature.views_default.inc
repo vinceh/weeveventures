@@ -2918,8 +2918,9 @@ return round(($timestamp - time()) / 86400);;
   $handler->display->display_options['header']['area']['label'] = '';
   $handler->display->display_options['header']['area']['empty'] = FALSE;
   $handler->display->display_options['header']['area']['content'] = '<h2>Explore Projects</h2>
-<h3>Fund and follow your favourite projects. Start your discovery!</h3>';
-  $handler->display->display_options['header']['area']['tokenize'] = 0;
+<h3>Fund and follow your favourite projects. Start your discovery!</h3>
+<h4>%1</h4>';
+  $handler->display->display_options['header']['area']['tokenize'] = 1;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Project image (field_project_image) */
   $handler->display->display_options['fields']['field_project_image_fid']['id'] = 'field_project_image_fid';
@@ -3262,7 +3263,8 @@ return round(($timestamp - time()) / 86400);
 <h4>Staff picks</h3>'),
     t('Location projects'),
     t('<h2>Explore Projects</h2>
-<h3>Fund and follow your favourite projects. Start your discovery!</h3>'),
+<h3>Fund and follow your favourite projects. Start your discovery!</h3>
+<h4>%1</h4>'),
     t('[phpcode]
 <div class="days-left">days left</div>'),
   );
