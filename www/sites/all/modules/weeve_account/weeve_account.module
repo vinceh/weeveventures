@@ -91,7 +91,7 @@ function weeve_account_menu() {
 
   $items['account/change/payment'] = array(
     'title' => 'payment',
-    'access callback' => 'weeve_account_access',
+    'access callback' => 'weeve_account_npo_access_callback',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('weeve_account_payment_page'),
     'type' => MENU_LOCAL_TASK,
@@ -912,4 +912,12 @@ function weeve_account_form_alter(&$form, &$form_state, $form_id) {
     $form['account']['#title'] = '';
     $form['account']['mail']['#access'] = FALSE;
   }
+}
+function weeve_account_npo_access_callback() {
+  global $user;
+  $type = weeve_account_check_type($user);
+  if ($type == 'npo') {
+    return TRUE;
+  }
+  return FALSE;
 }
