@@ -326,3 +326,52 @@ input.form-text {
   padding: 6px 0;
   width: 250px;
 }
+
+#weeve-account-payment-page {
+  padding-top: 35px;
+  padding-left: 140px;
+}
+
+#weeve-account-payment-page .paypal-status-label {
+  float: left;
+  padding: 10px 0px;
+  width: 153px;
+}
+
+#weeve-account-payment-page .paypal-status {
+  float: left;
+  padding: 0px 10px;
+  width: 550px;
+}
+
+#weeve-account-payment-page .paypal-not-verified span {
+  color: #f00;
+}
+
+#weeve-account-payment-page .paypal-pending span {
+  color: #FF9933;
+}
+
+#weeve-account-payment-page .paypal-verified span {
+  color: #33CC33;
+}
+
+#weeve-account-payment-page #edit-email-wrapper label {
+  display: inline;
+  font-weight: normal;
+  
+}
+
+#weeve-account-payment-page #edit-email-wrapper .description {
+  margin-left: 105px;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+#weeve-account-payment-page #edit-email-wrapper {
+  padding-left: 60px;
+}
+
+#weeve-account-payment-page #edit-submit {
+  margin-left: 160px;
+}

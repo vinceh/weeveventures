@@ -1,13 +1,14 @@
-#project-cancel-dialog {
-  margin: 20px;
-  padding: 0px;
+#project-cancel-dialog {  
   color: #555;
+  margin: 0px;
+  padding: 0px;
 }
 
 .ui-dialog {
   border: 1px solid #888888;
   border-radius: 3px 3px 3px 3px;
   box-shadow: 0 0 20px #AAAAAA;
+  padding: 25px;
 }
 
 #project-cancel-dialog .main-text {
@@ -26,8 +27,38 @@
   border-radius: 3px;
   border: 1px solid #aaa;
   display: block;
-  margin: 10px 0px;
+  margin: 10px 0px 20px;
+}
+
+#project-funds-dialog {
+  margin: 0px;
+  padding: 0px;
+  color: #555;
+}
+
+#project-funds-dialog .funds-label {
+  margin-top: 20px;
+}
+
+#project-funds-dialog textarea#weeve-funds-reason {
+  border: 1px solid #999999;
+  border-radius: 3px 3px 3px 3px;
+  height: 105px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  outline: medium none;
   padding: 5px;
+  width: 95%;
+  display: block;
+}
+
+#project-funds-dialog #weeve-funds {
+  background: url(../img/dollar-sign.png) no-repeat scroll 10px center transparent;
+  font-size: 30px;
+  padding: 10px 10px 7px 30px;
+  width: 200px;
+  color: #444;
+  outline: medium none;
 }
 
 .ui-dialog-titlebar {
@@ -51,10 +82,17 @@
   margin-top: 20px;
 }
 
+#project-payment-dialog {
+  margin: 0px;
+  padding: 0px;
+  min-height: 0px !important;
+}
+
 #project-payout-dialog .weeve-medium-button {
   display: block;
   margin-top: 20px;
 }
+
 
 #project-payout-dialog .node-title {
   /* color: #00A0CE; */
@@ -77,6 +115,10 @@
   background: transparent;
   border: none;
   padding: 0px;
+  margin: 0px;
+}
+
+.ui-dialog .ui-dialog-titlebar {
   margin: 0px;
 }
 

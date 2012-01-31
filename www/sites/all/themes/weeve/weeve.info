@@ -5,6 +5,7 @@ version = VERSION
 core = 6.x
 engine = phptemplate
 
+scripts[] = js/weeve.js
 stylesheets[all][] = css/style.css
 stylesheets[all][] = css/layout.css
 stylesheets[all][] = css/weeve.css

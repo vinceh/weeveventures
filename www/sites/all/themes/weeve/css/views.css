@@ -28,6 +28,7 @@
 
 .view-featured-projects.front-page .view-header h4 {
   margin-top: 35px;
+  text-transform: capitalize;
 }
 
 #block-views-featured_projects-block_1 h4 {

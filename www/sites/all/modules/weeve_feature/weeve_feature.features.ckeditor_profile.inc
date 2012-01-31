@@ -197,7 +197,7 @@ weeve:project@*.edit-body
 weeve:project_update@*.edit-body',
         'simple_incl' => '',
         'default' => 't',
-        'show_toggle' => 't',
+        'show_toggle' => 'f',
         'popup' => 'f',
         'skin' => 'kama',
         'uicolor' => 'default',

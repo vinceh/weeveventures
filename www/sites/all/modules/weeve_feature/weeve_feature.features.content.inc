@@ -602,19 +602,20 @@ corp|Corporate',
     'text_processing' => '0',
     'max_length' => '',
     'allowed_values' => '0|Not verified
-1|Verified',
+1|Verified
+2|Pending',
     'allowed_values_php' => '',
     'widget' => array(
       'default_value' => array(
         '0' => array(
-          'value' => 0,
+          'value' => '0',
         ),
       ),
       'default_value_php' => NULL,
       'label' => 'Admin paypal verified',
       'weight' => '36',
       'description' => 'Is paypal email verified?',
-      'type' => 'optionwidgets_onoff',
+      'type' => 'optionwidgets_select',
       'module' => 'optionwidgets',
     ),
   );

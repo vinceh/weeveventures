@@ -44,15 +44,19 @@ $(document).ready(function() {
     $('#project-funds-dialog').dialog('destroy');
 
     var text = '';
-    text += Drupal.t('How much funds the project requires?');
+    text += Drupal.t('Once you submit your fund change request, we will review it and contact you personally. Please provide the following information to let us know a bit more about this request.');
+
+    text += '<div class="funds-label">' + Drupal.t('What would you like to change your funding amount to?') + '</div>';
     text += '<input type="text" id="weeve-funds" name="weeve-funds" />';
-    text += '<button class="weeve-medium-button">' + Drupal.t('Update') + '</button>';
+    text += '<div class="funds-label">' + Drupal.t('Please tell us why you want to change your funding amount.') + '</div>';
+    text += '<textarea id="weeve-funds-reason" name="weeve-funds"></textarea>';
+    text += '<button class="weeve-medium-button">' + Drupal.t('Submit') + '</button>';
     text += '<a href="#" class="close-dialog">' + Drupal.t('go back') + '</a>';
 
     var div = '<div id="project-funds-dialog">' + text + '</div>';
     $('body').append(div);
     $('#project-funds-dialog').dialog(
-      {resizable: false, width: 480, modal: true, title: 'Do you really want to change funds?'}
+      {resizable: false, width: 480, modal: true, title: 'Request Project Funds Change'}
     );
 
     $('#project-funds-dialog .close-dialog').one('click', function(e) {
@@ -65,7 +69,7 @@ $(document).ready(function() {
       var nid = $('#weeve-project-edit-project-form #edit-nid').val();
       $.post(
         Drupal.settings.basePath + 'project/' + nid + '/funds',
-        {funds: $('#weeve-funds').val()},
+        {funds: $('#weeve-funds').val(), reason: $('#weeve-funds-reason').val()},
         function(response) {
           if (response.success) {
             alert(Drupal.t('Your request has been recieved'));
