@@ -1,7 +1,7 @@
 (function() {
   Drupal.behaviors.weeveFeedback = function(context) {
 
-    var form_html = "<form id='feedback'>"+
+    var form_html = "<form id='feedback' title='Leave your feedback'>"+
       "<div class='wrapper'><label for='message'>Message</label></div>" +
       "<div><textarea id='feedback-message' name='message' rows='14' cols='60'></textarea></div>" +
       "</form>";
