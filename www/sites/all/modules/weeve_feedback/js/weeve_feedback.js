@@ -20,10 +20,10 @@
                 'data': {'message': message},
                 'cache': false,
                 'success': function(response) {
-                  $dialog.dialog('close');
                   $('#feedback-message').val('');
                 }
               });
+              $dialog.dialog('close');
             }
           }
     });
