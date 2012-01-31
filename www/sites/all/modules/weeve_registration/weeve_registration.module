@@ -408,6 +408,13 @@ function weeve_registration_npo_form() {
 }
 
 function weeve_registration_npo_form_validate(&$form, &$form_state) {
+  $email = $form_state['values']['email'];
+  if (!valid_email_address($email)) {
+    form_set_error('email', t('No valid email'));
+  }
+  if (weeve_registration_exist_email($email)) {
+    form_set_error('email', t('Email already exist in database'));
+  }
   if ($form_state['values']['website'] && !valid_url($form_state['values']['website'])) {
     form_set_error('website', t('Invalid URL'));
   }
@@ -448,6 +455,13 @@ function weeve_registration_corp_form() {
 }
 
 function weeve_registration_corp_form_validate(&$form, &$form_state) {
+  $email = $form_state['values']['email'];
+  if (!valid_email_address($email)) {
+    form_set_error('email', t('No valid email'));
+  }
+  if (weeve_registration_exist_email($email)) {
+    form_set_error('email', t('Email already exist in database'));
+  }
   if ($form_state['values']['website'] && !valid_url($form_state['values']['website'])) {
     form_set_error('website', t('Invalid URL'));
   }
