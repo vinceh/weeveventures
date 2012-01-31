@@ -14,7 +14,8 @@
     <?php print $row; ?>
   </div>
   
-  <?php if (($id + 1) % 3 == 0): ?>
+  <?php if (($id + 1) % 3 == 0): ?>  
   <div class="clear-block">&nbsp;</div>
+  <div>&nbsp;</div>
   <?php endif; ?>
 <?php endforeach; ?>
