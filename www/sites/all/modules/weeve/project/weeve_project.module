@@ -43,6 +43,14 @@ function weeve_project_menu() {
     'type' => MENU_CALLBACK
   );
 
+  $items['project/%/currentfunds'] = array(
+    'title' => 'Current funds',
+    'page callback' => 'weeve_project_currentfunds_project',
+    'page arguments' => array(1),
+    'access callback' => true,
+    'type' => MENU_CALLBACK
+  );
+
   $items['project/%/cancel'] = array(
     'title' => 'Cancel project',
     'page callback' => 'weeve_project_cancel_project',
@@ -419,6 +427,12 @@ function weeve_project_theme() {
       'template' => 'tpl/proposal_add_element'
     )
   );
+}
+
+function weeve_project_currentfunds_project($nid) {
+  $project = node_load($nid);
+
+  echo json_encode(array('success' => true, 'result' => (float)$project->field_project_amount_need[0]['amount'])); exit;
 }
 
 function weeve_project_funds_project($nid) {

@@ -61,6 +61,7 @@ input.form-text {
 /*NPO Edit account*/
 #weeve-account-change-general-npo-form {
   margin: 30px;
+  margin-top: 0px;
 }
 
 #weeve-account-change-general-npo-form .description {
