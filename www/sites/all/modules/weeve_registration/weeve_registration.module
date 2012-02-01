@@ -200,7 +200,7 @@ function weeve_registration_user_form() {
     '#value' => '<div class="footer"></div>',
   );
 
-  $form['#redirect'] = '';
+  // $form['#redirect'] = '';
   return $form;
 }
 
@@ -283,7 +283,7 @@ function weeve_registration_validate_email_callback($uid, $timestamp, $hashed_pa
   if ($hashed_pass == user_pass_rehash($user->pass, $timestamp, $user->login)) {
     weeve_registration_user_activate($user);
     drupal_set_message(t('Thanks! Your email checked. You are now logged in.'),'status');
-    drupal_goto();
+    drupal_goto('account/'. $uid);
   } else {
     drupal_set_message(t('Invalid url'),'error');
     drupal_goto();
@@ -403,7 +403,7 @@ function weeve_registration_npo_form() {
     '#value' => '<div class="footer"></div>',
   );
 
-  $form['#redirect'] = '';
+  // $form['#redirect'] = '';
   return $form;
 }
 

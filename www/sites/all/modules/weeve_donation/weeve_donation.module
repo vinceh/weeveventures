@@ -274,14 +274,17 @@ function weeve_donation_preapproval_payment_success_callback() {
     module_invoke_all('weeve_donation', $donate['node'], 'edit_preapproval', $donate);
   }
   drupal_set_message(t('Your donate has beed saved'));
-  drupal_goto();
+  drupal_goto(drupal_get_path_alias('node/'. $donate['node']->nid));
 }
 
 /*
  * Payment canceled callback
  */
 function weeve_donation_preapproval_payment_cancelled_callback() {
-  drupal_goto();
+  $donate = $_SESSION['donation_info'];
+  unset($_SESSION['donation_info']);
+  drupal_set_message(t('Your donate not saved'));
+  drupal_goto(drupal_get_path_alias('node/'. $donate['node']->nid));
 }
 
 function weeve_donation_redirect($cmd, $key, $sandbox) {
