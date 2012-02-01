@@ -590,7 +590,8 @@ function weeve_project_edit_project_form_submit($form, &$form_state) {
   $node->title = $values['title'];
   $node->body = $values['body'];
   $node->teaser = node_teaser($values['body']);
-  
+
+  drupal_set_message(t('Your project has been successfuly updated'));
   node_save($node);
 }
 

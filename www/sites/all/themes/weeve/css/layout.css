@@ -356,3 +356,18 @@ ul.tabs li a {
   background: none;
   margin-right: 0px;
 }
+
+.weeve-message {
+  background-color: #F8F8F8;
+  border: 1px solid #DDDDDD;
+  margin: 20px;
+  padding: 20px;
+  position: relative;
+}
+
+.weeve-message .message-close {
+  font-size: 12px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
