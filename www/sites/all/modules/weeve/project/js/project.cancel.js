@@ -42,22 +42,31 @@ $(document).ready(function() {
   $('#weeve-project-edit-project-form button.funds').click(function(e) {
     e.preventDefault();
     $('#project-funds-dialog').dialog('destroy');
+    var nid = $('#weeve-project-edit-project-form #edit-nid').val();
+    $.getJSON(Drupal.settings.basePath + 'project/' + nid + '/currentfunds', {}, function(response) {
+      var text = '';
+      var currentfunds = 0;
+      if (response.success) {
+        currentfunds = response.result;
+      }
+      text += Drupal.t('Once you submit your fund change request, we will review it and contact you personally. Please provide the following information to let us know a bit more about this request.');
 
-    var text = '';
-    text += Drupal.t('Once you submit your fund change request, we will review it and contact you personally. Please provide the following information to let us know a bit more about this request.');
+      text += '<div class="funds-label">' + Drupal.t('What would you like to change your funding amount to?') + '</div>';
+      text += '<input type="text" id="weeve-funds" name="weeve-funds" value="'+currentfunds+'" />';
+      text += '<div class="funds-label">' + Drupal.t('Please tell us why you want to change your funding amount.') + '</div>';
+      text += '<textarea id="weeve-funds-reason" name="weeve-funds"></textarea>';
+      text += '<button class="weeve-medium-button">' + Drupal.t('Submit') + '</button>';
+      text += '<a href="#" class="close-dialog">' + Drupal.t('go back') + '</a>';
 
-    text += '<div class="funds-label">' + Drupal.t('What would you like to change your funding amount to?') + '</div>';
-    text += '<input type="text" id="weeve-funds" name="weeve-funds" />';
-    text += '<div class="funds-label">' + Drupal.t('Please tell us why you want to change your funding amount.') + '</div>';
-    text += '<textarea id="weeve-funds-reason" name="weeve-funds"></textarea>';
-    text += '<button class="weeve-medium-button">' + Drupal.t('Submit') + '</button>';
-    text += '<a href="#" class="close-dialog">' + Drupal.t('go back') + '</a>';
+      var div = '<div id="project-funds-dialog">' + text + '</div>';
+      $('body').append(div);
+      $('#project-funds-dialog').dialog(
+        {resizable: false, width: 500, modal: true, title: 'Request Project Funds Change'}
+      );
+    });
 
-    var div = '<div id="project-funds-dialog">' + text + '</div>';
-    $('body').append(div);
-    $('#project-funds-dialog').dialog(
-      {resizable: false, width: 480, modal: true, title: 'Request Project Funds Change'}
-    );
+
+    
 
     $('#project-funds-dialog .close-dialog').one('click', function(e) {
       e.preventDefault();

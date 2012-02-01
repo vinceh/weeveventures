@@ -325,14 +325,14 @@ h2 {
 ul.tabs {
   border: none;
   background-color: #EEEEEE;
-  height: 32px;
+  height: 35px;
   padding: 0 0 0 18px;
   margin: 40px 0 0 0;
 }
 
 ul.tabs li {
   font-size: 17px;
-  height: 27px;
+  height: 30px;
   padding: 5px 5px 0;
   display: inline-block;
 }
@@ -355,6 +355,8 @@ ul.tabs li a {
   border: 0;
   background: none;
   margin-right: 0px;
+  display: block;
+  padding: 3px 10px 0px;
 }
 
 .weeve-message {

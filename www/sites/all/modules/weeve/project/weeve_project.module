@@ -43,6 +43,14 @@ function weeve_project_menu() {
     'type' => MENU_CALLBACK
   );
 
+  $items['project/%/currentfunds'] = array(
+    'title' => 'Current funds',
+    'page callback' => 'weeve_project_currentfunds_project',
+    'page arguments' => array(1),
+    'access callback' => true,
+    'type' => MENU_CALLBACK
+  );
+
   $items['project/%/cancel'] = array(
     'title' => 'Cancel project',
     'page callback' => 'weeve_project_cancel_project',
@@ -275,6 +283,7 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
     }
     global $user;
     $form['#redirect'] = 'account/' . $user->uid . '/projects';
+    $form['#submit'][] = 'weeve_project_project_request_add_submit';
 
     if (!_weeve_project_is_allowed_create_proposal()) {      
       drupal_goto('account/' . $user->uid . '/projects');
@@ -289,8 +298,13 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
+function weeve_project_project_request_add_submit($form, &$form_state) {
+  drupal_set_message(t('Thank you. Your proposal will go to our team. After approval you will be able to create new project!'));
+}
+
 function weeve_project_project_add_submit($form, &$form_state) {
   $proposal_nid = $form['field_project_proposal']['#value'][0]['nid'];
+  drupal_set_message(t('Thank you. We will check your project in 1-2 business days. If it meets our requirements it will be approved and running!'));
 }
 
 function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
@@ -419,6 +433,12 @@ function weeve_project_theme() {
       'template' => 'tpl/proposal_add_element'
     )
   );
+}
+
+function weeve_project_currentfunds_project($nid) {
+  $project = node_load($nid);
+
+  echo json_encode(array('success' => true, 'result' => (float)$project->field_project_amount_need[0]['amount'])); exit;
 }
 
 function weeve_project_funds_project($nid) {
