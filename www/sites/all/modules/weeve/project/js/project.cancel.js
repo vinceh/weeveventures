@@ -31,7 +31,7 @@ $(document).ready(function() {
           if (response.success) {
             document.location.href = Drupal.settings.basePath + 'projects';
           } else {
-            alert(Drupal.t('Error occured'));
+            weeve_set_message('Error occured');
           }
         },
         'json'
@@ -72,12 +72,12 @@ $(document).ready(function() {
         {funds: $('#weeve-funds').val(), reason: $('#weeve-funds-reason').val()},
         function(response) {
           if (response.success) {
-            alert(Drupal.t('Your request has been recieved'));
+            weeve_set_message('Your request has been recieved');
           } else {
             if (response.message) {
-              alert(response.message);
+              weeve_set_message(response.message);
             } else {
-              alert(Drupal.t('Error occured'));
+              weeve_set_message('Error occured');
             }
           }
           $('#project-funds-dialog').remove();

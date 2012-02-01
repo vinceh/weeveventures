@@ -344,6 +344,10 @@ input.form-text {
   width: 550px;
 }
 
+#weeve-account-payment-page .paypal-status.paypal-verified {
+  padding-top: 10px;
+}
+
 #weeve-account-payment-page .paypal-not-verified span {
   color: #f00;
 }

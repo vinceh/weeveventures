@@ -105,6 +105,25 @@ function phptemplate_get_ie_styles() {
   if ($language->direction == LANGUAGE_RTL) {
     $iecss .= '<style type="text/css" media="all">@import "'. base_path() . path_to_theme() .'/fix-ie-rtl.css";</style>';
   }
-
+  
   return $iecss;
+}
+
+function weeve_status_messages($display = null) {
+  $output = '';
+  foreach (drupal_get_messages($display) as $type => $messages) {
+    $output .= "<div class=\"weeve-message messages $type\">\n";
+    if (count($messages) > 1) {
+      $output .= " <ul>\n";
+      foreach ($messages as $message) {
+        $output .= '  <li>'. $message ."</li>\n";
+      }
+      $output .= " </ul>\n";
+    }
+    else {
+      $output .= $messages[0];
+    }
+    $output .= "<a class=\"message-close\" href=\"#\">".t('close')."</a></div>\n";
+  }
+  return $output;
 }

@@ -680,9 +680,17 @@ function weeve_account_payment_page_validate($form, &$form_state) {
   $email = trim($values['email']);
   if ($email) {
     if (!valid_email_address($email)) {
-      form_set_error('error', t('Email you entered is not valid'));
+      form_set_error('email', t('Email you entered is not valid'));
+    } else {
+      global $user;
+      $profile = node_load(array('type' => 'profile', 'uid' => $user->uid));
+      if ($profile->field_payment_paypal_email[0]['value'] == $email) {
+        form_set_error('email', t('Email you entered has not changed'));
+      }
     }
-  }  
+  } else {
+    form_set_error('email', t('Email you entered is not valid'));
+  }
 }
 
 function weeve_account_payment_page_submit($form, &$form_state) {
@@ -693,14 +701,15 @@ function weeve_account_payment_page_submit($form, &$form_state) {
   $profile = node_load(array('type' => 'profile', 'uid' => $user->uid));
 
   $profile->field_payment_paypal_email[0]['value'] = $email;
-  $profile->field_payment_paypal_verified[0]['value'] = 0;
+  $profile->field_payment_paypal_verified[0]['value'] = 2;
   node_save($profile);
 }
 
 function theme_weeve_account_payment_form($form) {  
   global $user;
   $user_info = weeve_account_load_user($user->uid);
-  $verified_account = $user_info->field_payment_paypal_verified[0]['value'];
+  $verified_account = $user_info['profile']->field_payment_paypal_verified[0]['value'];
+
   $output = theme('weeve_npo_account_paypal', $verified_account, $form);
   return $output;
 }

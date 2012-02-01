@@ -49,7 +49,7 @@ $(document).ready(function() {
           if (response.success) {
             document.location.href = Drupal.settings.basePath + 'projects';
           } else {
-            alert(Drupal.t('Error occured'));
+            weeve_set_message('Error occured');
           }
           $('#project-payout-dialog').remove();
           $('#project-payout-dialog').dialog('close');
