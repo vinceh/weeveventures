@@ -509,6 +509,11 @@ function weeve_project_payout_project($nid) {
 
   $method = $_POST['method'];
 
+  if (module_exists('weeve_donation')) {
+    $node = node_load($nid);
+    weeve_donation_save_payout_request($node->uid, $node->nid, 0);
+  }
+
   drupal_mail('weeve_project', 'payout', $admin->mail, user_preferred_language($admin), array('account' => $admin, 'nid' => $nid, 'method' => $method));
 
   $response['success'] = true;
