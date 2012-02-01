@@ -127,36 +127,13 @@
   font-weight: normal;
   font-size: 28px; */
 }
-.ui-dialog .ui-dialog-buttonpane {
-  border: none;
-}
-.ui-dialog .ui-dialog-buttonpane button {
-  color: white;
- 	padding: 10px 20px;
- 	border-radius: 5px;
- 	border: none;
- 	font-size: 18px;
-  background: #37abcc; /* Old browsers */
-      background: -moz-linear-gradient(top, #37abcc 0%, #00a0ce 51%, #008db5 100%); /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#37abcc), color-stop(51%,#00a0ce), color-stop(100%,#008db5)); /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top, #37abcc 0%,#00a0ce 51%,#008db5 100%); /* Chrome10+,Safari5.1+ */
-      background: -o-linear-gradient(top, #37abcc 0%,#00a0ce 51%,#008db5 100%); /* Opera 11.10+ */
-      background: -ms-linear-gradient(top, #37abcc 0%,#00a0ce 51%,#008db5 100%); /* IE10+ */
-      background: linear-gradient(top, #37abcc 0%,#00a0ce 51%,#008db5 100%); /* W3C */
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#37abcc', endColorstr='#008db5',GradientType=0 ); /* IE6-9 */
 
-  	display: inline-block;
+/* Feedback dialog */
+
+#feedback-message {
+  margin-bottom: 15px;
 }
 
-.ui-dialog .ui-dialog-buttonpane button:hover {
-  background: #18a5cc; /* Old browsers */
-     background: -moz-linear-gradient(top, #18a5cc 0%, #0098bf 51%, #007e9e 100%); /* FF3.6+ */
-     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#18a5cc), color-stop(51%,#0098bf), color-stop(100%,#007e9e)); /* Chrome,Safari4+ */
-     background: -webkit-linear-gradient(top, #18a5cc 0%,#0098bf 51%,#007e9e 100%); /* Chrome10+,Safari5.1+ */
-     background: -o-linear-gradient(top, #18a5cc 0%,#0098bf 51%,#007e9e 100%); /* Opera 11.10+ */
-     background: -ms-linear-gradient(top, #18a5cc 0%,#0098bf 51%,#007e9e 100%); /* IE10+ */
-     background: linear-gradient(top, #18a5cc 0%,#0098bf 51%,#007e9e 100%); /* W3C */
-     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#18a5cc', endColorstr='#007e9e',GradientType=0 ); /* IE6-9 */
- 	background-color: #0285AB;
- 	cursor: pointer;
+#feedback-submit {
+  margin-right: 20px;
 }
