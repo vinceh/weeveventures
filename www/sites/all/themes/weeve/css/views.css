@@ -118,6 +118,20 @@
   cursor: default;
 }
 
+.view-npo-project-proposals table td.views-field-field-project-status-value .weeve-medium-button {
+  position: relative;
+}
+
+.view-npo-project-proposals table td.views-field-field-project-status-value .weeve-medium-button .activity-count {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  background-color: #fff;
+  color: #000;
+  border-radius: 4px;
+  padding: 0px 5px;
+}
+
 .view-npo-project-proposals .view-empty {
   padding: 10px;
   font-size: 16px;

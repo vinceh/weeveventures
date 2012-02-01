@@ -112,3 +112,18 @@ div.project-updates-page div.views-field-created em {
   font-style: normal;
 }
 
+ul.project-activity {
+  margin: 0px;
+  padding: 0px;
+}
+
+ul.project-activity li {
+  list-style-type: none;
+  margin: 20px 0px;
+}
+
+ul.project-activity li .activity-date {
+  font-size: 12px;
+  color: #999;
+  display: block;
+}
