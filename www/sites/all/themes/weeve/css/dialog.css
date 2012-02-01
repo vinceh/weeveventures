@@ -9,6 +9,11 @@
   border-radius: 3px 3px 3px 3px;
   box-shadow: 0 0 20px #AAAAAA;
   padding: 25px;
+  padding-top: 20px;
+}
+
+.ui-dialog .ui-dialog-title {
+  margin: 0px;
 }
 
 #project-cancel-dialog .main-text {
@@ -65,14 +70,13 @@
   background: transparent;
   border: none;
   padding: 0px !important;
-  margin: 10px 20px;
   font-size: 20px;
   font-weight: bold;
   color: #555;
 }
 
 
-#project-cancel-dialog .close-dialog, #project-funds-dialog .close-dialog {
+#project-cancel-dialog .close-dialog, #project-funds-dialog .close-dialog, #project-payout-dialog .close-dialog {
   color: #00A0CE;
   margin-left: 20px;
 }
@@ -88,14 +92,18 @@
   min-height: 0px !important;
 }
 
+#project-payout-dialog {
+  padding: 0px;
+  color: #555;
+}
+
 #project-payout-dialog .weeve-medium-button {
-  display: block;
   margin-top: 20px;
 }
 
 
 #project-payout-dialog .node-title {
-  /* color: #00A0CE; */
+  color: #00A0CE;
 }
 
 .ui-dialog span.ui-icon-closethick, .ui-dialog .ui-dialog-titlebar-close {
@@ -103,12 +111,12 @@
   width: auto;
   height: 20px;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 12px;
   color: #00A0CE;
   padding: 0px;
   margin: 0px;
-  top: 0px;
-  right: 0px;
+  top: -15px;
+  right: -15px;
 }
 
 .ui-dialog .ui-dialog-titlebar-close:hover {
@@ -120,6 +128,7 @@
 
 .ui-dialog .ui-dialog-titlebar {
   margin: 0px;
+  margin-bottom: 20px;
 }
 
 #ui-dialog-title-project-payout-dialog {

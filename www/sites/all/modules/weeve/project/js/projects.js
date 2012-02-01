@@ -21,14 +21,13 @@ $(document).ready(function() {
     var text = '';
     text += '<div class="main-text">' + Drupal.t('Your project') + '<span class="node-title">' + title + '</span> ' +
       Drupal.t('has ended and is successful in it\'s funding! You can now request for payout. Please keep in mind that once you make the request, we will contact you personally to guide you through the process.') + '</div>';
-    text += '<button class="weeve-medium-button">' + Drupal.t('Request Payout') + '</button>';    
-
-    
+    text += '<button class="weeve-medium-button">' + Drupal.t('Submit') + '</button>';
+    text += '<a href="#" class="close-dialog">' + Drupal.t('go back') + '</a>';   
 
     var div = '<div id="project-payout-dialog">' + text + '</div>';
     $('body').append(div);
     $('#project-payout-dialog').dialog(
-      {resizable: false, width: 680, modal: true, title: 'Request payout', close: function() {
+      {resizable: false, width: 450, modal: true, title: 'Request Payout', close: function() {
           $('#project-payout-dialog').remove();
           $('#project-payout-dialog').dialog('close');
       }}
@@ -47,7 +46,8 @@ $(document).ready(function() {
         {method: 'paypal'},
         function(response) {
           if (response.success) {
-            document.location.href = Drupal.settings.basePath + 'projects';
+            weeve_set_message('Your request have been sent');
+            scroll(0,0);
           } else {
             weeve_set_message('Error occured');
           }

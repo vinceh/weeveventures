@@ -61,7 +61,7 @@ $(document).ready(function() {
       var div = '<div id="project-funds-dialog">' + text + '</div>';
       $('body').append(div);
       $('#project-funds-dialog').dialog(
-        {resizable: false, width: 480, modal: true, title: 'Request Project Funds Change'}
+        {resizable: false, width: 500, modal: true, title: 'Request Project Funds Change'}
       );
     });
 
