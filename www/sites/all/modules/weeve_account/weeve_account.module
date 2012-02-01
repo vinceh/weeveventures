@@ -368,6 +368,7 @@ function weeve_account_change_general_npo_form_submit(&$form, &$form_state) {
   $profile->field_npo_bio[0]['value'] = $bio;
   $profile->field_npo_about[0]['value'] = $about;
   node_save($profile);
+  drupal_set_message(t('Account has been changed'));
 }
 
 function weeve_account_change_general_user_form() {
