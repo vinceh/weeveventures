@@ -920,8 +920,10 @@ function weeve_account_form_alter(&$form, &$form_state, $form_id) {
     $form['submit']['#value'] = t('Update');
     $form['account']['#title'] = '';
     $form['account']['mail']['#access'] = FALSE;
+    $form['#redirect'] = 'account';
   }
 }
+
 function weeve_account_npo_access_callback() {
   global $user;
   $type = weeve_account_check_type($user);
