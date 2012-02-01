@@ -9,7 +9,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: Media Mover delete own file
   $permissions['Media Mover delete own file'] = array(
     'name' => 'Media Mover delete own file',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: Use PHP input for field settings (dangerous - grant with care)
@@ -47,7 +49,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: access all webform results
   $permissions['access all webform results'] = array(
     'name' => 'access all webform results',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: access backup and migrate
@@ -99,19 +103,28 @@ function weeve_feature_user_default_permissions() {
     'name' => 'access devel information',
     'roles' => array(
       '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
+      '3' => 'corporate',
+      '4' => 'npo',
+      '5' => 'user',
     ),
   );
 
   // Exported permission: access own webform results
   $permissions['access own webform results'] = array(
     'name' => 'access own webform results',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: access own webform submissions
   $permissions['access own webform submissions'] = array(
     'name' => 'access own webform submissions',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: access site reports
@@ -127,7 +140,6 @@ function weeve_feature_user_default_permissions() {
     'name' => 'access user profiles',
     'roles' => array(
       '0' => 'admin',
-      '1' => 'authenticated user',
     ),
   );
 
@@ -238,7 +250,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: administer media_mover
   $permissions['administer media_mover'] = array(
     'name' => 'administer media_mover',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: administer menu
@@ -260,7 +274,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: administer own media_mover files
   $permissions['administer own media_mover files'] = array(
     'name' => 'administer own media_mover files',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: administer pathauto
@@ -314,7 +330,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: administer uploaded videos
   $permissions['administer uploaded videos'] = array(
     'name' => 'administer uploaded videos',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: administer url aliases
@@ -336,7 +354,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: administer video upload settings
   $permissions['administer video upload settings'] = array(
     'name' => 'administer video upload settings',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: administer views
@@ -375,7 +395,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: create page content
   $permissions['create page content'] = array(
     'name' => 'create page content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: create profile content
@@ -390,7 +412,8 @@ function weeve_feature_user_default_permissions() {
   $permissions['create project content'] = array(
     'name' => 'create project content',
     'roles' => array(
-      '0' => 'npo',
+      '0' => 'admin',
+      '1' => 'npo',
     ),
   );
 
@@ -398,7 +421,8 @@ function weeve_feature_user_default_permissions() {
   $permissions['create project_request content'] = array(
     'name' => 'create project_request content',
     'roles' => array(
-      '0' => 'npo',
+      '0' => 'admin',
+      '1' => 'npo',
     ),
   );
 
@@ -406,7 +430,8 @@ function weeve_feature_user_default_permissions() {
   $permissions['create project_update content'] = array(
     'name' => 'create project_update content',
     'roles' => array(
-      '0' => 'npo',
+      '0' => 'admin',
+      '1' => 'npo',
     ),
   );
 
@@ -421,19 +446,25 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: create webform content
   $permissions['create webform content'] = array(
     'name' => 'create webform content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: delete all webform submissions
   $permissions['delete all webform submissions'] = array(
     'name' => 'delete all webform submissions',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: delete any page content
   $permissions['delete any page content'] = array(
     'name' => 'delete any page content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: delete any profile content
@@ -447,13 +478,17 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: delete any project content
   $permissions['delete any project content'] = array(
     'name' => 'delete any project content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: delete any project_request content
   $permissions['delete any project_request content'] = array(
     'name' => 'delete any project_request content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: delete backup files
@@ -467,7 +502,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: delete own page content
   $permissions['delete own page content'] = array(
     'name' => 'delete own page content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: delete own profile content
@@ -481,27 +518,34 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: delete own project content
   $permissions['delete own project content'] = array(
     'name' => 'delete own project content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: delete own project_request content
   $permissions['delete own project_request content'] = array(
     'name' => 'delete own project_request content',
     'roles' => array(
-      '0' => 'npo',
+      '0' => 'admin',
+      '1' => 'npo',
     ),
   );
 
   // Exported permission: delete own webform submissions
   $permissions['delete own webform submissions'] = array(
     'name' => 'delete own webform submissions',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: delete revisions
   $permissions['delete revisions'] = array(
     'name' => 'delete revisions',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: display drupal links
@@ -523,13 +567,17 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit all webform submissions
   $permissions['edit all webform submissions'] = array(
     'name' => 'edit all webform submissions',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit any page content
   $permissions['edit any page content'] = array(
     'name' => 'edit any page content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit any profile content
@@ -543,13 +591,17 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit any project content
   $permissions['edit any project content'] = array(
     'name' => 'edit any project content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit any project_request content
   $permissions['edit any project_request content'] = array(
     'name' => 'edit any project_request content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_account_type
@@ -563,25 +615,33 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit field_location
   $permissions['edit field_location'] = array(
     'name' => 'edit field_location',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_node_weight
   $permissions['edit field_node_weight'] = array(
     'name' => 'edit field_node_weight',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_npo_about
   $permissions['edit field_npo_about'] = array(
     'name' => 'edit field_npo_about',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_npo_bio
   $permissions['edit field_npo_bio'] = array(
     'name' => 'edit field_npo_bio',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_npo_code
@@ -644,7 +704,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit field_project_donors
   $permissions['edit field_project_donors'] = array(
     'name' => 'edit field_project_donors',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_project_end
@@ -693,7 +755,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit field_project_staff_pick
   $permissions['edit field_project_staff_pick'] = array(
     'name' => 'edit field_project_staff_pick',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit field_project_status
@@ -784,7 +848,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit own page content
   $permissions['edit own page content'] = array(
     'name' => 'edit own page content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit own profile content
@@ -798,19 +864,25 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: edit own project content
   $permissions['edit own project content'] = array(
     'name' => 'edit own project content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit own project_request content
   $permissions['edit own project_request content'] = array(
     'name' => 'edit own project_request content',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: edit own webform submissions
   $permissions['edit own webform submissions'] = array(
     'name' => 'edit own webform submissions',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: execute php code
@@ -883,13 +955,17 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: revert revisions
   $permissions['revert revisions'] = array(
     'name' => 'revert revisions',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: see media mover alerts
   $permissions['see media mover alerts'] = array(
     'name' => 'see media mover alerts',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: select different theme
@@ -961,41 +1037,51 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_account_type'] = array(
     'name' => 'view field_account_type',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
   // Exported permission: view field_location
   $permissions['view field_location'] = array(
     'name' => 'view field_location',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: view field_node_weight
   $permissions['view field_node_weight'] = array(
     'name' => 'view field_node_weight',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: view field_npo_about
   $permissions['view field_npo_about'] = array(
     'name' => 'view field_npo_about',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: view field_npo_bio
   $permissions['view field_npo_bio'] = array(
     'name' => 'view field_npo_bio',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: view field_npo_code
   $permissions['view field_npo_code'] = array(
     'name' => 'view field_npo_code',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1003,8 +1089,9 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_npo_name'] = array(
     'name' => 'view field_npo_name',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1012,8 +1099,9 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_npo_number'] = array(
     'name' => 'view field_npo_number',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1021,8 +1109,9 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_npo_representative_name'] = array(
     'name' => 'view field_npo_representative_name',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1030,8 +1119,9 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_npo_website'] = array(
     'name' => 'view field_npo_website',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1058,7 +1148,9 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: view field_project_donors
   $permissions['view field_project_donors'] = array(
     'name' => 'view field_project_donors',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: view field_project_end
@@ -1075,8 +1167,9 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_project_image'] = array(
     'name' => 'view field_project_image',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1084,8 +1177,9 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_project_location'] = array(
     'name' => 'view field_project_location',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1093,8 +1187,9 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_project_percent_pledge'] = array(
     'name' => 'view field_project_percent_pledge',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1102,8 +1197,9 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_project_proposal'] = array(
     'name' => 'view field_project_proposal',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1119,22 +1215,26 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_project_status'] = array(
     'name' => 'view field_project_status',
     'roles' => array(
-      '0' => 'npo',
+      '0' => 'admin',
+      '1' => 'npo',
     ),
   );
 
   // Exported permission: view field_project_updates
   $permissions['view field_project_updates'] = array(
     'name' => 'view field_project_updates',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: view field_project_video
   $permissions['view field_project_video'] = array(
     'name' => 'view field_project_video',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1142,8 +1242,9 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_project_video_embed'] = array(
     'name' => 'view field_project_video_embed',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1161,8 +1262,9 @@ function weeve_feature_user_default_permissions() {
   $permissions['view field_proposal_project'] = array(
     'name' => 'view field_proposal_project',
     'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
+      '0' => 'admin',
+      '1' => 'anonymous user',
+      '2' => 'authenticated user',
     ),
   );
 
@@ -1207,19 +1309,25 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: view imagecache scale_crop_200px
   $permissions['view imagecache scale_crop_200px'] = array(
     'name' => 'view imagecache scale_crop_200px',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: view imagecache scale_crop_215x150
   $permissions['view imagecache scale_crop_215x150'] = array(
     'name' => 'view imagecache scale_crop_215x150',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: view revisions
   $permissions['view revisions'] = array(
     'name' => 'view revisions',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'admin',
+    ),
   );
 
   // Exported permission: view uploaded files

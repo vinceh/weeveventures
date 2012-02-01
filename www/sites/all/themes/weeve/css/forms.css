@@ -58,6 +58,11 @@ input.form-text {
   overflow: hidden;
 }
 
+#weeve-account-change-password-form .description {
+  font-size: 12px;
+  padding-top: 5px;
+}
+
 /*NPO Edit account*/
 #weeve-account-change-general-npo-form {
   margin: 30px;
@@ -86,7 +91,13 @@ input.form-text {
 #weeve-account-change-general-npo-form fieldset .description {
   margin-bottom: 15px;
 }
-
+#weeve-account-change-general-npo-form textarea {
+  border: 1px solid #999999;
+  border-radius: 5px 5px 5px 5px;
+}
+#weeve-account-change-general-npo-form .grippie {
+  display: none !important;
+}
 #weeve-account-change-general-npo-form input, #weeve-account-change-general-npo-form textarea {
   margin-top: 15px;
 }
@@ -117,7 +128,7 @@ input.form-text {
 /*User edit account*/
 #weeve-account-change-general-user-form {
   overflow: hidden;
-	margin: 30px 230px 30px 30px;
+	margin: 30px 30px 30px 30px;
 }
 
 #weeve-account-change-general-user-form .description {
@@ -223,22 +234,29 @@ input.form-text {
 
 #weeve-account-change-general-user-form  #edit-show-email-wrapper {
   position: relative;
-  right: 180px;
+  right: 370px;
 }
 
 #weeve-account-change-general-user-form  #edit-show-location-wrapper {
   position: relative;
-  right: 168px;
+  right: 358px;
 }
 
 #weeve-account-change-general-user-form #edit-donation-history-wrapper {
     position: relative;
-    right: 122px;
+    right: 254px;
+}
+
+#weeve-account-change-general-user-form #edit-donation-history-wrapper .description {
+  font-size: 16px;
 }
 
 #weeve-account-change-general-user-form #edit-following-wrapper {
     position: relative;
-    right: 153px;
+    right: 297px;
+}
+#weeve-account-change-general-user-form #edit-following-wrapper .description{
+  font-size: 16px;
 }
 
 #edit-field-update-project-nid-nid-wrapper {
