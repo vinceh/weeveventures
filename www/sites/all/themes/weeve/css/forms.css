@@ -379,3 +379,15 @@ input.form-text {
 #weeve-account-payment-page #edit-submit {
   margin-left: 160px;
 }
+
+/*Confirm send money form*/
+#weeve-donation-payout-accept-form {
+  margin: 35px;
+}
+#weeve-donation-payout-accept-form .container-inline {
+  margin-top: 10px;
+}
+
+#weeve-donation-payout-accept-form .container-inline input {
+  margin-right: 20px;
+}

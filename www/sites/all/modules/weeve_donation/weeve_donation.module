@@ -63,6 +63,21 @@ function weeve_donation_menu() {
     'page arguments' => array('weeve_donation_settings_form'),
   );
 
+  $items['admin/content/payout'] = array(
+    'title' => 'Manage Payout Requests',
+    'page callback' => 'weeve_donation_manage_payout_request_page',
+    'access arguments' => array('administer content'),
+    'type' => MENU_NORMAL_ITEM
+  );
+
+  $items['payout/%/accept'] = array(
+    'title' => 'Accept Payout Requests',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('weeve_donation_payout_accept_form', 1),
+    'access arguments' => array('administer content'),
+    'type' => MENU_CALLBACK
+  );
+
   return $items;
 }
 
@@ -388,7 +403,7 @@ function weeve_donation_pay_success_project($nid) {
     $uid = $node->uid;
     $npo = content_profile_load('profile', $uid);
     $recipients = array(
-      array('email' => $npo->field_payment_paypal_verified[0]['value'], 'amount' => $donate->amount * 0.95),
+      array('email' => $npo->field_payment_paypal_email[0]['value'], 'amount' => $donate->amount * 0.95),
       array('email' => $weeve_paypal, 'amount' => $donate->amount * 0.05),
     );
     $memo = 'Donate : '. $node->title;
@@ -396,12 +411,15 @@ function weeve_donation_pay_success_project($nid) {
     if ($res['responseEnvelope.ack'] == 'Success') {
       module_invoke_all('weeve_donation', $node, 'paid');
       weeve_donation_set_paid($donate->pid);
+      return TRUE;
     }
     else {
       watchdog('weeve donate', t('!errorId: !message'), array('!errorId' => $res['error(0).errorId'], '!message' => $res['error(0).message']), WATCHDOG_ERROR);
+      return FALSE;
     }
   }
 }
+
 function weeve_donation_get_donors_by_project($nid) {
   $query = "SELECT COUNT(DISTINCT(uid)) FROM {weeve_preapproval_payments} WHERE nid = %d";
   $result = db_result(db_query($query, $nid));
@@ -466,7 +484,7 @@ function weeve_donation_weeve_project(&$node, $op) {
     if ($node->field_project_percent_pledge >= WEEVE_PROJECT_SUCCESS_PERCENT
             && $node->field_project_status[0]['value'] != 'cancel') {
     //Project is 25%+ successfull, finished and not cancelled.
-      weeve_donation_pay_success_project($node->nid);
+      // weeve_donation_pay_success_project($node->nid);
     } else {
       weeve_donation_mark_archive_payments_by_nid($node->nid);
     }
@@ -580,6 +598,104 @@ function weeve_donation_pay($key, $receivers, $memo) {
   return $resArray;
 }
 
+function weeve_donation_save_payout_request($uid, $nid, $accepted, $pid = null) {
+  $request = new stdClass();
+  $request->uid = $uid;
+  $request->nid = $nid;
+  $request->total_amount = weeve_donation_get_total_donated_by_nid($nid);
+  $request->created = time();
+  $request->accepted = $accepted;
+  if ($pid) {
+    $request->pid = $pid;
+    drupal_write_record('weeve_payout_request', $request, 'pid');
+  }
+  else {
+    drupal_write_record('weeve_payout_request', $request);
+  }
+  return $request;
+}
+
+function weeve_donation_set_payout_request_accepted($pid) {
+  $request = new stdClass();
+  $request->pid = $pid;
+  $request->accepted = 1;
+  drupal_write_record('weeve_payout_request', $request, 'pid');
+  return $request;
+}
+
+function weeve_donation_get_payout_request_by_id($id) {
+  $query = "SELECT * FROM {weeve_payout_request} WHERE pid = %d";
+  $result = db_query($query, $id);
+  while($row = db_fetch_object($result)) {
+    return $row;
+  }
+}
+
+/**
+ * @param $status
+ *  -1 -all
+ *  0 - not accepted
+ *  1 - accepted
+ *  @return requests
+ */
+function weeve_donation_get_payout_requests($status = -1) {
+  $requests = array();
+  $query = "SELECT * FROM {weeve_payout_request}";
+  if ($status != -1) {
+    $query .= " WHERE accepted = %d";
+    $result = db_query($query, $status);
+  }
+  else {
+    $result = db_query($query);
+  }
+  while($row = db_fetch_object($result)) {
+    $requests[] = $row;
+  }
+  return $requests;
+}
+
+function weeve_donation_manage_payout_request_page() {
+  $requests = weeve_donation_get_payout_requests(0);
+  $header = array('Project title', 'Total amount', 'Date', 'Status', 'NPO', 'Send money');
+  $rows = array();
+  foreach($requests as $req) {
+    $row = array();
+    $node = node_load($req->nid);
+    $user = user_load($req->uid);
+    $row[] = l($node->title, drupal_get_path_alias('node/'. $node->nid));
+    $row[] = $req->total_amount .'$';
+    $row[] = date('m-d-Y', $req->created);
+    $row[] = $req->accepted ? 'Accepted' : 'Pending';
+    $row[] = l($user->name, 'account/'. $user->uid);
+    if (!$req->accepted) {
+      $row[] = l('Send money', 'payout/'. $req->pid .'/accept');
+    }
+    else {
+      $row[] = t('Already sent');
+    }
+    $rows[] = $row;
+  }
+  return theme('table', $header, $rows);
+}
+
+function weeve_donation_payout_accept_form($form_state, $payout_request_id) {
+  $f = array();
+  $f['payout_request_id'] = array(
+    '#type' => 'value',
+    '#value' => $payout_request_id
+  );
+  $form = confirm_form($f, t('Are you sure you want send money'), 'admin/content/payout', t('This action cannot be undone.'), t('Send money'), t('Cancel'));
+  $form['#redirect'] = 'admin/content/payout';
+  return $form;
+}
+
+function weeve_donation_payout_accept_form_submit(&$form, &$form_state) {
+  $req_id = $form_state['values']['payout_request_id'];
+  $req = weeve_donation_get_payout_request_by_id($req_id);
+  if(weeve_donation_pay_success_project($req->nid)) {
+    weeve_donation_set_payout_request_accepted($req_id);
+  }
+}
 
 function weeve_donation_test_callback() {
   die;

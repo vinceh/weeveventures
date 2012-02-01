@@ -68,6 +68,53 @@ function weeve_donation_schema() {
     ),
     'primary key' => array('pid'),
   );
+  $schema['weeve_payout_request'] = array(
+    'fields' => array(
+      'pid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'total_amount' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'accepted' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'created' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('pid'),
+  );
 
   return $schema;
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function weeve_donation_update_6101(&$sandbox) {
+  $ret = array();
+  if (!db_table_exists('weeve_payout_request')) {
+    $schema = weeve_donation_schema();
+    db_create_table($ret, 'weeve_payout_request', $schema['weeve_payout_request']);
+  }
+  return $ret;
 }
