@@ -203,6 +203,35 @@
    		$(window).resize();
   }
 
+  function changeFoundsDialog() {
+    var html = "<form id='founds-request' title='Request Project Funds Change'>" +
+        "<div class='cancelConfirm-content'>" +
+  		  "<div class='confirm-content-text'>Once you submit your fund change request, we will review it and contact you personally.  Please provide the following information to let us know a bit more about this request.</div>" +
+  		  "<div class='requestPopupcontent'>What would you like to change your funding amount to?</div>" +
+  		  "<input type='text' class='requestPopupinput />" +
+  		  "<div class='confirm-content-label'>Please tell us why you want to change your funding amount.</div>" +
+  		  "<textarea class='confirm-content-textarea'></textarea>" +
+  		  "<button id='request-submit' class='weeve-medium-button submit'>Submit</button>" +
+        "<a class='weeve-link close-dialog'>go back</a>" +
+        "</div>" +
+      "</form>";
+
+    $(html).dialog({
+    			autoOpen: true,
+    			height: 450,
+    			width: 525,
+    			modal: true,
+          dialogClass: 'change-founds'
+    });
+
+
+    $('#founds-request a.close-dialog').click(function(){
+      $('#founds-request').dialog('close');
+    });
+
+  }
+
+
   Drupal.behaviors.weeveDonation = function(context) {
     $('div.donate-button', context).click(function(e) {
       e.preventDefault();
@@ -214,11 +243,11 @@
     $('a.manage', context).click(function(e) {
       e.preventDefault();
       var $this = $(this)
-              , title
-              , link
-              , amount
-              , pid
-              , end;
+        , title
+        , link
+        , amount
+        , pid
+        , end;
       title = $this.parents('.donated-project').find('.proj-title a').text();
       link = $this.parents('.donated-project').find('.proj-title a').attr('href');
       amount = $this.parents('.donated-project').find('.preapproval-amount').val();
