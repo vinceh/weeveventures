@@ -80,12 +80,12 @@ function weeve_general_messages_form() {
     '#default_value' => variable_get('project_edit_project', t('Your project has been successfuly updated')),
   );
 
-  $form['project']['project_new_update'] = array(
+/*  $form['project']['project_new_update'] = array(
     '#type' => 'textarea',
     '#title' => t('New update'),
     '#rows' => 3,
     '#default_value' => variable_get('project_new_update', ''),
-  );
+  );*/
 
   $form['project']['project_funds_change'] = array(
     '#type' => 'textarea',
