@@ -21,7 +21,10 @@ function weeve_general_menu() {
  * Implementation hook_init
  */
 function weeve_general_init() {
-  drupal_add_js(array('weeveGeneral' => array('message_donation_request_payout' => variable_get('donation_request_payout', t('Your request have been sent')))), 'setting');
+  drupal_add_js(array('weeveGeneral' => array(
+    'message_donation_request_payout' => variable_get('donation_request_payout', t('Your request have been sent')),
+    'message_project_funds_change' => variable_get('project_funds_change', t('Your request has been recieved')),
+  )), 'setting');
 }
 
 function weeve_general_messages_form() {
@@ -88,7 +91,7 @@ function weeve_general_messages_form() {
     '#type' => 'textarea',
     '#title' => t('Request funds change'),
     '#rows' => 3,
-    '#default_value' => variable_get('project_funds_change', ''),
+    '#default_value' => variable_get('project_funds_change', t('Your request has been recieved')),
   );
 
   // Donations

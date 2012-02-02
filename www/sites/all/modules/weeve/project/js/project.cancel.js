@@ -81,7 +81,7 @@ $(document).ready(function() {
         {funds: $('#weeve-funds').val(), reason: $('#weeve-funds-reason').val()},
         function(response) {
           if (response.success) {
-            weeve_set_message('Your request has been recieved');
+            weeve_set_message(Drupal.settings.weeveGeneral.message_project_funds_change);
           } else {
             if (response.message) {
               weeve_set_message(response.message);
