@@ -75,13 +75,7 @@ function weeve_feature_ckeditor_profile_defaults() {
     'CKEditor Global Profile' => array(
       'name' => 'CKEditor Global Profile',
       'settings' => array(
-        'license_name' => '',
-        'license_key' => '',
-        'rank' => array(
-          '0' => '6',
-          '1' => '5',
-        ),
-        'excl_mode' => '0',
+        'excl_mode' => 0,
         'excl' => 'admin/user/settings.edit-user-mail-*
 *.edit-pages
 *.edit-pathauto-ignore-words
@@ -108,7 +102,8 @@ admin/settings/actions/configure/*
 *.edit-target
 *.edit-wysiwyg-filter-*
 admin/build/views*
-#edit-bio',
+',
+        'simple_incl_mode' => 1,
         'simple_incl' => '*.edit-signature
 admin/settings/site-information.*
 admin/settings/site-maintenance.*
@@ -117,12 +112,9 @@ admin/settings/site-maintenance.*
 *.edit-user-picture-guidelines
 ',
         'ckeditor_path' => '%m/ckeditor',
-        'ckeditor_local_path' => '',
-        'ckeditor_plugins_path' => '%m/plugins',
-        'ckeditor_plugins_local_path' => '',
-        'show_fieldnamehint' => 't',
-        'loadPlugins' => array(),
-        'excl_regex' => '#(?:^.*:.*@admin/user/settings\\.edit\\-user\\-mail\\-.*$)|(?:^.*:.*@.*\\.edit\\-pages$)|(?:^.*:.*@.*\\.edit\\-pathauto\\-ignore\\-words$)|(?:^.*:.*@.*\\.edit\\-recipients$)|(?:^.*:.*@.*\\.edit\\-reply$)|(?:^.*:.*@.*\\.edit\\-description$)|(?:^.*:.*@.*\\.edit\\-synonyms$)|(?:^.*:.*@.*\\.edit\\-img\\-assist\\-textareas$)|(?:^.*:.*@.*\\.edit\\-img\\-assist\\-paths$)|(?:^.*:.*@.*\\.edit\\-nodewords\\-description$)|(?:^.*:.*@.*\\.edit\\-nodewords\\-description\\-value$)|(?:^.*:.*@admin/content/nodewords/global.*\\..*$)|(?:^.*:.*@.*\\.edit\\-relatedlinks\\-fieldset\\-relatedlinks$)|(?:^.*:.*@.*\\.edit\\-allowed\\-values\\-php$)|(?:^.*:.*@.*\\.edit\\-allowed\\-values$)|(?:^.*:.*@.*\\.edit\\-update\\-notify\\-emails$)|(?:^.*:.*@.*\\.edit\\-googleanalytics\\-.*$)|(?:^.*:.*@.*\\.edit\\-piwik\\-.*$)|(?:^.*:.*@.*\\.edit\\-feedburner\\-useragents$)|(?:^.*:.*@.*\\.edit\\-webform\\-.*$)|(?:^.*:webform@.*\\.edit\\-extra\\-items$)|(?:^.*:.*@admin/.*/logintoboggan\\..*$)|(?:^.*:.*@admin/settings/actions/configure/.*\\..*$)|(?:^.*:.*@.*\\.edit\\-target$)|(?:^.*:.*@.*\\.edit\\-wysiwyg\\-filter\\-.*$)|(?:^.*:.*@admin/build/views.*\\..*$)|(?:^.*:.*@.*\\.\\#edit\\-bio$)#',
+        'license_name' => '',
+        'license_key' => '',
+        'excl_regex' => '#(?:^.*:.*@admin/user/settings\\.edit\\-user\\-mail\\-.*$)|(?:^.*:.*@.*\\.edit\\-pages$)|(?:^.*:.*@.*\\.edit\\-pathauto\\-ignore\\-words$)|(?:^.*:.*@.*\\.edit\\-recipients$)|(?:^.*:.*@.*\\.edit\\-reply$)|(?:^.*:.*@.*\\.edit\\-description$)|(?:^.*:.*@.*\\.edit\\-synonyms$)|(?:^.*:.*@.*\\.edit\\-img\\-assist\\-textareas$)|(?:^.*:.*@.*\\.edit\\-img\\-assist\\-paths$)|(?:^.*:.*@.*\\.edit\\-nodewords\\-description$)|(?:^.*:.*@.*\\.edit\\-nodewords\\-description\\-value$)|(?:^.*:.*@admin/content/nodewords/global.*\\..*$)|(?:^.*:.*@.*\\.edit\\-relatedlinks\\-fieldset\\-relatedlinks$)|(?:^.*:.*@.*\\.edit\\-allowed\\-values\\-php$)|(?:^.*:.*@.*\\.edit\\-allowed\\-values$)|(?:^.*:.*@.*\\.edit\\-update\\-notify\\-emails$)|(?:^.*:.*@.*\\.edit\\-googleanalytics\\-.*$)|(?:^.*:.*@.*\\.edit\\-piwik\\-.*$)|(?:^.*:.*@.*\\.edit\\-feedburner\\-useragents$)|(?:^.*:.*@.*\\.edit\\-webform\\-.*$)|(?:^.*:webform@.*\\.edit\\-extra\\-items$)|(?:^.*:.*@admin/.*/logintoboggan\\..*$)|(?:^.*:.*@admin/settings/actions/configure/.*\\..*$)|(?:^.*:.*@.*\\.edit\\-target$)|(?:^.*:.*@.*\\.edit\\-wysiwyg\\-filter\\-.*$)|(?:^.*:.*@admin/build/views.*\\..*$)#',
         'simple_incl_regex' => '#(?:^.*:.*@.*\\.edit\\-signature$)|(?:^.*:.*@admin/settings/site\\-information\\..*$)|(?:^.*:.*@admin/settings/site\\-maintenance\\..*$)|(?:^.*:.*@.*\\.edit\\-page\\-help$)|(?:^.*:.*@.*\\.edit\\-user\\-registration\\-help$)|(?:^.*:.*@.*\\.edit\\-user\\-picture\\-guidelines$)#',
       ),
       'roles' => array(),
@@ -199,11 +191,13 @@ admin/settings/site-maintenance.*
         'excl' => 'node/add/project/*.edit-body
 node/add/project-update*.edit-body
 project/*/edit*.edit-body
+account/change.edit-bio
+account/change.edit-about
 weeve:project@*.edit-body
 weeve:project_update@*.edit-body',
         'simple_incl' => '',
         'default' => 't',
-        'show_toggle' => 't',
+        'show_toggle' => 'f',
         'popup' => 'f',
         'skin' => 'kama',
         'uicolor' => 'default',
@@ -212,7 +206,7 @@ weeve:project_update@*.edit-body',
 ',
         'uicolor_user' => 'default',
         'toolbar' => '[
-    [\'Bold\',\'Underline\',\'Italic\',\'Strike\',\'NumberedList\',\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'Link\',\'Unlink\',\'BulletedList\',\'Source\',\'Undo\',\'Redo\',\'FontSize\',\'BGColor\',\'TextColor\',\'Image\',\'MediaEmbed\']
+    [\'Bold\',\'Underline\',\'Italic\',\'Subscript\',\'Superscript\',\'Strike\',\'NumberedList\',\'Link\',\'Unlink\',\'Image\',\'BulletedList\',\'Source\',\'FontSize\',\'TextColor\',\'Blockquote\',\'PasteFromWord\',\'MediaEmbed\']
 ]',
         'expand' => 't',
         'width' => '100%',
@@ -289,7 +283,7 @@ weeve:project_update@*.edit-body',
             'default' => 't',
           ),
         ),
-        'excl_regex' => '#(?:^.*:.*@node/add/project/.*\\.edit\\-body$)|(?:^.*:.*@node/add/project\\-update.*\\.edit\\-body$)|(?:^.*:.*@project/.*/edit.*\\.edit\\-body$)|(?:^weeve:project@.*\\.edit\\-body$)|(?:^weeve:project_update@.*\\.edit\\-body$)#',
+        'excl_regex' => '#(?:^.*:.*@node/add/project/.*\\.edit\\-body$)|(?:^.*:.*@node/add/project\\-update.*\\.edit\\-body$)|(?:^.*:.*@project/.*/edit.*\\.edit\\-body$)|(?:^.*:.*@account/change\\.edit\\-bio$)|(?:^.*:.*@account/change\\.edit\\-about$)|(?:^weeve:project@.*\\.edit\\-body$)|(?:^weeve:project_update@.*\\.edit\\-body$)#',
         'simple_incl_regex' => '',
       ),
       'roles' => array(

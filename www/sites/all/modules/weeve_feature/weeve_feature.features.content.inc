@@ -728,6 +728,68 @@ corp|Corporate',
     ),
   );
 
+  // Exported field: field_project_activity_time
+  $fields['project-field_project_activity_time'] = array(
+    'field_name' => 'field_project_activity_time',
+    'type_name' => 'project',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'number_integer',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'number',
+    'active' => '1',
+    'prefix' => '',
+    'suffix' => '',
+    'min' => '',
+    'max' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_project_activity_time][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Author activity view time',
+      'weight' => '21',
+      'description' => '',
+      'type' => 'number',
+      'module' => 'number',
+    ),
+  );
+
   // Exported field: field_project_amount_need
   $fields['project-field_project_amount_need'] = array(
     'field_name' => 'field_project_amount_need',
@@ -2391,6 +2453,7 @@ decline|Declined
   t('Admin paypal verified');
   t('Amount needed');
   t('Amount pledged');
+  t('Author activity view time');
   t('Bio');
   t('Business Code');
   t('Business Number');

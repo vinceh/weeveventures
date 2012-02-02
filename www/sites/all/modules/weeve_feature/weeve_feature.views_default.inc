@@ -3512,6 +3512,9 @@ return round(($timestamp - time()) / 86400);
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['css_class'] = 'proposals';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
   /* Empty text: Global: Text area */
@@ -3931,7 +3934,8 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler = $view->new_display('attachment', 'Running projects', 'attachment_2');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Running projects';
-  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['header'] = FALSE;
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
@@ -4088,12 +4092,69 @@ This is the list of your project proposals. Once your project has been reviewed 
   $handler->display->display_options['fields']['nothing']['hide_empty'] = 0;
   $handler->display->display_options['fields']['nothing']['empty_zero'] = 0;
   $handler->display->display_options['fields']['nothing']['hide_alter_empty'] = 1;
+  /* Field: Content: Author activity view time (field_project_activity_time) */
+  $handler->display->display_options['fields']['field_project_activity_time_value']['id'] = 'field_project_activity_time_value';
+  $handler->display->display_options['fields']['field_project_activity_time_value']['table'] = 'node_data_field_project_activity_time';
+  $handler->display->display_options['fields']['field_project_activity_time_value']['field'] = 'field_project_activity_time_value';
+  $handler->display->display_options['fields']['field_project_activity_time_value']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['element_label_colon'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['link_to_node'] = 0;
+  $handler->display->display_options['fields']['field_project_activity_time_value']['label_type'] = 'none';
+  /* Field: Customfield: PHP code */
+  $handler->display->display_options['fields']['phpcode']['id'] = 'phpcode';
+  $handler->display->display_options['fields']['phpcode']['table'] = 'customfield';
+  $handler->display->display_options['fields']['phpcode']['field'] = 'phpcode';
+  $handler->display->display_options['fields']['phpcode']['label'] = '';
+  $handler->display->display_options['fields']['phpcode']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['phpcode']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['phpcode']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['phpcode']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['phpcode']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['phpcode']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['phpcode']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['phpcode']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['phpcode']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['phpcode']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['phpcode']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['phpcode']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['phpcode']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['phpcode']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['phpcode']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['phpcode']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['phpcode']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['phpcode']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['phpcode']['value'] = '<?php 
+$records = weeve_project_get_activity_project($data->nid, 
+$data->node_data_field_project_activity_time_field_project_activity);
+$count = count($records);
+if ($count) {
+  return \'<div class="activity-count">\'.$count.\'</div>\';
+}
+
+return 0;
+?>';
   /* Field: Content: Status (field_project_status) */
   $handler->display->display_options['fields']['field_project_status_value']['id'] = 'field_project_status_value';
   $handler->display->display_options['fields']['field_project_status_value']['table'] = 'node_data_field_project_status';
   $handler->display->display_options['fields']['field_project_status_value']['field'] = 'field_project_status_value';
   $handler->display->display_options['fields']['field_project_status_value']['alter']['alter_text'] = 1;
-  $handler->display->display_options['fields']['field_project_status_value']['alter']['text'] = '[view_node]';
+  $handler->display->display_options['fields']['field_project_status_value']['alter']['text'] = '[view_node] [phpcode]';
   $handler->display->display_options['fields']['field_project_status_value']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['field_project_status_value']['alter']['absolute'] = 0;
   $handler->display->display_options['fields']['field_project_status_value']['alter']['external'] = 0;
@@ -4142,7 +4203,8 @@ This is the list of your project proposals. Once your project has been reviewed 
 
   /* Display: Successful projects */
   $handler = $view->new_display('attachment', 'Successful projects', 'attachment_3');
-  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['header'] = FALSE;
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
@@ -4359,7 +4421,8 @@ This is the list of your project proposals. Once your project has been reviewed 
 
   /* Display: Cancelled projects */
   $handler = $view->new_display('attachment', 'Cancelled projects', 'attachment_4');
-  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['header'] = FALSE;
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
@@ -4644,7 +4707,7 @@ This is the list of your project proposals. Once your project has been reviewed 
 <div class="body">[body]</div>'),
     t('Running projects'),
     t('View project'),
-    t('[view_node]'),
+    t('[view_node] [phpcode]'),
     t('Successful projects'),
     t('Cancelled projects'),
     t('Proposal title'),
@@ -5006,7 +5069,7 @@ $nid = $view->args[0];
 $node = node_load($nid);
 
 if (weeve_project_can_comment($nid)) {
-  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
 }
 ?>';
   $handler->display->display_options['header']['area']['format'] = '3';
@@ -5241,7 +5304,7 @@ $nid = $view->args[0];
 $node = node_load($nid);
 
 if (weeve_project_can_comment($nid)) {
-  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid);
+  print l(t(\'Add new comment\'), \'comment/reply/\' . $nid, array(\'attributes\' => array(\'class\' => \'weeve-medium-button\')));
 }
 ?>'),
     t('No comments yet'),

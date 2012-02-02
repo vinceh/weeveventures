@@ -43,6 +43,15 @@ function weeve_project_menu() {
     'type' => MENU_CALLBACK
   );
 
+  $items['project/%/activity'] = array(
+    'title' => 'Project activity',
+    'page callback' => 'weeve_project_activity_project',
+    'page arguments' => array(1),
+    'access callback' => 'weeve_project_edit_own_project_valid',
+    'access arguments' => array(1),
+    'type' => MENU_CALLBACK
+  );
+
   $items['project/%/currentfunds'] = array(
     'title' => 'Current funds',
     'page callback' => 'weeve_project_currentfunds_project',
@@ -431,6 +440,10 @@ function weeve_project_theme() {
     'weeve_add_proposal_form_element' => array(
       'arguments' => array('element' => null),
       'template' => 'tpl/proposal_add_element'
+    ),
+    'weeve_project_activity_project' => array(
+      'arguments' => array('activity' => array()),
+      'template' => 'tpl/project_activity'
     )
   );
 }
@@ -439,6 +452,51 @@ function weeve_project_currentfunds_project($nid) {
   $project = node_load($nid);
 
   echo json_encode(array('success' => true, 'result' => (float)$project->field_project_amount_need[0]['amount'])); exit;
+}
+
+function weeve_project_activity_project($nid) {
+  $node = node_load($nid);
+
+  $node->field_project_activity_time[0]['value'] = time();
+  node_save($node);
+  return theme('weeve_project_activity_project', weeve_project_get_activity_project($nid, 0));
+}
+
+function weeve_project_get_activity_project($nid, $from_timestamp = 0) {
+  $comment_query = "SELECT * FROM {comments} WHERE nid = %d AND timestamp >= %d";
+  $comment_result = db_query($comment_query, $nid, $from_timestamp);
+
+  $comments = array();
+
+  while($comment_row = db_fetch_object($comment_result)) {
+    $comment_row->type = 'comment';
+    $comments[] = $comment_row;
+  }
+
+  $donation_query = "SELECT * FROM {weeve_preapproval_payments} WHERE nid = %d AND archived = 0 AND created >= %d";
+  $donation_result = db_query($donation_query, $nid, $from_timestamp);
+
+  $donations = array();
+
+  while($donation_row = db_fetch_object($donation_result)) {
+    $donation_row->timestamp = $donation_row->created;
+    $donation_row->type = 'donation';
+    $donations[] = $donation_row;
+  }
+
+  $result = (array)array_merge($comments, $donations);
+  if (!function_exists('weeve_sort_by_timestamp')) {
+    function weeve_sort_by_timestamp($a, $b) {
+      if ($a->timestamp == $b->timestamp) {
+        return 0;
+      }
+
+      return ($a->timestamp < $b->timestamp) ? 1 : -1;
+    }
+  }
+  usort($result, 'weeve_sort_by_timestamp');
+
+  return $result;
 }
 
 function weeve_project_funds_project($nid) {
@@ -775,6 +833,7 @@ function weeve_project_preprocess_page(&$vars) {
 
   if (in_array('page-project-updates', $vars['template_files']) || 
       in_array('page-project-comments', $vars['template_files']) ||
+      in_array('page-project-activity', $vars['template_files']) ||
       in_array('page-project-edit', $vars['template_files'])) {
     $query = explode('/', $_SERVER['QUERY_STRING']);
     $vars['node_menu'] = weeve_project_menu_html($query[1]);
