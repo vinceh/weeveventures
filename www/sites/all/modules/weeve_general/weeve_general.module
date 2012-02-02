@@ -1,0 +1,161 @@
+<?php
+
+/*
+ * Implementation hook_menu
+ */
+function weeve_general_menu() {
+  $items = array();
+
+  $items['admin/settings/weeve_confirm'] = array(
+    'title' => 'Weeve confirm messages',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('weeve_general_messages_form'),
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/*
+ * Implementation hook_init
+ */
+function weeve_general_init() {
+  drupal_add_js(array('weeveGeneral' => array('message_donation_request_payout' => variable_get('donation_request_payout', t('Your request have been sent')))), 'setting');
+}
+
+function weeve_general_messages_form() {
+  $form = array();
+
+  $form['project'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Projects',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['donation'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Donations',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['account'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Account',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['registration'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Registration',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  // Projects
+  $form['project']['project_new_proposal'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Add new proposal'),
+    '#rows' => 3,
+    '#default_value' => variable_get('project_new_proposal', t('Thank you. Your proposal will go to our team. After approval you will be able to create new project!')),
+  );
+
+  $form['project']['project_new_project'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Add new project'),
+    '#rows' => 3,
+    '#default_value' => variable_get('project_new_project', t('Thank you. We will check your project in 1-2 business days. If it meets our requirements it will be approved and running!')),
+  );
+
+  $form['project']['project_edit_project'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Edit project'),
+    '#rows' => 3,
+    '#default_value' => variable_get('project_edit_project', t('Your project has been successfuly updated')),
+  );
+
+  $form['project']['project_new_update'] = array(
+    '#type' => 'textarea',
+    '#title' => t('New update'),
+    '#rows' => 3,
+    '#default_value' => variable_get('project_new_update', ''),
+  );
+
+  $form['project']['project_funds_change'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Request funds change'),
+    '#rows' => 3,
+    '#default_value' => variable_get('project_funds_change', ''),
+  );
+
+  // Donations
+  $form['donation']['donation_add_donate'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Save donate'),
+    '#rows' => 3,
+    '#default_value' => variable_get('donation_add_donate', t('Your donate has beed saved')),
+  );
+
+  $form['donation']['donation_cancel_donate'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Cancel donate'),
+    '#rows' => 3,
+    '#default_value' => variable_get('donation_cancel_donate', t('Your donation cancelled')),
+  );
+
+  $form['donation']['donation_request_payout'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Request payout'),
+    '#rows' => 3,
+    '#default_value' => variable_get('donation_request_payout', t('Your request have been sent')),
+  );
+
+  // Account
+  $form['account']['account_edit_profile'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Edit profile'),
+    '#rows' => 3,
+    '#default_value' => variable_get('account_edit_profile', t('Account has been changed')),
+  );
+
+  $form['account']['account_change_password'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Change password'),
+    '#rows' => 3,
+    '#default_value' => variable_get('account_change_password', t('Password has been changed')),
+  );
+
+  // Registration
+  $form['registration']['registration_new_user'] = array(
+    '#type' => 'textarea',
+    '#title' => t('New User'),
+    '#rows' => 3,
+    '#default_value' => variable_get('registration_new_user', t('User has been created. Please check your email.')),
+  );
+
+  $form['registration']['registration_user_confirm_email'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Confirm email'),
+    '#rows' => 3,
+    '#default_value' => variable_get('registration_user_confirm_email', t('Thanks! Your email checked. You are now logged in.')),
+  );
+
+  $form['registration']['registration_new_npo'] = array(
+    '#type' => 'textarea',
+    '#title' => t('New NPO'),
+    '#rows' => 3,
+    '#default_value' => variable_get('registration_new_npo', t('NPO has been created. Check Your email.')),
+  );
+
+  $form['registration']['registration_new_corp'] = array(
+    '#type' => 'textarea',
+    '#title' => t('New corp'),
+    '#rows' => 3,
+    '#default_value' => variable_get('registration_new_corp', t('Corporate account has been created. Check Your email.')),
+  );
+
+  return system_settings_form($form);
+}

@@ -159,7 +159,7 @@ function weeve_donation_cancel_ajax_callback() {
         'total_amount' => weeve_donation_get_total_donated_by_nid($node->nid),
       );
       module_invoke_all('weeve_donation', $node, 'remove_preapproval', $donate);
-      drupal_set_message(t('Your donation cancelled'), 'status');
+      drupal_set_message(variable_get('donation_cancel_donate', t('Your donation cancelled')));
       $response['url'] = $_SERVER['HTTP_REFERER'];
     }
     $response['data'] = $resArray;
@@ -273,7 +273,7 @@ function weeve_donation_preapproval_payment_success_callback() {
     $donate['total_amount'] = weeve_donation_get_total_donated_by_nid($donate['node']->nid);
     module_invoke_all('weeve_donation', $donate['node'], 'edit_preapproval', $donate);
   }
-  drupal_set_message(t('Your donate has beed saved'));
+  drupal_set_message(variable_get('donation_add_donate', t('Your donate has beed saved')));
   drupal_goto(drupal_get_path_alias('node/'. $donate['node']->nid));
 }
 
@@ -283,7 +283,7 @@ function weeve_donation_preapproval_payment_success_callback() {
 function weeve_donation_preapproval_payment_cancelled_callback() {
   $donate = $_SESSION['donation_info'];
   unset($_SESSION['donation_info']);
-  drupal_set_message(t('Your donate not saved'));
+  drupal_set_message(variable_get('donation_add_donate', t('Your donate has beed saved')));
   drupal_goto(drupal_get_path_alias('node/'. $donate['node']->nid));
 }
 

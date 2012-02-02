@@ -1,0 +1,4 @@
+name = Weeve General
+description = Provide main functionality
+package = Weeve
+core = 6.x

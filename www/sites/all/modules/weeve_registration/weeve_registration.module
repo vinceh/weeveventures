@@ -240,7 +240,7 @@ function weeve_registration_user_form_submit(&$form, &$form_state) {
   $profile = weeve_registration_create_profile($account, $info = array('type' => 'user'));
 
   weeve_registration_notify('weeve_user_notify', $account);
-  drupal_set_message(t('User has been created. Please check your email.'));
+  drupal_set_message(variable_get('registration_new_user', t('User has been created. Please check your email.')));
 }
 
 function weeve_registration_create_profile($account, $info) {
@@ -282,7 +282,7 @@ function weeve_registration_validate_email_callback($uid, $timestamp, $hashed_pa
   $user = user_load($uid);
   if ($hashed_pass == user_pass_rehash($user->pass, $timestamp, $user->login)) {
     weeve_registration_user_activate($user);
-    drupal_set_message(t('Thanks! Your email checked. You are now logged in.'),'status');
+    drupal_set_message(variable_get('registration_user_confirm_email', t('Thanks! Your email checked. You are now logged in.')));
     drupal_goto('account/'. $uid);
   } else {
     drupal_set_message(t('Invalid url'),'error');
@@ -445,7 +445,7 @@ function weeve_registration_npo_form_submit(&$form, &$form_state) {
   // Add plain text password into user account to generate mail tokens.
   $account->password = $password;
   weeve_registration_notify('weeve_npo_notify', $account);
-  drupal_set_message(t('NPO has been created. Check Your email.'));
+  drupal_set_message(variable_get('registration_new_npo', t('NPO has been created. Check Your email.')));
 }
 
 
@@ -492,7 +492,7 @@ function weeve_registration_corp_form_submit(&$form, &$form_state) {
   // Add plain text password into user account to generate mail tokens.
   $account->password = $password;
   weeve_registration_notify('weeve_corp_notify', $account);
-  drupal_set_message(t('Corporate account has been created. Check Your email.'));
+  drupal_set_message(variable_get('registration_new_corp', t('Corporate account has been created. Check Your email.')));
 }
 
 function weeve_registration_admin_form() {

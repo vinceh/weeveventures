@@ -308,12 +308,12 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
 }
 
 function weeve_project_project_request_add_submit($form, &$form_state) {
-  drupal_set_message(t('Thank you. Your proposal will go to our team. After approval you will be able to create new project!'));
+  drupal_set_message(variable_get('project_new_proposal', t('Thank you. Your proposal will go to our team. After approval you will be able to create new project!')));
 }
 
 function weeve_project_project_add_submit($form, &$form_state) {
   $proposal_nid = $form['field_project_proposal']['#value'][0]['nid'];
-  drupal_set_message(t('Thank you. We will check your project in 1-2 business days. If it meets our requirements it will be approved and running!'));
+  drupal_set_message(variable_get('project_new_project', t('Thank you. We will check your project in 1-2 business days. If it meets our requirements it will be approved and running!')));
 }
 
 function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
@@ -674,7 +674,7 @@ function weeve_project_edit_project_form_submit($form, &$form_state) {
   $node->body = $values['body'];
   $node->teaser = node_teaser($values['body']);
 
-  drupal_set_message(t('Your project has been successfuly updated'));
+  drupal_set_message(variable_get('project_edit_project', t('Your project has been successfuly updated')));
   node_save($node);
 }
 

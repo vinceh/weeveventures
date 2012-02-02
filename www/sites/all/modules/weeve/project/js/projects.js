@@ -46,7 +46,7 @@ $(document).ready(function() {
         {method: 'paypal'},
         function(response) {
           if (response.success) {
-            weeve_set_message('Your request have been sent');
+            weeve_set_message(Drupal.settings.weeveGeneral.message_donation_request_payout);
             scroll(0,0);
           } else {
             weeve_set_message('Error occured');

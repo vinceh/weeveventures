@@ -258,7 +258,7 @@ function weeve_account_change_password_form_submit(&$form, &$form_state) {
   global $user;
   $new = $form_state['values']['new_pwd'];
   $user = user_save($user, array('pass' => $new));
-  drupal_set_message(t('Password has been changed'));
+  drupal_set_message(variable_get('account_change_password', t('Password has been changed')));
 }
 
 function weeve_account_change_general_page() {
@@ -368,7 +368,7 @@ function weeve_account_change_general_npo_form_submit(&$form, &$form_state) {
   $profile->field_npo_bio[0]['value'] = $bio;
   $profile->field_npo_about[0]['value'] = $about;
   node_save($profile);
-  drupal_set_message(t('Account has been changed'));
+  drupal_set_message(variable_get('account_edit_profile', t('Account has been changed')));
 }
 
 function weeve_account_change_general_user_form() {
@@ -496,7 +496,7 @@ function weeve_account_change_general_user_form_submit(&$form, &$form_state) {
   $profile->field_location[0]['value'] = $location;
   node_save($profile);
 
-  drupal_set_message(t('Account has been changed'));
+  drupal_set_message(variable_get('account_edit_profile', t('Account has been changed')));
 }
 
 function weeve_account_load_user($uid) {
