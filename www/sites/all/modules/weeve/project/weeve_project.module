@@ -87,6 +87,14 @@ function weeve_project_menu() {
     'type' => MENU_CALLBACK
   );
 
+  $items['project/%/adminfunds'] = array(
+    'title' => 'Admin funds',
+    'page callback' => 'weeve_project_adminfunds_project',
+    'page arguments' => array(1),
+    'access callback' => true,
+    'type' => MENU_CALLBACK
+  );
+
   return $items;
 }
 
@@ -201,11 +209,12 @@ function weeve_project_proposal_valid() {
 function weeve_project_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'project_node_form' && arg(1) == 'add') {
     global $user;
+    $form['#redirect'] = 'account/' . $user->uid . '/projects';
     $proposal_nid = arg(3);
 
     $profile = node_load(array('type' => 'profile', 'uid' => $user->uid));
 
-    if (!$profile->field_payment_paypal_verified[0]['value']) {
+    if (in_array($profile->field_payment_paypal_verified[0]['value'], array(0, 2))) {
       drupal_set_message('Your paypal account is not verified', 'error');
       drupal_goto('account/change/payment');
     }
@@ -263,7 +272,7 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
     global $user;
 
     $profile = node_load(array('type' => 'profile', 'uid' => $user->uid));
-    if (!$profile->field_payment_paypal_verified[0]['value']) {
+    if (in_array($profile->field_payment_paypal_verified[0]['value'], array(0, 2))) {
       drupal_set_message('Your paypal account is not verified', 'error');
       drupal_goto('account/change/payment');
     }
@@ -499,6 +508,34 @@ function weeve_project_get_activity_project($nid, $from_timestamp = 0) {
   return $result;
 }
 
+function weeve_project_adminfunds_project($nid) {
+  global $user;
+
+  $response = array('success' => false);
+  if (!in_array('admin', $user->roles) && $user->uid != 1) {
+    echo json_encode($response); exit;
+  }
+
+  $confirm_value = $_POST['op']; //1 = confirm, 2 = decline
+  if (!in_array($confirm_value, array(1, 2))) {
+    echo json_encode($response); exit;
+  }  
+
+  if ($confirm_value == 1) {
+    $node = node_load($nid);
+    $query = "SELECT rid, new_value FROM {weeve_fund_change_request} WHERE nid=%d AND status = 0";
+    $result = db_query($query, $nid);
+    $request_found = db_fetch_object($result);
+    if ($request_found) {
+      $node->field_project_amount_need[0]['amount'] = $request_found->new_value;
+      node_save($node);
+    }
+  }
+  db_query("UPDATE {weeve_fund_change_request} SET status = %d WHERE nid=%d AND status = 0", $confirm_value, $nid);
+  $response['success'] = true;
+  echo json_encode($response);exit;
+}
+
 function weeve_project_funds_project($nid) {
   $response = array(
     'success' => false
@@ -518,6 +555,19 @@ function weeve_project_funds_project($nid) {
     echo json_encode($response); exit;
   }
 
+  global $user;
+  $node = node_load($nid);
+
+  $query = "SELECT rid FROM {weeve_fund_change_request} WHERE nid=%d AND status = 0";
+  $result = db_query($query, $nid);
+  $request_found = db_fetch_object($result);
+  if (!$request_found) {
+    db_query("INSERT INTO {weeve_fund_change_request} (`nid`, `uid`, `status`, `old_value`, `new_value`, `comment`)
+          VALUES (%d, %d, 0, %f, %f, '%s')", $nid, $user->uid, $node->field_project_amount_need[0]['amount'], $funds, $reason);
+  } else {
+    $rows = db_query("UPDATE {weeve_fund_change_request} SET `status` = 0, `new_value`=%f, `comment`='%s' WHERE rid=%d", $funds, $reason, $request_found->rid);
+  }
+
   drupal_mail('weeve_project', 'funds', $admin->mail, user_preferred_language($admin), array('account' => $admin, 'nid' => $nid, 'funds' => $funds, 'reason' => $reason));
 
   $response['success'] = true;
@@ -535,7 +585,7 @@ function weeve_project_mail($key, &$message, $params) {
       $funds = $params['funds'];
       $reason = nl2br($params['reason']);
 
-      $project_link = url('node/' . $nid . '/edit', array('absolute' => true));
+      $project_link = url('project/' . $nid . '/edit', array('absolute' => true));
       $title = $project->title;
 
       $message['subject'] = t('Funds request change from !site', $variables, $language->language);
@@ -584,6 +634,50 @@ function weeve_project_edit_project_form($form_state, $nid) {
 
   drupal_add_js(drupal_get_path('module', 'weeve_project') . '/js/project.cancel.js');
   jquery_ui_add('ui.dialog');
+
+  global $user;
+
+  if (in_array('admin', $user->roles) || $user->uid == 1) {
+    $query = "SELECT rid, new_value, comment FROM {weeve_fund_change_request} WHERE nid=%d AND status = 0";
+    $result = db_query($query, $nid);
+    $request_found = db_fetch_object($result);
+
+    if ($request_found) {
+      $form['fund_change'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Confirm fund change request'),
+        '#attributes' => array('class' => 'admin-fund-change')
+      );
+
+      $form['fund_change']['fund_comment'] = array(
+        '#value' => $request_found->comment,
+        '#prefix' => '<div>Comment: ',
+        '#suffix' => '</div>',
+      );
+
+      $form['fund_change']['old_value'] = array(
+        '#title' => t('Old value'),
+        '#value' => format_number($node->field_project_amount_need[0]['amount'], 2),
+        '#prefix' => '<div>Old value: $',
+        '#suffix' => '</div>',
+      );
+
+      $form['fund_change']['new_value'] = array(
+        '#title' => t('New value'),
+        '#value' => format_number($request_found->new_value, 2),
+        '#prefix' => '<div>New value: $',
+        '#suffix' => '</div>',
+      );
+
+      $form['fund_change']['fund_confirm'] = array(
+        '#value' => '<a href="#" id="fund_confirm" class="weeve-medium-button">'.t('Confirm').'</a>'
+      );
+
+      $form['fund_change']['fund_decline'] = array(
+        '#value' => '<a href="#" id="fund_decline" class="weeve-medium-button">'.t('Decline').'</a>'
+      );
+    }
+  }
 
   $form['cancel'] = array(
     '#type' => 'markup',
@@ -865,7 +959,7 @@ function weeve_project_terms_form() {
 
   $profile = node_load(array('type' => 'profile', 'uid' => $user->uid));
   
-  if (!$profile->field_payment_paypal_verified[0]['value']) {
+  if (in_array($profile->field_payment_paypal_verified[0]['value'], array(0, 2))) {
     drupal_set_message('Your paypal account is not verified', 'error');
     drupal_goto('account/change/payment');
   }

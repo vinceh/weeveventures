@@ -17,6 +17,7 @@
     <div id="wrapper">
       <div id="container" class="clear-block">
         <div id="center"><div id="squeeze"><div class="right-corner"><div class="left-corner">
+        <?php if ($show_messages && $messages): print $messages; endif; ?>
         <div class='landingwords weevetext'>
           <div class='landingnumber'><div>1</div></div>discover projects
           <div class='landingspace'></div>

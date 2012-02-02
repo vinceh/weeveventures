@@ -26,6 +26,10 @@
   font-weight: bold;
 }
 
+.view-featured-projects .delimiter-block {
+  height: 30px;
+}
+
 .view-featured-projects.front-page .view-header h4 {
   margin-top: 35px;
   text-transform: capitalize;
@@ -120,6 +124,7 @@
 
 .view-npo-project-proposals table td.views-field-field-project-status-value .weeve-medium-button {
   position: relative;
+  text-align: center;
 }
 
 .view-npo-project-proposals table td.views-field-field-project-status-value .weeve-medium-button .activity-count {

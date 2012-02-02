@@ -127,6 +127,7 @@ function weeve_donation_ajax_callback() {
         'pp_response' => $resArray,
       );
       $_SESSION['donation_info'] = $donation_info;
+      $_SESSION['donation_request_url'] = $_SERVER['HTTP_REFERER'];
       $sandbox = variable_get('pp_api_sandbox', 1);
       $url = weeve_donation_redirect('_ap-preapproval', $resArray['preapprovalKey'], $sandbox);
       $response['url'] = $url;
@@ -152,6 +153,7 @@ function weeve_donation_cancel_ajax_callback() {
     $preapproval = weeve_donation_get_preapproval_by_pid($pid);
     $node = node_load($preapproval->nid);
     $resArray = weeve_donation_preapproval_cancel($preapproval->preapproval_key);
+    $_SESSION['donation_request_url'] = $_SERVER['HTTP_REFERER'];
     if ($resArray['responseEnvelope.ack'] == 'Success') {
       weeve_donation_remove_preapproval($pid);
       $donate = array(
@@ -208,6 +210,7 @@ function weeve_donation_edit_ajax_callback() {
       );
 
       $_SESSION['donation_info'] = $donation_info;
+      $_SESSION['donation_request_url'] = $_SERVER['HTTP_REFERER'];
       $sandbox = variable_get('pp_api_sandbox', 1);
       $url = weeve_donation_redirect('_ap-preapproval', $resArray['preapprovalKey'], $sandbox);
       $response['url'] = $url;
@@ -274,14 +277,27 @@ function weeve_donation_preapproval_payment_success_callback() {
     module_invoke_all('weeve_donation', $donate['node'], 'edit_preapproval', $donate);
   }
   drupal_set_message(t('Your donate has beed saved'));
-  drupal_goto();
+
+  if (isset($_SESSION['donation_request_url'])) {
+    $path = $_SESSION['donation_request_url'];
+    unset($_SESSION['donation_request_url']);
+  } else {
+    $path = '';
+  }
+  drupal_goto($path);
 }
 
 /*
  * Payment canceled callback
  */
 function weeve_donation_preapproval_payment_cancelled_callback() {
-  drupal_goto();
+  if (isset($_SESSION['donation_request_url'])) {
+    $path = $_SESSION['donation_request_url'];
+    unset($_SESSION['donation_request_url']);
+  } else {
+    $path = '';
+  }
+  drupal_goto($path);
 }
 
 function weeve_donation_redirect($cmd, $key, $sandbox) {

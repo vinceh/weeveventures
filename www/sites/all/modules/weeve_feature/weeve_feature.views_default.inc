@@ -709,7 +709,7 @@ function weeve_feature_views_default_views() {
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_proposal_project_funds_value']['link_to_node'] = 0;
-  /* Field: Content: Project reward (field_proposal_back) */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_proposal_back_value']['id'] = 'field_proposal_back_value';
   $handler->display->display_options['fields']['field_proposal_back_value']['table'] = 'node_data_field_proposal_back';
   $handler->display->display_options['fields']['field_proposal_back_value']['field'] = 'field_proposal_back_value';

@@ -17,7 +17,6 @@ CKEDITOR.editorConfig = function(config) {
   config.resize_minWidth = 450;
   config.linkShowAdvancedTab = false;
   config.linkShowTargetTab = false;
-  console.log(config);
 
   // Protect PHP code tags (<?...?>) so CKEditor will not break them when
   // switching from Source view to WYSIWYG.
@@ -39,6 +38,8 @@ CKEDITOR.editorConfig = function(config) {
   if (themeName == 'weeve') {
     config.extraCss = 'img {max-width: 570px;}';
   }
+  config.imageShowAdvancedTab = false;
+  config.imageShowLinkTab = false;
   /**
    * Sample extraCss code for the "marinelli" theme.
    */
@@ -69,6 +70,22 @@ CKEDITOR.editorConfig = function(config) {
     config.bodyId = 'primary';
   }
 };
+
+CKEDITOR.on('dialogDefinition', function( ev )
+{
+
+	var dialogName = ev.data.name;  
+	var dialogDefinition = ev.data.definition;
+   
+	switch (dialogName) {  
+	case 'image': //Image Properties dialog      
+		dialogDefinition.removeContents('advanced');
+        dialogDefinition.removeContents('Link');
+        delete dialogDefinition.contents[0].elements[1];
+        delete dialogDefinition.contents[0].elements[2];
+		break;
+	}
+});
 
 /*
  * Sample toolbars
