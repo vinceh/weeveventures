@@ -10,7 +10,7 @@
 <body class="front-page">
 	<div id="header-region" class="clear-block">
     <div id="header">
-  <div class="site-title"><?= l('<img alt="Weeve" src="'.base_path().'sites/all/themes/weeve/img/landing-logo.png" />', '', array('html' => 'true')); ?></div>
+  <div class="site-title"><?php print l('<img alt="Weeve" src="'.base_path().'sites/all/themes/weeve/img/landing-logo.png" />', '', array('html' => 'true')); ?></div>
   <?php print $header; ?></div>
   </div>
 
