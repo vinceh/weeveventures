@@ -63,38 +63,35 @@ $(document).ready(function() {
       $('#project-funds-dialog').dialog(
         {resizable: false, width: 500, modal: true, title: 'Request Project Funds Change'}
       );
-    });
 
+      $('#project-funds-dialog .close-dialog').one('click', function(e) {
+        e.preventDefault();
+        $('#project-funds-dialog').remove();
+        $('#project-funds-dialog').dialog('close');
+      });
 
-    
-
-    $('#project-funds-dialog .close-dialog').one('click', function(e) {
-      e.preventDefault();
-      $('#project-funds-dialog').remove();
-      $('#project-funds-dialog').dialog('close');
-    });
-
-    $('#project-funds-dialog button').one('click', function() {
-      var nid = $('#weeve-project-edit-project-form #edit-nid').val();
-      $.post(
-        Drupal.settings.basePath + 'project/' + nid + '/funds',
-        {funds: $('#weeve-funds').val(), reason: $('#weeve-funds-reason').val()},
-        function(response) {
-          if (response.success) {
-            weeve_set_message(Drupal.settings.weeveGeneral.message_project_funds_change);
-          } else {
-            if (response.message) {
-              weeve_set_message(response.message);
+      $('#project-funds-dialog button').one('click', function() {
+        var nid = $('#weeve-project-edit-project-form #edit-nid').val();
+        $.post(
+          Drupal.settings.basePath + 'project/' + nid + '/funds',
+          {funds: $('#weeve-funds').val(), reason: $('#weeve-funds-reason').val()},
+          function(response) {
+            if (response.success) {
+              weeve_set_message(Drupal.settings.weeveGeneral.message_project_funds_change);
             } else {
-              weeve_set_message('Error occured');
+              if (response.message) {
+                weeve_set_message(response.message);
+              } else {
+                weeve_set_message('Error occured');
+              }
             }
-          }
-          $('#project-funds-dialog').remove();
-          $('#project-funds-dialog').dialog('close');
-        },
-        'json'
-      );
-    });
+            $('#project-funds-dialog').remove();
+            $('#project-funds-dialog').dialog('close');
+          },
+          'json'
+        );
+      });
+    });      
   });
 
   $('.ui-widget-overlay').live('click', function() {
@@ -102,5 +99,36 @@ $(document).ready(function() {
     $('#project-cancel-dialog').dialog('close');
     $('#project-funds-dialog').remove();
     $('#project-funds-dialog').dialog('close');
+  });
+
+  var nid = $('#weeve-project-edit-project-form #edit-nid').val();
+  $('#fund_confirm').click(function(e) {
+    e.preventDefault();
+    $.post(
+      Drupal.settings.basePath + 'project/' + nid + '/adminfunds',
+      {op: 1},
+      function(response) {
+        if (response.success) {
+          $('fieldset.admin-fund-change').remove();
+          weeve_set_message('Funds for this project were succesffuly updated');
+        }
+      },
+      'json'
+    );
+  });
+
+  $('#fund_decline').click(function(e) {
+    e.preventDefault();
+    $.post(
+      Drupal.settings.basePath + 'project/' + nid + '/adminfunds',
+      {op: 2},
+      function(response) {
+        if (response.success) {
+          $('fieldset.admin-fund-change').remove();
+          weeve_set_message('Funds for this project were succesffuly declined');
+        }
+      },
+      'json'
+    );
   });
 });

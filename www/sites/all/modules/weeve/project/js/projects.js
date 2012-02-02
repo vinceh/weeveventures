@@ -64,7 +64,7 @@ $(document).ready(function() {
     $('#project-payout-dialog').dialog('close');
   });
 
-  $('a.weeve-medium-button[href$="project/terms"]').click(function(e) {
+  $('a.weeve-medium-button.not-verified[href$="project/terms"]').click(function(e) {
     e.preventDefault();
 
     $('#project-payment-dialog').dialog('destroy');
