@@ -139,7 +139,7 @@
 
 /* Feedback dialog */
 div.ui-dialog.feedback-dialog {
-  padding: 20px 5px 5px 5px;
+  padding: 25px 15px 8px 5px;
 }
 
 div.ui-dialog.feedback-dialog .ui-dialog-titlebar {
@@ -147,8 +147,8 @@ div.ui-dialog.feedback-dialog .ui-dialog-titlebar {
 }
 
 div.ui-dialog.feedback-dialog .ui-dialog-titlebar-close {
-  right: 0;
-  top: -8px;
+  right: -7px;
+  top: -20px;
 }
 
 #feedback .confirm-content-text {
