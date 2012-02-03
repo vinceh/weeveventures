@@ -17,7 +17,13 @@
     			height: 350,
     			width: 530,
     			modal: true,
-          dialogClass: 'feedback-dialog'
+          dialogClass: 'feedback-dialog',
+          close: function() {
+            $('body').css('overflow', 'auto');
+          },
+          open: function() {
+            $('body').css('overflow', 'hidden');
+          }
     });
 
 
