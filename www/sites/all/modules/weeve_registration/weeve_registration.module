@@ -200,7 +200,7 @@ function weeve_registration_user_form() {
     '#value' => '<div class="footer"></div>',
   );
 
-  // $form['#redirect'] = '';
+  $form['#redirect'] = '';
   return $form;
 }
 
@@ -403,7 +403,7 @@ function weeve_registration_npo_form() {
     '#value' => '<div class="footer"></div>',
   );
 
-  // $form['#redirect'] = '';
+  $form['#redirect'] = '';
   return $form;
 }
 
