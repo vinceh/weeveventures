@@ -202,3 +202,8 @@ div.ui-dialog.feedback-dialog .ui-dialog-titlebar-close {
 .change-founds a.weeve-link  {
   color: #00A0CE;
 }
+
+/* Request payout */
+.ui-dialog.request-payout {
+  padding-bottom: 0;
+}

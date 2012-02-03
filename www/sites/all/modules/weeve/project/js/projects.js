@@ -22,12 +22,13 @@ $(document).ready(function() {
     text += '<div class="main-text">' + Drupal.t('Your project') + '<span class="node-title">' + title + '</span> ' +
       Drupal.t('has ended and is successful in it\'s funding! You can now request for payout. Please keep in mind that once you make the request, we will contact you personally to guide you through the process.') + '</div>';
     text += '<button class="weeve-medium-button">' + Drupal.t('Submit') + '</button>';
+    text += "<img class='loader' src=" + Drupal.settings.basePath + 'sites/all/themes/weeve/img/ajax-loader.gif' + ">"
     text += '<a href="#" class="close-dialog">' + Drupal.t('go back') + '</a>';   
 
     var div = '<div id="project-payout-dialog">' + text + '</div>';
     $('body').append(div);
     $('#project-payout-dialog').dialog(
-      {resizable: false, width: 450, modal: true, title: 'Request Payout', close: function() {
+      {resizable: false, width: 450, height: 220, modal: true, dialogClass: 'request-payout', title: 'Request Payout', close: function() {
           $('#project-payout-dialog').remove();
           $('#project-payout-dialog').dialog('close');
       }}
@@ -40,7 +41,16 @@ $(document).ready(function() {
       $('#project-payout-dialog').dialog('close');
     });
 
-    $('#project-payout-dialog button.weeve-medium-button').one('click', function() {      
+    $('#project-payout-dialog button.weeve-medium-button').one('click', function() {
+      var $button = $(this);
+      var $loader = $(this).parents('#project-payout-dialog').find('.loader');
+      $button.hide();
+      $loader.css({'display': 'inline-block',
+                         'margin-left': '30px',
+                         'margin-top': '20px',
+                         'padding-right': '15px',
+                         'position': 'relative',
+                         'top': '10px'});
       $.post(
         Drupal.settings.basePath + 'project/' + nid + '/payout',
         {method: 'paypal'},
