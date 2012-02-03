@@ -14,7 +14,7 @@
 
     $(form_html).dialog({
     			autoOpen: false,
-    			height: 325,
+    			height: 350,
     			width: 530,
     			modal: true,
           dialogClass: 'feedback-dialog'

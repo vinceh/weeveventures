@@ -15,6 +15,9 @@
 .ui-dialog .ui-dialog-title {
   margin: 0px;
 }
+.ui-dialog textarea {
+  font-family: 'Helvetica Neue',Arial,Helvetica,'Liberation Sans','lucida grande',tahoma,verdana,arial,sans-serif;
+}
 
 #project-cancel-dialog .main-text {
   margin-bottom: 20px;
