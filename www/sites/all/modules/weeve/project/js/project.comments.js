@@ -24,8 +24,8 @@ $(document).ready(function() {
               weeve_set_message('Error occured');
             }
 
-            $('#project-add-comment').remove();
             $('#project-add-comment').dialog('close');
+            $('#project-add-comment').remove();            
           },
           'json'
         );

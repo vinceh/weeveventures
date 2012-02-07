@@ -81,7 +81,7 @@ $(document).ready(function() {
 
   $('a.weeve-medium-button.have-proposal[href$="project/terms"]').click(function(e) {
     e.preventDefault();
-
+    
     $('#project-proposal-dialog').dialog('destroy');
 
     var text = '';
@@ -97,8 +97,7 @@ $(document).ready(function() {
     },
     close: function(event, ui) {
       $('body').css('overflow', 'auto');
-      $('#project-proposal-dialog').dialog('close');
-      $('#project-proposal-dialog').remove();          
+      $('#project-proposal-dialog').remove();
       }}
     );
 
@@ -106,7 +105,7 @@ $(document).ready(function() {
     $('#project-proposal-dialog .close-dialog').one('click', function(e) {
       e.preventDefault();
       $('#project-proposal-dialog').dialog('close');
-      $('#project-proposal-dialog').remove();      
+      $('#project-proposal-dialog').remove();
     });
     
   });

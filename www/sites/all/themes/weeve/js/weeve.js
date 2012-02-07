@@ -50,7 +50,6 @@ function weeve_popup(id, title, content, width) {
     },
     close: function(event, ui) {
       $('#' + id).remove();
-      $('#' + id).dialog('close');
       $('body').css('overflow', 'auto');
     }
   });
