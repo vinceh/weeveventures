@@ -13,6 +13,10 @@ $(document).ready(function() {
   });
 
   $('.view-npo-project-proposals .payout').click(function(e) {
+    var $button = $(this);
+    if ($button.hasClass('weevedisabled')) {
+      return false;
+    }
     var nid = $(this).attr('nid');
     e.preventDefault();
     $('#project-payout-dialog').dialog('destroy');
@@ -63,6 +67,8 @@ $(document).ready(function() {
           }
           $('#project-payout-dialog').remove();
           $('#project-payout-dialog').dialog('close');
+          $('.view-npo-project-proposals .payout').addClass('weevedisabled');
+          $('.view-npo-project-proposals .payout').text('Payout Pending');
         },
         'json'
       );

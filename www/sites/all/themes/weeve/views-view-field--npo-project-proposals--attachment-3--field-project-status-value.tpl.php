@@ -19,8 +19,11 @@
   * the view is modified.
   */
 ?>
-<?php if (!$row->node_data_field_project_percent_pledge_field_project_payed_o): ?>
-<div class="weeve-medium-button payout" nid="<?= $row->nid?>"><?= t('Request payout'); ?></div>
+
+<?php if(weeve_donation_is_pending_payout($row->nid)): ?>
+  <div class="weeve-medium-button payout weevedisabled" nid="<?= $row->nid?>"><?= t('Payout Pending'); ?></div>
+<?php elseif(!$row->node_data_field_project_percent_pledge_field_project_payed_o): ?>
+  <div class="weeve-medium-button payout" nid="<?= $row->nid?>"><?= t('Request payout'); ?></div>
 <?php else: ?>
-<div class="weeve-medium-button weevedisabled"><?= $output; ?></div>
+  <div class="project-payout-complete-text"><?= t("Project Payout Complete"); ?></div>
 <?php endif; ?>

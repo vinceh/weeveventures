@@ -428,6 +428,8 @@ function weeve_donation_pay_success_project($nid) {
     $memo = 'Donate : '. $node->title;
     $res = weeve_donation_pay($key, $recipients, $donate->amount, $memo);
     if ($res['responseEnvelope.ack'] == 'Success') {
+      $node->field_project_payed_out[0]['value'] = 1;
+      node_save($node);
       module_invoke_all('weeve_donation', $node, 'paid');
       weeve_donation_set_paid($donate->pid);
       return TRUE;
@@ -672,6 +674,14 @@ function weeve_donation_get_payout_requests($status = -1) {
   }
   return $requests;
 }
+
+function weeve_donation_is_pending_payout($nid) {
+  $query = "SELECT COUNT(pid) FROM {weeve_payout_request} WHERE nid = %d AND accepted = %d";
+  $result = db_result(db_query($query, $nid, 0));
+  return $result;
+}
+
+
 
 function weeve_donation_manage_payout_request_page() {
   $requests = weeve_donation_get_payout_requests(0);

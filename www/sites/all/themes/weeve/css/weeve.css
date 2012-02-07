@@ -1774,3 +1774,9 @@ a.profile-link.active {
 .confirm-content-text {
 	margin-bottom: 20px;
 }
+
+.project-payout-complete-text {
+  color: #33CC33;
+  font-size: 16px;
+  text-align: center;
+}
