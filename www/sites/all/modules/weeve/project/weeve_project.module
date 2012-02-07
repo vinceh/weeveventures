@@ -270,7 +270,7 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
 
   if ($form_id == 'project_request_node_form' && arg(1) == 'add') {
     global $user;
-
+    unset($form['buttons']['preview']);
     $profile = node_load(array('type' => 'profile', 'uid' => $user->uid));
     if (in_array($profile->field_payment_paypal_verified[0]['value'], array(0, 2))) {
       drupal_set_message('Your paypal account is not verified', 'error');
