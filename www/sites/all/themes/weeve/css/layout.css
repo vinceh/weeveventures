@@ -372,3 +372,7 @@ ul.tabs li a {
   right: 5px;
   top: 5px;
 }
+
+.form-required {
+  display: none;
+}
