@@ -110,6 +110,10 @@ h2 {
   margin-top: 0px;
 }
 
+.sidebar-left #main-content .view-featured-projects .attachment .view-featured-projects {
+  margin-left: 0px;
+}
+
 .sidebar-left #main-content .view-featured-projects.category .view-header {
   margin-bottom: 35px;
 }
@@ -207,7 +211,7 @@ background: #37abcc; /* Old browsers */
     background: -ms-linear-gradient(top, #37abcc 0%,#00a0ce 51%,#008db5 100%); /* IE10+ */
     background: linear-gradient(top, #37abcc 0%,#00a0ce 51%,#008db5 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#37abcc', endColorstr='#008db5',GradientType=0 ); /* IE6-9 */
-
+  outline: none;
 	display: inline-block;
 }
 

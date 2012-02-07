@@ -16,6 +16,10 @@ a {
   color: #00a0ce;
 }
 
+.success {
+  color: #66ff00;
+}
+
 #header-region {
   height: 50px;
 	background-color: #37abcc; /* Old browsers */
@@ -186,11 +190,11 @@ a {
 
 /**SEARCH BLOCK**/
 #block-weeve_project-3 {
-  margin-top: 10px;
+  margin-top: 7px;
   float: right;
   height: 14px;
   width: 125px;
-  margin-right: 20px;
+  margin-right: 40px;
 }
 
 .front-page #block-weeve_project-3 {
@@ -199,19 +203,28 @@ a {
 
 #block-weeve_project-3 input {
   height: 14px;
-  width: 125px;
+  width: 140px;
   color: #555;
   border: none;
   outline-style: none;
-  margin-right: 5px;
+  margin-right: 10px;
   border-radius: 999px;
   font-size: 13px;
-  background: url('../img/searchicon_small.png') 6px #fff no-repeat;
-  padding-left: 22px;
+  padding: 4px 22px 4px 10px;
+  background: url('../img/searchicon_small.png') 95% #fff no-repeat;
 }
 
 #block-weeve_project-3 input[type=submit] {
-  display: none !important;
+  background: none repeat scroll 0 0 transparent;
+  border: medium none navy;
+  border-radius: 0 0 0 0;
+  color: transparent;
+  height: 23px;
+  left: 145px;
+  padding: 0;
+  position: relative;
+  top: -38px;
+  width: 23px;
 }
 
 .apachesolr_search-results .search-project {

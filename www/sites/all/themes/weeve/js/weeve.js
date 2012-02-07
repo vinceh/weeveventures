@@ -29,3 +29,46 @@ function weeve_set_message(message, status) {
   }
   
 }
+
+function weeve_popup(id, title, content, width) {
+  $('#' + id).dialog('destroy');
+
+  var text = '';
+  text += '<div class="main-text">' +
+  content + '</div>';
+
+  var div = '<div id="'+id+'">' + text + '</div>';
+  $('body').append(div);
+
+  $('#' + id).dialog({
+    resizable: false,
+    width: width,
+    modal: true,
+    title: title,
+    open: function(event, ui) {
+      $('body').css('overflow', 'hidden');
+    },
+    close: function(event, ui) {
+      $('#' + id).remove();
+      $('#' + id).dialog('close');
+      $('body').css('overflow', 'auto');
+    }
+  });
+
+
+  $('#' + id + ' .close-dialog').one('click', function(e) {
+    e.preventDefault();
+    $('#' + id).remove();
+    $('#' + id).dialog('close');
+  });
+
+  $('#project-add-comment').live('dialogopen', function(event, ui) {
+    alert(123);
+    $('body').css('overflow', 'hidden');
+  });
+
+  $('#project-add-comment').live('dialogclose', function(event, ui) {
+    $('body').css('overflow', 'auto');
+  });
+
+}

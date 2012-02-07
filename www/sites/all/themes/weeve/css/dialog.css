@@ -12,6 +12,11 @@
   padding-top: 20px;
 }
 
+.ui-dialog .ui-dialog-content {
+  padding: 0px;
+  margin: 0px;
+}
+
 .ui-dialog .ui-dialog-title {
   margin: 0px;
 }
@@ -20,7 +25,7 @@
   margin-bottom: 20px;
 }
 
-#project-cancel-dialog textarea {
+#project-cancel-dialog textarea, .ui-dialog textarea {
   margin: 10px 0px;
   width: 415px;
   border-radius: 3px;

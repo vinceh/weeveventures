@@ -18,12 +18,14 @@
         <?php if ($user->uid == $account->uid): ?>
         <?php print l(t('Account Settings'), 'account/change', array('attributes' => array('class' => 'title-link weeve-link'))); ?>
 
-        <?php if (_weeve_project_is_allowed_create_proposal ()): ?>
         <?php if (in_array($profile->field_payment_paypal_verified[0]['value'], array(0, 2))): ?>
-        <?php print l(t('Create new proposal'), 'project/terms', array('attributes' => array('class' => 'title-link weeve-medium-button not-verified'))); ?>
+          <?php print l(t('Propose new Project'), 'project/terms', array('attributes' => array('class' => 'title-link weeve-medium-button not-verified'))); ?>
         <?php else: ?>
-        <?php print l(t('Create new proposal'), 'project/terms', array('attributes' => array('class' => 'title-link weeve-medium-button'))); ?>
-        <?php endif; ?>
+          <?php if(_weeve_project_is_allowed_create_proposal()): ?>
+            <?php print l(t('Propose new Project'), 'project/terms', array('attributes' => array('class' => 'title-link weeve-medium-button'))); ?>
+          <?php else: ?>
+            <?php print l(t('Propose new Project'), 'project/terms', array('attributes' => array('class' => 'title-link weeve-medium-button have-proposal'))); ?>
+          <?php endif; ?>  
         <?php endif; ?>
         <?php endif; ?>
               </div>
