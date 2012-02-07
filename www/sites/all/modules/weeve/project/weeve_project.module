@@ -289,7 +289,9 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
     $form['notification']['#suffix'] = '</div>';
     
     $form['field_proposal_body'][0]['#title'] = '';
-    
+
+    $form['buttons']['submit']['#value'] = t('Submit Proposal');
+
     //print_r($form); exit;
     $form['field_proposal_body'][0]['#theme'] = 'weeve_add_proposal_form_element';
     $form['taxonomy'][VOCABULARY_PROJECT_CATEGORIES_ID]['#title'] = t('What category does your project fit into?');
