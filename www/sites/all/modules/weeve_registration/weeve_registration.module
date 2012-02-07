@@ -330,7 +330,7 @@ function weeve_registration_npo_form() {
   $form['header']['sub-title'] = array(
     '#prefix' => '<div class="signup-subtitle">',
     '#suffix' => '</div>',
-    '#value' => t('Claim your account as a non-profit organization. We will verify your existence and contact you personally to get you started.'),
+    '#value' => t('Create your community project to raise money for your cause.  Empower donors in your community to engage in social good.'),
   );
 
   $form['form-wrapper'] = array(
@@ -355,15 +355,15 @@ function weeve_registration_npo_form() {
 
   $form['businesscode'] = array(
     '#type' => 'textfield',
-    '#title' => t('Business Code'),
-    '#description' => t('So we can verify your existence'),
+    '#title' => t('Charitable Registration Number'),
+    '#description' => t('We will verify your charitable status'),
     '#required' => true,
     '#theme' => 'wevee_textfield_inline',
   );
 
   $form['businessnumber'] = array(
     '#type' => 'textfield',
-    '#title' => t('Business Number'),
+    '#title' => t('Contact Number'),
     '#description' => t('We will call you!'),
     '#required' => true,
     '#theme' => 'wevee_textfield_inline',
