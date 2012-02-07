@@ -1407,7 +1407,7 @@ a.profile-link.active {
 
 
 .npo-profile-wrapper {
-	margin-top: 20px;
+	margin-top: -20px;
 }
 
 .npo-profile-content-wrap {
