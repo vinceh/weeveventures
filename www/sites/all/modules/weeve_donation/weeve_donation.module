@@ -422,7 +422,7 @@ function weeve_donation_pay_success_project($nid) {
     $uid = $node->uid;
     $npo = content_profile_load('profile', $uid);
     $recipients = array(
-      array('email' => $npo->field_payment_paypal_email[0]['value'], 'amount' => $donate->amount * 0.95),
+      array('email' => $npo->field_payment_paypal_email[0]['value'], 'amount' => $donate->amount * 0.95, 'primary' => TRUE),
       array('email' => $weeve_paypal, 'amount' => $donate->amount * 0.05),
     );
     $memo = 'Donate : '. $node->title;
@@ -531,7 +531,7 @@ function weeve_donation_preapproval($start_date, $end_date, $max_total_amount) {
     'maxTotalAmountOfAllPayments' => $max_total_amount,
     'displayMaxTotalAmount' => TRUE,
     'currencyCode' => 'USD',
-    'feesPayer' => 'SENDER',
+    'feesPayer' => 'PRIMARYRECEIVER',
     'cancelUrl' => url('donation/preapproval_payment/cancelled', array('absolute' => TRUE)),
     'returnUrl' => url('donation/preapproval_payment/success', array('absolute' => TRUE)),
     'pinType' => 'NOT_REQUIRED',
@@ -602,7 +602,7 @@ function weeve_donation_pay($key, $receivers, $memo) {
     'preapprovalKey' => $key,
     'currencyCode' => 'USD',
     'actionType' => 'PAY',
-    'feesPayer' => 'SENDER',
+    'feesPayer' => 'PRIMARYRECEIVER',
     'cancelUrl' => 'http://weeveventures.dev',
     'returnUrl' => 'http://weeveventures.dev',
     'requestEnvelope.errorLanguage' => 'en_US',
@@ -613,6 +613,9 @@ function weeve_donation_pay($key, $receivers, $memo) {
     $amount = $receiver['amount'];
     $request['receiverList.receiver('. $key .').email'] = $email;
     $request['receiverList.receiver('. $key .').amount'] = $amount;
+    if (isset($receiver['primary'])) {
+      $request['receiverList.receiver('. $key .').primary'] = true;
+    }
   }
   $nvp_str = drupal_query_string_encode($request);
   $resArray = hash_call("AdaptivePayments/Pay", $nvp_str);
