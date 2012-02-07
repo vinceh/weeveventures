@@ -32,17 +32,22 @@ $(document).ready(function() {
     var div = '<div id="project-payout-dialog">' + text + '</div>';
     $('body').append(div);
     $('#project-payout-dialog').dialog(
-      {resizable: false, width: 450, height: 220, modal: true, dialogClass: 'request-payout', title: 'Request Payout', close: function() {
-          $('#project-payout-dialog').remove();
-          $('#project-payout-dialog').dialog('close');
+      {resizable: false, width: 450, height: 220, modal: true, dialogClass: 'request-payout', title: 'Request Payout',
+    open: function(event, ui) {
+      $('body').css('overflow', 'hidden');
+    },
+    close: function(event, ui) {
+      $('body').css('overflow', 'auto');
+      $('#project-payout-dialog').dialog('close');
+      $('#project-payout-dialog').remove();      
       }}
     );
 
 
     $('#project-payout-dialog .close-dialog').one('click', function(e) {
       e.preventDefault();
-      $('#project-payout-dialog').remove();
       $('#project-payout-dialog').dialog('close');
+      $('#project-payout-dialog').remove();      
     });
 
     $('#project-payout-dialog button.weeve-medium-button').one('click', function() {
@@ -65,10 +70,10 @@ $(document).ready(function() {
           } else {
             weeve_set_message('Error occured');
           }
-          $('#project-payout-dialog').remove();
           $('#project-payout-dialog').dialog('close');
           $('.view-npo-project-proposals .payout').addClass('weevedisabled');
           $('.view-npo-project-proposals .payout').text('Payout Pending');
+          $('#project-payout-dialog').remove();
         },
         'json'
       );
@@ -76,10 +81,40 @@ $(document).ready(function() {
   });
 
   $('.ui-widget-overlay').live('click', function() {
-    $('#project-payout-dialog').remove();
     $('#project-payout-dialog').dialog('close');
+    $('#project-payout-dialog').remove();    
   });
 
+  $('a.weeve-medium-button.have-proposal[href$="project/terms"]').click(function(e) {
+    e.preventDefault();
+    
+    $('#project-proposal-dialog').dialog('destroy');
+
+    var text = '';
+    text += '<div class="main-text">' +
+      Drupal.t('You already have an active proposal. Please check the list or projects and proposals.') + '</div>';
+
+    var div = '<div id="project-proposal-dialog">' + text + '</div>';
+    $('body').append(div);
+    $('#project-proposal-dialog').dialog(
+      {resizable: false, width: 680, modal: true, title: 'You can\'t create proposals',
+    open: function(event, ui) {
+      $('body').css('overflow', 'hidden');
+    },
+    close: function(event, ui) {
+      $('body').css('overflow', 'auto');
+      $('#project-proposal-dialog').remove();
+      }}
+    );
+
+
+    $('#project-proposal-dialog .close-dialog').one('click', function(e) {
+      e.preventDefault();
+      $('#project-proposal-dialog').dialog('close');
+      $('#project-proposal-dialog').remove();
+    });
+    
+  });
   $('a.weeve-medium-button.not-verified[href$="project/terms"]').click(function(e) {
     e.preventDefault();
 
@@ -96,17 +131,22 @@ $(document).ready(function() {
     var div = '<div id="project-payment-dialog">' + text + '</div>';
     $('body').append(div);
     $('#project-payment-dialog').dialog(
-      {resizable: false, width: 680, modal: true, title: 'Account is not verified', close: function() {
-          $('#project-payment-dialog').remove();
-          $('#project-payment-dialog').dialog('close');
+      {resizable: false, width: 680, modal: true, title: 'Account is not verified',
+    open: function(event, ui) {
+      $('body').css('overflow', 'hidden');
+    },
+    close: function(event, ui) {
+      $('body').css('overflow', 'auto');
+      $('#project-payment-dialog').dialog('close');
+      $('#project-payment-dialog').remove();          
       }}
     );
 
 
     $('#project-payment-dialog .close-dialog').one('click', function(e) {
       e.preventDefault();
-      $('#project-payment-dialog').remove();
       $('#project-payment-dialog').dialog('close');
+      $('#project-payment-dialog').remove();      
     });
   });
 });

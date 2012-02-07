@@ -656,7 +656,16 @@ return $current_time > $timestamp;',
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'project' => 'project',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
             '#info' => array(
               'label' => 'Updated content is Project',
               'arguments' => array(
@@ -667,19 +676,26 @@ return $current_time > $timestamp;',
               ),
               'module' => 'Node',
             ),
-            '#name' => 'rules_condition_content_is_type',
-            '#settings' => array(
-              'type' => array(
-                'project' => 'project',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
           '1' => array(
-            '#type' => 'condition',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_project_status\' has value',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'eval input' => array(
+                '0' => 'code',
+                '1' => 'value|0|value',
+              ),
+              'module' => 'CCK',
+            ),
+            '#name' => 'content_rules_field_has_value',
             '#settings' => array(
               'field_name' => 'field_project_status',
               '#argument map' => array(
@@ -703,26 +719,18 @@ return $current_time > $timestamp;',
                 ),
               ),
             ),
-            '#name' => 'content_rules_field_has_value',
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_project_status\' has value',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'eval input' => array(
-                '0' => 'code',
-                '1' => 'value|0|value',
-              ),
-              'module' => 'CCK',
-            ),
-            '#weight' => 0,
+            '#type' => 'condition',
           ),
           '2' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'field_name' => 'field_project_status',
+              '#argument map' => array(
+                'node' => 'node',
+                'node_unchanged' => 'node_unchanged',
+              ),
+            ),
+            '#name' => 'content_rules_field_changed',
             '#info' => array(
               'label' => 'Updated content\'s field \'field_project_status\' has been changed',
               'arguments' => array(
@@ -737,22 +745,30 @@ return $current_time > $timestamp;',
               ),
               'module' => 'CCK',
             ),
-            '#name' => 'content_rules_field_changed',
-            '#settings' => array(
-              'field_name' => 'field_project_status',
-              '#argument map' => array(
-                'node' => 'node',
-                'node_unchanged' => 'node_unchanged',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
         ),
         '#actions' => array(
           '0' => array(
-            '#type' => 'action',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to a user',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'Recipient',
+                ),
+              ),
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_user',
             '#settings' => array(
-              'from' => 'weeve@localhost',
+              'from' => 'admin@weeveinc.com',
               'subject' => 'Your project "[node:title]" has been accepted ',
               'message' => 'Our moderating team has decided that your project meets our requirements and it has been accepted.
 
@@ -777,34 +793,10 @@ Weeve team',
                 ),
               ),
             ),
-            '#name' => 'rules_action_mail_to_user',
-            '#info' => array(
-              'label' => 'Send a mail to a user',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'Recipient',
-                ),
-              ),
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#weight' => 0,
+            '#type' => 'action',
           ),
           '1' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Execute custom PHP code',
-              'module' => 'PHP',
-              'eval input' => array(
-                '0' => 'code',
-              ),
-            ),
-            '#name' => 'rules_action_custom_php',
+            '#type' => 'action',
             '#settings' => array(
               'code' => 'weeve_report_update(\'projects approved\', 1);',
               'vars' => array(),
@@ -816,7 +808,15 @@ Weeve team',
                 ),
               ),
             ),
-            '#type' => 'action',
+            '#name' => 'rules_action_custom_php',
+            '#info' => array(
+              'label' => 'Execute custom PHP code',
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#weight' => 0,
           ),
         ),
         '#version' => 6003,
@@ -834,7 +834,22 @@ Weeve team',
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#type' => 'condition',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_project_status\' has value',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'eval input' => array(
+                '0' => 'code',
+                '1' => 'value|0|value',
+              ),
+              'module' => 'CCK',
+            ),
+            '#name' => 'content_rules_field_has_value',
             '#settings' => array(
               'field_name' => 'field_project_status',
               '#argument map' => array(
@@ -858,25 +873,19 @@ Weeve team',
                 ),
               ),
             ),
-            '#name' => 'content_rules_field_has_value',
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_project_status\' has value',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'eval input' => array(
-                '0' => 'code',
-                '1' => 'value|0|value',
-              ),
-              'module' => 'CCK',
-            ),
-            '#weight' => 0,
+            '#type' => 'condition',
           ),
           '1' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'project' => 'project',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
             '#info' => array(
               'label' => 'Updated content is Project',
               'arguments' => array(
@@ -887,19 +896,18 @@ Weeve team',
               ),
               'module' => 'Node',
             ),
-            '#name' => 'rules_condition_content_is_type',
-            '#settings' => array(
-              'type' => array(
-                'project' => 'project',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
           '2' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'field_name' => 'field_project_status',
+              '#argument map' => array(
+                'node' => 'node',
+                'node_unchanged' => 'node_unchanged',
+              ),
+            ),
+            '#name' => 'content_rules_field_changed',
             '#info' => array(
               'label' => 'Updated content\'s field \'field_project_status\' has been changed',
               'arguments' => array(
@@ -914,23 +922,31 @@ Weeve team',
               ),
               'module' => 'CCK',
             ),
-            '#name' => 'content_rules_field_changed',
-            '#settings' => array(
-              'field_name' => 'field_project_status',
-              '#argument map' => array(
-                'node' => 'node',
-                'node_unchanged' => 'node_unchanged',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
         ),
         '#actions' => array(
           '0' => array(
-            '#type' => 'action',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to a user',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'Recipient',
+                ),
+              ),
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_user',
             '#settings' => array(
-              'from' => 'weeve@localhost',
-              'subject' => 'Your project"[node:title]" has been finished',
+              'from' => 'admin@weeveinc.com',
+              'subject' => 'Your project "[node:title]" has been finished',
               'message' => 'Your project"[node:title]" has been finished and archived. 
 
 If you have any questions please feel free to contact us.
@@ -955,23 +971,7 @@ Weeve team',
                 ),
               ),
             ),
-            '#name' => 'rules_action_mail_to_user',
-            '#info' => array(
-              'label' => 'Send a mail to a user',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'Recipient',
-                ),
-              ),
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#weight' => 0,
+            '#type' => 'action',
           ),
         ),
         '#version' => 6003,
@@ -989,7 +989,16 @@ Weeve team',
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'project' => 'project',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
             '#info' => array(
               'label' => 'Updated content is Project',
               'arguments' => array(
@@ -1000,19 +1009,25 @@ Weeve team',
               ),
               'module' => 'Node',
             ),
-            '#name' => 'rules_condition_content_is_type',
-            '#settings' => array(
-              'type' => array(
-                'project' => 'project',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
           '1' => array(
-            '#type' => 'condition',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_project_status\' has value',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'eval input' => array(
+                '0' => 'code',
+                '1' => 'value|0|value',
+              ),
+              'module' => 'CCK',
+            ),
+            '#name' => 'content_rules_field_has_value',
             '#settings' => array(
               'field_name' => 'field_project_status',
               '#argument map' => array(
@@ -1036,25 +1051,18 @@ Weeve team',
                 ),
               ),
             ),
-            '#name' => 'content_rules_field_has_value',
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_project_status\' has value',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'eval input' => array(
-                '0' => 'code',
-                '1' => 'value|0|value',
-              ),
-              'module' => 'CCK',
-            ),
-            '#weight' => 0,
+            '#type' => 'condition',
           ),
           '2' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'field_name' => 'field_project_status',
+              '#argument map' => array(
+                'node' => 'node',
+                'node_unchanged' => 'node_unchanged',
+              ),
+            ),
+            '#name' => 'content_rules_field_changed',
             '#info' => array(
               'label' => 'Updated content\'s field \'field_project_status\' has been changed',
               'arguments' => array(
@@ -1069,22 +1077,30 @@ Weeve team',
               ),
               'module' => 'CCK',
             ),
-            '#name' => 'content_rules_field_changed',
-            '#settings' => array(
-              'field_name' => 'field_project_status',
-              '#argument map' => array(
-                'node' => 'node',
-                'node_unchanged' => 'node_unchanged',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
         ),
         '#actions' => array(
           '0' => array(
-            '#type' => 'action',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to a user',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'Recipient',
+                ),
+              ),
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_user',
             '#settings' => array(
-              'from' => 'weeve@localhost',
+              'from' => 'admin@weeveinc.com',
               'subject' => 'Your project "[node:title]" has been cancelled',
               'message' => 'Your project "[node:title]" has been cancelled.
 
@@ -1110,34 +1126,10 @@ Weeve team',
                 ),
               ),
             ),
-            '#name' => 'rules_action_mail_to_user',
-            '#info' => array(
-              'label' => 'Send a mail to a user',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'Recipient',
-                ),
-              ),
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#weight' => 0,
+            '#type' => 'action',
           ),
           '1' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Execute custom PHP code',
-              'module' => 'PHP',
-              'eval input' => array(
-                '0' => 'code',
-              ),
-            ),
-            '#name' => 'rules_action_custom_php',
+            '#type' => 'action',
             '#settings' => array(
               'code' => 'weeve_report_update(\'projects cancelled\', 1);',
               'vars' => array(),
@@ -1149,7 +1141,15 @@ Weeve team',
                 ),
               ),
             ),
-            '#type' => 'action',
+            '#name' => 'rules_action_custom_php',
+            '#info' => array(
+              'label' => 'Execute custom PHP code',
+              'module' => 'PHP',
+              'eval input' => array(
+                '0' => 'code',
+              ),
+            ),
+            '#weight' => 0,
           ),
         ),
         '#version' => 6003,
@@ -1167,7 +1167,22 @@ Weeve team',
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#type' => 'condition',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_project_status\' has value',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'eval input' => array(
+                '0' => 'code',
+                '1' => 'value|0|value',
+              ),
+              'module' => 'CCK',
+            ),
+            '#name' => 'content_rules_field_has_value',
             '#settings' => array(
               'field_name' => 'field_project_status',
               '#argument map' => array(
@@ -1191,34 +1206,10 @@ Weeve team',
                 ),
               ),
             ),
-            '#name' => 'content_rules_field_has_value',
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_project_status\' has value',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'eval input' => array(
-                '0' => 'code',
-                '1' => 'value|0|value',
-              ),
-              'module' => 'CCK',
-            ),
-            '#weight' => 0,
+            '#type' => 'condition',
           ),
           '1' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'project' => 'project',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
+            '#weight' => 0,
             '#info' => array(
               'label' => 'Updated content is Project',
               'arguments' => array(
@@ -1229,10 +1220,27 @@ Weeve team',
               ),
               'module' => 'Node',
             ),
-            '#weight' => 0,
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'project' => 'project',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
           ),
           '2' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'field_name' => 'field_project_status',
+              '#argument map' => array(
+                'node' => 'node',
+                'node_unchanged' => 'node_unchanged',
+              ),
+            ),
+            '#name' => 'content_rules_field_changed',
             '#info' => array(
               'label' => 'Updated content\'s field \'field_project_status\' has been changed',
               'arguments' => array(
@@ -1247,39 +1255,16 @@ Weeve team',
               ),
               'module' => 'CCK',
             ),
-            '#name' => 'content_rules_field_changed',
-            '#settings' => array(
-              'field_name' => 'field_project_status',
-              '#argument map' => array(
-                'node' => 'node',
-                'node_unchanged' => 'node_unchanged',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
         ),
         '#actions' => array(
           '0' => array(
             '#weight' => 0,
-            '#info' => array(
-              'label' => 'Send a mail to a user',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'Recipient',
-                ),
-              ),
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#name' => 'rules_action_mail_to_user',
+            '#type' => 'action',
             '#settings' => array(
-              'from' => 'weeve@localhost',
-              'subject' => 'Your project"[node:title]" has been declined',
+              'from' => 'admin@weeveinc.com',
+              'subject' => 'Your project "[node:title]" has been declined',
               'message' => 'Our moderating team has decided that your project do not meet our requirements and therefore has been declined.
 
 If you have any questions please feel free to contact us.
@@ -1303,7 +1288,22 @@ Weeve team',
                 ),
               ),
             ),
-            '#type' => 'action',
+            '#name' => 'rules_action_mail_to_user',
+            '#info' => array(
+              'label' => 'Send a mail to a user',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'Recipient',
+                ),
+              ),
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
           ),
         ),
         '#version' => 6003,
@@ -1521,22 +1521,7 @@ Weeve team',
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_proposal_status\' has value',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'eval input' => array(
-                '0' => 'code',
-                '1' => 'value|0|value',
-              ),
-              'module' => 'CCK',
-            ),
-            '#name' => 'content_rules_field_has_value',
+            '#type' => 'condition',
             '#settings' => array(
               'field_name' => 'field_proposal_status',
               '#argument map' => array(
@@ -1559,19 +1544,25 @@ Weeve team',
                 ),
               ),
             ),
-            '#type' => 'condition',
+            '#name' => 'content_rules_field_has_value',
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_proposal_status\' has value',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'eval input' => array(
+                '0' => 'code',
+                '1' => 'value|0|value',
+              ),
+              'module' => 'CCK',
+            ),
+            '#weight' => 0,
           ),
           '1' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'project_request' => 'project_request',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
+            '#weight' => 0,
             '#info' => array(
               'label' => 'Updated content is Proposal',
               'arguments' => array(
@@ -1582,10 +1573,27 @@ Weeve team',
               ),
               'module' => 'Node',
             ),
-            '#weight' => 0,
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'project_request' => 'project_request',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
           ),
           '2' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'field_name' => 'field_proposal_status',
+              '#argument map' => array(
+                'node' => 'node',
+                'node_unchanged' => 'node_unchanged',
+              ),
+            ),
+            '#name' => 'content_rules_field_changed',
             '#info' => array(
               'label' => 'Updated content\'s field \'field_proposal_status\' has been changed',
               'arguments' => array(
@@ -1600,22 +1608,30 @@ Weeve team',
               ),
               'module' => 'CCK',
             ),
-            '#name' => 'content_rules_field_changed',
-            '#settings' => array(
-              'field_name' => 'field_proposal_status',
-              '#argument map' => array(
-                'node' => 'node',
-                'node_unchanged' => 'node_unchanged',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
         ),
         '#actions' => array(
           '0' => array(
-            '#type' => 'action',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to a user',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'Recipient',
+                ),
+              ),
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_user',
             '#settings' => array(
-              'from' => 'weeve@localhost',
+              'from' => 'admin@weeveinc.com',
               'subject' => 'Your proposal "[node:title]" has been declined',
               'message' => 'Our moderating team has decided that your proposal do not meet our requirements and therefore has been declined.
 
@@ -1640,23 +1656,7 @@ Weeve team',
                 ),
               ),
             ),
-            '#name' => 'rules_action_mail_to_user',
-            '#info' => array(
-              'label' => 'Send a mail to a user',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'Recipient',
-                ),
-              ),
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#weight' => 0,
+            '#type' => 'action',
           ),
         ),
         '#version' => 6003,
@@ -1674,7 +1674,22 @@ Weeve team',
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#type' => 'condition',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_proposal_status\' has value',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'eval input' => array(
+                '0' => 'code',
+                '1' => 'value|0|value',
+              ),
+              'module' => 'CCK',
+            ),
+            '#name' => 'content_rules_field_has_value',
             '#settings' => array(
               'field_name' => 'field_proposal_status',
               '#argument map' => array(
@@ -1698,34 +1713,10 @@ Weeve team',
                 ),
               ),
             ),
-            '#name' => 'content_rules_field_has_value',
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_proposal_status\' has value',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'eval input' => array(
-                '0' => 'code',
-                '1' => 'value|0|value',
-              ),
-              'module' => 'CCK',
-            ),
-            '#weight' => 0,
+            '#type' => 'condition',
           ),
           '1' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'project_request' => 'project_request',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
+            '#weight' => 0,
             '#info' => array(
               'label' => 'Updated content is Proposal',
               'arguments' => array(
@@ -1736,10 +1727,27 @@ Weeve team',
               ),
               'module' => 'Node',
             ),
-            '#weight' => 0,
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'project_request' => 'project_request',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
           ),
           '2' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'field_name' => 'field_proposal_status',
+              '#argument map' => array(
+                'node' => 'node',
+                'node_unchanged' => 'node_unchanged',
+              ),
+            ),
+            '#name' => 'content_rules_field_changed',
             '#info' => array(
               'label' => 'Updated content\'s field \'field_proposal_status\' has been changed',
               'arguments' => array(
@@ -1754,38 +1762,15 @@ Weeve team',
               ),
               'module' => 'CCK',
             ),
-            '#name' => 'content_rules_field_changed',
-            '#settings' => array(
-              'field_name' => 'field_proposal_status',
-              '#argument map' => array(
-                'node' => 'node',
-                'node_unchanged' => 'node_unchanged',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
         ),
         '#actions' => array(
           '0' => array(
             '#weight' => 0,
-            '#info' => array(
-              'label' => 'Send a mail to a user',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'Recipient',
-                ),
-              ),
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#name' => 'rules_action_mail_to_user',
+            '#type' => 'action',
             '#settings' => array(
-              'from' => 'weeve@localhost',
+              'from' => 'admin@weeveinc.com',
               'subject' => 'Your proposal "[node:title]" has been approved',
               'message' => 'Our moderating team has decided that your proposal meets our requirements and it has been approved.
 
@@ -1810,7 +1795,22 @@ Weeve team',
                 ),
               ),
             ),
-            '#type' => 'action',
+            '#name' => 'rules_action_mail_to_user',
+            '#info' => array(
+              'label' => 'Send a mail to a user',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'Recipient',
+                ),
+              ),
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
           ),
         ),
         '#version' => 6003,
@@ -1828,22 +1828,7 @@ Weeve team',
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Updated content\'s field \'field_proposal_status\' has value',
-              'arguments' => array(
-                'node' => array(
-                  'type' => 'node',
-                  'label' => 'Content',
-                ),
-              ),
-              'eval input' => array(
-                '0' => 'code',
-                '1' => 'value|0|value',
-              ),
-              'module' => 'CCK',
-            ),
-            '#name' => 'content_rules_field_has_value',
+            '#type' => 'condition',
             '#settings' => array(
               'field_name' => 'field_proposal_status',
               '#argument map' => array(
@@ -1867,19 +1852,25 @@ Weeve team',
                 ),
               ),
             ),
-            '#type' => 'condition',
+            '#name' => 'content_rules_field_has_value',
+            '#info' => array(
+              'label' => 'Updated content\'s field \'field_proposal_status\' has value',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'eval input' => array(
+                '0' => 'code',
+                '1' => 'value|0|value',
+              ),
+              'module' => 'CCK',
+            ),
+            '#weight' => 0,
           ),
           '1' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'project_request' => 'project_request',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
+            '#weight' => 0,
             '#info' => array(
               'label' => 'Updated content is Proposal',
               'arguments' => array(
@@ -1890,10 +1881,27 @@ Weeve team',
               ),
               'module' => 'Node',
             ),
-            '#weight' => 0,
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'project_request' => 'project_request',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
           ),
           '2' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'field_name' => 'field_proposal_status',
+              '#argument map' => array(
+                'node' => 'node',
+                'node_unchanged' => 'node_unchanged',
+              ),
+            ),
+            '#name' => 'content_rules_field_changed',
             '#info' => array(
               'label' => 'Updated content\'s field \'field_proposal_status\' has been changed',
               'arguments' => array(
@@ -1908,38 +1916,15 @@ Weeve team',
               ),
               'module' => 'CCK',
             ),
-            '#name' => 'content_rules_field_changed',
-            '#settings' => array(
-              'field_name' => 'field_proposal_status',
-              '#argument map' => array(
-                'node' => 'node',
-                'node_unchanged' => 'node_unchanged',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
         ),
         '#actions' => array(
           '0' => array(
             '#weight' => 0,
-            '#info' => array(
-              'label' => 'Send a mail to a user',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'Recipient',
-                ),
-              ),
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#name' => 'rules_action_mail_to_user',
+            '#type' => 'action',
             '#settings' => array(
-              'from' => 'weeve@localhost',
+              'from' => 'admin@weeveinc.com',
               'subject' => 'Your proposal "[node:title]" in review',
               'message' => 'Our moderating team is reviewing your proposal "[node:title]".
 
@@ -1965,7 +1950,22 @@ Weeve team',
                 ),
               ),
             ),
-            '#type' => 'action',
+            '#name' => 'rules_action_mail_to_user',
+            '#info' => array(
+              'label' => 'Send a mail to a user',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'Recipient',
+                ),
+              ),
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
           ),
         ),
         '#version' => 6003,

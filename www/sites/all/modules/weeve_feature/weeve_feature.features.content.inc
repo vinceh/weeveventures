@@ -2108,60 +2108,6 @@ cancel|Cancelled',
     ),
   );
 
-  // Exported field: field_proposal_links
-  $fields['project_request-field_proposal_links'] = array(
-    'field_name' => 'field_proposal_links',
-    'type_name' => 'project_request',
-    'display_settings' => array(
-      'label' => array(
-        'format' => 'above',
-        'exclude' => 0,
-      ),
-      'teaser' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'full' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      '4' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'token' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-    ),
-    'widget_active' => '1',
-    'type' => 'text',
-    'required' => '0',
-    'multiple' => '0',
-    'module' => 'text',
-    'active' => '1',
-    'text_processing' => '0',
-    'max_length' => '',
-    'allowed_values' => '',
-    'allowed_values_php' => '',
-    'widget' => array(
-      'rows' => '5',
-      'size' => '60',
-      'default_value' => array(
-        '0' => array(
-          'value' => '',
-          '_error_element' => 'default_value_widget][field_proposal_links][0][value',
-        ),
-      ),
-      'default_value_php' => NULL,
-      'label' => 'Proposal links',
-      'weight' => '4',
-      'description' => '',
-      'type' => 'text_textarea',
-      'module' => 'text',
-    ),
-  );
-
   // Exported field: field_proposal_project
   $fields['project_request-field_proposal_project'] = array(
     'field_name' => 'field_proposal_project',
@@ -2315,6 +2261,7 @@ cancel|Cancelled',
 review|In review
 cancel|Cancelled
 approve|Approved
+created|Approved and Created
 running|Approved and Running
 decline|Declined
 ',
@@ -2418,7 +2365,6 @@ decline|Declined
   t('Project image');
   t('Project reference');
   t('Proposal');
-  t('Proposal links');
   t('Representative Name');
   t('Staff pick');
   t('Status');

@@ -13,13 +13,19 @@ $(document).ready(function() {
     var div = '<div id="project-cancel-dialog">' + text + '</div>';
     $('body').append(div);
     $('#project-cancel-dialog').dialog(
-      {resizable: false, width: 480, modal: true, title: 'Cancel your project'}
+      {resizable: false, width: 480, modal: true, title: 'Cancel your project',
+    open: function(event, ui) {
+      $('body').css('overflow', 'hidden');
+    },
+    close: function(event, ui) {
+      $('body').css('overflow', 'auto');
+    }}
     );
 
     $('#project-cancel-dialog .close-dialog').one('click', function(e) {
       e.preventDefault();
-      $('#project-cancel-dialog').remove();
       $('#project-cancel-dialog').dialog('close');
+      $('#project-cancel-dialog').remove();      
     });
 
     $('#project-cancel-dialog button').one('click', function() {
@@ -61,13 +67,19 @@ $(document).ready(function() {
       var div = '<div id="project-funds-dialog">' + text + '</div>';
       $('body').append(div);
       $('#project-funds-dialog').dialog(
-        {resizable: false, width: 500, modal: true, title: 'Request Project Funds Change'}
+        {resizable: false, width: 500, modal: true, title: 'Request Project Funds Change',
+    open: function(event, ui) {
+      $('body').css('overflow', 'hidden');
+    },
+    close: function(event, ui) {
+      $('body').css('overflow', 'auto');
+    }}
       );
 
       $('#project-funds-dialog .close-dialog').one('click', function(e) {
         e.preventDefault();
-        $('#project-funds-dialog').remove();
         $('#project-funds-dialog').dialog('close');
+        $('#project-funds-dialog').remove();        
       });
 
       $('#project-funds-dialog button').one('click', function() {
@@ -85,8 +97,8 @@ $(document).ready(function() {
                 weeve_set_message('Error occured');
               }
             }
-            $('#project-funds-dialog').remove();
             $('#project-funds-dialog').dialog('close');
+            $('#project-funds-dialog').remove();            
           },
           'json'
         );
@@ -95,10 +107,10 @@ $(document).ready(function() {
   });
 
   $('.ui-widget-overlay').live('click', function() {
-    $('#project-cancel-dialog').remove();
     $('#project-cancel-dialog').dialog('close');
-    $('#project-funds-dialog').remove();
+    $('#project-cancel-dialog').remove();        
     $('#project-funds-dialog').dialog('close');
+    $('#project-funds-dialog').remove();
   });
 
   var nid = $('#weeve-project-edit-project-form #edit-nid').val();

@@ -821,12 +821,6 @@ function weeve_feature_user_default_permissions() {
     ),
   );
 
-  // Exported permission: edit field_proposal_links
-  $permissions['edit field_proposal_links'] = array(
-    'name' => 'edit field_proposal_links',
-    'roles' => array(),
-  );
-
   // Exported permission: edit field_proposal_project
   $permissions['edit field_proposal_project'] = array(
     'name' => 'edit field_proposal_project',
@@ -1309,12 +1303,6 @@ function weeve_feature_user_default_permissions() {
       '1' => 'anonymous user',
       '2' => 'authenticated user',
     ),
-  );
-
-  // Exported permission: view field_proposal_links
-  $permissions['view field_proposal_links'] = array(
-    'name' => 'view field_proposal_links',
-    'roles' => array(),
   );
 
   // Exported permission: view field_proposal_project

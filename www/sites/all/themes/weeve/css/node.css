@@ -83,7 +83,7 @@ ul.project-node-menu a:hover, ul.project-node-menu a.active {
 }
 
 .node.project .project-body .media_embed > * {
-  max-width: 100%;
+  width: 100%;
 }
 
 div.project-updates-page .views-row {

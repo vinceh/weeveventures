@@ -2,6 +2,7 @@
   color: #555;
   margin: 0px;
   padding: 0px;
+  display: none;
 }
 
 .ui-dialog {
@@ -10,6 +11,11 @@
   box-shadow: 0 0 20px #AAAAAA;
   padding: 25px;
   padding-top: 20px;
+}
+
+.ui-dialog .ui-dialog-content {
+  padding: 0px;
+  margin: 0px;
 }
 
 .ui-dialog .ui-dialog-title {
@@ -23,7 +29,7 @@
   margin-bottom: 20px;
 }
 
-#project-cancel-dialog textarea {
+#project-cancel-dialog textarea, .ui-dialog textarea {
   margin: 10px 0px;
   width: 415px;
   border-radius: 3px;
@@ -42,6 +48,7 @@
   margin: 0px;
   padding: 0px;
   color: #555;
+  display: none;
 }
 
 #project-funds-dialog .funds-label {
@@ -93,11 +100,13 @@
   margin: 0px;
   padding: 0px;
   min-height: 0px !important;
+  display: none;
 }
 
 #project-payout-dialog {
   padding: 0px;
   color: #555;
+  display: none;
 }
 
 #project-payout-dialog .weeve-medium-button {

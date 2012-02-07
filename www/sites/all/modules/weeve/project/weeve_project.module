@@ -95,6 +95,15 @@ function weeve_project_menu() {
     'type' => MENU_CALLBACK
   );
 
+  $items['project/%node/comment'] = array(
+    'title' => 'Node comment',
+    'page callback' => 'weeve_project_comment_project',
+    'page arguments' => array(1),
+    'access callback' => 'weeve_project_do_comment_access',
+    'access arguments' => array(1),
+    'type' => MENU_CALLBACK
+  );
+
   return $items;
 }
 
@@ -133,11 +142,11 @@ function weeve_node_show($node, $cid, $message = FALSE) {
 
 function weeve_project_can_comment($nid) {
   global $user;
-  if ($user->uid) {
+  $node = node_load($nid);
+  if ($user->uid == $node->uid) {
     return true;
   }
-
-  $node = node_load($nid);
+  
   if (in_array('admin', $user->roles) || $user->uid == $node->uid) {
     return true;
   }
@@ -153,7 +162,7 @@ function weeve_project_can_comment($nid) {
   return false;
 }
 
-function weeve_project_do_comment_access($node) {  
+function weeve_project_do_comment_access($node) {
   if (node_access('view', $node)) {
     if (weeve_project_can_comment($node->nid)) {
       return true;
@@ -338,7 +347,7 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   if ($op == 'insert' && $node->type == 'project') {
     $proposal_nid = $node->field_project_proposal[0]['nid'];
     $proposal = node_load(array('nid' => $proposal_nid));
-
+    $proposal->field_proposal_status[0]['value'] = 'created';
     $proposal->field_proposal_project[0]['nid'] = $node->nid;
     node_save($proposal);
 
@@ -390,7 +399,9 @@ function weeve_project_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       }
 
       if ($node->field_project_status[0]['value'] == 'archive') {
-        $node->status = 0;
+        if ($node->field_project_percent_pledge[0]['value'] < WEEVE_PROJECT_SUCCESS_PERCENT) {
+          $node->status = 0;
+        }
         $node->promote = 0;
       } else if ($node->field_project_status[0]['value'] == 'accept') {
         $node->status = 1;
@@ -507,7 +518,51 @@ function weeve_project_get_activity_project($nid, $from_timestamp = 0) {
   }
   usort($result, 'weeve_sort_by_timestamp');
 
+  $users = array();
+
+  foreach($result as $id => $row) {
+    if (!isset($users[$row->uid])) {
+      $user = user_load($row->uid);
+      $profile = node_load(array('type' => 'profile', 'uid' => $row->uid));
+
+      $name = $user->name;
+
+      if (in_array('npo', $user->roles)) {
+        if ($profile->field_npo_name[0]['value']) {
+          $name = $profile->field_npo_name[0]['value'];
+        }
+      }/*  else if ($profile->field_user_full_name[0]['value']) {
+        $name = $profile->field_user_full_name[0]['value'];
+      } */
+      $users[$row->uid] = $name;
+      $result[$id]->username = $name;
+    } else {
+      $result[$id]->username = $users[$row->uid];
+    }
+  }
+
   return $result;
+}
+
+function weeve_project_comment_project($node) {
+  global $user;
+  $response = array('success' => false);
+
+  if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    echo json_encode($response);
+  }
+
+  $edit = array(
+    'nid' => $node->nid,
+    'uid' => $user->uid,
+    'comment' => $_POST['comment']
+  );
+
+  comment_save($edit);
+
+  $response['success'] = true;
+
+  echo json_encode($response);
 }
 
 function weeve_project_adminfunds_project($nid) {
@@ -828,7 +883,8 @@ function weeve_project_block($op = 'list', $delta = 0) {
       $date_time = date_parse_from_format('Y-m-d\TH:i:s', $node->field_project_end[0]['value']);
       $timestamp = mktime((int)$date_time['hour'], (int)$date_time['minute'], (int)$date_time['second'], (int)$date_time['month'], (int)$date_time['day'], (int)$date_time['year']);
 
-      $node->days_left = round(($timestamp - time()) / 86400);
+      $node->days_left = abs(round(($timestamp - time()) / 86400));
+      $node->timestamp = $timestamp;
       $user_profile = node_load(array('uid' => $node->uid, 'type' => 'profile'));
       $donate = weeve_donation_projects_is_donated($node->nid, $user->uid);
       $block['content'] = theme('weeve_project_info_block', $node, $user_profile, $donate);
@@ -954,6 +1010,7 @@ function weeve_project_preprocess_page(&$vars) {
 function weeve_project_terms_form() {
   if (_weeve_project_is_allowed_create_project()) {
     global $user;
+    drupal_set_message(t('You already have an active proposal. Please check all activities below.'));
     drupal_goto('account/' . $user->uid . '/projects');
   }
 
