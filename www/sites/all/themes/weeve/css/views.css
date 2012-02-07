@@ -152,9 +152,9 @@
 }
 
 .view-npo-project-proposals .view-header {
-  font-weight: bold;
-  color: #333;
-  font-size: 20px;
+  font-family: neue;
+  color: #333333;
+  font-size: 23px;
 }
 
 .view-npo-project-proposals .view-header h3,
@@ -172,6 +172,7 @@
 }
 
 .view-npo-project-proposals .views-field-nothing .title {
+  font-family: neue;
   color: #333333;
   font-size: 16px;
 }
