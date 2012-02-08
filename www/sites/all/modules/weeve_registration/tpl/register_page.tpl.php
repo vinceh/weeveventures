@@ -28,7 +28,7 @@
 				<img src='<?php print drupal_get_path('theme', 'weeve') .'/img/corpicon.png' ?>'/>
 			</div>
 			<div class='choice-description'>
-				Improve your corporate social responsibility by sponsoring a community project!
+				Sponsor projects and improve your social corporate image!
 			</div>
 		</a>
 	</div>
