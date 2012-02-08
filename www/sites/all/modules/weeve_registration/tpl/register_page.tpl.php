@@ -1,7 +1,6 @@
 
 <div class='signup-header'>
 	<div class='signup-title'>Join Weeve</div>
-	<div class='signup-subtitle'>choose your role</div>
 </div>
 
 <div class='signup-choices-wrap'>
@@ -11,7 +10,7 @@
 				<img src='<?php print drupal_get_path('theme', 'weeve') .'/img/usericon.png'?>'/>
 			</div>
 			<div class='choice-description'>
-				Discover, fund, and earn your way through social empathy!
+				Discover and fund community projects that you care about!
 			</div>
 		</a>
 		<a href="<?php print url('signup/npo'); ?>" class='signup-choice-wrap'>
@@ -20,7 +19,7 @@
 				<img src='<?php print drupal_get_path('theme', 'weeve') .'/img/npoicon.png' ?>'/>
 			</div>
 			<div class='choice-description'>
-				Claim your page and start creating projects!
+				Create community projects and get funded!
 			</div>
 		</a>
 		<a href="<?php print url('signup/corp'); ?>" class='signup-choice-wrap'>
@@ -29,7 +28,7 @@
 				<img src='<?php print drupal_get_path('theme', 'weeve') .'/img/corpicon.png' ?>'/>
 			</div>
 			<div class='choice-description'>
-				Claim your page and create your corporate image!
+				Improve your corporate social responsibility by sponsoring a community project!
 			</div>
 		</a>
 	</div>
