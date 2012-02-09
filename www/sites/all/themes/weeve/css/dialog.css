@@ -155,7 +155,7 @@ div.ui-dialog.feedback-dialog {
 }
 
 div.ui-dialog.feedback-dialog .ui-dialog-titlebar {
-  margin-left: 15px;
+  /*margin-left: 15px;*/
 }
 
 div.ui-dialog.feedback-dialog .ui-dialog-titlebar-close {
