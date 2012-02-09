@@ -915,12 +915,15 @@ function weeve_account_donated_page($uid) {
 }
 
 function weeve_account_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
   if ($form_id == 'user_profile_form') {
     drupal_set_title(t('Change password'));
     $form['picture']['#access'] = FALSE;
     $form['submit']['#value'] = t('Update');
     $form['account']['#title'] = '';
-    $form['account']['mail']['#access'] = FALSE;
+    if ($user->uid != 1) {
+      $form['account']['mail']['#access'] = FALSE;
+    }
     $form['#redirect'] = 'account';
   }
 }
