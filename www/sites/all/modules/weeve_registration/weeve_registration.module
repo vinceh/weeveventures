@@ -451,6 +451,11 @@ function weeve_registration_npo_form_submit(&$form, &$form_state) {
 
 function weeve_registration_corp_form() {
   $form = weeve_registration_npo_form();
+  unset($form['businesscode']);
+  $form['businessnumber']['#title'] = t('Business Number');
+  $form['organization']['#title'] = t('Company Name');
+  $form['header']['title']['#value'] = t('Support the Community');
+  $form['header']['sub-title']['#value'] = t('Claim your account as a business. We will verify your existence and contact you personally to get you started.');
   return $form;
 }
 
@@ -469,7 +474,7 @@ function weeve_registration_corp_form_validate(&$form, &$form_state) {
 
 function weeve_registration_corp_form_submit(&$form, &$form_state) {
   $info['organization'] = $form_state['values']['organization'];
-  $info['businesscode'] = $form_state['values']['businesscode'];
+  // $info['businesscode'] = $form_state['values']['businesscode'];
   $info['businessnumber'] = $form_state['values']['businessnumber'];
   $info['website'] = $form_state['values']['website'];
   $info['representative_name'] = $form_state['values']['representative_name'];
