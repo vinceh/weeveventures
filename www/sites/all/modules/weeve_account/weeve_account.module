@@ -936,3 +936,33 @@ function weeve_account_npo_access_callback() {
   }
   return FALSE;
 }
+
+/**
+ * Process variables for user-picture.tpl.php.
+ *
+ * The $variables array contains the following arguments:
+ * - $account
+ *
+ * @see user-picture.tpl.php
+ */
+function weeve_account_preprocess_user_picture(&$variables) {
+  $variables['picture'] = '';
+  if (variable_get('user_pictures', 0)) {
+    $account = $variables['account'];
+    if (!empty($account->picture) && file_exists($account->picture)) {
+      $picture = file_create_url($account->picture);
+    }
+    else if (variable_get('user_picture_default', '')) {
+      $picture = variable_get('user_picture_default', '');
+    }
+
+    if (isset($picture)) {
+      $alt = t("@user's picture", array('@user' => $account->name ? $account->name : variable_get('anonymous', t('Anonymous'))));
+      $variables['picture'] = theme('image', $picture .'?'. time(), $alt, $alt, '', FALSE);
+      if (!empty($account->uid) && user_access('access user profiles')) {
+        $attributes = array('attributes' => array('title' => t('View user profile.')), 'html' => TRUE);
+        $variables['picture'] = l($variables['picture'], "user/$account->uid", $attributes);
+      }
+    }
+  }
+}
