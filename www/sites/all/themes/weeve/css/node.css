@@ -207,13 +207,13 @@ body.create-project #edit-field-project-location-0-value {
   height: 30px;
 }
 
-body.create-project #edit-field-project-amount-need-0-wrapper label, body.create-project #edit-field-project-end-0-value-wrapper label,
+body.create-project #edit-field-project-amount-need-0-wrapper label, body.create-project #edit-field-project-days-0-value-wrapper label,
 body.create-project #edit-field-project-location-0-value-wrapper label {
   font-size: 18px;
   color: #333;
 }
 
-body.create-project #edit-field-project-amount-need-0-wrapper input, body.create-project #edit-field-project-end-0-value-wrapper input,
+body.create-project #edit-field-project-amount-need-0-wrapper input, body.create-project #edit-field-project-days-0-value-wrapper input,
 body.create-project #edit-field-project-location-0-value-wrapper input {
   font-size: 30px;
   width: 300px;
