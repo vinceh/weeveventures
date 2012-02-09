@@ -239,7 +239,11 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
         $form['taxonomy'][VOCABULARY_PROJECT_CATEGORIES_ID]['#attributes'] = array('disabled' => 'disabled');
       }
     }
-    
+
+    $form['field_project_video_embed'][0]['embed']['#attributes'] = array('placeholder' => t('Enter your video URL here'));
+    $form['field_project_video_embed'][0]['embed']['#title'] = t(' OR ');
+
+
     $form['field_project_proposal']['#value'][0]['nid'] = $proposal_nid;
     $form['#submit'][] = 'weeve_project_project_add_submit';
     
@@ -998,6 +1002,7 @@ function weeve_project_preprocess_page(&$vars) {
       $vars['body_classes'] = array('project-edit');
     }
   }
+  //print_r($vars['template_files']); exit;
 
   if ($vars['node']->type == 'project_update') {
     $vars['node_menu'] = weeve_project_menu_html($vars['node']->field_update_project[0]['nid']);
