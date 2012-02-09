@@ -679,9 +679,10 @@ corp|Corporate',
     'field_name' => 'field_node_weight',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '16',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -733,9 +734,10 @@ corp|Corporate',
     'field_name' => 'field_project_activity_time',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '21',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -795,9 +797,10 @@ corp|Corporate',
     'field_name' => 'field_project_amount_need',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '8',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1000,7 +1003,7 @@ corp|Corporate',
       ),
       'default_value_php' => NULL,
       'label' => 'Amount needed',
-      'weight' => '8',
+      'weight' => '7',
       'description' => '',
       'type' => 'money_widget',
       'module' => 'money',
@@ -1012,9 +1015,10 @@ corp|Corporate',
     'field_name' => 'field_project_amount_pledge',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '9',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1217,7 +1221,7 @@ corp|Corporate',
       ),
       'default_value_php' => NULL,
       'label' => 'Amount pledged',
-      'weight' => '9',
+      'weight' => '8',
       'description' => '',
       'type' => 'money_widget',
       'module' => 'money',
@@ -1229,9 +1233,10 @@ corp|Corporate',
     'field_name' => 'field_project_cancel_notes',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '19',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1286,14 +1291,78 @@ corp|Corporate',
     ),
   );
 
+  // Exported field: field_project_days
+  $fields['project-field_project_days'] = array(
+    'field_name' => 'field_project_days',
+    'type_name' => 'project',
+    'display_settings' => array(
+      'weight' => '22',
+      'parent' => '',
+      'label' => array(
+        'format' => 'above',
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'number_integer',
+    'required' => '1',
+    'multiple' => '0',
+    'module' => 'number',
+    'active' => '1',
+    'prefix' => '',
+    'suffix' => '',
+    'min' => '1',
+    'max' => '60',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_project_days][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'How many days would you like to fund for? 60 days max',
+      'weight' => '10',
+      'description' => '',
+      'type' => 'number',
+      'module' => 'number',
+    ),
+  );
+
   // Exported field: field_project_donors
   $fields['project-field_project_donors'] = array(
     'field_name' => 'field_project_donors',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '15',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1345,9 +1414,10 @@ corp|Corporate',
     'field_name' => 'field_project_end',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '10',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1368,7 +1438,7 @@ corp|Corporate',
     ),
     'widget_active' => '1',
     'type' => 'date',
-    'required' => '1',
+    'required' => '0',
     'multiple' => '0',
     'module' => 'date',
     'active' => '1',
@@ -1396,7 +1466,7 @@ corp|Corporate',
       'year_range' => '-1:+1',
       'label_position' => 'above',
       'label' => 'What is end date of your project to be funded?',
-      'weight' => '10',
+      'weight' => '9',
       'description' => '',
       'type' => 'date_popup',
       'module' => 'date',
@@ -1408,9 +1478,10 @@ corp|Corporate',
     'field_name' => 'field_project_image',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '-3',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'image_plain',
@@ -1466,9 +1537,10 @@ corp|Corporate',
     'field_name' => 'field_project_location',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '18',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1518,9 +1590,10 @@ corp|Corporate',
     'field_name' => 'field_project_payed_out',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '20',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1580,9 +1653,10 @@ corp|Corporate',
     'field_name' => 'field_project_percent_pledge',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '13',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1636,9 +1710,10 @@ if ($node->field_project_amount_need[0][\'amount\'] > 0) {
     'field_name' => 'field_project_proposal',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '11',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1694,9 +1769,10 @@ if ($node->field_project_amount_need[0][\'amount\'] > 0) {
     'field_name' => 'field_project_staff_pick',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '17',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1746,9 +1822,10 @@ if ($node->field_project_amount_need[0][\'amount\'] > 0) {
     'field_name' => 'field_project_status',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '12',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1801,9 +1878,10 @@ cancel|Cancelled',
     'field_name' => 'field_project_updates',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '14',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1860,9 +1938,10 @@ cancel|Cancelled',
     'field_name' => 'field_project_video',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '-2',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -1931,9 +2010,10 @@ cancel|Cancelled',
     'field_name' => 'field_project_video_embed',
     'type_name' => 'project',
     'display_settings' => array(
+      'weight' => '-1',
+      'parent' => '',
       'label' => array(
         'format' => 'above',
-        'exclude' => 0,
       ),
       'teaser' => array(
         'format' => 'default',
@@ -2354,6 +2434,7 @@ decline|Declined
   t('Cancel notes');
   t('Donors');
   t('Full Name');
+  t('How many days would you like to fund for? 60 days max');
   t('Location');
   t('Organization Name');
   t('Payed out');

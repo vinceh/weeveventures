@@ -690,6 +690,18 @@ function weeve_feature_user_default_permissions() {
     'roles' => array(),
   );
 
+  // Exported permission: edit field_payment_paypal_verified
+  $permissions['edit field_payment_paypal_verified'] = array(
+    'name' => 'edit field_payment_paypal_verified',
+    'roles' => array(),
+  );
+
+  // Exported permission: edit field_project_activity_time
+  $permissions['edit field_project_activity_time'] = array(
+    'name' => 'edit field_project_activity_time',
+    'roles' => array(),
+  );
+
   // Exported permission: edit field_project_amount_need
   $permissions['edit field_project_amount_need'] = array(
     'name' => 'edit field_project_amount_need',
@@ -711,6 +723,15 @@ function weeve_feature_user_default_permissions() {
   $permissions['edit field_project_cancel_notes'] = array(
     'name' => 'edit field_project_cancel_notes',
     'roles' => array(),
+  );
+
+  // Exported permission: edit field_project_days
+  $permissions['edit field_project_days'] = array(
+    'name' => 'edit field_project_days',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'npo',
+    ),
   );
 
   // Exported permission: edit field_project_donors
@@ -1181,6 +1202,12 @@ function weeve_feature_user_default_permissions() {
   // Exported permission: view field_project_cancel_notes
   $permissions['view field_project_cancel_notes'] = array(
     'name' => 'view field_project_cancel_notes',
+    'roles' => array(),
+  );
+
+  // Exported permission: view field_project_days
+  $permissions['view field_project_days'] = array(
+    'name' => 'view field_project_days',
     'roles' => array(),
   );
 

@@ -1321,16 +1321,7 @@ Weeve team',
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'project_request' => 'project_request',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
+            '#weight' => 0,
             '#info' => array(
               'label' => 'Created content is Project request',
               'arguments' => array(
@@ -1341,17 +1332,36 @@ Weeve team',
               ),
               'module' => 'Node',
             ),
-            '#weight' => 0,
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'project_request' => 'project_request',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
           ),
         ),
         '#actions' => array(
           '1' => array(
-            '#type' => 'action',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to all users of a role',
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_users_of_role',
             '#settings' => array(
               'recipients' => array(
                 '0' => 6,
               ),
-              'from' => 'weeve@localhost',
+              'from' => 'admin@weeveinc.com',
               'subject' => 'New proposal created by user "[author:user]"',
               'message' => 'Please view new created proposel here - [node:node-url]',
               '#eval input' => array(
@@ -1370,17 +1380,7 @@ Weeve team',
                 ),
               ),
             ),
-            '#name' => 'rules_action_mail_to_users_of_role',
-            '#info' => array(
-              'label' => 'Send a mail to all users of a role',
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#weight' => 0,
+            '#type' => 'action',
           ),
         ),
         '#version' => 6003,
@@ -1973,7 +1973,7 @@ Weeve team',
       'rules_run_cron_on_project_create' => array(
         '#type' => 'rule',
         '#set' => 'event_node_insert',
-        '#label' => 'Run cron on project create',
+        '#label' => 'Project create',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
@@ -2034,6 +2034,43 @@ video_upload_cron();
               ),
             ),
             '#weight' => 0,
+          ),
+          '1' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to all users of a role',
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_users_of_role',
+            '#settings' => array(
+              'recipients' => array(
+                '0' => 6,
+              ),
+              'from' => 'admin@weeveinc.com',
+              'subject' => 'New project created by user "[author:user]"',
+              'message' => 'Please view new created project here - [node:node-url]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'author',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
           ),
         ),
         '#version' => 6003,
