@@ -151,7 +151,7 @@
 
 /* Feedback dialog */
 div.ui-dialog.feedback-dialog {
-  padding: 25px 15px 8px 5px;
+  /*padding: 25px 15px 8px 5px;*/
 }
 
 div.ui-dialog.feedback-dialog .ui-dialog-titlebar {
@@ -159,8 +159,8 @@ div.ui-dialog.feedback-dialog .ui-dialog-titlebar {
 }
 
 div.ui-dialog.feedback-dialog .ui-dialog-titlebar-close {
-  right: -7px;
-  top: -20px;
+  right: -17px;
+  top: -15px;
 }
 
 #feedback .confirm-content-text {
@@ -172,6 +172,7 @@ div.ui-dialog.feedback-dialog .ui-dialog-titlebar-close {
   margin-bottom: 15px;
   border: 1px solid #999999;
   border-radius: 3px 3px 3px 3px;
+  width: 522px;
 }
 
 #feedback-submit {
