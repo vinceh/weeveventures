@@ -348,7 +348,6 @@ function weeve_account_change_general_npo_form_submit(&$form, &$form_state) {
   $bio = $form_state['values']['bio'];
   $about = $form_state['values']['about'];
   $picture = $form_state['values']['picture'];
-
   if ($picture) {
     $edit['picture'] = $picture;
   }
@@ -361,6 +360,7 @@ function weeve_account_change_general_npo_form_submit(&$form, &$form_state) {
   }
 
   _user_edit_submit($user->uid, $form_state['values']);
+  $user = user_save($user, $edit);
 
   $profile = content_profile_load('profile', $user->uid);
   $profile->field_location[0]['value'] = $location;
