@@ -38,7 +38,6 @@ $(document).ready(function() {
     },
     close: function(event, ui) {
       $('body').css('overflow', 'auto');
-      $('#project-payout-dialog').dialog('close');
       $('#project-payout-dialog').remove();      
       }}
     );
@@ -137,7 +136,6 @@ $(document).ready(function() {
     },
     close: function(event, ui) {
       $('body').css('overflow', 'auto');
-      $('#project-payment-dialog').dialog('close');
       $('#project-payment-dialog').remove();          
       }}
     );
