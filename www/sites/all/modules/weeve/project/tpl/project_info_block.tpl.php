@@ -21,6 +21,7 @@
   )) ?></div>
 </div>
 <?php  endif; ?>
+<?php if (!($node->field_project_status[0]['value'] == 'archive' && $node->field_project_percent_pledge[0]['value'] >= WEEVE_PROJECT_SUCCESS_PERCENT)): ?>
 <?php if($donation): ?>
 <div class="manage-donate-button weeve-medium-button">
   <input type="hidden" id="project-link" value="<?php print url(drupal_get_path_alias($_GET['q'])); ?>">
@@ -44,6 +45,7 @@
     <div class="donate-button-content "><?= l(t('make donation'), 'signup') ?></div>
     <div class="donate-button-subtitle">$1 <?= t('minimum') ?></div>
   </div>
+<?php endif; ?>
 <?php endif; ?>
 <?php endif; ?>
 <div class="follow-link"><?= l(t('Follow this Project'), 'project/' . $node->nid . '/follow') ?></div>

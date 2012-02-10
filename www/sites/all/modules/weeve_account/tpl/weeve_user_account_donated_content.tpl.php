@@ -21,8 +21,9 @@
 			<img src='<?php print url(drupal_get_path('theme', 'weeve') .'/img/icon-location.png') ?>'/>
 			<span><?php print $project['node']->field_project_location[0]['value']; ?></span>
 			<!--<button class='weeve-small-button manage'>Manage Donation</button>-->
-      <?php print l(t('Manage Donation'), '#', array('attributes' => array('class' => 'weeve-link manage'))); ?>
-
+      <?php if(!($project['node']->field_project_status[0]['value'] == 'archive' && $project['node']->field_project_percent_pledge[0]['value'] >= WEEVE_PROJECT_SUCCESS_PERCENT)): ?>
+        <?php print l(t('Manage Donation'), '#', array('attributes' => array('class' => 'weeve-link manage'))); ?>
+      <?php endif; ?>
 		</div>
 	</div>
 	<div class='donated-history'>
