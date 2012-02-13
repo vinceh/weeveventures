@@ -422,7 +422,7 @@ function weeve_donation_pay_success_project($nid) {
     $uid = $node->uid;
     $npo = content_profile_load('profile', $uid);
     $recipients = array(
-      array('email' => $npo->field_payment_paypal_email[0]['value'], 'amount' => $donate->amount * 0.95, 'primary' => TRUE),
+      array('email' => $npo->field_payment_paypal_email[0]['value'], 'amount' => $donate->amount, 'primary' => TRUE),
       array('email' => $weeve_paypal, 'amount' => $donate->amount * 0.05),
     );
     $memo = 'Donate : '. $node->title;
@@ -730,5 +730,7 @@ function weeve_donation_payout_accept_form_submit(&$form, &$form_state) {
 }
 
 function weeve_donation_test_callback() {
+  $date = date('Y-m-d H:i:s');
+  kpr($date);
   die;
 }
