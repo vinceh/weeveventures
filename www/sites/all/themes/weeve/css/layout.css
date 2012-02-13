@@ -386,3 +386,13 @@ ul.tabs li a {
   right: 5px;
   top: 5px;
 }
+
+#block-menu-menu-bottom ul.menu li {
+  display: inline;
+  list-style: none outside none;
+}
+
+#block-menu-menu-bottom {
+  background-color: #eee;
+  padding: 10px;
+}
