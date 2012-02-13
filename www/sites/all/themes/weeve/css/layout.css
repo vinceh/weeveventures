@@ -389,3 +389,13 @@ ul.tabs li a {
 .form-required {
   display: none;
 }
+
+#block-menu-menu-bottom ul.menu li {
+  display: inline;
+  list-style: none outside none;
+}
+
+#block-menu-menu-bottom {
+  background-color: #eee;
+  padding: 10px;
+}
