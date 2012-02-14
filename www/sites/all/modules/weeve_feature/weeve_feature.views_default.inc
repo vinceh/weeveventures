@@ -5734,10 +5734,7 @@ return 0;
 <div class="body_small">[field_proposal_body_value_1]</div>
 <div class="body">[field_proposal_body_value]</div>'),
     t('Pending projects'),
-    t('<h3>Pending Project Creations</h3>
-This is the list of your projects that have been accepted as proposals and now are pending as official projects. We just need to verify the content before the project goes live! '),
-    t('<h3>Pending Project Proposals</h3>
-This is the list of your project proposals. Once your project has been reviewed and accepted, you can go ahead and click on the \'Create Project\' button and get started! '),
+    t('<h3>Pending Project Creations</h3>'),
     t('<div class="title">[title] <div class="created">[created]</div></div>
 <div class="body_small">[body_1]</div>
 <div class="body">[body]</div>'),
