@@ -8,8 +8,20 @@ $(document).ready(function() {
     $('.weeve-message').fadeOut('slow', function() {
       $('.weeve-message').remove();
     });
-    
-  })
+  });
+
+  $("iframe").each(function () {
+    var url = $(this).attr('src') + "?wmode=Opaque&wmode=transparent";
+    $(this).attr("src", url);
+  });
+
+  $("embed").each(function () {
+    var parent = $(this).parent();
+    var html = parent.html();
+    var newEmbed = html.replace(/<embed\s/i, "<embed wmode='opaque' ");
+    parent.html(newEmbed);
+  });
+
 });
 
 function weeve_set_message(message, status) {
