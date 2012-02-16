@@ -182,12 +182,12 @@ body.create-project #edit-field-project-video-embed-0-embed-wrapper label {
 
 body.create-project #edit-field-project-video-0-ahah-wrapper .filefield-element {
   float: left;
-  width: 480px;
+  width: 490px;
 }
 
 body.create-project #edit-field-project-video-embed-0-embed-wrapper {
   float: right;
-  width: 420px;
+  width: 410px;
   left: -130px;
   top: 6px;
   position: relative;
