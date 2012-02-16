@@ -169,7 +169,7 @@ body.create-project #edit-title {
 }
 
 body.create-project input[type=text] {
-  height: auto;
+  height: 30px;
 }
 
 body.create-project .node-form .description {
@@ -188,8 +188,13 @@ body.create-project #edit-field-project-video-0-ahah-wrapper .filefield-element 
 body.create-project #edit-field-project-video-embed-0-embed-wrapper {
   float: right;
   width: 410px;
-  left: -180px;
+  left: -240px;
   top: -7px;
+  position: relative;
+}
+
+body.create-project #edit-field-project-video-embed-0-embed-wrapper input {
+  left: 30px;
   position: relative;
 }
 
@@ -221,9 +226,15 @@ body.create-project #edit-field-project-location-0-value-wrapper input {
 
 body.create-project #edit-field-project-amount-need-0-wrapper input {
   background: url(../img/dollar-sign.png) no-repeat scroll 10px center transparent;
+  padding-left: 30px;
+  text-align: left;
 }
 
 body.create-project #edit-field-project-amount-need-0-currency {
+  display: none;
+}
+
+body.create-project #edit-taxonomy-1-wrapper {
   display: none;
 }
 

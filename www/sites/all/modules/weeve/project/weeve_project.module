@@ -269,6 +269,13 @@ function weeve_project_form_alter(&$form, $form_state, $form_id) {
     unset($form['body_field']['teaser_include']);
     unset($form['body_field']['format']);
     unset($form['buttons']['preview']);
+
+    $form['picture_video'] = array(
+      '#value' => t('Project Picture and Video'),
+      '#prefix' => '<h3>',
+      '#suffix' => '</h3>',
+      '#weight' => -3
+    );
   }
 
   if ($form_id == 'project_update_node_form' && arg(1) == 'add') {

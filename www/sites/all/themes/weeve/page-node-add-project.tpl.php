@@ -32,7 +32,7 @@
           <?php if ($tabs2): print '<ul class="tabs secondary">'. $tabs2 .'</ul>'; endif; ?>
           <?php if ($show_messages && $messages): print $messages; endif; ?>
           <div class="clear-block" id="main-content">
-            <h3><?= t('Project Details'); ?></h3>
+            <h3><?= t('Project Title'); ?></h3>
             <?php print $content ?>
           </div>
           <div class="clear-block">&nbsp;</div>          
