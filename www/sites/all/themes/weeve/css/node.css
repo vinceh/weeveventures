@@ -222,3 +222,7 @@ body.create-project #edit-field-project-location-0-value-wrapper input {
 body.create-project #edit-field-project-amount-need-0-currency {
   display: none;
 }
+
+body.create-project .filefield-upload input[type=submit] {
+  display: none;
+}
