@@ -219,6 +219,10 @@ body.create-project #edit-field-project-location-0-value-wrapper input {
   width: 300px;
 }
 
+body.create-project #edit-field-project-amount-need-0-wrapper input {
+  background: url(../img/dollar-sign.png) no-repeat scroll 10px center transparent;
+}
+
 body.create-project #edit-field-project-amount-need-0-currency {
   display: none;
 }
