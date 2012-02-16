@@ -30,7 +30,7 @@
 		    <?php print l(t('following'), 'account/'. $account->uid .'/following', array('attributes' => array('class' => 'profile-link'))) ?>
       <?php endif; ?>
       <?php if ($account->uid == $user->uid): ?>
-		    <?php print l(t('donated projects'), 'account/'. $account->uid .'/donated', array('attributes' => array('class' => 'profile-link'))) ?>
+		    <?php print l(t('projects donated'), 'account/'. $account->uid .'/donated', array('attributes' => array('class' => 'profile-link'))) ?>
       <?php endif; ?>
 		</div>
 		<div class='profile-main-wrapper'>

@@ -2,10 +2,9 @@
   Drupal.behaviors.weeveFeedback = function(context) {
 
     var form_html = "<form id='feedback' title='Feedback'>"+
-      "<div class='confirm-content-text'>We strive to make Weeve the best platform it can be. We look at each feedback" +
-      " provided by our users. Your feedback can be about the look and feel, application features, application processes," +
-      " or anything you feel that we should know. Please use the form below, and thanks!</div>" +
-      "<div><textarea id='feedback-message' name='message' rows='5' cols='59'></textarea></div>" +
+      "<div class='confirm-content-text'>At Weeve, our mission is to bring together everyone in the community to create social value. In order for us to continuously improve our platform, we need your feedback.<br/><br/>"+
+	  "Your feedback can be about the look and feel, project creation process, application features or anything you feel that we should know. Please tell us what you think in the form below. Thank you!</div>" +
+      "<div><textarea id='feedback-message' name='message' rows='5' cols='70'></textarea></div>" +
       "<div class='popup-buttons'>" +
       "<button id='feedback-submit' class='weeve-medium-button submit'>Submit</button>"+
       "<a class='weeve-link close-dialog' href='#'>go back</a>" +
@@ -14,10 +13,16 @@
 
     $(form_html).dialog({
     			autoOpen: false,
-    			height: 325,
+    			/*height: 350,*/
     			width: 530,
     			modal: true,
-          dialogClass: 'feedback-dialog'
+          dialogClass: 'feedback-dialog',
+          close: function() {
+            $('body').css('overflow', 'auto');
+          },
+          open: function() {
+            $('body').css('overflow', 'hidden');
+          }
     });
 
 

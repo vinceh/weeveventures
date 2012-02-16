@@ -345,8 +345,7 @@ ul.tabs {
 
 ul.tabs li {
   font-size: 17px;
-  height: 30px;
-  padding: 5px 5px 0;
+  height: 34px;
   display: inline-block;
 }
 
@@ -369,7 +368,7 @@ ul.tabs li a {
   background: none;
   margin-right: 0px;
   display: block;
-  padding: 3px 10px 0px;
+  padding: 6px 10px 6px 10px;
 }
 
 .weeve-message {
@@ -385,6 +384,10 @@ ul.tabs li a {
   position: absolute;
   right: 5px;
   top: 5px;
+}
+
+.form-required {
+  display: none;
 }
 
 #block-menu-menu-bottom ul.menu li {

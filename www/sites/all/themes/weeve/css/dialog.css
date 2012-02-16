@@ -21,6 +21,9 @@
 .ui-dialog .ui-dialog-title {
   margin: 0px;
 }
+.ui-dialog textarea {
+  font-family: 'Helvetica Neue',Arial,Helvetica,'Liberation Sans','lucida grande',tahoma,verdana,arial,sans-serif;
+}
 
 #project-cancel-dialog .main-text {
   margin-bottom: 20px;
@@ -148,16 +151,16 @@
 
 /* Feedback dialog */
 div.ui-dialog.feedback-dialog {
-  padding: 25px 15px 8px 5px;
+  /*padding: 25px 15px 8px 5px;*/
 }
 
 div.ui-dialog.feedback-dialog .ui-dialog-titlebar {
-  margin-left: 15px;
+  /*margin-left: 15px;*/
 }
 
 div.ui-dialog.feedback-dialog .ui-dialog-titlebar-close {
-  right: -7px;
-  top: -20px;
+  right: -17px;
+  top: -15px;
 }
 
 #feedback .confirm-content-text {
@@ -169,6 +172,7 @@ div.ui-dialog.feedback-dialog .ui-dialog-titlebar-close {
   margin-bottom: 15px;
   border: 1px solid #999999;
   border-radius: 3px 3px 3px 3px;
+  width: 522px;
 }
 
 #feedback-submit {

@@ -4,16 +4,15 @@
 
 <div class='project-signup-terms-wrapper'>
 
-  <div class='signup-content'>Weeve is a funding platform focused on a broad spectrum of non-profit projects. The guidelines below articulate our mission and focus. Please note that any project that violates these guidelines will be declined or removed. Please contact us if you have any questions.</div>
+  <div class='signup-content'>Weeve is a funding platform for a variety of community projects. Please follow the guideline below when proposing your project. Please keep in mind that any project that violates these guidelines will be rejected. If you have any questions, please feel free to contact us at <b>admin@weeveinc.com</b> </div>
 
-  <div class='signup-content'>Review each guideline below to confirm that your project meets it:</div>
+  <div class='signup-content'>Please carefully review each guideline below to confirm that your project is eligibe:</div>
   <ul>
-    <li>I am creating a project. Weeve is for the funding of projects that have clearly defined goals and expectations.</li>
-    <li>My project fits within one of Kickstarter's categories. Kickstarter can be used to fund projects from the creative fields of Art, Comics, Dance, Design, Fashion, Film, Food, Games, Music, Photography, Publishing, Technology, and Theater. We currently only support projects from these categories.</li>
-    <li>My project does not incorporate charity or cause funding. Examples of prohibited use include raising money for the Red Cross, funding an awareness campaign, funding a scholarship, or donating a portion of funds raised on Kickstarter to a charity or cause.</li>
-
-    <li>My project is not a "fund my life" project. Examples include projects to pay tuition or bills, go on vacation, or buy a new camera.</li>
-    <li>My project offers rewards, not financial incentives. The Kickstarter economy is based on the offering of rewards – copies of the work, limited editions, fun experiences. Offering financial incentives, such as ownership, financial returns (for example, a share of profits), or repayment (loans) is prohibited.</li>
+    <li><b>Community projects only.</b> Your project has to benefit the community as a whole, help a group of people who are in need, or support a cause of your organization.</li>
+    <li><b>100% of the money raised must go towards the project.</b>  Donations cannot be used for purposess outside the project. Weeve reserves the right to investigate the use of funds. </li>
+    <li><b>My project contains measurable results.</b> What’s the impact of your project? How many people can this project help? Examples include: 300 people will have access to clean water, 5 beaches will be cleaned up, or 10 new playgrounds will be built for 1600 children. </li>
+	<li><b>To be eligible, a non-profit business account with PayPal is required.</b> Weeve uses PayPal’s api to build our platform. This means that all transactions are handled by PayPal. PayPal is the world’s leading online payment service provider. It is fast, safe, and easy to use. You can create the account here: <a class='weeve-link' href='www.paypal.com'>www.paypal.ca</a></li>
+    
   </ul>
 </div>
 

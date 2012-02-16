@@ -515,7 +515,7 @@ a {
 	width: 40px;
 	height: 40px;
 	text-align: center;
-	margin-right: 15px;
+	margin-right: 12px;
 }
 
 .landingspace {
@@ -1411,7 +1411,7 @@ a.profile-link.active {
 
 
 .npo-profile-wrapper {
-	margin-top: 20px;
+	margin-top: -20px;
 }
 
 .npo-profile-content-wrap {
@@ -1527,7 +1527,7 @@ a.profile-link.active {
 }
 
 .choice-description {
-	margin: 15px 20px;
+	margin: 15px 18px;
 	text-align: center;
 }
 
@@ -1777,4 +1777,10 @@ a.profile-link.active {
 
 .confirm-content-text {
 	margin-bottom: 20px;
+}
+
+.project-payout-complete-text {
+  color: #33CC33;
+  font-size: 16px;
+  text-align: center;
 }

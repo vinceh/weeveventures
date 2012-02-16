@@ -111,7 +111,6 @@ function weeve_report_get_types() {
 
 function weeve_report_update($type, $add_value = 1, $description = null) {
   $result = db_query("INSERT INTO {weeve_global_report} (`type`, `value`, `last_updated`, `description`) VALUES ('%s', %f, '%s', '%s')", $type, (float)$add_value, date('Y-m-d H:i:s'), $description);
-  file_put_contents('test.txt', print_r($result, true));
   return weeve_report_get($type);
 }
 
